@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import InquiryModal from '../components/InquiryModal';
 
 const SampleWholesale = () => {
@@ -29,82 +30,59 @@ const SampleWholesale = () => {
           </motion.p>
         </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 mb-24">
+        <div className="glass max-w-4xl mx-auto p-8 md:p-14 rounded-[2rem] shadow-sm border border-stone/20 mb-24">
+          <h2 className="text-3xl font-serif text-soft-black mb-6 text-center">Sample & Bulk Manufacturing</h2>
+          <p className="text-sm text-dark-charcoal/80 font-light mb-12 leading-relaxed text-center max-w-3xl mx-auto">
+            We highly encourage ordering a physical sample to experience our premium cotton cord, buckle strength, and weaving consistency firsthand. For boutique labels and established brands, we provide end-to-end OEM and Private Label manufacturing tailored to your exact specifications.
+          </p>
           
-          {/* Sample Column */}
-          <div className="glass p-8 md:p-12 rounded-2xl shadow-sm h-full flex flex-col">
-            <h2 className="text-3xl font-serif text-soft-black mb-6">Sample Orders</h2>
-            <p className="text-sm text-dark-charcoal/80 font-light mb-8 leading-relaxed">
-              We highly encourage ordering a physical sample to experience our premium cotton cord, buckle strength, and weaving consistency firsthand before committing to a bulk order.
-            </p>
-            
-            <ul className="space-y-4 font-light text-dark-charcoal mb-10 flex-grow">
-              <li className="flex justify-between border-b border-stone/30 pb-2">
-                <span className="text-sm font-medium">Lead Time</span>
-                <span className="text-sm">5–7 Days</span>
-              </li>
-              <li className="flex justify-between border-b border-stone/30 pb-2">
-                <span className="text-sm font-medium">Payment</span>
-                <span className="text-sm">Upfront for Sample</span>
-              </li>
-              <li className="flex justify-between border-b border-stone/30 pb-2">
-                <span className="text-sm font-medium">Shipping</span>
-                <span className="text-sm">Global DHL / FedEx</span>
-              </li>
-              <li className="flex justify-between border-b border-stone/30 pb-2">
-                <span className="text-sm font-medium">Refund Policy</span>
-                <span className="text-sm">Deducted from first bulk order</span>
-              </li>
-            </ul>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 mb-12">
+            <div className="flex justify-between items-center border-b border-stone/30 pb-3">
+              <span className="text-sm font-medium text-soft-black">Base MOQ</span>
+              <span className="text-sm text-dark-charcoal">100 pcs per design</span>
+            </div>
+            <div className="flex justify-between items-center border-b border-stone/30 pb-3">
+              <span className="text-sm font-medium text-soft-black">Sample Lead Time</span>
+              <span className="text-sm text-dark-charcoal">5–7 Days</span>
+            </div>
+            <div className="flex justify-between items-center border-b border-stone/30 pb-3">
+              <span className="text-sm font-medium text-soft-black">Bulk Lead Time</span>
+              <span className="text-sm text-dark-charcoal">25–35 Days</span>
+            </div>
+            <div className="flex justify-between items-center border-b border-stone/30 pb-3">
+              <span className="text-sm font-medium text-soft-black">Customization</span>
+              <span className="text-sm text-dark-charcoal">Full OEM / Private Label</span>
+            </div>
+            <div className="flex justify-between items-center border-b border-stone/30 pb-3">
+              <span className="text-sm font-medium text-soft-black">Packaging</span>
+              <span className="text-sm text-dark-charcoal">Custom Tags & Boxes</span>
+            </div>
+            <div className="flex justify-between items-center border-b border-stone/30 pb-3">
+              <span className="text-sm font-medium text-soft-black">Sample Policy</span>
+              <span className="text-sm text-dark-charcoal">Refunded on first bulk order</span>
+            </div>
+          </div>
 
-            <button 
-              onClick={() => {
-                setFormType('sample');
-                setIsModalOpen(true);
-              }}
-              className="w-full bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-dark-charcoal transition-colors"
+          <div className="flex flex-col items-center mt-8">
+            <Link 
+              to="/product"
+              className="inline-block bg-soft-black text-cream px-10 md:px-14 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-dark-charcoal transition-colors shadow-sm hover:shadow-md w-full md:w-auto mb-12"
             >
               Order a Sample
-            </button>
+            </Link>
+
+            <div className="w-full border-t border-stone/20 pt-10 text-center">
+              <h3 className="font-serif text-xl md:text-2xl text-soft-black mb-6">
+                Already approved your sample? Let's start bulk production.
+              </h3>
+              <Link 
+                to="/contact"
+                className="inline-block border border-soft-black text-soft-black px-10 md:px-14 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-soft-black hover:text-cream transition-colors shadow-sm w-full md:w-auto"
+              >
+                Get Started
+              </Link>
+            </div>
           </div>
-
-          {/* Wholesale Column */}
-          <div className="bg-stone/10 border border-stone/20 p-8 md:p-12 rounded-2xl h-full flex flex-col">
-            <h2 className="text-3xl font-serif text-soft-black mb-6">Wholesale & Bulk</h2>
-            <p className="text-sm text-dark-charcoal/80 font-light mb-8 leading-relaxed">
-              Designed for boutique labels and established brands. We provide end-to-end OEM and Private Label manufacturing tailored to your exact specifications.
-            </p>
-            
-            <ul className="space-y-4 font-light text-dark-charcoal mb-10 flex-grow">
-              <li className="flex justify-between border-b border-stone/30 pb-2">
-                <span className="text-sm font-medium">Base MOQ</span>
-                <span className="text-sm">100 pcs per design</span>
-              </li>
-              <li className="flex justify-between border-b border-stone/30 pb-2">
-                <span className="text-sm font-medium">Lead Time</span>
-                <span className="text-sm">25–35 Days</span>
-              </li>
-              <li className="flex justify-between border-b border-stone/30 pb-2">
-                <span className="text-sm font-medium">Customization</span>
-                <span className="text-sm">Full OEM / Private Label</span>
-              </li>
-              <li className="flex justify-between border-b border-stone/30 pb-2">
-                <span className="text-sm font-medium">Packaging</span>
-                <span className="text-sm">Custom Tags & Boxes Available</span>
-              </li>
-            </ul>
-
-            <button 
-              onClick={() => {
-                setFormType('wholesale');
-                setIsModalOpen(true);
-              }}
-              className="w-full border border-soft-black text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-soft-black hover:text-cream transition-colors"
-            >
-              Request Quotation
-            </button>
-          </div>
-
         </div>
 
         {/* Inquiry Modal */}

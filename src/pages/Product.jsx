@@ -98,7 +98,7 @@ const Product = () => {
     setSelectedColor(colorName);
     setActiveIndex(0); // Reset gallery when color changes
     if (scrollRef.current) {
-      scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+      scrollRef.current.scrollTo({ left: 0, behavior: 'auto' });
     }
   };
 
@@ -131,7 +131,7 @@ const Product = () => {
   };
 
   return (
-    <div className="w-full bg-cream min-h-screen pt-[60px] sm:pt-[76px] md:pt-[96px] pb-16 md:pb-24">
+    <div className="w-full bg-cream min-h-screen pt-[108px] sm:pt-[76px] md:pt-[96px] pb-16 md:pb-24">
       <div className="max-w-7xl mx-auto px-0 lg:px-12">
         
         {/* Product Hero & Details */}
@@ -455,25 +455,27 @@ const Product = () => {
               }
             }}
           >
-            <button 
-              onClick={() => { setLightboxImage(null); setZoomLevel(1); }}
-              className="absolute top-6 right-6 md:top-8 md:right-8 text-white/70 hover:text-white z-[110] transition-colors"
-            >
-              <X className="w-8 h-8 md:w-10 md:h-10" />
-            </button>
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.3 }}
-              className="relative w-full h-full flex items-center justify-center"
+              className="relative flex items-center justify-center w-full h-full"
             >
-              <img 
-                src={lightboxImage} 
-                alt="Product Zoom"
-                style={{ transform: `scale(${zoomLevel})` }}
-                className="max-w-full max-h-full object-contain transition-transform duration-75 ease-out"
-              />
+              <div className="relative max-h-[90vh] md:max-h-[95vh] max-w-[95vw] aspect-[4/5] overflow-hidden">
+                <button 
+                  onClick={() => { setLightboxImage(null); setZoomLevel(1); }}
+                  className="absolute top-2 right-2 md:top-4 md:right-4 text-white mix-blend-difference z-[110] transition-transform hover:scale-110 p-2"
+                >
+                  <X className="w-6 h-6 md:w-8 md:h-8" />
+                </button>
+                <img 
+                  src={lightboxImage} 
+                  alt="Product Zoom"
+                  style={{ transform: `scale(${zoomLevel})` }}
+                  className="w-full h-full object-contain transition-transform duration-75 ease-out rounded-lg md:rounded-xl bg-white"
+                />
+              </div>
             </motion.div>
           </div>
         )}
