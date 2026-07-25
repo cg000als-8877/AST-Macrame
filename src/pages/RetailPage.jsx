@@ -131,7 +131,7 @@ const RetailPage = () => {
   };
 
   return (
-    <div className="w-full bg-cream min-h-screen pt-[102px] sm:pt-[76px] md:pt-[96px] pb-16 md:pb-24">
+    <div className="w-full bg-cream min-h-screen pt-[68px] sm:pt-[76px] md:pt-[96px] pb-16 md:pb-24">
       <div className="max-w-7xl mx-auto px-0 lg:px-12">
         
         {/* Product Hero & Details */}
@@ -209,7 +209,7 @@ const RetailPage = () => {
             
             {/* Added Price */}
             <div className="mb-6 md:mb-8 flex items-center gap-2">
-              <span className="text-xl md:text-3xl font-serif text-soft-black leading-none">1,099 BDT</span>
+              <span className="text-xl md:text-3xl font-serif text-soft-black leading-none">1,090 BDT</span>
               <span className="bg-emerald-700/80 text-white text-[7px] md:text-[8px] font-bold uppercase tracking-normal px-1.5 py-[1px] rounded-sm shadow-sm">Per Piece</span>
             </div>
 
