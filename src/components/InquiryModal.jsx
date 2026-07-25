@@ -201,7 +201,7 @@ const InquiryModal = ({ isOpen, onClose, formType, initialColor = '', initialSiz
                   <div className="flex gap-4 md:gap-8 items-center border-t border-b border-stone/10 py-3 md:py-4">
                     <div className="flex-1">
                       <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-2 md:mb-3">Select Color</label>
-                      <div className="flex flex-col gap-2 md:gap-2">
+                      <div className="grid grid-flow-col grid-rows-3 gap-y-2 gap-x-2 md:gap-x-4">
                         {['Black', 'Navy', 'Brown', 'Maroon', 'Khaki'].map(color => (
                           <label key={color} className="flex items-center gap-2 cursor-pointer text-xs md:text-sm text-dark-charcoal font-medium">
                             <input 
