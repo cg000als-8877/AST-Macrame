@@ -26,7 +26,7 @@ const Navbar = () => {
   ];
 
   // Mobile: top-16 (to make room for logo above), SM/MD: normal
-  const navClass = 'fixed z-50 w-[96%] sm:w-[94%] md:w-[92%] max-w-6xl top-[60px] sm:top-4 md:top-6 left-1/2 -translate-x-1/2 glass border border-white/20 rounded-full shadow-lg';
+  const navClass = 'fixed z-50 w-[96%] sm:w-[94%] md:w-[92%] max-w-6xl top-[54px] sm:top-4 md:top-6 left-1/2 -translate-x-1/2 glass border border-white/20 rounded-full shadow-lg';
 
   return (
     <>

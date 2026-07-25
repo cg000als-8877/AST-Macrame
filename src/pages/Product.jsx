@@ -131,7 +131,7 @@ const Product = () => {
   };
 
   return (
-    <div className="w-full bg-cream min-h-screen pt-[108px] sm:pt-[76px] md:pt-[96px] pb-16 md:pb-24">
+    <div className="w-full bg-cream min-h-screen pt-[102px] sm:pt-[76px] md:pt-[96px] pb-16 md:pb-24">
       <div className="max-w-7xl mx-auto px-0 lg:px-12">
         
         {/* Product Hero & Details */}
