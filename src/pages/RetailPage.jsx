@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Plus, Minus, X } from 'lucide-react';
-import InquiryModal from '../components/InquiryModal';
+import RetailOrderModal from '../components/RetailOrderModal';
 
 import b1 from '../assets/products/Black/1.jpg';
 import b2 from '../assets/products/Black/2.jpg';
@@ -293,27 +293,6 @@ const RetailPage = () => {
                   </li>
                 </ul>
               </Accordion>
-
-              <Accordion 
-                title="Customization Options" 
-                isOpen={!!openAccordions['custom']} 
-                onClick={() => toggleAccordion('custom')}
-              >
-                <ul className="space-y-1.5 pt-2 text-sm md:text-base text-dark-charcoal/80 font-light">
-                  <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-none bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
-                    <span>Custom Belt Colors to match your brand palette</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-none bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
-                    <span>Custom Buckle finishes (Matte, Brass, Silver, Gunmetal)</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-none bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
-                    <span>Custom Logo, Hangtags, and Premium Packaging</span>
-                  </li>
-                </ul>
-              </Accordion>
             </div>
           </motion.div>
         </div>
@@ -419,10 +398,9 @@ const RetailPage = () => {
         )}
       </AnimatePresence>
 
-      <InquiryModal 
+      <RetailOrderModal 
         isOpen={isOrderFormOpen} 
         onClose={() => setIsOrderFormOpen(false)} 
-        formType="sample" 
         initialColor={selectedColor}
         initialSize={selectedSize}
       />
