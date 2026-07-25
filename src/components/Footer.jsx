@@ -34,6 +34,7 @@ const Footer = () => {
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
               <h4 className="font-sans text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase mb-5 md:mb-6 text-cream/40">Services</h4>
               <ul className="space-y-3 md:space-y-4">
+                <li><Link to="/retail" className="font-sans text-[13px] md:text-sm text-cream/80 hover:text-warm-sand transition-colors">Retail</Link></li>
                 <li><Link to="/sample-wholesale" className="font-sans text-[13px] md:text-sm text-cream/80 hover:text-warm-sand transition-colors">Order a Sample</Link></li>
                 <li><Link to="/sample-wholesale" className="font-sans text-[13px] md:text-sm text-cream/80 hover:text-warm-sand transition-colors">Wholesale Inquiry</Link></li>
                 <li><Link to="/manufacturing" className="font-sans text-[13px] md:text-sm text-cream/80 hover:text-warm-sand transition-colors">OEM & Private Label</Link></li>
