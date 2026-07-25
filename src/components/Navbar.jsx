@@ -22,29 +22,15 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Order a Sample', path: '/product' },
     { name: 'Manufacturing', path: '/manufacturing' },
-    { name: 'Wholesale', path: '/sample-wholesale' }
+    { name: 'Wholesale', path: '/sample-wholesale' },
+    { name: 'Contact', path: '/contact' }
   ];
 
-  // Mobile: top-16 (to make room for logo above), SM/MD: normal
-  const navClass = 'fixed z-50 w-[96%] sm:w-[94%] md:w-[92%] max-w-6xl top-[54px] sm:top-4 md:top-6 left-1/2 -translate-x-1/2 glass border border-white/20 rounded-full shadow-lg';
+  // Mobile: top-3, 2-row layout needs slightly less rounding. SM/MD: normal
+  const navClass = 'fixed z-50 w-[96%] sm:w-[94%] md:w-[92%] max-w-6xl top-3 sm:top-4 md:top-6 left-1/2 -translate-x-1/2 glass border border-white/20 rounded-[1.25rem] sm:rounded-full shadow-lg';
 
   return (
     <>
-      {/* Mobile-only Logo above Navbar */}
-      <motion.div 
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="mobile-navbar-logo fixed top-3 left-0 w-full flex justify-center z-[60] sm:hidden pointer-events-none transition-opacity duration-300"
-      >
-        <Link to="/" className="pointer-events-auto active:scale-95 transition-transform duration-200">
-          <img 
-            src={useWhiteLogo ? "/logo_white.png" : "/logo_black.png"} 
-            alt="AST Handmade Macramé Belts" 
-            className="h-8 w-auto object-contain transition-all duration-300 drop-shadow-md"
-          />
-        </Link>
-      </motion.div>
 
       <motion.header 
         initial={{ y: -100 }}
@@ -52,8 +38,19 @@ const Navbar = () => {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className={navClass}
       >
-        <div className="px-2 sm:px-6 lg:px-10 h-10 sm:h-11 md:h-14 flex items-center justify-center sm:justify-between w-full">
+        <div className="px-2 sm:px-6 lg:px-10 py-2 sm:py-0 sm:h-11 md:h-14 flex flex-col sm:flex-row items-center justify-center sm:justify-between w-full gap-2 sm:gap-0">
           
+          {/* Mobile Top Row: Logo Centered */}
+          <div className="flex w-full justify-center items-center sm:hidden px-1">
+            <Link to="/" className="flex items-center active:scale-95 transition-transform duration-200">
+              <img 
+                src="/logo_black.png" 
+                alt="AST Handmade Macramé Belts" 
+                className="h-6 w-auto object-contain transition-all duration-300 drop-shadow-md mobile-navbar-logo"
+              />
+            </Link>
+          </div>
+
           {/* Logo (Desktop Only) */}
           <div className="hidden sm:flex shrink-0 lg:flex-1 justify-start items-center">
             <Link to="/" className="flex items-center active:scale-95 transition-transform duration-200">
@@ -66,13 +63,13 @@ const Navbar = () => {
           </div>
 
           {/* Navigation Links */}
-          <div className="flex flex-shrink-0 items-center justify-center px-1">
-            <nav className="flex items-center space-x-1.5 min-[380px]:space-x-2 sm:space-x-4 md:space-x-8 text-soft-black">
+          <div className="flex flex-shrink-0 items-center justify-center px-1 w-full sm:w-auto">
+            <nav className="flex items-center justify-center sm:justify-center w-full sm:w-auto space-x-1.5 sm:space-x-4 md:space-x-8 text-soft-black">
               {navLinks.map((link, index) => (
                 <React.Fragment key={link.name}>
                   <Link 
                     to={link.path}
-                    className="text-[clamp(9px,2vw,14px)] font-bold md:font-semibold tracking-tighter sm:tracking-widest uppercase hover:text-terracotta active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap p-1"
+                    className="text-[clamp(9px,2vw,14px)] font-bold md:font-semibold tracking-tighter sm:tracking-widest uppercase hover:text-terracotta active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap py-0.5"
                   >
                     {link.name}
                   </Link>
@@ -84,15 +81,8 @@ const Navbar = () => {
             </nav>
           </div>
 
-          {/* CTA (Text Button) */}
-          <div className="shrink-0 lg:flex-1 flex justify-end items-center ml-1 sm:ml-4 lg:ml-0">
-            <Link 
-              to="/contact"
-              className="bg-soft-black text-cream px-2.5 py-1.5 sm:px-4 sm:py-2 md:px-6 md:py-3 rounded-full flex items-center justify-center hover:bg-dark-charcoal active:scale-95 active:bg-soft-black/80 transition-all duration-150 text-[10px] sm:text-[11px] md:text-xs font-bold uppercase tracking-wide md:tracking-widest whitespace-nowrap"
-              aria-label="Contact Us"
-            >
-              Contact
-            </Link>
+          {/* Desktop spacer to keep links perfectly centered */}
+          <div className="hidden sm:flex shrink-0 lg:flex-1 justify-end items-center">
           </div>
         </div>
       </motion.header>
