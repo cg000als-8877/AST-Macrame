@@ -66,7 +66,7 @@ const SampleWholesale = () => {
           <div className="flex flex-col items-center mt-8">
             <Link 
               to="/product"
-              className="inline-block bg-soft-black text-cream px-10 md:px-14 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-dark-charcoal transition-colors shadow-sm hover:shadow-md w-full md:w-auto mb-12"
+              className="inline-block text-center bg-soft-black text-cream px-10 md:px-14 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-dark-charcoal transition-colors shadow-sm hover:shadow-md w-full md:w-auto mb-12"
             >
               Order a Sample
             </Link>
@@ -77,7 +77,7 @@ const SampleWholesale = () => {
               </h3>
               <Link 
                 to="/contact"
-                className="inline-block border border-soft-black text-soft-black px-10 md:px-14 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-soft-black hover:text-cream transition-colors shadow-sm w-full md:w-auto"
+                className="inline-block text-center border border-soft-black text-soft-black px-10 md:px-14 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-soft-black hover:text-cream transition-colors shadow-sm w-full md:w-auto"
               >
                 Get Started
               </Link>

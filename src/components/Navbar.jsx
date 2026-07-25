@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const Navbar = () => {
   const location = useLocation();
-  const isDarkBg = location.pathname === '/' || location.pathname === '/manufacturing';
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Threshold to switch logo color (e.g. 50px of scroll)
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check immediately on mount
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [location.pathname]);
+
+  const isDarkPage = location.pathname === '/' || location.pathname === '/manufacturing';
+  const useWhiteLogo = isDarkPage && !isScrolled;
 
   const navLinks = [
     { name: 'Order a Sample', path: '/product' },
@@ -22,13 +35,13 @@ const Navbar = () => {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed top-3 left-0 w-full flex justify-center z-50 sm:hidden pointer-events-none"
+        className="fixed top-3 left-0 w-full flex justify-center z-[60] sm:hidden pointer-events-none"
       >
         <Link to="/" className="pointer-events-auto active:scale-95 transition-transform duration-200">
           <img 
-            src={isDarkBg ? "/logo_white.png" : "/logo_black.png"} 
+            src={useWhiteLogo ? "/logo_white.png" : "/logo_black.png"} 
             alt="AST Handmade Macramé Belts" 
-            className="h-8 w-auto object-contain drop-shadow-md"
+            className="h-8 w-auto object-contain transition-all duration-300 drop-shadow-md"
           />
         </Link>
       </motion.div>
