@@ -39,7 +39,7 @@ const Manufacturing = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-cream via-transparent to-transparent opacity-90"></div>
         </div>
         
-        <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-12 text-center text-white pb-20 lg:pb-48 mt-12 md:mt-0">
+        <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-12 text-center text-white pb-12 lg:pb-20 mt-12 md:mt-0">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -60,7 +60,7 @@ const Manufacturing = () => {
       </section>
 
       {/* Stats / Capacity Grid (Overlapping the hero slightly on desktop) */}
-      <section className="max-w-7xl mx-auto px-6 lg:px-12 -mt-24 md:-mt-48 relative z-20 mb-16 md:mb-24">
+      <section className="max-w-7xl mx-auto px-6 lg:px-12 -mt-16 md:-mt-20 lg:-mt-28 relative z-20 mb-16 md:mb-24">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           <div className="glass bg-white/70 backdrop-blur-xl border border-white/40 p-4 md:p-8 rounded-xl text-center shadow-lg transition-transform hover:-translate-y-1">
             <h4 className="text-[10px] md:text-xs font-sans font-bold tracking-widest uppercase text-terracotta mb-2 md:mb-4">Current Capacity</h4>
@@ -117,7 +117,7 @@ const Manufacturing = () => {
         <div className="bg-white border border-stone/20 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-sm flex flex-col p-6 md:p-12 lg:p-16">
           
           {/* Content & Image Row */}
-          <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16 mb-10 md:mb-14">
+          <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16 mb-6 md:mb-14">
             
             <div className="lg:w-1/2 flex flex-col justify-center">
               <h2 className="text-2xl md:text-4xl font-serif text-soft-black mb-4 md:mb-6">Rigorous Quality Assurance</h2>
@@ -151,7 +151,7 @@ const Manufacturing = () => {
           </div>
 
           {/* Centered CTA */}
-          <div className="flex flex-col items-center justify-center pt-8 border-t border-stone/10 mt-auto">
+          <div className="flex flex-col items-center justify-center pt-5 md:pt-8 border-t border-stone/10 mt-auto">
             <Link 
               to="/sample-wholesale" 
               className="bg-soft-black text-cream px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-dark-charcoal transition-colors shadow-sm hover:shadow-md"
