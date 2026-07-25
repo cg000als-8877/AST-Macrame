@@ -8,6 +8,8 @@ import br1 from '../assets/products/Brown/1.jpg';
 import m1 from '../assets/products/Maroon/1.jpg';
 import k1 from '../assets/products/Khaki/1.jpg';
 
+import { countries } from '../utils/countries';
+
 const colorImages = {
   Black: b1,
   Navy: n1,
@@ -18,6 +20,7 @@ const colorImages = {
 
 const InquiryModal = ({ isOpen, onClose, formType, initialColor = '', initialSize = '' }) => {
   const [selectedColor, setSelectedColor] = useState(initialColor || 'Black');
+  const [selectedCountryCode, setSelectedCountryCode] = useState('+880');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -28,9 +31,27 @@ const InquiryModal = ({ isOpen, onClose, formType, initialColor = '', initialSiz
   }, [initialColor]);
 
   useEffect(() => {
-    if (!isOpen) {
+    if (isOpen) {
+      document.body.classList.add('modal-open');
+      
+      // Auto-detect country code
+      fetch('https://api.country.is/')
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.country) {
+            const userCountry = countries.find(c => c.code === data.country);
+            if (userCountry) {
+              setSelectedCountryCode(userCountry.dialCode);
+            }
+          }
+        })
+        .catch(err => console.log('IP detection failed', err));
+        
+    } else {
+      document.body.classList.remove('modal-open');
       setTimeout(() => setIsSuccess(false), 300);
     }
+    return () => document.body.classList.remove('modal-open');
   }, [isOpen]);
 
   const handleSubmit = async (e) => {
@@ -41,6 +62,13 @@ const InquiryModal = ({ isOpen, onClose, formType, initialColor = '', initialSiz
     formData.append('formType', formType === 'sample' ? 'Sample' : 'Wholesale');
     if (!formData.get('color')) {
       formData.append('color', selectedColor);
+    }
+
+    const countryCode = formData.get('countryCode');
+    const phone = formData.get('phone');
+    if (countryCode && phone) {
+      formData.set('phone', `${countryCode} ${phone}`);
+      formData.delete('countryCode');
     }
 
     const urlEncodedData = new URLSearchParams(formData).toString();
@@ -89,11 +117,21 @@ const InquiryModal = ({ isOpen, onClose, formType, initialColor = '', initialSiz
           >
             <button 
               onClick={onClose}
-              className="absolute top-4 right-4 md:top-6 md:right-6 text-soft-black/50 hover:text-soft-black transition-colors"
+              className="absolute top-4 right-4 md:top-6 md:right-6 text-soft-black/50 hover:text-soft-black transition-colors z-20"
             >
               <X size={24} />
             </button>
+
+            {/* Watermark Logo for Mobile */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 sm:hidden opacity-5 overflow-hidden">
+              <img 
+                src="/logo_black.png" 
+                alt="" 
+                className="w-3/4 max-w-[200px] object-contain"
+              />
+            </div>
             
+            <div className="relative z-10">
             {isSuccess ? (
               <div className="py-12 flex flex-col items-center justify-center text-center">
                 <div className="w-16 h-16 rounded-full bg-stone/20 flex items-center justify-center mb-6">
@@ -132,7 +170,21 @@ const InquiryModal = ({ isOpen, onClose, formType, initialColor = '', initialSiz
                     </div>
                     <div>
                       <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Phone Number</label>
-                      <input type="tel" name="phone" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Your Phone Number" required />
+                      <div className="flex border-b border-stone/50 focus-within:border-terracotta transition-colors">
+                        <select 
+                          name="countryCode" 
+                          value={selectedCountryCode}
+                          onChange={(e) => setSelectedCountryCode(e.target.value)}
+                          className="bg-transparent py-1.5 md:py-1.5 focus:outline-none text-xs md:text-sm text-dark-charcoal mr-2 cursor-pointer outline-none shrink-0 w-[90px]"
+                        >
+                          {countries.map(c => (
+                            <option key={c.code + c.dialCode} value={c.dialCode}>
+                              {c.flag} {c.dialCode}
+                            </option>
+                          ))}
+                        </select>
+                        <input type="tel" name="phone" className="w-full bg-transparent py-1.5 md:py-1.5 focus:outline-none text-xs md:text-sm" placeholder="1XXX XXXXXX" required />
+                      </div>
                     </div>
                   </div>
 
@@ -204,6 +256,7 @@ const InquiryModal = ({ isOpen, onClose, formType, initialColor = '', initialSiz
                 </form>
               </>
             )}
+            </div>
           </motion.div>
         </div>
       )}

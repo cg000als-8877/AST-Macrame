@@ -50,3 +50,8 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   width: max-content;
 }
+
+body.modal-open .mobile-navbar-logo {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}

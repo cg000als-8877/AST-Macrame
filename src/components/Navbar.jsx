@@ -35,7 +35,7 @@ const Navbar = () => {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed top-3 left-0 w-full flex justify-center z-[60] sm:hidden pointer-events-none"
+        className="mobile-navbar-logo fixed top-3 left-0 w-full flex justify-center z-[60] sm:hidden pointer-events-none transition-opacity duration-300"
       >
         <Link to="/" className="pointer-events-auto active:scale-95 transition-transform duration-200">
           <img 
