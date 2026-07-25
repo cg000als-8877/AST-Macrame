@@ -141,17 +141,17 @@ const Product = () => {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="relative px-[2px] lg:px-0 lg:col-span-7"
+            className="relative px-0 lg:px-0 lg:col-span-7"
           >
             {/* Mobile Carousel (Hidden on lg) */}
-            <div className="lg:hidden w-full flex flex-col mb-0">
+            <div className="lg:hidden w-full relative mb-0">
               <div 
                 ref={scrollRef}
                 onScroll={handleScroll}
                 className="w-full flex overflow-x-auto snap-x snap-mandatory gap-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               >
                 {images.map((img, idx) => (
-                  <div key={idx} className="relative w-[90vw] shrink-0 aspect-[4/5] bg-stone/20 overflow-hidden snap-start">
+                  <div key={idx} className="relative w-full shrink-0 aspect-[4/5] bg-stone/20 overflow-hidden snap-start">
                     <img 
                       src={img} 
                       alt={`Macrame Belt ${selectedColor} view ${idx + 1}`} 
@@ -162,13 +162,13 @@ const Product = () => {
                 ))}
               </div>
 
-              {/* Mobile Swipe Indicators */}
-              <div className="flex justify-center space-x-2 mt-3">
+              {/* Mobile Swipe Indicators (Overlaid) */}
+              <div className="absolute bottom-5 left-0 right-0 flex justify-center space-x-2 z-10 pointer-events-none">
                 {images.map((_, idx) => (
                   <button
                     key={idx}
                     onClick={() => scrollToDot(idx)}
-                    className={`h-1 transition-all duration-300 ${activeIndex === idx ? 'w-8 bg-soft-black' : 'w-3 bg-soft-black/30 hover:bg-soft-black/50'}`}
+                    className={`h-1.5 rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.2)] backdrop-blur-sm transition-all duration-300 pointer-events-auto ${activeIndex === idx ? 'w-6 bg-white' : 'w-1.5 bg-white/50 hover:bg-white/80'}`}
                     aria-label={`Go to slide ${idx + 1}`}
                   />
                 ))}
