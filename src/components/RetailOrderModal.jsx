@@ -48,7 +48,7 @@ const RetailOrderModal = ({ isOpen, onClose, initialColor = '', initialSize = ''
     if (!formData.get('size')) formData.append('size', selectedSize);
     
     // Add Delivery Charge label for Google Sheet
-    formData.append('deliveryCharge', deliveryCharge === '100' ? 'Inside Chittagong (100 Taka)' : 'Outside Chittagong (150 Taka)');
+    formData.append('deliveryCharge', 'Standard Delivery Charge 100 Taka (All Over BD)');
 
     const urlEncodedData = new URLSearchParams(formData).toString();
 
@@ -136,7 +136,7 @@ const RetailOrderModal = ({ isOpen, onClose, initialColor = '', initialSize = ''
                   className="space-y-4 md:space-y-5"
                   onSubmit={handleSubmit}
                 >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                  <div className="grid grid-cols-2 gap-3 md:gap-6">
                     <div>
                       <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">
                         Name / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[13px] capitalize">নাম</span>
@@ -151,34 +151,26 @@ const RetailOrderModal = ({ isOpen, onClose, initialColor = '', initialSize = ''
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                    <div>
-                      <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">
-                        Email / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[13px] capitalize">ইমেইল</span> <span className="text-dark-charcoal/50 font-normal normal-case tracking-normal">(Optional)</span>
-                      </label>
-                      <input type="email" name="email" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="email@example.com" />
-                    </div>
+                  <div className="grid grid-cols-2 gap-3 md:gap-6">
                     <div>
                       <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">
                         Thana / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[13px] capitalize">থানা</span>
                       </label>
                       <input type="text" name="thana" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="e.g. Kotwali" required />
                     </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     <div>
                       <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">
                         District / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[13px] capitalize">জেলা</span>
                       </label>
                       <input type="text" name="district" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="e.g. Chittagong" required />
                     </div>
-                    <div>
-                      <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">
-                        Delivery Point / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[13px] capitalize">যে জায়গা থেকে রিসিভ করবেন</span>
-                      </label>
-                      <input type="text" name="delivery_point" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Full Address" required />
-                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">
+                      Delivery Point / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[13px] capitalize">যে জায়গা থেকে রিসিভ করবেন</span>
+                    </label>
+                    <input type="text" name="delivery_point" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Full Address" required />
                   </div>
 
                   <div>
@@ -251,27 +243,12 @@ const RetailOrderModal = ({ isOpen, onClose, initialColor = '', initialSize = ''
                           value="100" 
                           checked={deliveryCharge === '100'}
                           onChange={(e) => setDeliveryCharge(e.target.value)}
-                          className="w-4 h-4 accent-soft-black" 
+                          className="w-3.5 h-3.5 md:w-4 md:h-4 accent-soft-black" 
                           required 
                         />
-                        <div className="flex flex-col">
-                          <span className="text-sm font-bold text-soft-black">Inside Chittagong</span>
-                          <span className="text-xs text-dark-charcoal/70">100 Taka</span>
-                        </div>
-                      </label>
-                      <label className="flex items-center gap-3 cursor-pointer p-3 border border-stone/20 rounded-lg hover:border-terracotta transition-colors">
-                        <input 
-                          type="radio" 
-                          name="delivery_charge" 
-                          value="150" 
-                          checked={deliveryCharge === '150'}
-                          onChange={(e) => setDeliveryCharge(e.target.value)}
-                          className="w-4 h-4 accent-soft-black" 
-                          required 
-                        />
-                        <div className="flex flex-col">
-                          <span className="text-sm font-bold text-soft-black">Outside Chittagong</span>
-                          <span className="text-xs text-dark-charcoal/70">150 Taka</span>
+                        <div className="flex flex-row items-baseline gap-2">
+                          <span className="text-xs md:text-sm font-bold text-soft-black">Standard Delivery Charge</span>
+                          <span className="text-[10px] md:text-xs text-dark-charcoal/70">- 100 Taka (All Over BD)</span>
                         </div>
                       </label>
                     </div>

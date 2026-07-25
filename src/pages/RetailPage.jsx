@@ -141,17 +141,17 @@ const RetailPage = () => {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="relative px-[2px] lg:px-0 lg:col-span-7"
+            className="relative px-0 lg:px-0 lg:col-span-7"
           >
             {/* Mobile Carousel (Hidden on lg) */}
-            <div className="lg:hidden w-full flex flex-col mb-0">
+            <div className="lg:hidden w-full relative mb-0">
               <div 
                 ref={scrollRef}
                 onScroll={handleScroll}
                 className="w-full flex overflow-x-auto snap-x snap-mandatory gap-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               >
                 {images.map((img, idx) => (
-                  <div key={idx} className="relative w-[90vw] shrink-0 aspect-[4/5] bg-stone/20 overflow-hidden snap-start">
+                  <div key={idx} className="relative w-full shrink-0 aspect-[4/5] bg-stone/20 overflow-hidden snap-start">
                     <img 
                       src={img} 
                       alt={`Macrame Belt ${selectedColor} view ${idx + 1}`} 
@@ -162,13 +162,13 @@ const RetailPage = () => {
                 ))}
               </div>
 
-              {/* Mobile Swipe Indicators */}
-              <div className="flex justify-center space-x-2 mt-3">
+              {/* Mobile Swipe Indicators (Overlaid) */}
+              <div className="absolute bottom-5 left-0 right-0 flex justify-center space-x-2 z-10 pointer-events-none">
                 {images.map((_, idx) => (
                   <button
                     key={idx}
                     onClick={() => scrollToDot(idx)}
-                    className={`h-1 transition-all duration-300 ${activeIndex === idx ? 'w-8 bg-soft-black' : 'w-3 bg-soft-black/30 hover:bg-soft-black/50'}`}
+                    className={`h-1.5 rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.2)] backdrop-blur-sm transition-all duration-300 pointer-events-auto ${activeIndex === idx ? 'w-6 bg-white' : 'w-1.5 bg-white/50 hover:bg-white/80'}`}
                     aria-label={`Go to slide ${idx + 1}`}
                   />
                 ))}
@@ -200,12 +200,17 @@ const RetailPage = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex flex-col px-6 lg:px-0 lg:pt-0 lg:col-span-5"
           >
-            <h1 className="text-2xl md:text-4xl font-serif text-soft-black mb-2 md:mb-4 mt-2 lg:mt-0">AST Handmade Macramé Belt</h1>
+            <h1 className="text-2xl md:text-4xl font-serif text-soft-black mb-2 md:mb-3 mt-2 lg:mt-0">AST Handmade Macramé Belt</h1>
+            <p className="text-xs md:text-sm font-light italic text-dark-charcoal/80 mb-4 md:mb-5 leading-relaxed">
+              Fully handmade, very strong, and comfortable to wear.<br className="hidden md:block" />
+              A belt made to last for years, even for the next generation!
+            </p>
             <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-4 md:mb-6">Unisex Design • 100% Cotton</p>
             
             {/* Added Price */}
-            <div className="mb-6 md:mb-8">
-              <span className="text-xl md:text-3xl font-serif text-soft-black">1,250 BDT</span>
+            <div className="mb-6 md:mb-8 flex items-center gap-2">
+              <span className="text-xl md:text-3xl font-serif text-soft-black leading-none">1,099 BDT</span>
+              <span className="bg-emerald-700/80 text-white text-[7px] md:text-[8px] font-bold uppercase tracking-normal px-1.5 py-[1px] rounded-sm shadow-sm">Per Piece</span>
             </div>
 
             {/* Color Selection */}
@@ -228,15 +233,9 @@ const RetailPage = () => {
             </div>
 
             {/* Size Selection */}
-            <div className="mb-8 md:mb-12">
+            <div className="mb-4 md:mb-5">
               <div className="flex justify-start items-center gap-4 mb-3 md:mb-4">
                 <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black">Size</span>
-                <button 
-                  onClick={() => setIsSizeGuideOpen(true)}
-                  className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-terracotta hover:text-dark-charcoal transition-colors underline underline-offset-4"
-                >
-                  Size Guide
-                </button>
               </div>
               <div className="flex gap-3 md:gap-4">
                 {['M', 'L'].map((size) => (
@@ -249,6 +248,16 @@ const RetailPage = () => {
                   </button>
                 ))}
               </div>
+            </div>
+
+            {/* Size Guide Link (Moved) */}
+            <div className="mb-8 md:mb-12 text-left">
+              <button 
+                onClick={() => setIsSizeGuideOpen(true)}
+                className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-terracotta hover:text-dark-charcoal transition-colors underline underline-offset-4"
+              >
+                Size Guide
+              </button>
             </div>
             
             {/* CTA Buttons */}
