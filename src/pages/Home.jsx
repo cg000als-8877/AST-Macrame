@@ -1,0 +1,285 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import mobileHeroImage from '../assets/mobile_hero.jpg';
+import hgBlack from '../assets/homepage-gallery/Black.jpg';
+import hgNavy from '../assets/homepage-gallery/Navy.jpg';
+import hgBrown from '../assets/homepage-gallery/Brown.jpg';
+import hgMaroon from '../assets/homepage-gallery/Maroon.jpg';
+import hgKhaki from '../assets/homepage-gallery/Khaki.jpg';
+
+const FeaturedProductSection = () => {
+  const scrollRef = useRef(null);
+  const belts = [
+    { id: 1, colorName: 'Black', hex: '#1a1a1a', img: hgBlack, desc: 'A versatile, bold shade for effortless styling.' },
+    { id: 2, colorName: 'Navy', hex: '#1c2841', img: hgNavy, desc: 'Deep, elegant, and timeless everyday wear.' },
+    { id: 3, colorName: 'Brown', hex: '#8b4513', img: hgBrown, desc: 'Warm and richly textured for rustic looks.' },
+    { id: 4, colorName: 'Maroon', hex: '#5c222e', img: hgMaroon, desc: 'Sophisticated and striking with any outfit.' },
+    { id: 5, colorName: 'Khaki', hex: '#d4c7b1', img: hgKhaki, desc: 'Classic, natural, and beautifully refined.' },
+  ];
+
+  // Auto-slide logic for mobile every 5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (scrollRef.current) {
+        const container = scrollRef.current;
+        // Check if we reached the end (with a small 10px buffer)
+        const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 10;
+        
+        if (isAtEnd) {
+          container.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          // Scroll by roughly one item width (80vw)
+          const scrollAmount = window.innerWidth * 0.8; 
+          container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+      }
+    }, 2000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <section className="py-16 md:py-20 bg-white px-6 overflow-hidden">
+      <div className="max-w-[1400px] mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-serif text-soft-black mb-4">AST Handmade Macramé Belt</h2>
+          <p className="text-sm md:text-base text-dark-charcoal/70 font-light max-w-2xl mx-auto">
+            Explore our premium handmade macramé belts, available in five distinct colorways. Custom colors can also be requested for bulk wholesale orders.
+          </p>
+        </div>
+
+        {/* Mobile: Horizontal scroll, Desktop: 5 column grid */}
+        <div 
+          ref={scrollRef}
+          className="flex lg:grid lg:grid-cols-5 gap-1 lg:gap-[6px] overflow-x-auto lg:overflow-x-visible snap-x snap-mandatory pb-2 lg:pb-0 -mx-6 px-6 lg:mx-0 lg:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+        >
+          
+          {belts.map((belt) => (
+            <div key={belt.id} className="min-w-[80vw] sm:min-w-[45vw] lg:min-w-0 flex flex-col items-center text-center snap-center">
+              {/* 3:4 Frame */}
+              <div className="w-full relative aspect-[3/4] bg-stone/10 overflow-hidden mb-6">
+                <img 
+                  src={belt.img}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  alt={`Macrame Belt in ${belt.colorName}`}
+                />
+              </div>
+
+              {/* Details */}
+              <div className="flex items-start gap-3 text-left mb-4 w-full">
+                <div className="w-5 h-5 md:w-6 md:h-6 rounded-full shadow-sm border border-stone/20 shrink-0 mt-[2px]" style={{ backgroundColor: belt.hex }} />
+                <div className="flex flex-col">
+                  <h3 className="text-base md:text-lg font-serif text-soft-black mb-1 leading-none">{belt.colorName}</h3>
+                  <p className="text-xs md:text-sm text-dark-charcoal/70 font-light leading-relaxed">
+                    {belt.desc}
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          ))}
+        </div>
+
+        {/* Centralized Button */}
+        <div className="flex justify-center mt-2 lg:mt-10">
+          <Link 
+            to="/product"
+            className="bg-soft-black text-cream px-10 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-none hover:bg-dark-charcoal transition-colors w-full sm:w-auto text-center"
+          >
+            See Details
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Home = () => {
+  return (
+    <div className="w-full">
+      {/* Hero Section */}
+      <section className="relative w-full overflow-hidden bg-soft-black">
+        {/* Image layer in flow to dictate height */}
+        <div className="w-full aspect-[2/3] md:aspect-auto md:h-[85vh] overflow-hidden bg-stone/20">
+          {/* Desktop Image */}
+          <img 
+            src="/hero.jpg" 
+            alt="Handmade Macramé Belts Desktop" 
+            className="hidden md:block w-full h-full object-cover object-center scale-[1.05] translate-y-[-2%]"
+          />
+          {/* Mobile Image */}
+          <img 
+            src={mobileHeroImage} 
+            alt="Handmade Macramé Belts Mobile" 
+            className="block md:hidden w-full h-full object-cover object-center"
+          />
+        </div>
+        <div className="absolute inset-0 bg-soft-black/40 pointer-events-none" />
+        
+        {/* Hero Text */}
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-end md:justify-center text-center px-6 pb-12 md:pb-0 pt-32 md:pt-32">
+          <div className="max-w-4xl mx-auto w-full">
+            <motion.h1 
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="text-4xl md:text-7xl lg:text-[6rem] text-cream font-serif leading-tight mb-3 md:mb-6"
+            >
+              Crafted for <br className="hidden md:block"/>
+              the Extraordinary.
+            </motion.h1>
+            
+            <motion.p 
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+              className="text-sm md:text-xl text-cream/90 font-light mb-8 md:mb-12 max-w-[95%] md:max-w-2xl mx-auto"
+            >
+              Premium handmade macramé belts engineered for boutique labels, private brands, and independent designers worldwide.
+            </motion.p>
+            
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
+              className="flex flex-col sm:flex-row gap-3 md:gap-6 justify-center items-center w-full"
+            >
+              <Link 
+                to="/product" 
+                className="bg-cream text-soft-black px-6 py-3 md:px-8 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-warm-sand transition-colors w-full sm:w-auto"
+              >
+                Explore Products
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Craftsmanship Intro */}
+      <section className="py-16 md:py-24 bg-cream text-soft-black px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-serif mb-8 text-dark-charcoal">
+            Traditional Craftsmanship.<br/>Modern Manufacturing.
+          </h2>
+          <p className="text-sm md:text-lg text-dark-charcoal/80 font-light leading-relaxed max-w-3xl mx-auto">
+            Based in Chattogram, Bangladesh, our artisan workshop specializes exclusively in high-quality cotton macramé belts. Rather than relying on mass production, every belt is meticulously handwoven by skilled artisans, ensuring consistency, durability, and a premium tactile finish.
+          </p>
+        </div>
+      </section>
+
+      {/* Featured Product Slideshow */}
+      <FeaturedProductSection />
+
+      {/* Features Grid */}
+      <section className="py-12 md:py-20 bg-cotton-white px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-4 md:gap-8 lg:gap-12">
+            
+            <div className="flex flex-col items-center text-center bg-white p-6 md:p-10 lg:p-12 border border-stone/20 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:bg-stone/5 hover:border-stone/40 hover:-translate-y-1 transition-all duration-300 w-full max-w-[340px]">
+              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-cream flex items-center justify-center mb-4 md:mb-6 text-terracotta shrink-0 border border-stone/10">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="scale-75 md:scale-100">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+              </div>
+              <h3 className="text-lg md:text-xl font-serif mb-2 md:mb-4 text-soft-black">Premium Materials</h3>
+              <p className="text-dark-charcoal/70 text-xs md:text-sm leading-relaxed">
+                We source only high-quality cotton macramé cord and rust-resistant, durable metal buckles for every piece.
+              </p>
+            </div>
+            
+            <div className="flex flex-col items-center text-center bg-white p-6 md:p-10 lg:p-12 border border-stone/20 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:bg-stone/5 hover:border-stone/40 hover:-translate-y-1 transition-all duration-300 w-full max-w-[340px]">
+              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-cream flex items-center justify-center mb-4 md:mb-6 text-terracotta shrink-0 border border-stone/10">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="scale-75 md:scale-100">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                  <line x1="12" y1="22.08" x2="12" y2="12"/>
+                </svg>
+              </div>
+              <h3 className="text-lg md:text-xl font-serif mb-2 md:mb-4 text-soft-black">OEM & Private Label</h3>
+              <p className="text-dark-charcoal/70 text-xs md:text-sm leading-relaxed">
+                Complete customization including custom tags, packaging, bespoke colors, and specific size requirements.
+              </p>
+            </div>
+            
+            <div className="flex flex-col items-center text-center bg-white p-6 md:p-10 lg:p-12 border border-stone/20 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:bg-stone/5 hover:border-stone/40 hover:-translate-y-1 transition-all duration-300 w-full max-w-[340px]">
+              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-cream flex items-center justify-center mb-4 md:mb-6 text-terracotta shrink-0 border border-stone/10">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="scale-75 md:scale-100">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+              </div>
+              <h3 className="text-lg md:text-xl font-serif mb-2 md:mb-4 text-soft-black">Quality Assured</h3>
+              <p className="text-dark-charcoal/70 text-xs md:text-sm leading-relaxed">
+                Every belt undergoes rigorous individual inspection covering weaving quality, size accuracy, and buckle strength.
+              </p>
+            </div>
+            
+          </div>
+        </div>
+      </section>
+
+      {/* Who We Work With */}
+      <section className="py-16 md:py-24 overflow-hidden bg-cream">
+        <div className="text-center px-6 mb-12 md:mb-20">
+          <h2 className="text-4xl md:text-5xl font-serif mb-4 md:mb-6 text-soft-black">
+            Who We Work With
+          </h2>
+          <p className="text-sm md:text-base text-dark-charcoal/70 max-w-2xl mx-auto font-light">
+            We are proud to be the trusted manufacturing partner for a diverse range of visionary brands across the globe.
+          </p>
+        </div>
+
+        <div className="max-w-4xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+            {[
+              "Boutique Fashion Brands",
+              "Private Label Brands",
+              "Shopify Stores",
+              "E-commerce Businesses",
+              "Fashion Startups",
+              "Gift Brands",
+              "Lifestyle Brands",
+              "Accessory Retailers"
+            ].map((partner, idx) => (
+              <div 
+                key={idx}
+                className="bg-white border border-stone/20 rounded-full px-5 py-2.5 md:px-8 md:py-4 shadow-sm flex items-center justify-center text-center hover:bg-stone/5 hover:border-stone/40 hover:-translate-y-0.5 transition-all duration-300 cursor-default"
+              >
+                <span className="text-[11px] md:text-xs font-sans tracking-[0.15em] uppercase text-soft-black font-semibold">
+                  {partner}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 md:py-24 bg-stone/20 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-serif mb-8 text-soft-black">
+            Ready to partner with us?
+          </h2>
+          <p className="text-sm md:text-lg text-dark-charcoal/80 mb-12 max-w-2xl mx-auto">
+            Whether you need a single sample to review our quality or a wholesale quotation for your next collection, we are here to assist you.
+          </p>
+          <div className="flex flex-col items-center justify-center gap-[1px]">
+            <Link 
+              to="/sample-wholesale" 
+              className="bg-soft-black text-cream px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-dark-charcoal transition-colors"
+            >
+              Get Started
+            </Link>
+            <p className="text-[10px] md:text-xs italic text-dark-charcoal/70 mt-1">
+              Request Sample → Discuss bulk orders
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  );
+};
+
+export default Home;
+

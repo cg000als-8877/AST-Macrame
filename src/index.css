@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #FDFBF7;
+  --color-cotton-white: #FFFFFF;
+  --color-warm-sand: #E6D5C3;
+  --color-stone: #B8B0A5;
+  --color-clay: #A38771;
+  --color-terracotta: #A45C40;
+  --color-dark-charcoal: #2D2D2D;
+  --color-soft-black: #1A1A1A;
+  --color-deep-navy: #1C2B39;
+  --color-muted-burgundy: #6C3035;
+  --color-natural-linen: #DED3C4;
+  
+  --font-serif: 'Lora', serif;
+  --font-sans: 'Inter', sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-cream);
+  color: var(--color-soft-black);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+}
+
+/* Base custom utilities */
+.glass {
+  background: rgba(253, 251, 247, 0.8);
+  backdrop-filter: blur(12px);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+.animate-marquee-reverse {
+  animation: marquee 35s linear infinite reverse;
+  display: flex;
+  width: max-content;
+}
