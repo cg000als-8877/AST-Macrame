@@ -43,15 +43,20 @@ const InquiryModal = ({ isOpen, onClose, formType, initialColor = '', initialSiz
       formData.append('color', selectedColor);
     }
 
+    const urlEncodedData = new URLSearchParams(formData).toString();
+
     try {
       // Force a minimum 2-second delay for better UX
       const delay = new Promise(resolve => setTimeout(resolve, 2000));
       
       await Promise.all([
-        fetch('https://script.google.com/macros/s/AKfycbybgvWpMHYzv5e6yHqhuS4mfBYXFsp5rKcRnqC2sp3F_Hr1h4vhzc6bcUi0ryB-lVs/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbx4gy7B2XG-ZrQaHm2B8LFTLjObJ2ryM09SRwUTS4B-mFBb6kxnBEx1QP4eBrQOD3cm/exec', {
           method: 'POST',
           mode: 'no-cors',
-          body: formData,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: urlEncodedData,
         }),
         delay
       ]);
@@ -126,9 +131,14 @@ const InquiryModal = ({ isOpen, onClose, formType, initialColor = '', initialSiz
                       <input type="text" name="company" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Your Brand Name" required />
                     </div>
                     <div>
-                      <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Email Address</label>
-                      <input type="email" name="email" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="email@example.com" required />
+                      <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Phone Number</label>
+                      <input type="tel" name="phone" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Your Phone Number" required />
                     </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Email Address</label>
+                    <input type="email" name="email" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="email@example.com" required />
                   </div>
 
                   <div>
