@@ -65,19 +65,24 @@ const Navbar = () => {
           {/* Navigation Links */}
           <div className="flex flex-shrink-0 items-center justify-center px-1 w-full sm:w-auto">
             <nav className="flex items-center justify-center sm:justify-center w-full sm:w-auto space-x-1.5 sm:space-x-4 md:space-x-8 text-soft-black">
-              {navLinks.map((link, index) => (
+              {navLinks.map((link, index) => {
+                const isActive = location.pathname === link.path;
+                return (
                 <React.Fragment key={link.name}>
                   <Link 
                     to={link.path}
-                    className="text-[clamp(9px,2vw,14px)] font-bold md:font-semibold tracking-tighter sm:tracking-widest uppercase hover:text-terracotta active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap py-0.5"
+                    className={`relative text-[clamp(9px,2vw,14px)] font-bold md:font-semibold tracking-tighter sm:tracking-widest uppercase active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap py-0.5 ${isActive ? 'text-terracotta' : 'hover:text-terracotta text-soft-black'}`}
                   >
                     {link.name}
+                    {isActive && (
+                      <span className="absolute -bottom-1 left-0 w-full h-[1.5px] bg-gradient-to-r from-transparent via-terracotta to-transparent"></span>
+                    )}
                   </Link>
                   {index < navLinks.length - 1 && (
                     <div className="w-[1px] h-2.5 sm:h-3 md:h-4 bg-soft-black/20"></div>
                   )}
                 </React.Fragment>
-              ))}
+              )})}
             </nav>
           </div>
 
