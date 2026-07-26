@@ -16,22 +16,19 @@ const colorImages = {
   Khaki: k1,
 };
 
-const RetailOrderModal = ({ isOpen, onClose, initialColor = '', initialSize = '' }) => {
-  const [selectedColor, setSelectedColor] = useState(initialColor || 'Black');
-  const [selectedSize, setSelectedSize] = useState(initialSize || 'M');
-  const [orderType, setOrderType] = useState('single');
-  const [comboColor1, setComboColor1] = useState('Black');
-  const [comboColor2, setComboColor2] = useState('Navy');
-  const [comboSize1, setComboSize1] = useState('M');
-  const [comboSize2, setComboSize2] = useState('M');
-  const [deliveryCharge, setDeliveryCharge] = useState('100'); // Standard delivery is always 100
+const RetailOrderModal = ({ 
+  isOpen, 
+  onClose, 
+  orderType = 'single', 
+  selectedColor = 'Black', 
+  selectedSize = 'M', 
+  comboColor1 = 'Black', 
+  comboSize1 = 'M', 
+  comboColor2 = 'Navy', 
+  comboSize2 = 'M' 
+}) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-
-  useEffect(() => {
-    if (initialColor) setSelectedColor(initialColor);
-    if (initialSize) setSelectedSize(initialSize);
-  }, [initialColor, initialSize]);
 
   useEffect(() => {
     if (isOpen) {
@@ -200,186 +197,53 @@ const RetailOrderModal = ({ isOpen, onClose, initialColor = '', initialSize = ''
                       placeholder="Any custom instructions..."
                     ></textarea>
                   </div>
-
-                  {/* Order Type */}
-                  <div className="mb-4 pt-2">
-                    <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-2 md:mb-3">Order Type</label>
-                    <div className="flex flex-col gap-2.5 md:gap-3">
-                      <label className={`flex items-center gap-3 cursor-pointer p-3 md:p-3.5 border rounded-xl transition-all ${orderType === 'single' ? 'border-terracotta bg-terracotta/5 shadow-sm' : 'border-stone/20 hover:border-terracotta/40 bg-white/50'}`}>
-                        <input 
-                          type="radio" 
-                          name="order_type" 
-                          value="single" 
-                          checked={orderType === 'single'}
-                          onChange={() => setOrderType('single')}
-                          className="w-4 h-4 md:w-5 md:h-5 accent-terracotta" 
-                        />
-                        <div className="flex flex-col">
-                          <span className="text-xs md:text-sm font-bold text-soft-black tracking-wide">Single Product</span>
-                          <span className="text-[11px] md:text-xs text-terracotta font-bold mt-0.5">1090 BDT</span>
-                        </div>
-                      </label>
-
-                      <label className={`flex items-center gap-3 cursor-pointer p-3 md:p-3.5 border rounded-xl transition-all ${orderType === 'combo' ? 'border-terracotta bg-terracotta/5 shadow-sm' : 'border-stone/20 hover:border-terracotta/40 bg-white/50'}`}>
-                        <input 
-                          type="radio" 
-                          name="order_type" 
-                          value="combo" 
-                          checked={orderType === 'combo'}
-                          onChange={() => setOrderType('combo')}
-                          className="w-4 h-4 md:w-5 md:h-5 accent-terracotta" 
-                        />
-                        <div className="flex flex-col">
-                          <span className="text-xs md:text-sm font-bold text-soft-black tracking-wide">Combo (2 Belts)</span>
-                          <span className="text-[11px] md:text-xs text-terracotta font-bold mt-0.5">1990 BDT</span>
-                        </div>
-                      </label>
-                    </div>
-                    <p className="text-[10px] md:text-[11px] text-dark-charcoal/70 mt-2.5 italic flex items-center gap-1.5 font-medium px-1">
-                      <svg className="w-3 h-3 text-terracotta" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                      If you want to order more than 2 products, please contact us via WhatsApp.
-                    </p>
-                  </div>
-
                   <div className="w-full h-px bg-stone/20 my-4 md:my-5"></div>
-
-                  {/* Color & Size Selection */}
-                  <div className="flex gap-4 md:gap-8 items-start">
-                    <div className="flex-1">
-                      {orderType === 'single' ? (
-                        <>
-                          <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-2 md:mb-3">Select Color</label>
-                          <div className="grid grid-flow-col grid-rows-3 gap-y-2 gap-x-2 md:gap-x-4 mb-4 md:mb-5">
-                            {['Black', 'Navy', 'Brown', 'Maroon', 'Khaki'].map(color => (
-                              <label key={color} className="flex items-center gap-2 cursor-pointer text-xs md:text-sm text-dark-charcoal font-medium">
-                                <input 
-                                  type="radio" 
-                                  name="color_selection" 
-                                  value={color} 
-                                  checked={selectedColor === color} 
-                                  onChange={(e) => setSelectedColor(e.target.value)}
-                                  className="w-3.5 h-3.5 md:w-4 md:h-4 accent-soft-black" 
-                                />
-                                {color}
-                              </label>
-                            ))}
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-2 md:mb-3">Select Combo Colors & Sizes</label>
-                          <div className="flex flex-col gap-3 mb-4 md:mb-5">
-                            <div className="flex items-center gap-2 md:gap-3 bg-white/50 border border-stone/20 px-3 py-1.5 rounded-lg">
-                              <span className="text-[10px] font-bold text-dark-charcoal uppercase w-10 md:w-12 shrink-0">Belt 1:</span>
-                              <select 
-                                value={comboColor1} 
-                                onChange={(e) => setComboColor1(e.target.value)}
-                                className="w-20 md:w-24 bg-transparent text-xs md:text-sm font-medium focus:outline-none cursor-pointer text-soft-black"
-                              >
-                                {['Black', 'Navy', 'Brown', 'Maroon', 'Khaki'].map(c => <option key={c} value={c}>{c}</option>)}
-                              </select>
-                              <div className="w-[1px] h-4 bg-stone/20"></div>
-                              <select 
-                                value={comboSize1} 
-                                onChange={(e) => setComboSize1(e.target.value)}
-                                className="w-10 md:w-14 bg-transparent text-xs md:text-sm font-medium focus:outline-none cursor-pointer text-soft-black"
-                              >
-                                {['M', 'L'].map(s => <option key={s} value={s}>{s}</option>)}
-                              </select>
-                            </div>
-                            <div className="flex items-center gap-2 md:gap-3 bg-white/50 border border-stone/20 px-3 py-1.5 rounded-lg">
-                              <span className="text-[10px] font-bold text-dark-charcoal uppercase w-10 md:w-12 shrink-0">Belt 2:</span>
-                              <select 
-                                value={comboColor2} 
-                                onChange={(e) => setComboColor2(e.target.value)}
-                                className="w-20 md:w-24 bg-transparent text-xs md:text-sm font-medium focus:outline-none cursor-pointer text-soft-black"
-                              >
-                                {['Black', 'Navy', 'Brown', 'Maroon', 'Khaki'].map(c => <option key={c} value={c}>{c}</option>)}
-                              </select>
-                              <div className="w-[1px] h-4 bg-stone/20"></div>
-                              <select 
-                                value={comboSize2} 
-                                onChange={(e) => setComboSize2(e.target.value)}
-                                className="w-10 md:w-14 bg-transparent text-xs md:text-sm font-medium focus:outline-none cursor-pointer text-soft-black"
-                              >
-                                {['M', 'L'].map(s => <option key={s} value={s}>{s}</option>)}
-                              </select>
-                            </div>
-                          </div>
-                        </>
-                      )}
-
-                      {orderType === 'single' && (
-                        <>
-                          <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-2 md:mb-3">Select Size</label>
-                          <div className="flex gap-4 md:gap-6">
-                            {['M', 'L'].map(size => (
-                              <label key={size} className="flex items-center gap-1.5 md:gap-2 cursor-pointer text-xs md:text-sm text-dark-charcoal font-medium">
-                                <input 
-                                  type="radio" 
-                                  name="size_selection" 
-                                  value={size} 
-                                  checked={selectedSize === size}
-                                  onChange={(e) => setSelectedSize(e.target.value)}
-                                  className="w-3.5 h-3.5 md:w-4 md:h-4 accent-soft-black" 
-                                  required={orderType === 'single'} 
-                                />
-                                {size}
-                              </label>
-                            ))}
-                          </div>
-                        </>
-                      )}
-                    </div>
+                  {/* Order Summary */}
+                  <div className="bg-stone/5 border border-stone/20 rounded-xl p-4 md:p-5">
+                    <h3 className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-4 border-b border-stone/10 pb-3">Order Summary</h3>
                     
                     {orderType === 'single' ? (
-                      <div className="w-24 md:w-32 shrink-0 aspect-[4/5] bg-stone/10 rounded-xl overflow-hidden border border-stone/20 shadow-md">
-                        <img src={colorImages[selectedColor]} alt={selectedColor} className="w-full h-full object-cover mix-blend-multiply" />
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className="w-16 h-16 shrink-0 bg-stone/10 rounded-lg overflow-hidden border border-stone/20">
+                          <img src={colorImages[selectedColor]} alt={selectedColor} className="w-full h-full object-cover mix-blend-multiply" />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-xs md:text-sm font-bold text-soft-black">Single Product</span>
+                          <span className="text-[11px] md:text-xs text-dark-charcoal/70 mt-1">Color: {selectedColor} &bull; Size: {selectedSize}</span>
+                        </div>
                       </div>
                     ) : (
-                      <div className="w-24 md:w-32 shrink-0 aspect-[4/5] bg-stone/10 rounded-xl overflow-hidden border border-stone/20 shadow-md flex">
-                        <div className="w-1/2 h-full relative overflow-hidden border-r border-stone/10">
-                          <img src={colorImages[comboColor1]} alt={comboColor1} className="absolute inset-0 w-[200%] h-full object-cover object-left mix-blend-multiply" />
+                      <div className="flex flex-col gap-3 mb-4">
+                        <span className="text-xs md:text-sm font-bold text-soft-black">Combo Pack (2 Belts)</span>
+                        <div className="flex items-center gap-4 bg-white/50 p-2 rounded-lg border border-stone/10">
+                          <div className="w-10 h-10 shrink-0 bg-stone/10 rounded-md overflow-hidden">
+                            <img src={colorImages[comboColor1]} alt={comboColor1} className="w-full h-full object-cover mix-blend-multiply" />
+                          </div>
+                          <span className="text-[11px] md:text-xs text-dark-charcoal/80">Belt 1: {comboColor1} ({comboSize1})</span>
                         </div>
-                        <div className="w-1/2 h-full relative overflow-hidden">
-                          <img src={colorImages[comboColor2]} alt={comboColor2} className="absolute inset-0 w-[200%] h-full object-cover object-right mix-blend-multiply" />
+                        <div className="flex items-center gap-4 bg-white/50 p-2 rounded-lg border border-stone/10">
+                          <div className="w-10 h-10 shrink-0 bg-stone/10 rounded-md overflow-hidden">
+                            <img src={colorImages[comboColor2]} alt={comboColor2} className="w-full h-full object-cover mix-blend-multiply" />
+                          </div>
+                          <span className="text-[11px] md:text-xs text-dark-charcoal/80">Belt 2: {comboColor2} ({comboSize2})</span>
                         </div>
                       </div>
                     )}
-                  </div>
 
-                  <div className="w-full h-px bg-stone/20 my-4 md:my-6"></div>
-
-                  {/* Delivery Charges */}
-                  <div>
-                    <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-3 md:mb-4">Delivery Options</label>
-                    <div className="flex flex-col gap-3">
-                      <label className="flex items-center gap-3 cursor-pointer p-3 border border-terracotta/30 bg-terracotta/5 rounded-lg transition-colors">
-                        <input 
-                          type="radio" 
-                          name="delivery_charge" 
-                          value="100" 
-                          checked={true}
-                          readOnly
-                          className="w-3.5 h-3.5 md:w-4 md:h-4 accent-terracotta" 
-                        />
-                        <div className="flex flex-row items-baseline gap-2">
-                          <span className="text-xs md:text-sm font-bold text-soft-black">Standard Delivery Charge</span>
-                          <span className="text-[10px] md:text-xs text-terracotta font-semibold">- 100 Taka (All Over BD)</span>
-                        </div>
-                      </label>
+                    <div className="space-y-2 mt-4 pt-4 border-t border-stone/10">
+                      <div className="flex justify-between items-center text-xs text-dark-charcoal/80">
+                        <span>Subtotal</span>
+                        <span className="font-medium">{orderType === 'single' ? '1,090' : '1,990'} BDT</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs text-dark-charcoal/80">
+                        <span>Standard Delivery</span>
+                        <span className="font-medium text-terracotta">+ 100 BDT</span>
+                      </div>
+                      <div className="flex justify-between items-center mt-3 pt-3 border-t border-stone/10">
+                        <span className="text-[11px] md:text-xs font-bold uppercase tracking-widest text-soft-black">Total Amount</span>
+                        <span className="text-lg md:text-xl font-serif font-bold text-terracotta">{(orderType === 'single' ? 1090 : 1990) + 100} BDT</span>
+                      </div>
                     </div>
-                  </div>
-                  
-                  {/* Total Amount */}
-                  <div className="bg-stone/5 border border-stone/20 rounded-xl p-4 md:p-5 mt-2 flex justify-between items-center shadow-sm">
-                    <div className="flex flex-col">
-                      <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-dark-charcoal/70">Total Amount</span>
-                      <span className="text-[9px] md:text-[10px] text-dark-charcoal/50 mt-0.5">Product + Delivery</span>
-                    </div>
-                    <span className="text-lg md:text-xl font-serif font-bold text-terracotta">
-                      {(orderType === 'single' ? 1090 : 1990) + 100} BDT
-                    </span>
                   </div>
 
                   <div className="pt-6 md:pt-8 text-center">

@@ -29,10 +29,10 @@ const Accordion = ({ title, isOpen, onClick, children }) => (
   <div className="border-b border-stone/30">
     <button 
       onClick={onClick}
-      className="w-full py-4 md:py-5 flex justify-between items-center text-left"
+      className="w-full py-3 flex justify-between items-center text-left"
     >
-      <span className="font-serif text-lg md:text-xl text-soft-black">{title}</span>
-      {isOpen ? <Minus className="w-4 h-4 md:w-5 md:h-5 text-soft-black/50" /> : <Plus className="w-4 h-4 md:w-5 md:h-5 text-soft-black/50" />}
+      <span className="font-serif text-base md:text-lg text-soft-black">{title}</span>
+      {isOpen ? <Minus className="w-4 h-4 text-soft-black/50" /> : <Plus className="w-4 h-4 text-soft-black/50" />}
     </button>
     <AnimatePresence>
       {isOpen && (
@@ -42,7 +42,7 @@ const Accordion = ({ title, isOpen, onClick, children }) => (
           exit={{ height: 0, opacity: 0 }}
           className="overflow-hidden"
         >
-          <div className="pb-6 text-dark-charcoal/80 font-light text-sm">
+          <div className="pb-4 text-dark-charcoal/80 font-light text-sm">
             {children}
           </div>
         </motion.div>
@@ -55,6 +55,11 @@ const RetailPage = () => {
   const [selectedColor, setSelectedColor] = useState('Black');
   const [selectedSize, setSelectedSize] = useState('M');
   const [activeIndex, setActiveIndex] = useState(0);
+  const [orderType, setOrderType] = useState('single');
+  const [comboColor1, setComboColor1] = useState('Black');
+  const [comboColor2, setComboColor2] = useState('Navy');
+  const [comboSize1, setComboSize1] = useState('M');
+  const [comboSize2, setComboSize2] = useState('M');
   const [openAccordions, setOpenAccordions] = useState({
     description: true,
     materials: true,
@@ -209,46 +214,116 @@ const RetailPage = () => {
             
             {/* Added Price */}
             <div className="mb-6 md:mb-8 flex items-center gap-2">
-              <span className="text-xl md:text-3xl font-serif text-soft-black leading-none">1,090 BDT</span>
-              <span className="bg-emerald-700/80 text-white text-[7px] md:text-[8px] font-bold uppercase tracking-normal px-1.5 py-[1px] rounded-sm shadow-sm">Per Piece</span>
-            </div>
-
-            {/* Color Selection */}
-            <div className="mb-6 md:mb-10">
-              <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-3 md:mb-4">
-                Color: <span className="font-medium text-dark-charcoal/70">{selectedColor}</span>
+              <span className="text-xl md:text-3xl font-serif text-soft-black leading-none">
+                {orderType === 'single' ? '1,090 BDT' : '1,990 BDT'}
               </span>
-              <div className="flex gap-4">
-                {colors.map((color) => (
-                  <button
-                    key={color.name}
-                    onClick={() => handleColorChange(color.name)}
-                    className={`w-9 h-9 md:w-10 md:h-10 rounded-full border-2 transition-all duration-300 ${selectedColor === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
-                    aria-label={`Select ${color.name}`}
-                  >
-                    <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
-                  </button>
-                ))}
+              <span className="bg-emerald-700/80 text-white text-[7px] md:text-[8px] font-bold uppercase tracking-normal px-1.5 py-[1px] rounded-sm shadow-sm">
+                {orderType === 'single' ? 'Per Piece' : 'Combo Pack'}
+              </span>
+            </div>
+
+            {/* Order Type Selection */}
+            <div className="mb-6">
+              <div className="flex bg-stone/10 p-1 rounded-lg w-full max-w-sm">
+                <button 
+                  onClick={() => setOrderType('single')}
+                  className={`flex-1 py-2 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-md transition-all ${orderType === 'single' ? 'bg-white shadow-sm text-soft-black' : 'text-dark-charcoal/60 hover:text-soft-black'}`}
+                >
+                  Single Product
+                </button>
+                <button 
+                  onClick={() => setOrderType('combo')}
+                  className={`flex-1 py-2 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-md transition-all ${orderType === 'combo' ? 'bg-white shadow-sm text-soft-black' : 'text-dark-charcoal/60 hover:text-soft-black'}`}
+                >
+                  Combo (2 Belts)
+                </button>
               </div>
             </div>
 
-            {/* Size Selection */}
-            <div className="mb-4 md:mb-5">
-              <div className="flex justify-start items-center gap-4 mb-3 md:mb-4">
-                <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black">Size</span>
+            {orderType === 'single' ? (
+              <>
+                {/* Color Selection */}
+                <div className="mb-6 md:mb-10">
+                  <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-3 md:mb-4">
+                    Color: <span className="font-medium text-dark-charcoal/70">{selectedColor}</span>
+                  </span>
+                  <div className="flex gap-4">
+                    {colors.map((color) => (
+                      <button
+                        key={color.name}
+                        onClick={() => handleColorChange(color.name)}
+                        className={`w-9 h-9 md:w-10 md:h-10 rounded-full border-2 transition-all duration-300 ${selectedColor === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
+                        aria-label={`Select ${color.name}`}
+                      >
+                        <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Size Selection */}
+                <div className="mb-4 md:mb-5">
+                  <div className="flex justify-start items-center gap-4 mb-3 md:mb-4">
+                    <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black">Size</span>
+                  </div>
+                  <div className="flex gap-3 md:gap-4">
+                    {['M', 'L'].map((size) => (
+                      <button
+                        key={size}
+                        onClick={() => setSelectedSize(size)}
+                        className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-xs md:text-sm font-bold uppercase tracking-widest border transition-colors duration-300 rounded-none ${selectedSize === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="mb-6 md:mb-8">
+                <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-3 md:mb-4">Select Combo Options</span>
+                <div className="flex flex-col gap-3 md:gap-4 max-w-sm">
+                  {/* Belt 1 */}
+                  <div className="flex items-center gap-3 bg-white border border-stone/20 p-2 md:p-3 rounded-lg shadow-sm">
+                    <span className="text-[10px] font-bold text-dark-charcoal uppercase w-10 md:w-12 shrink-0">Belt 1:</span>
+                    <select 
+                      value={comboColor1} 
+                      onChange={(e) => { setComboColor1(e.target.value); handleColorChange(e.target.value); }}
+                      className="flex-1 bg-transparent text-xs md:text-sm font-medium focus:outline-none cursor-pointer text-soft-black"
+                    >
+                      {colors.map(c => <option key={c.name} value={c.name}>{c.name}</option>)}
+                    </select>
+                    <div className="w-[1px] h-6 bg-stone/20"></div>
+                    <select 
+                      value={comboSize1} 
+                      onChange={(e) => setComboSize1(e.target.value)}
+                      className="w-10 md:w-12 bg-transparent text-xs md:text-sm font-medium focus:outline-none cursor-pointer text-soft-black"
+                    >
+                      {['M', 'L'].map(s => <option key={s} value={s}>{s}</option>)}
+                    </select>
+                  </div>
+                  {/* Belt 2 */}
+                  <div className="flex items-center gap-3 bg-white border border-stone/20 p-2 md:p-3 rounded-lg shadow-sm">
+                    <span className="text-[10px] font-bold text-dark-charcoal uppercase w-10 md:w-12 shrink-0">Belt 2:</span>
+                    <select 
+                      value={comboColor2} 
+                      onChange={(e) => setComboColor2(e.target.value)}
+                      className="flex-1 bg-transparent text-xs md:text-sm font-medium focus:outline-none cursor-pointer text-soft-black"
+                    >
+                      {colors.map(c => <option key={c.name} value={c.name}>{c.name}</option>)}
+                    </select>
+                    <div className="w-[1px] h-6 bg-stone/20"></div>
+                    <select 
+                      value={comboSize2} 
+                      onChange={(e) => setComboSize2(e.target.value)}
+                      className="w-10 md:w-12 bg-transparent text-xs md:text-sm font-medium focus:outline-none cursor-pointer text-soft-black"
+                    >
+                      {['M', 'L'].map(s => <option key={s} value={s}>{s}</option>)}
+                    </select>
+                  </div>
+                </div>
               </div>
-              <div className="flex gap-3 md:gap-4">
-                {['M', 'L'].map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-xs md:text-sm font-bold uppercase tracking-widest border transition-colors duration-300 rounded-none ${selectedSize === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </div>
+            )}
 
             {/* Size Guide Link (Moved) */}
             <div className="mb-8 md:mb-12 text-left">
@@ -261,13 +336,30 @@ const RetailPage = () => {
             </div>
             
             {/* CTA Buttons */}
-            <div className="flex flex-col gap-3 md:gap-4 mb-10 md:mb-12">
-              <button 
-                onClick={() => setIsOrderFormOpen(true)}
-                className="w-full bg-soft-black text-cream text-center px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-none hover:bg-dark-charcoal transition-colors"
-              >
-                ORDER NOW
-              </button>
+            <div className="flex flex-col mb-10 md:mb-12">
+              <div className="flex flex-col gap-3 md:gap-4">
+                <button 
+                  onClick={() => setIsOrderFormOpen(true)}
+                  className="w-full bg-soft-black text-cream text-center px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-none hover:bg-dark-charcoal transition-colors"
+                >
+                  ORDER NOW
+                </button>
+                <a 
+                  href="https://wa.me/message/R4XZN4UUNJ47J1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center bg-transparent border border-soft-black text-soft-black text-center px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-none hover:bg-stone/10 transition-colors"
+                >
+                  <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5 mr-2 md:mr-3 fill-current">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                  </svg>
+                  WHATSAPP
+                </a>
+              </div>
+              <p className="text-[10px] md:text-[11px] text-dark-charcoal/70 mt-3 md:mt-4 italic flex items-center justify-center gap-1.5 font-medium px-1">
+                <svg className="w-3 h-3 text-terracotta" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                If you want to order more than 2 products, please contact us via WhatsApp.
+              </p>
             </div>
 
             {/* Expandable Accordions */}
@@ -277,7 +369,7 @@ const RetailPage = () => {
                 isOpen={!!openAccordions['description']} 
                 onClick={() => toggleAccordion('description')}
               >
-                <p className="text-sm md:text-base text-dark-charcoal/80 leading-relaxed font-light">
+                <p className="leading-relaxed">
                   Carefully woven by skilled artisans in Bangladesh. Made from high-quality soft cotton macramé cord and finished with a durable, rust-resistant metal buckle for everyday wear. Lightweight, flexible, and exceptionally comfortable.
                 </p>
               </Accordion>
@@ -287,17 +379,17 @@ const RetailPage = () => {
                 isOpen={!!openAccordions['materials']} 
                 onClick={() => toggleAccordion('materials')}
               >
-                <ul className="space-y-1.5 pt-2 text-sm md:text-base text-dark-charcoal/80 font-light">
+                <ul className="space-y-1.5">
                   <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-none bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
+                    <span className="w-1 h-1 rounded-none bg-terracotta mt-[0.4rem] mr-2 flex-shrink-0"></span>
                     <span>Premium High-Quality Cotton Macramé Cord</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-none bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
+                    <span className="w-1 h-1 rounded-none bg-terracotta mt-[0.4rem] mr-2 flex-shrink-0"></span>
                     <span>Rust-Resistant Metal Buckle with Modern Finish</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-none bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
+                    <span className="w-1 h-1 rounded-none bg-terracotta mt-[0.4rem] mr-2 flex-shrink-0"></span>
                     <span>Soft, Flexible & Comfortable against the waist</span>
                   </li>
                 </ul>
@@ -410,8 +502,13 @@ const RetailPage = () => {
       <RetailOrderModal 
         isOpen={isOrderFormOpen} 
         onClose={() => setIsOrderFormOpen(false)} 
-        initialColor={selectedColor}
-        initialSize={selectedSize}
+        orderType={orderType}
+        selectedColor={selectedColor}
+        selectedSize={selectedSize}
+        comboColor1={comboColor1}
+        comboSize1={comboSize1}
+        comboColor2={comboColor2}
+        comboSize2={comboSize2}
       />
 
       {/* Retail Features - Clean, Borderless Layout */}
