@@ -567,44 +567,83 @@ const Product = () => {
       {/* Features Grid */}
       <section className="py-12 md:py-20 bg-cotton-white px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-wrap justify-center gap-4 md:gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8 w-full">
             
-            <div className="flex flex-col items-center text-center bg-white p-6 md:p-10 lg:p-12 border border-stone/20 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:bg-stone/5 hover:border-stone/40 hover:-translate-y-1 transition-all duration-300 w-full max-w-[340px]">
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-cream flex items-center justify-center mb-4 md:mb-6 text-terracotta shrink-0 border border-stone/10">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="scale-75 md:scale-100">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
+            {/* Bento Card 1: Premium Materials */}
+            <div className="group relative rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
+              <img src="/premium_materials_bento.jpg" alt="Premium Materials" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <div className="absolute inset-0 bg-gradient-to-t from-soft-black/90 via-soft-black/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
+              
+              <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
+                <div className="flex items-center gap-4 transform transition-transform duration-500 group-hover:-translate-y-2">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-serif text-white leading-tight">Premium Materials</h3>
+                </div>
+                
+                <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
+                  <div className="overflow-hidden">
+                    <p className="text-white/80 text-xs md:text-sm leading-relaxed mt-2 pb-2">
+                      We source only high-quality cotton macramé cord and rust-resistant, durable metal buckles for every piece.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-lg md:text-xl font-serif mb-2 md:mb-4 text-soft-black">Premium Materials</h3>
-              <p className="text-dark-charcoal/70 text-xs md:text-sm leading-relaxed">
-                We source only high-quality cotton macramé cord and rust-resistant, durable metal buckles for every piece.
-              </p>
             </div>
             
-            <div className="flex flex-col items-center text-center bg-white p-6 md:p-10 lg:p-12 border border-stone/20 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:bg-stone/5 hover:border-stone/40 hover:-translate-y-1 transition-all duration-300 w-full max-w-[340px]">
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-cream flex items-center justify-center mb-4 md:mb-6 text-terracotta shrink-0 border border-stone/10">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="scale-75 md:scale-100">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                  <line x1="12" y1="22.08" x2="12" y2="12"/>
-                </svg>
+            {/* Bento Card 2: OEM & Private Label */}
+            <div className="group relative rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
+              <img src="/oem_private_label_bento.jpg" alt="OEM & Private Label" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <div className="absolute inset-0 bg-gradient-to-t from-soft-black/90 via-soft-black/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
+              
+              <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
+                <div className="flex items-center gap-4 transform transition-transform duration-500 group-hover:-translate-y-2">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                      <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                      <line x1="12" y1="22.08" x2="12" y2="12"/>
+                    </svg>
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-serif text-white leading-tight">OEM &<br/>Private Label</h3>
+                </div>
+                
+                <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
+                  <div className="overflow-hidden">
+                    <p className="text-white/80 text-xs md:text-sm leading-relaxed mt-2 pb-2">
+                      Complete customization including custom tags, packaging, bespoke colors, and specific size requirements.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-lg md:text-xl font-serif mb-2 md:mb-4 text-soft-black">OEM & Private Label</h3>
-              <p className="text-dark-charcoal/70 text-xs md:text-sm leading-relaxed">
-                Complete customization including custom tags, packaging, bespoke colors, and specific size requirements.
-              </p>
             </div>
             
-            <div className="flex flex-col items-center text-center bg-white p-6 md:p-10 lg:p-12 border border-stone/20 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:bg-stone/5 hover:border-stone/40 hover:-translate-y-1 transition-all duration-300 w-full max-w-[340px]">
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-cream flex items-center justify-center mb-4 md:mb-6 text-terracotta shrink-0 border border-stone/10">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="scale-75 md:scale-100">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                </svg>
+            {/* Bento Card 3: Quality Assured */}
+            <div className="group relative rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
+              <img src="/quality_assured_bento.jpg" alt="Quality Assured" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <div className="absolute inset-0 bg-gradient-to-t from-soft-black/90 via-soft-black/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
+              
+              <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
+                <div className="flex items-center gap-4 transform transition-transform duration-500 group-hover:-translate-y-2">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-serif text-white leading-tight">Quality Assured</h3>
+                </div>
+                
+                <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
+                  <div className="overflow-hidden">
+                    <p className="text-white/80 text-xs md:text-sm leading-relaxed mt-2 pb-2">
+                      Every belt undergoes rigorous individual inspection covering weaving quality, size accuracy, and buckle strength.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-lg md:text-xl font-serif mb-2 md:mb-4 text-soft-black">Quality Assured</h3>
-              <p className="text-dark-charcoal/70 text-xs md:text-sm leading-relaxed">
-                Every belt undergoes rigorous individual inspection covering weaving quality, size accuracy, and buckle strength.
-              </p>
             </div>
             
           </div>
