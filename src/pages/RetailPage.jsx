@@ -414,46 +414,69 @@ const RetailPage = () => {
         initialSize={selectedSize}
       />
 
-      {/* Features Grid */}
-      <section className="py-12 md:py-20 bg-cotton-white px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-wrap justify-center gap-4 md:gap-8 lg:gap-12">
+      {/* Retail Features - Clean, Borderless Layout */}
+      <section className="py-12 md:py-24 bg-cotton-white px-4 md:px-6 border-t border-stone/10">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex flex-row flex-wrap md:flex-nowrap justify-center items-start md:items-start gap-x-4 gap-y-8 md:gap-8 lg:gap-16">
             
-            <div className="flex flex-col items-center text-center bg-white p-6 md:p-10 lg:p-12 border border-stone/20 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:bg-stone/5 hover:border-stone/40 hover:-translate-y-1 transition-all duration-300 w-full max-w-[340px]">
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-cream flex items-center justify-center mb-4 md:mb-6 text-terracotta shrink-0 border border-stone/10">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="scale-75 md:scale-100">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            {/* Feature 1 */}
+            <div className="flex flex-col items-center text-center w-[45%] md:w-full max-w-[280px] group">
+              <div className="w-8 h-8 md:w-14 md:h-14 mb-3 md:mb-5 text-terracotta flex items-center justify-center transition-transform duration-500 group-hover:-translate-y-2">
+                <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+                  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                  <line x1="7" y1="7" x2="7.01" y2="7"></line>
                 </svg>
               </div>
-              <h3 className="text-lg md:text-xl font-serif mb-2 md:mb-4 text-soft-black">Premium Materials</h3>
-              <p className="text-dark-charcoal/70 text-xs md:text-sm leading-relaxed">
-                We source only high-quality cotton macramé cord and rust-resistant, durable metal buckles for every piece.
+              <h3 className="text-xs md:text-lg font-serif font-bold md:font-normal mb-1.5 md:mb-3 text-soft-black">
+                <span className="md:hidden">Handcrafted</span>
+                <span className="hidden md:inline">Handcrafted Quality</span>
+              </h3>
+              <p className="text-dark-charcoal/70 text-[10px] md:text-sm leading-relaxed">
+                <span className="md:hidden">Meticulously hand-woven by artisans for a premium finish.</span>
+                <span className="hidden md:inline">Every belt is meticulously hand-woven by skilled artisans, ensuring a unique and premium finish.</span>
               </p>
             </div>
+
+            {/* Divider for desktop */}
+            <div className="hidden md:block w-px h-24 bg-stone/20 mt-4 shrink-0"></div>
             
-            <div className="flex flex-col items-center text-center bg-white p-6 md:p-10 lg:p-12 border border-stone/20 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:bg-stone/5 hover:border-stone/40 hover:-translate-y-1 transition-all duration-300 w-full max-w-[340px]">
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-cream flex items-center justify-center mb-4 md:mb-6 text-terracotta shrink-0 border border-stone/10">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="scale-75 md:scale-100">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                  <line x1="12" y1="22.08" x2="12" y2="12"/>
+            {/* Feature 2 */}
+            <div className="flex flex-col items-center text-center w-[45%] md:w-full max-w-[280px] group">
+              <div className="w-8 h-8 md:w-14 md:h-14 mb-3 md:mb-5 text-terracotta flex items-center justify-center transition-transform duration-500 group-hover:-translate-y-2">
+                <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+                  <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
                 </svg>
               </div>
-              <h3 className="text-lg md:text-xl font-serif mb-2 md:mb-4 text-soft-black">OEM & Private Label</h3>
-              <p className="text-dark-charcoal/70 text-xs md:text-sm leading-relaxed">
-                Complete customization including custom tags, packaging, bespoke colors, and specific size requirements.
+              <h3 className="text-xs md:text-lg font-serif font-bold md:font-normal mb-1.5 md:mb-3 text-soft-black">
+                <span className="md:hidden">100% Cotton</span>
+                <span className="hidden md:inline">100% Eco-Cotton</span>
+              </h3>
+              <p className="text-dark-charcoal/70 text-[10px] md:text-sm leading-relaxed">
+                <span className="md:hidden">Sustainable, durable cord that is soft and built to last.</span>
+                <span className="hidden md:inline">Made from sustainable, highly durable cotton macramé cord that is soft to the touch and built to last.</span>
               </p>
             </div>
+
+            {/* Divider for desktop */}
+            <div className="hidden md:block w-px h-24 bg-stone/20 mt-4 shrink-0"></div>
             
-            <div className="flex flex-col items-center text-center bg-white p-6 md:p-10 lg:p-12 border border-stone/20 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:bg-stone/5 hover:border-stone/40 hover:-translate-y-1 transition-all duration-300 w-full max-w-[340px]">
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-cream flex items-center justify-center mb-4 md:mb-6 text-terracotta shrink-0 border border-stone/10">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="scale-75 md:scale-100">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            {/* Feature 3 */}
+            <div className="flex flex-col items-center text-center w-[45%] md:w-full max-w-[280px] group">
+              <div className="w-8 h-8 md:w-14 md:h-14 mb-3 md:mb-5 text-terracotta flex items-center justify-center transition-transform duration-500 group-hover:-translate-y-2">
+                <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+                  <rect x="1" y="3" width="15" height="13"></rect>
+                  <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                  <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                  <circle cx="18.5" cy="18.5" r="2.5"></circle>
                 </svg>
               </div>
-              <h3 className="text-lg md:text-xl font-serif mb-2 md:mb-4 text-soft-black">Quality Assured</h3>
-              <p className="text-dark-charcoal/70 text-xs md:text-sm leading-relaxed">
-                Every belt undergoes rigorous individual inspection covering weaving quality, size accuracy, and buckle strength.
+              <h3 className="text-xs md:text-lg font-serif font-bold md:font-normal mb-1.5 md:mb-3 text-soft-black">
+                <span className="md:hidden">COD Available</span>
+                <span className="hidden md:inline">Cash on Delivery</span>
+              </h3>
+              <p className="text-dark-charcoal/70 text-[10px] md:text-sm leading-relaxed">
+                <span className="md:hidden">Fast and reliable cash on delivery all over Bangladesh.</span>
+                <span className="hidden md:inline">Shop with complete confidence. We offer fast and reliable cash on delivery services anywhere in Bangladesh.</span>
               </p>
             </div>
             

@@ -51,7 +51,7 @@ const Navbar = () => {
                 <img 
                   src="/logo_black.png" 
                   alt="AST Handmade Macramé Belts" 
-                  className="h-5 md:h-7 w-auto object-contain drop-shadow-sm"
+                  className="h-6 md:h-8 lg:h-10 w-auto object-contain drop-shadow-sm"
                 />
               </Link>
             </div>

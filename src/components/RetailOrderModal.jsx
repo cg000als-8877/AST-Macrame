@@ -61,6 +61,10 @@ const RetailOrderModal = ({ isOpen, onClose, initialColor = '', initialSize = ''
     
     // Add Delivery Charge label for Google Sheet
     formData.append('deliveryCharge', 'Standard Delivery Charge 100 Taka (All Over BD)');
+    
+    // Explicitly ask third-party Apps Script libraries to use Sheet2
+    formData.append('sheet', 'Sheet2');
+    formData.append('sheetName', 'Sheet2');
 
     const urlEncodedData = new URLSearchParams(formData).toString();
 
@@ -68,7 +72,7 @@ const RetailOrderModal = ({ isOpen, onClose, initialColor = '', initialSize = ''
       const delay = new Promise(resolve => setTimeout(resolve, 2000));
       
       await Promise.all([
-        fetch('https://script.google.com/macros/s/AKfycbx4gy7B2XG-ZrQaHm2B8LFTLjObJ2ryM09SRwUTS4B-mFBb6kxnBEx1QP4eBrQOD3cm/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbzJtqUpaA-Zfo1MId06SHg2omv178oBX8NsjZkRVKdr4_3RhsRCZDYy6nPuHlocAHME/exec', {
           method: 'POST',
           mode: 'no-cors',
           headers: {

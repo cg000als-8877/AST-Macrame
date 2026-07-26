@@ -78,7 +78,7 @@ const InquiryModal = ({ isOpen, onClose, formType, initialColor = '', initialSiz
       const delay = new Promise(resolve => setTimeout(resolve, 2000));
       
       await Promise.all([
-        fetch('https://script.google.com/macros/s/AKfycbx4gy7B2XG-ZrQaHm2B8LFTLjObJ2ryM09SRwUTS4B-mFBb6kxnBEx1QP4eBrQOD3cm/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbzJtqUpaA-Zfo1MId06SHg2omv178oBX8NsjZkRVKdr4_3RhsRCZDYy6nPuHlocAHME/exec', {
           method: 'POST',
           mode: 'no-cors',
           headers: {
