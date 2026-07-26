@@ -53,10 +53,10 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="min-h-screen flex flex-col bg-cream text-soft-black font-sans selection:bg-terracotta selection:text-cream">
+      <div className="flex flex-col bg-cream text-soft-black font-sans selection:bg-terracotta selection:text-cream">
         <Navbar />
         
-        <main className="flex-grow">
+        <main>
           <AnimatedRoutes />
         </main>
         

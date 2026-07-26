@@ -151,7 +151,7 @@ const RetailPage = () => {
                 className="w-full flex overflow-x-auto snap-x snap-mandatory gap-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               >
                 {images.map((img, idx) => (
-                  <div key={idx} className="relative w-full shrink-0 aspect-[4/5] bg-stone/20 overflow-hidden snap-start">
+                  <div key={idx} className="relative w-full shrink-0 aspect-[4/5] bg-stone/20 overflow-hidden snap-start snap-always">
                     <img 
                       src={img} 
                       alt={`Macrame Belt ${selectedColor} view ${idx + 1}`} 

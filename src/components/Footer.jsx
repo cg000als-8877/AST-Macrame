@@ -26,7 +26,6 @@ const Footer = () => {
               <h4 className="font-sans text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase mb-4 text-cream/40">Company</h4>
               <ul className="flex flex-col space-y-3">
                 <li><Link to="/about" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">Our Story</Link></li>
-                <li><Link to="/manufacturing" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">Manufacturing</Link></li>
                 <li><Link to="/product" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">Products</Link></li>
               </ul>
             </div>
@@ -42,7 +41,7 @@ const Footer = () => {
             </div>
             
             <div className="col-span-2 lg:col-span-1 flex flex-col mt-2 lg:mt-0 pt-6 lg:pt-0 border-t border-cream/10 lg:border-none">
-              <h4 className="font-sans text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase mb-4 text-cream/40">Contact</h4>
+              <h4 className="font-sans text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase mb-4 text-cream/40">Connect</h4>
               <ul className="flex gap-4">
                 <li>
                   <a href="mailto:astmacrame@gmail.com" className="w-10 h-10 flex items-center justify-center rounded-full border border-cream/20 text-cream/80 hover:bg-cream/10 hover:text-white transition-all" aria-label="Mail">
