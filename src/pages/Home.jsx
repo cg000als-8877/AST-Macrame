@@ -85,7 +85,7 @@ const FeaturedProductSection = () => {
         <div className="flex justify-center mt-2 lg:mt-10">
           <Link 
             to="/product"
-            className="bg-soft-black text-cream px-10 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-none hover:bg-dark-charcoal transition-colors w-full sm:w-auto text-center"
+            className="bg-soft-black text-cream px-10 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-none hover:bg-dark-charcoal transition-colors inline-block text-center"
           >
             See Details
           </Link>
@@ -147,7 +147,7 @@ const Home = () => {
             >
               <Link 
                 to="/product" 
-                className="bg-cream text-soft-black px-6 py-3 md:px-8 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-warm-sand transition-colors w-full sm:w-auto"
+                className="bg-cream text-soft-black px-8 py-3.5 md:px-10 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-warm-sand transition-colors inline-block"
               >
                 Explore Products
               </Link>

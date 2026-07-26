@@ -98,7 +98,7 @@ const Navbar = () => {
 
             {/* Navigation Links */}
             <div className="flex flex-shrink-0 items-center justify-center px-1 w-full sm:w-auto">
-              <nav className="flex items-center justify-center sm:justify-center w-full sm:w-auto space-x-1.5 sm:space-x-4 md:space-x-8 text-soft-black">
+              <nav className="flex items-center justify-center sm:justify-center w-full sm:w-auto space-x-3 sm:space-x-6 md:space-x-10 lg:space-x-12 text-soft-black">
                 {navLinks.map((link, index) => {
                   const isActive = location.pathname === link.path;
                   return (

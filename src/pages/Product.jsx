@@ -210,8 +210,11 @@ const Product = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex flex-col px-6 lg:px-0 lg:pt-0 lg:col-span-5"
           >
-            <h1 className="text-2xl lg:text-3xl font-serif text-soft-black mb-2 md:mb-4 mt-2 lg:mt-0">AST Handmade Macramé Belt</h1>
-            <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-4 md:mb-6">Unisex Design • 100% Cotton</p>
+            <h1 className="text-2xl lg:text-3xl font-serif text-soft-black mb-1 md:mb-2 mt-2 lg:mt-0">AST Handmade Macramé Belt</h1>
+            <p className="text-xs md:text-sm font-light italic text-dark-charcoal/80 mb-2 md:mb-3 leading-relaxed">
+              Fully handmade, very strong, and comfortable to wear. A belt made to last for years, even for the next generation!
+            </p>
+            <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-2 md:mb-3">Unisex Design • 100% Cotton</p>
             
             
 

@@ -217,8 +217,7 @@ const RetailPage = () => {
           >
             <h1 className="text-2xl lg:text-3xl font-serif text-soft-black mb-1 md:mb-2 mt-2 lg:mt-0">AST Handmade Macramé Belt</h1>
             <p className="text-xs md:text-sm font-light italic text-dark-charcoal/80 mb-2 md:mb-3 leading-relaxed">
-              Fully handmade, very strong, and comfortable to wear.<br className="hidden md:block" />
-              A belt made to last for years, even for the next generation!
+              Fully handmade, very strong, and comfortable to wear. A belt made to last for years, even for the next generation!
             </p>
             <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-2 md:mb-3">Unisex Design • 100% Cotton</p>
             
