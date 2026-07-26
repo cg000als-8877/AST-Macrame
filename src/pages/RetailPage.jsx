@@ -363,7 +363,7 @@ const RetailPage = () => {
                   ORDER NOW
                 </button>
                 <a 
-                  href="https://wa.me/message/R4XZN4UUNJ47J1"
+                  href="https://wa.me/8801940689061"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full flex items-center justify-center bg-transparent border border-soft-black text-soft-black text-center px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-none hover:bg-stone/10 transition-colors"
