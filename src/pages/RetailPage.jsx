@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Plus, Minus, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Minus, X, Ruler } from 'lucide-react';
 import RetailOrderModal from '../components/RetailOrderModal';
 
 import b1 from '../assets/products/Black/1.jpg';
@@ -205,15 +205,15 @@ const RetailPage = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex flex-col px-6 lg:px-0 lg:pt-0 lg:col-span-5"
           >
-            <h1 className="text-2xl md:text-4xl font-serif text-soft-black mb-2 md:mb-3 mt-2 lg:mt-0">AST Handmade Macramé Belt</h1>
-            <p className="text-xs md:text-sm font-light italic text-dark-charcoal/80 mb-4 md:mb-5 leading-relaxed">
+            <h1 className="text-2xl md:text-4xl font-serif text-soft-black mb-1 md:mb-2 mt-2 lg:mt-0">AST Handmade Macramé Belt</h1>
+            <p className="text-xs md:text-sm font-light italic text-dark-charcoal/80 mb-2 md:mb-3 leading-relaxed">
               Fully handmade, very strong, and comfortable to wear.<br className="hidden md:block" />
               A belt made to last for years, even for the next generation!
             </p>
-            <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-4 md:mb-6">Unisex Design • 100% Cotton</p>
+            <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-2 md:mb-3">Unisex Design • 100% Cotton</p>
             
             {/* Added Price */}
-            <div className="mb-6 md:mb-8 flex items-center gap-2">
+            <div className="mb-4 md:mb-5 flex items-center gap-2">
               <span className="text-xl md:text-3xl font-serif text-soft-black leading-none">
                 {orderType === 'single' ? '1,090 BDT' : '1,990 BDT'}
               </span>
@@ -221,6 +221,8 @@ const RetailPage = () => {
                 {orderType === 'single' ? 'Per Piece' : 'Combo Pack'}
               </span>
             </div>
+
+            <div className="w-full h-px bg-stone/20 mb-5 md:mb-6"></div>
 
             {/* Order Type Selection */}
             <div className="mb-6">
@@ -263,8 +265,15 @@ const RetailPage = () => {
 
                 {/* Size Selection */}
                 <div className="mb-4 md:mb-5">
-                  <div className="flex justify-start items-center gap-4 mb-3 md:mb-4">
+                  <div className="flex items-center gap-4 mb-3 md:mb-4">
                     <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black">Size</span>
+                    <button 
+                      onClick={() => setIsSizeGuideOpen(true)}
+                      className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors"
+                    >
+                      <Ruler className="w-4 h-4 md:w-4 md:h-4" />
+                      <span className="underline underline-offset-4">Size Guide</span>
+                    </button>
                   </div>
                   <div className="flex gap-3 md:gap-4">
                     {['M', 'L'].map((size) => (
@@ -281,7 +290,16 @@ const RetailPage = () => {
               </>
             ) : (
               <div className="mb-6 md:mb-8">
-                <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-3 md:mb-4">Select Combo Options</span>
+                <div className="flex items-center gap-4 mb-3 md:mb-4">
+                  <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black">Select Combo Options</span>
+                  <button 
+                    onClick={() => setIsSizeGuideOpen(true)}
+                    className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors"
+                  >
+                    <Ruler className="w-4 h-4 md:w-4 md:h-4" />
+                    <span className="underline underline-offset-4">Size Guide</span>
+                  </button>
+                </div>
                 <div className="flex flex-col gap-3 md:gap-4 max-w-sm">
                   {/* Belt 1 */}
                   <div className="flex items-center gap-3 bg-white border border-stone/20 p-2 md:p-3 rounded-lg shadow-sm">
@@ -325,16 +343,6 @@ const RetailPage = () => {
               </div>
             )}
 
-            {/* Size Guide Link (Moved) */}
-            <div className="mb-8 md:mb-12 text-left">
-              <button 
-                onClick={() => setIsSizeGuideOpen(true)}
-                className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-terracotta hover:text-dark-charcoal transition-colors underline underline-offset-4"
-              >
-                Size Guide
-              </button>
-            </div>
-            
             {/* CTA Buttons */}
             <div className="flex flex-col mb-10 md:mb-12">
               <div className="flex flex-col gap-3 md:gap-4">
