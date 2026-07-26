@@ -266,16 +266,18 @@ const RetailPage = () => {
             <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-2 md:mb-3">Unisex Design • 100% Cotton</p>
             
             {/* Added Price */}
-            <div className="mb-4 md:mb-5 flex flex-wrap items-center gap-2 md:gap-3">
-              <span className="text-xl md:text-3xl font-serif text-soft-black leading-none">
+            <div className="mb-4 md:mb-5 flex items-center gap-3 md:gap-4 mt-2">
+              <span className="text-2xl md:text-3xl font-serif text-soft-black">
                 {orderType === 'single' ? '1,090 BDT' : '1,990 BDT'}
               </span>
-              <span className="text-sm md:text-lg text-red-500/80 line-through font-semibold pt-1">
-                {orderType === 'single' ? '1,250 BDT' : '2,500 BDT'}
-              </span>
-              <span className="bg-red-500 text-white text-[8px] md:text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full shadow-sm ml-1.5">
-                {orderType === 'single' ? 'Save 160 Tk' : 'Save 510 Tk'}
-              </span>
+              <div className="flex flex-col items-center justify-center">
+                <span className="bg-red-500 text-white text-[7px] md:text-[9px] font-bold uppercase tracking-widest px-1.5 md:px-2 py-[2px] rounded-full shadow-sm relative z-10 translate-y-[3px] md:translate-y-1 whitespace-nowrap border border-white">
+                  {orderType === 'single' ? 'Save 160 Tk' : 'Save 510 Tk'}
+                </span>
+                <span className="text-[13px] md:text-base text-red-500/80 line-through font-bold whitespace-nowrap bg-cream px-1">
+                  {orderType === 'single' ? '1,250 BDT' : '2,500 BDT'}
+                </span>
+              </div>
             </div>
 
             <div className="w-full h-px bg-stone/20 mb-5 md:mb-6"></div>
@@ -420,6 +422,9 @@ const RetailPage = () => {
                       ))}
                     </div>
                   </div>
+                  <p className="text-[9px] md:text-[10px] text-dark-charcoal/60 italic text-center mt-1">
+                    * Please select color and size for your combo.
+                  </p>
                 </div>
               </div>
             )}
