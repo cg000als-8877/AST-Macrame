@@ -267,15 +267,15 @@ const RetailPage = () => {
             
             {/* Added Price */}
             <div className="mb-4 md:mb-5 flex items-center gap-3 md:gap-4 mt-2">
-              <span className="text-2xl md:text-3xl font-serif text-soft-black">
+              <span className="text-2xl md:text-3xl font-serif text-soft-black leading-none">
                 {orderType === 'single' ? '1,090 BDT' : '1,990 BDT'}
               </span>
-              <div className="flex flex-col items-center justify-center">
-                <span className="bg-red-500 text-white text-[7px] md:text-[9px] font-bold uppercase tracking-widest px-1.5 md:px-2 py-[2px] rounded-full shadow-sm relative z-10 translate-y-[3px] md:translate-y-1 whitespace-nowrap border border-white">
-                  {orderType === 'single' ? 'Save 160 Tk' : 'Save 510 Tk'}
-                </span>
-                <span className="text-[13px] md:text-base text-red-500/80 line-through font-bold whitespace-nowrap bg-cream px-1">
+              <div className="flex items-start gap-2 pt-1">
+                <span className="text-[15px] md:text-lg text-red-500/80 line-through font-bold whitespace-nowrap leading-none">
                   {orderType === 'single' ? '1,250 BDT' : '2,500 BDT'}
+                </span>
+                <span className="bg-red-500 text-white text-[7px] md:text-[8px] font-bold uppercase tracking-widest px-1.5 py-[1px] rounded-full shadow-sm whitespace-nowrap -mt-0.5">
+                  {orderType === 'single' ? 'Save 160 Tk' : 'Save 510 Tk'}
                 </span>
               </div>
             </div>
@@ -323,7 +323,7 @@ const RetailPage = () => {
 
                 {/* Size Selection */}
                 <div className="mb-4 md:mb-5">
-                  <div className="flex items-center gap-4 mb-3 md:mb-4">
+                  <div className="flex items-center justify-between mb-3 md:mb-4">
                     <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black">Size</span>
                     <button 
                       onClick={() => setIsSizeGuideOpen(true)}
@@ -348,7 +348,7 @@ const RetailPage = () => {
               </>
             ) : (
               <div className="mb-6 md:mb-8">
-                <div className="flex items-center gap-4 mb-3 md:mb-4">
+                <div className="flex items-center justify-between mb-3 md:mb-4">
                   <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black">Select Combo Options</span>
                   <button 
                     onClick={() => setIsSizeGuideOpen(true)}
@@ -368,7 +368,7 @@ const RetailPage = () => {
                         <button
                           key={color.name}
                           onClick={() => { setComboColor1(color.name); handleColorChange(color.name); }}
-                          className={`w-5 h-5 sm:w-[22px] sm:h-[22px] md:w-6 md:h-6 rounded-full border transition-all duration-300 ${comboColor1 === color.name ? 'border-soft-black p-[1px]' : 'border-transparent'}`}
+                          className={`w-[22px] h-[22px] sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full border transition-all duration-300 ${comboColor1 === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
                           title={color.name}
                         >
                           <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
@@ -376,14 +376,15 @@ const RetailPage = () => {
                       ))}
                     </div>
                     
-                    <div className="w-[1px] h-4 sm:h-5 md:h-6 bg-stone/20 mx-0.5 sm:mx-1 shrink-0"></div>
+                    <div className="w-[1px] h-5 sm:h-6 md:h-7 bg-stone/20 mx-0.5 sm:mx-1 shrink-0"></div>
                     
-                    <div className="flex gap-1 sm:gap-2 shrink-0">
+                    <div className="flex gap-1 sm:gap-2 shrink-0 items-center">
+                      <span className="text-[7px] sm:text-[8px] font-bold text-dark-charcoal/60 uppercase mr-0.5 tracking-wider">Size</span>
                       {['M', 'L'].map((size) => (
                         <button
                           key={size}
                           onClick={() => setComboSize1(size)}
-                          className={`w-[22px] h-[22px] sm:w-6 sm:h-6 md:w-7 md:h-7 flex items-center justify-center text-[10px] sm:text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-sm ${comboSize1 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                          className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 flex items-center justify-center text-[10px] sm:text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-sm ${comboSize1 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
                         >
                           {size}
                         </button>
@@ -399,8 +400,8 @@ const RetailPage = () => {
                       {colors.map((color) => (
                         <button
                           key={color.name}
-                          onClick={() => setComboColor2(color.name)}
-                          className={`w-5 h-5 sm:w-[22px] sm:h-[22px] md:w-6 md:h-6 rounded-full border transition-all duration-300 ${comboColor2 === color.name ? 'border-soft-black p-[1px]' : 'border-transparent'}`}
+                          onClick={() => { setComboColor2(color.name); handleColorChange(color.name); }}
+                          className={`w-[22px] h-[22px] sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full border transition-all duration-300 ${comboColor2 === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
                           title={color.name}
                         >
                           <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
@@ -408,21 +409,22 @@ const RetailPage = () => {
                       ))}
                     </div>
                     
-                    <div className="w-[1px] h-4 sm:h-5 md:h-6 bg-stone/20 mx-0.5 sm:mx-1 shrink-0"></div>
+                    <div className="w-[1px] h-5 sm:h-6 md:h-7 bg-stone/20 mx-0.5 sm:mx-1 shrink-0"></div>
                     
-                    <div className="flex gap-1 sm:gap-2 shrink-0">
+                    <div className="flex gap-1 sm:gap-2 shrink-0 items-center">
+                      <span className="text-[7px] sm:text-[8px] font-bold text-dark-charcoal/60 uppercase mr-0.5 tracking-wider">Size</span>
                       {['M', 'L'].map((size) => (
                         <button
                           key={size}
                           onClick={() => setComboSize2(size)}
-                          className={`w-[22px] h-[22px] sm:w-6 sm:h-6 md:w-7 md:h-7 flex items-center justify-center text-[10px] sm:text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-sm ${comboSize2 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                          className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 flex items-center justify-center text-[10px] sm:text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-sm ${comboSize2 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
                         >
                           {size}
                         </button>
                       ))}
                     </div>
                   </div>
-                  <p className="text-[9px] md:text-[10px] text-dark-charcoal/60 italic text-center mt-1">
+                  <p className="text-[12px] md:text-[13px] font-medium text-dark-charcoal/70 italic text-center mt-2">
                     * Please select color and size for your combo.
                   </p>
                 </div>
@@ -450,9 +452,9 @@ const RetailPage = () => {
                   WHATSAPP
                 </a>
               </div>
-              <p className="text-[10px] md:text-[11px] text-dark-charcoal/70 mt-3 md:mt-4 italic flex items-center justify-center gap-1.5 font-medium px-1">
-                <svg className="w-3 h-3 text-terracotta" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                If you want to order more than 2 products, please contact us via WhatsApp.
+              <p className="text-[12px] md:text-[13px] text-dark-charcoal/70 mt-3 md:mt-4 italic flex items-center justify-center gap-1.5 font-medium px-1">
+                <svg className="w-3.5 h-3.5 text-terracotta shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span>If you want to order more than 2 products, please contact us via WhatsApp.</span>
               </p>
             </div>
 
