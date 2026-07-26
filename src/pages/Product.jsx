@@ -200,7 +200,7 @@ const Product = () => {
                       src={img} 
                       alt={`Macrame Belt ${selectedColor} view ${idx + 1}`} 
                       onClick={() => setLightboxImage(img)}
-                      className="absolute inset-0 w-full h-full object-cover object-center mix-blend-multiply opacity-90 cursor-zoom-in"
+                      className="absolute inset-0 w-full h-full object-cover object-center cursor-zoom-in"
                     />
                   </div>
                 ))}
@@ -236,7 +236,7 @@ const Product = () => {
                     src={img} 
                     alt={`Macrame Belt ${selectedColor} view ${idx + 1}`} 
                     onClick={() => setLightboxImage(img)}
-                    className="absolute inset-0 w-full h-full object-cover object-center mix-blend-multiply opacity-90 hover:scale-105 transition-transform duration-700 cursor-zoom-in"
+                    className="absolute inset-0 w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700 cursor-zoom-in"
                   />
                   {idx === 0 && (
                     <div className="absolute bottom-4 left-4 pointer-events-none mix-blend-difference text-white z-10 opacity-70 group-hover:opacity-100 transition-opacity">
