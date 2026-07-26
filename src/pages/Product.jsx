@@ -64,6 +64,8 @@ const Product = () => {
   const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(1);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
 
   useEffect(() => {
     if (lightboxImage) {
@@ -127,6 +129,48 @@ const Product = () => {
         left: itemWidth * idx,
         behavior: 'smooth'
       });
+    }
+  };
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEndEvent = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    if (isLeftSwipe) {
+      handleNextImage();
+    }
+    if (isRightSwipe) {
+      handlePrevImage();
+    }
+  };
+
+  const handleNextImage = (e) => {
+    if (e) e.stopPropagation();
+    const currentIdx = images.indexOf(lightboxImage);
+    if (currentIdx !== -1) {
+      setLightboxImage(images[(currentIdx + 1) % images.length]);
+      setZoomLevel(1);
+    }
+  };
+
+  const handlePrevImage = (e) => {
+    if (e) e.stopPropagation();
+    const currentIdx = images.indexOf(lightboxImage);
+    if (currentIdx !== -1) {
+      setLightboxImage(images[(currentIdx - 1 + images.length) % images.length]);
+      setZoomLevel(1);
     }
   };
 
@@ -467,6 +511,9 @@ const Product = () => {
                 setZoomLevel(prev => Math.max(prev - zoomStep, 1));
               }
             }}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEndEvent}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -475,6 +522,13 @@ const Product = () => {
               transition={{ duration: 0.3 }}
               className="relative flex items-center justify-center w-full h-full"
             >
+              <button 
+                onClick={handlePrevImage}
+                className="absolute left-2 md:left-8 text-white z-[110] p-1.5 md:p-2.5 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full transition-all"
+              >
+                <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
+              </button>
+              
               <div className="relative max-h-[90vh] md:max-h-[95vh] max-w-[95vw] aspect-[4/5] overflow-hidden">
                 <button 
                   onClick={() => { setLightboxImage(null); setZoomLevel(1); }}
@@ -486,9 +540,17 @@ const Product = () => {
                   src={lightboxImage} 
                   alt="Product Zoom"
                   style={{ transform: `scale(${zoomLevel})` }}
-                  className="w-full h-full object-contain transition-transform duration-75 ease-out rounded-lg md:rounded-xl bg-white"
+                  className="w-full h-full object-contain transition-transform duration-75 ease-out rounded-lg md:rounded-xl bg-white select-none"
+                  draggable="false"
                 />
               </div>
+
+              <button 
+                onClick={handleNextImage}
+                className="absolute right-2 md:right-8 text-white z-[110] p-1.5 md:p-2.5 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full transition-all"
+              >
+                <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
+              </button>
             </motion.div>
           </div>
         )}

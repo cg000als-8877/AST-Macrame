@@ -69,6 +69,8 @@ const RetailPage = () => {
   const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(1);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
 
   useEffect(() => {
     if (lightboxImage) {
@@ -132,6 +134,48 @@ const RetailPage = () => {
         left: itemWidth * idx,
         behavior: 'smooth'
       });
+    }
+  };
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEndEvent = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    if (isLeftSwipe) {
+      handleNextImage();
+    }
+    if (isRightSwipe) {
+      handlePrevImage();
+    }
+  };
+
+  const handleNextImage = (e) => {
+    if (e) e.stopPropagation();
+    const currentIdx = images.indexOf(lightboxImage);
+    if (currentIdx !== -1) {
+      setLightboxImage(images[(currentIdx + 1) % images.length]);
+      setZoomLevel(1);
+    }
+  };
+
+  const handlePrevImage = (e) => {
+    if (e) e.stopPropagation();
+    const currentIdx = images.indexOf(lightboxImage);
+    if (currentIdx !== -1) {
+      setLightboxImage(images[(currentIdx - 1 + images.length) % images.length]);
+      setZoomLevel(1);
     }
   };
 
@@ -312,44 +356,69 @@ const RetailPage = () => {
                     <span className="underline underline-offset-4">Size Guide</span>
                   </button>
                 </div>
-                <div className="flex flex-col gap-3 md:gap-4 max-w-sm">
+                <div className="flex flex-col gap-2 md:gap-4 w-full">
                   {/* Belt 1 */}
-                  <div className="flex items-center gap-3 bg-white border border-stone/20 p-2 md:p-3 rounded-lg shadow-sm">
-                    <span className="text-[10px] font-bold text-dark-charcoal uppercase w-10 md:w-12 shrink-0">Belt 1:</span>
-                    <select 
-                      value={comboColor1} 
-                      onChange={(e) => { setComboColor1(e.target.value); handleColorChange(e.target.value); }}
-                      className="flex-1 bg-transparent text-xs md:text-sm font-medium focus:outline-none cursor-pointer text-soft-black"
-                    >
-                      {colors.map(c => <option key={c.name} value={c.name}>{c.name}</option>)}
-                    </select>
-                    <div className="w-[1px] h-6 bg-stone/20"></div>
-                    <select 
-                      value={comboSize1} 
-                      onChange={(e) => setComboSize1(e.target.value)}
-                      className="w-10 md:w-12 bg-transparent text-xs md:text-sm font-medium focus:outline-none cursor-pointer text-soft-black"
-                    >
-                      {['M', 'L'].map(s => <option key={s} value={s}>{s}</option>)}
-                    </select>
+                  <div className="flex items-center justify-between sm:justify-start gap-1 sm:gap-3 bg-stone/5 border border-stone/10 p-1.5 sm:p-2.5 md:p-3 rounded-lg shadow-sm overflow-x-auto [&::-webkit-scrollbar]:hidden">
+                    <span className="text-[9px] sm:text-[10px] font-bold text-dark-charcoal uppercase shrink-0 sm:w-10 md:w-12">Belt 1:</span>
+                    
+                    <div className="flex gap-1 sm:gap-1.5 md:gap-2 items-center shrink-0">
+                      {colors.map((color) => (
+                        <button
+                          key={color.name}
+                          onClick={() => { setComboColor1(color.name); handleColorChange(color.name); }}
+                          className={`w-5 h-5 sm:w-[22px] sm:h-[22px] md:w-6 md:h-6 rounded-full border transition-all duration-300 ${comboColor1 === color.name ? 'border-soft-black p-[1px]' : 'border-transparent'}`}
+                          title={color.name}
+                        >
+                          <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
+                        </button>
+                      ))}
+                    </div>
+                    
+                    <div className="w-[1px] h-4 sm:h-5 md:h-6 bg-stone/20 mx-0.5 sm:mx-1 shrink-0"></div>
+                    
+                    <div className="flex gap-1 sm:gap-2 shrink-0">
+                      {['M', 'L'].map((size) => (
+                        <button
+                          key={size}
+                          onClick={() => setComboSize1(size)}
+                          className={`w-[22px] h-[22px] sm:w-6 sm:h-6 md:w-7 md:h-7 flex items-center justify-center text-[10px] sm:text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-sm ${comboSize1 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
                   </div>
+
                   {/* Belt 2 */}
-                  <div className="flex items-center gap-3 bg-white border border-stone/20 p-2 md:p-3 rounded-lg shadow-sm">
-                    <span className="text-[10px] font-bold text-dark-charcoal uppercase w-10 md:w-12 shrink-0">Belt 2:</span>
-                    <select 
-                      value={comboColor2} 
-                      onChange={(e) => setComboColor2(e.target.value)}
-                      className="flex-1 bg-transparent text-xs md:text-sm font-medium focus:outline-none cursor-pointer text-soft-black"
-                    >
-                      {colors.map(c => <option key={c.name} value={c.name}>{c.name}</option>)}
-                    </select>
-                    <div className="w-[1px] h-6 bg-stone/20"></div>
-                    <select 
-                      value={comboSize2} 
-                      onChange={(e) => setComboSize2(e.target.value)}
-                      className="w-10 md:w-12 bg-transparent text-xs md:text-sm font-medium focus:outline-none cursor-pointer text-soft-black"
-                    >
-                      {['M', 'L'].map(s => <option key={s} value={s}>{s}</option>)}
-                    </select>
+                  <div className="flex items-center justify-between sm:justify-start gap-1 sm:gap-3 bg-stone/5 border border-stone/10 p-1.5 sm:p-2.5 md:p-3 rounded-lg shadow-sm overflow-x-auto [&::-webkit-scrollbar]:hidden">
+                    <span className="text-[9px] sm:text-[10px] font-bold text-dark-charcoal uppercase shrink-0 sm:w-10 md:w-12">Belt 2:</span>
+                    
+                    <div className="flex gap-1 sm:gap-1.5 md:gap-2 items-center shrink-0">
+                      {colors.map((color) => (
+                        <button
+                          key={color.name}
+                          onClick={() => setComboColor2(color.name)}
+                          className={`w-5 h-5 sm:w-[22px] sm:h-[22px] md:w-6 md:h-6 rounded-full border transition-all duration-300 ${comboColor2 === color.name ? 'border-soft-black p-[1px]' : 'border-transparent'}`}
+                          title={color.name}
+                        >
+                          <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
+                        </button>
+                      ))}
+                    </div>
+                    
+                    <div className="w-[1px] h-4 sm:h-5 md:h-6 bg-stone/20 mx-0.5 sm:mx-1 shrink-0"></div>
+                    
+                    <div className="flex gap-1 sm:gap-2 shrink-0">
+                      {['M', 'L'].map((size) => (
+                        <button
+                          key={size}
+                          onClick={() => setComboSize2(size)}
+                          className={`w-[22px] h-[22px] sm:w-6 sm:h-6 md:w-7 md:h-7 flex items-center justify-center text-[10px] sm:text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-sm ${comboSize2 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -492,6 +561,9 @@ const RetailPage = () => {
                 setZoomLevel(prev => Math.max(prev - zoomStep, 1));
               }
             }}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEndEvent}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -500,6 +572,13 @@ const RetailPage = () => {
               transition={{ duration: 0.3 }}
               className="relative flex items-center justify-center w-full h-full"
             >
+              <button 
+                onClick={handlePrevImage}
+                className="absolute left-2 md:left-8 text-white z-[110] p-1.5 md:p-2.5 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full transition-all"
+              >
+                <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
+              </button>
+              
               <div className="relative max-h-[90vh] md:max-h-[95vh] max-w-[95vw] aspect-[4/5] overflow-hidden">
                 <button 
                   onClick={() => { setLightboxImage(null); setZoomLevel(1); }}
@@ -511,9 +590,17 @@ const RetailPage = () => {
                   src={lightboxImage} 
                   alt="Product Zoom"
                   style={{ transform: `scale(${zoomLevel})` }}
-                  className="w-full h-full object-contain transition-transform duration-75 ease-out rounded-lg md:rounded-xl bg-white"
+                  className="w-full h-full object-contain transition-transform duration-75 ease-out rounded-lg md:rounded-xl bg-white select-none"
+                  draggable="false"
                 />
               </div>
+
+              <button 
+                onClick={handleNextImage}
+                className="absolute right-2 md:right-8 text-white z-[110] p-1.5 md:p-2.5 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full transition-all"
+              >
+                <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
+              </button>
             </motion.div>
           </div>
         )}
