@@ -27,6 +27,7 @@ const Footer = () => {
               <ul className="flex flex-col space-y-3">
                 <li><Link to="/about" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">Our Story</Link></li>
                 <li><Link to="/product" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">Products</Link></li>
+                <li><Link to="/contact" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">Contact</Link></li>
               </ul>
             </div>
             

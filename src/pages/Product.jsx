@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Plus, Minus, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Minus, X, ZoomIn } from 'lucide-react';
 import InquiryModal from '../components/InquiryModal';
 
 import b1 from '../assets/products/Black/1.jpg';
@@ -162,6 +162,11 @@ const Product = () => {
                 ))}
               </div>
 
+              {/* Zoom Icon (Mobile) */}
+              <div className="absolute bottom-4 left-4 pointer-events-none mix-blend-difference text-white z-10 opacity-70">
+                <ZoomIn className="w-5 h-5 md:w-6 md:h-6 stroke-[1.5]" />
+              </div>
+
               {/* Mobile Swipe Indicators (Overlaid) */}
               <div className="absolute bottom-5 left-0 right-0 flex justify-center space-x-2 z-10 pointer-events-none">
                 {images.map((_, idx) => (
@@ -178,7 +183,7 @@ const Product = () => {
             {/* Desktop 2x2 Grid (Hidden on mobile) */}
             <div className="hidden lg:grid grid-cols-2 gap-4">
               {images.slice(0, 4).map((img, idx) => (
-                <div key={idx} className="relative w-full aspect-[4/5] bg-stone/10 overflow-hidden">
+                <div key={idx} className="relative w-full aspect-[4/5] bg-stone/10 overflow-hidden group">
                   <motion.img 
                     key={selectedColor + idx}
                     initial={{ opacity: 0 }}
@@ -189,6 +194,11 @@ const Product = () => {
                     onClick={() => setLightboxImage(img)}
                     className="absolute inset-0 w-full h-full object-cover object-center mix-blend-multiply opacity-90 hover:scale-105 transition-transform duration-700 cursor-zoom-in"
                   />
+                  {idx === 0 && (
+                    <div className="absolute bottom-4 left-4 pointer-events-none mix-blend-difference text-white z-10 opacity-70 group-hover:opacity-100 transition-opacity">
+                      <ZoomIn className="w-6 h-6 stroke-[1.5]" />
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
