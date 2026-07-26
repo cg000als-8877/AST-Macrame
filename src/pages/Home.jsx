@@ -101,7 +101,7 @@ const Home = () => {
       {/* Hero Section */}
       <section className="relative w-full overflow-hidden bg-soft-black">
         {/* Image layer in flow to dictate height */}
-        <div className="w-full aspect-[2/3] md:aspect-auto md:h-[85vh] overflow-hidden bg-stone/20">
+        <div className="w-full aspect-[2/3] md:aspect-[21/9] md:h-auto overflow-hidden bg-stone/20">
           {/* Desktop Image */}
           <img 
             src="/hero.jpg" 
@@ -118,13 +118,13 @@ const Home = () => {
         <div className="absolute inset-0 bg-soft-black/40 pointer-events-none" />
         
         {/* Hero Text */}
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-end md:justify-center text-center px-6 pb-12 md:pb-0 pt-32 md:pt-32">
-          <div className="max-w-4xl mx-auto w-full">
+        <div className="absolute inset-0 z-10 flex flex-col justify-end items-center md:items-start text-center md:text-left px-6 md:px-12 lg:px-20 pb-12 md:pb-16 lg:pb-24 pt-32">
+          <div className="max-w-4xl md:max-w-2xl w-full">
             <motion.h1 
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, ease: "easeOut" }}
-              className="text-4xl md:text-7xl lg:text-[6rem] text-cream font-serif leading-tight mb-3 md:mb-6"
+              className="text-4xl md:text-5xl lg:text-6xl text-cream font-serif leading-tight mb-3 md:mb-4"
             >
               Crafted for <br className="hidden md:block"/>
               the Extraordinary.
@@ -134,7 +134,7 @@ const Home = () => {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-              className="text-sm md:text-xl text-cream/90 font-light mb-8 md:mb-12 max-w-[95%] md:max-w-2xl mx-auto"
+              className="text-sm md:text-base lg:text-lg text-cream/90 font-light mb-8 md:mb-10 max-w-[95%] md:max-w-xl mx-auto md:mx-0"
             >
               Premium handmade macramé belts engineered for boutique labels, private brands, and independent designers worldwide.
             </motion.p>
@@ -143,11 +143,11 @@ const Home = () => {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
-              className="flex flex-col sm:flex-row gap-3 md:gap-6 justify-center items-center w-full"
+              className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center md:justify-start items-center md:items-start w-full"
             >
               <Link 
                 to="/product" 
-                className="bg-cream text-soft-black px-8 py-3.5 md:px-10 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-warm-sand transition-colors inline-block"
+                className="bg-cream text-soft-black px-8 py-3.5 md:px-8 md:py-3.5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-warm-sand transition-colors inline-block"
               >
                 Explore Products
               </Link>
