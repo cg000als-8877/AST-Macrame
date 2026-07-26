@@ -222,12 +222,15 @@ const RetailPage = () => {
             <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-2 md:mb-3">Unisex Design • 100% Cotton</p>
             
             {/* Added Price */}
-            <div className="mb-4 md:mb-5 flex items-center gap-2">
+            <div className="mb-4 md:mb-5 flex flex-wrap items-center gap-2 md:gap-3">
               <span className="text-xl md:text-3xl font-serif text-soft-black leading-none">
                 {orderType === 'single' ? '1,090 BDT' : '1,990 BDT'}
               </span>
-              <span className="bg-emerald-700/80 text-white text-[7px] md:text-[8px] font-bold uppercase tracking-normal px-1.5 py-[1px] rounded-sm shadow-sm">
-                {orderType === 'single' ? 'Per Piece' : 'Combo Pack'}
+              <span className="text-sm md:text-lg text-red-500/80 line-through font-semibold pt-1">
+                {orderType === 'single' ? '1,250 BDT' : '2,500 BDT'}
+              </span>
+              <span className="bg-red-500 text-white text-[8px] md:text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full shadow-sm ml-1.5">
+                {orderType === 'single' ? 'Save 160 Tk' : 'Save 510 Tk'}
               </span>
             </div>
 
