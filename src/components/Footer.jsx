@@ -35,7 +35,7 @@ const Footer = () => {
               <h4 className="font-sans text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase mb-4 text-cream/40">Services</h4>
               <ul className="flex flex-col space-y-3">
                 <li><Link to="/retail" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">Retail</Link></li>
-                <li><Link to="/sample-wholesale" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">Order a Sample</Link></li>
+                <li><Link to="/product" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">Order a Sample</Link></li>
                 <li><Link to="/sample-wholesale" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">Wholesale Inquiry</Link></li>
                 <li><Link to="/manufacturing" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">OEM & Private Label</Link></li>
               </ul>
