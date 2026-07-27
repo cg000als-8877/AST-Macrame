@@ -13,7 +13,7 @@ const FeaturedProductSection = () => {
   const belts = [
     { id: 1, colorName: 'Black', hex: '#1a1a1a', img: hgBlack, desc: 'A versatile, bold shade for effortless styling.' },
     { id: 2, colorName: 'Navy', hex: '#1c2841', img: hgNavy, desc: 'Deep, elegant, and timeless everyday wear.' },
-    { id: 3, colorName: 'Brown', hex: '#8b4513', img: hgBrown, desc: 'Warm and richly textured for rustic looks.' },
+    { id: 3, colorName: 'Brown', hex: '#B0868B', img: hgBrown, desc: 'Warm and richly textured for rustic looks.' },
     { id: 4, colorName: 'Maroon', hex: '#5c222e', img: hgMaroon, desc: 'Sophisticated and striking with any outfit.' },
     { id: 5, colorName: 'Khaki', hex: '#d4c7b1', img: hgKhaki, desc: 'Classic, natural, and beautifully refined.' },
   ];

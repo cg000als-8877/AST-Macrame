@@ -132,7 +132,7 @@ const Product = () => {
   const colors = [
     { name: 'Black', hex: '#1a1a1a' },
     { name: 'Navy', hex: '#1c2841' },
-    { name: 'Brown', hex: '#5c4033' },
+    { name: 'Brown', hex: '#B0868B' },
     { name: 'Maroon', hex: '#6b2737' },
     { name: 'Khaki', hex: '#c3b091' },
   ];
