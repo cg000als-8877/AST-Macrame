@@ -177,10 +177,10 @@ const Home = () => {
             {/* Bento Card 1: Premium Materials */}
             <div className="group relative rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
               <img src="/premium_materials_bento.jpg" alt="Premium Materials" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-soft-black/90 via-soft-black/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-85 md:opacity-75 md:group-hover:opacity-95 transition-opacity duration-500"></div>
               
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
-                <div className="flex items-center gap-4 transform transition-transform duration-500 group-hover:-translate-y-2">
+                <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
                   <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
@@ -189,7 +189,7 @@ const Home = () => {
                   <h3 className="text-xl md:text-2xl font-serif text-white leading-tight">Premium Materials</h3>
                 </div>
                 
-                <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
+                <div className="grid grid-rows-[1fr] md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-100 md:opacity-0 md:group-hover:opacity-100">
                   <div className="overflow-hidden">
                     <p className="text-white/80 text-xs md:text-sm leading-relaxed mt-2 pb-2">
                       We source only high-quality cotton macramé cord and rust-resistant, durable metal buckles for every piece.
@@ -202,10 +202,10 @@ const Home = () => {
             {/* Bento Card 2: OEM & Private Label */}
             <div className="group relative rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
               <img src="/oem_private_label_bento.jpg" alt="OEM & Private Label" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-soft-black/90 via-soft-black/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-85 md:opacity-75 md:group-hover:opacity-95 transition-opacity duration-500"></div>
               
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
-                <div className="flex items-center gap-4 transform transition-transform duration-500 group-hover:-translate-y-2">
+                <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
                   <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
@@ -216,7 +216,7 @@ const Home = () => {
                   <h3 className="text-xl md:text-2xl font-serif text-white leading-tight">OEM &<br/>Private Label</h3>
                 </div>
                 
-                <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
+                <div className="grid grid-rows-[1fr] md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-100 md:opacity-0 md:group-hover:opacity-100">
                   <div className="overflow-hidden">
                     <p className="text-white/80 text-xs md:text-sm leading-relaxed mt-2 pb-2">
                       Complete customization including custom tags, packaging, bespoke colors, and specific size requirements.
@@ -229,10 +229,10 @@ const Home = () => {
             {/* Bento Card 3: Quality Assured */}
             <div className="group relative rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
               <img src="/quality_assured_bento.jpg" alt="Quality Assured" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-soft-black/90 via-soft-black/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-85 md:opacity-75 md:group-hover:opacity-95 transition-opacity duration-500"></div>
               
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
-                <div className="flex items-center gap-4 transform transition-transform duration-500 group-hover:-translate-y-2">
+                <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
                   <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -241,7 +241,7 @@ const Home = () => {
                   <h3 className="text-xl md:text-2xl font-serif text-white leading-tight">Quality Assured</h3>
                 </div>
                 
-                <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
+                <div className="grid grid-rows-[1fr] md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-100 md:opacity-0 md:group-hover:opacity-100">
                   <div className="overflow-hidden">
                     <p className="text-white/80 text-xs md:text-sm leading-relaxed mt-2 pb-2">
                       Every belt undergoes rigorous individual inspection covering weaving quality, size accuracy, and buckle strength.
@@ -273,7 +273,7 @@ const Home = () => {
               { title: "Private Label Brands", desc: "Seamlessly integrate our high-quality belts into your unique product lineup.", span: "col-span-1 row-span-2 lg:col-span-1 lg:row-span-2", img: "/private_label_bento.jpg" },
               { title: "Shopify Stores", desc: "Expand your online catalog with unique products that drive sales.", span: "col-span-1 row-span-1 lg:col-span-1 lg:row-span-1", img: "/shopify_bento.jpg" },
               { title: "E-commerce Businesses", desc: "Reliable wholesale supply of consistent, premium handmade goods.", span: "col-span-1 row-span-1 lg:col-span-1 lg:row-span-1", img: "/ecommerce_bento.jpg" },
-              { title: "Fashion Startups", desc: "Flexible minimum order quantities to help launch your accessory line.", span: "col-span-2 row-span-2 lg:col-span-2 lg:row-span-1", img: "/startups_bento.jpg" },
+              { title: "Fashion Startups", desc: "Flexible minimum order quantities to help launch your accessory line.", span: "col-span-2 row-span-1 lg:col-span-2 lg:row-span-1", img: "/startups_bento.jpg" },
               { title: "Gift Brands", desc: "Beautifully crafted pieces that make perfect, memorable gifts.", span: "col-span-1 row-span-1 lg:col-span-1 lg:row-span-2", img: "/gift_brands_bento.jpg" },
               { title: "Lifestyle Brands", desc: "Authentic, sustainable handmade accessories that resonate with your audience.", span: "col-span-1 row-span-2 lg:col-span-1 lg:row-span-2", img: "/lifestyle_brands_bento.jpg" },
               { title: "Accessory Retailers", desc: "Diversify your retail offerings with our highly sought-after macramé belts.", span: "col-span-1 row-span-1 lg:col-span-2 lg:row-span-1", img: "/accessory_retailers_bento.jpg" }
@@ -285,16 +285,16 @@ const Home = () => {
                 <img src={partner.img} alt={partner.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-soft-black/95 via-soft-black/70 to-soft-black/50 opacity-90 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
 
-                <div className="relative z-10 flex flex-col items-center justify-center h-full w-full px-3 md:px-4 mt-2">
-                  <div className="transform transition-transform duration-500 group-hover:-translate-y-1">
-                    <h3 className="font-sans text-[11px] md:text-xs tracking-[0.15em] uppercase text-white font-semibold text-center drop-shadow-md">
+                <div className="relative z-10 flex flex-col items-center justify-center h-full w-full px-2 md:px-4 mt-1 md:mt-2">
+                  <div className="transform transition-transform duration-500 md:group-hover:-translate-y-1">
+                    <h3 className="font-sans text-[10px] md:text-xs tracking-[0.1em] md:tracking-[0.15em] uppercase text-white font-semibold text-center drop-shadow-md">
                       {partner.title}
                     </h3>
                   </div>
                   
-                  <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100 w-full">
+                  <div className="grid grid-rows-[1fr] md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-100 md:opacity-0 md:group-hover:opacity-100 w-full">
                     <div className="overflow-hidden flex flex-col justify-start">
-                      <p className="text-white/95 text-[10px] md:text-[11px] leading-relaxed text-center mt-2 drop-shadow">
+                      <p className="text-white/95 text-[9px] md:text-[11px] leading-snug md:leading-relaxed text-center mt-1 md:mt-2 drop-shadow">
                         {partner.desc}
                       </p>
                     </div>

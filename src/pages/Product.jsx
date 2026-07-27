@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Plus, Minus, X, ZoomIn } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Minus, X, ZoomIn, Info } from 'lucide-react';
 import InquiryModal from '../components/InquiryModal';
 
 import b1 from '../assets/products/Black/1.jpg';
@@ -51,8 +51,9 @@ const Accordion = ({ title, isOpen, onClick, children }) => (
 );
 
 const Product = () => {
-  const [selectedColor, setSelectedColor] = useState('Black');
-  const [selectedSize, setSelectedSize] = useState('M');
+  const [selectedColors, setSelectedColors] = useState(['Black']);
+  const [selectedSizes, setSelectedSizes] = useState(['M']);
+  const [quantity, setQuantity] = useState(1);
   const [activeIndex, setActiveIndex] = useState(0);
   const [openAccordions, setOpenAccordions] = useState({
     description: true,
@@ -66,6 +67,56 @@ const Product = () => {
   const [zoomLevel, setZoomLevel] = useState(1);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
+
+  // Localization state
+  const [localCurrency, setLocalCurrency] = useState('BDT');
+  const [currencySymbol, setCurrencySymbol] = useState('৳');
+  const [exchangeRate, setExchangeRate] = useState(1);
+  const [userCountry, setUserCountry] = useState('Bangladesh');
+  const [shippingCostLocal, setShippingCostLocal] = useState(120);
+  const [isLoadingLocalization, setIsLoadingLocalization] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchLocalization = async () => {
+      try {
+        const ipRes = await fetch('https://ipapi.co/json/');
+        const ipData = await ipRes.json();
+        
+        const currencyCode = ipData.currency || 'USD';
+        const country = ipData.country_name || 'United States';
+        
+        const symbolMap = { 'USD': '$', 'EUR': '€', 'GBP': '£', 'BDT': '৳', 'CAD': 'C$', 'AUD': 'A$' };
+        const symbol = symbolMap[currencyCode] || currencyCode + ' ';
+        
+        if (!isMounted) return;
+        setUserCountry(country);
+        setLocalCurrency(currencyCode);
+        setCurrencySymbol(symbol);
+
+        const erRes = await fetch('https://api.exchangerate-api.com/v4/latest/BDT');
+        const erData = await erRes.json();
+        const rate = erData.rates[currencyCode] || 1;
+        
+        if (!isMounted) return;
+        setExchangeRate(rate);
+
+        let baseShippingBDT = 2500;
+        if (ipData.country_code === 'US') baseShippingBDT = 1500;
+        else if (ipData.continent_code === 'EU') baseShippingBDT = 2000;
+        else if (ipData.country_code === 'BD') baseShippingBDT = 120;
+        
+        setShippingCostLocal(baseShippingBDT * rate);
+      } catch (err) {
+        console.error("Failed to load localization data", err);
+      } finally {
+        if (isMounted) setIsLoadingLocalization(false);
+      }
+    };
+
+    fetchLocalization();
+    return () => { isMounted = false; };
+  }, []);
 
   useEffect(() => {
     if (lightboxImage) {
@@ -94,15 +145,53 @@ const Product = () => {
     Khaki: [k1, k2, k3, k4],
   };
 
-  const images = colorImages[selectedColor];
+  const images = colorImages[selectedColors[0]];
+  const selectedColor = selectedColors[0]; // For backwards compatibility in rendering
 
-  const handleColorChange = (colorName) => {
-    setSelectedColor(colorName);
-    setActiveIndex(0); // Reset gallery when color changes
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({ left: 0, behavior: 'auto' });
+  const handleColorChange = (index, colorName) => {
+    const newColors = [...selectedColors];
+    newColors[index] = colorName;
+    setSelectedColors(newColors);
+    if (index === 0) {
+      setActiveIndex(0); // Reset gallery when primary color changes
+      if (scrollRef.current) {
+        scrollRef.current.scrollTo({ left: 0, behavior: 'auto' });
+      }
     }
   };
+
+  const handleQuantityChange = (qty) => {
+    setQuantity(qty);
+    if (qty > selectedColors.length) {
+      const addedColors = Array(qty - selectedColors.length).fill(selectedColors[0]);
+      setSelectedColors([...selectedColors, ...addedColors]);
+      const addedSizes = Array(qty - selectedSizes.length).fill(selectedSizes[0]);
+      setSelectedSizes([...selectedSizes, ...addedSizes]);
+    } else if (qty < selectedColors.length) {
+      setSelectedColors(selectedColors.slice(0, qty));
+      setSelectedSizes(selectedSizes.slice(0, qty));
+    }
+  };
+
+  const handleSizeChange = (index, size) => {
+    const newSizes = [...selectedSizes];
+    newSizes[index] = size;
+    setSelectedSizes(newSizes);
+  };
+
+  const getBasePriceBDT = (qty) => {
+    switch(qty) {
+      case 1: return 1090;
+      case 2: return 1990;
+      case 3: return 2890;
+      case 4: return 3690;
+      case 5: return 3990;
+      default: return 1090 * qty;
+    }
+  };
+
+  const totalPriceLocal = getBasePriceBDT(quantity) * exchangeRate;
+  const unitPriceLocal = totalPriceLocal / quantity;
 
   const toggleAccordion = (title) => {
     setOpenAccordions(prev => ({ ...prev, [title]: !prev[title] }));
@@ -260,49 +349,118 @@ const Product = () => {
             </p>
             <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-2 md:mb-3">Unisex Design • 100% Cotton</p>
             
-            
+            {/* Price Display */}
+            <div className="mb-6">
+              {isLoadingLocalization ? (
+                <div className="h-8 w-24 bg-stone/20 animate-pulse rounded"></div>
+              ) : (
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl md:text-3xl font-serif text-soft-black">
+                    {currencySymbol}{totalPriceLocal.toFixed(2)}
+                  </span>
+                  <span className="text-xs md:text-sm font-light text-dark-charcoal/60">
+                    {quantity > 1 ? `(${currencySymbol}${unitPriceLocal.toFixed(2)} per sample)` : ''}
+                  </span>
+                </div>
+              )}
+            </div>
 
-            {/* Color Selection */}
-            <div className="mb-6 md:mb-10">
+            {/* Quantity Selection */}
+            <div className="mb-6">
               <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-3 md:mb-4">
-                Color: <span className="font-medium text-dark-charcoal/70">{selectedColor}</span>
+                Quantity
               </span>
-              <div className="flex gap-4">
-                {colors.map((color) => (
+              <div className="flex flex-wrap gap-2 md:gap-3">
+                {[1, 2, 3, 4, 5].map(q => (
                   <button
-                    key={color.name}
-                    onClick={() => handleColorChange(color.name)}
-                    className={`w-9 h-9 md:w-10 md:h-10 rounded-full border-2 transition-all duration-300 ${selectedColor === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
-                    aria-label={`Select ${color.name}`}
+                    key={q}
+                    onClick={() => handleQuantityChange(q)}
+                    className={`h-10 px-4 md:px-5 flex items-center justify-center text-[10px] md:text-xs font-bold uppercase tracking-widest border transition-colors duration-300 rounded-none ${quantity === q ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
                   >
-                    <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
+                    {q === 1 ? '1 Sample' : q === 5 ? 'Pack of 5' : `${q} Samples`}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Size Selection */}
+            {/* Color & Size Selection */}
             <div className="mb-8 md:mb-12">
-              <div className="flex justify-start items-center gap-4 mb-3 md:mb-4">
-                <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black">Size</span>
+              <div className="flex justify-between items-center mb-3 md:mb-4">
+                <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black">
+                  {quantity === 5 ? 'Pack Details' : 'Colors & Sizes'}
+                </span>
                 <button 
                   onClick={() => setIsSizeGuideOpen(true)}
-                  className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-terracotta hover:text-dark-charcoal transition-colors underline underline-offset-4"
+                  className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-terracotta hover:text-dark-charcoal transition-colors underline underline-offset-4 flex items-center gap-1.5"
                 >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/>
+                    <path d="m14.5 12.5 2-2"/>
+                    <path d="m11.5 9.5 2-2"/>
+                    <path d="m8.5 6.5 2-2"/>
+                    <path d="m17.5 15.5 2-2"/>
+                  </svg>
                   Size Guide
                 </button>
               </div>
-              <div className="flex gap-3 md:gap-4">
-                {['M', 'L'].map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-xs md:text-sm font-bold uppercase tracking-widest border transition-colors duration-300 rounded-none ${selectedSize === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
+
+              {quantity === 5 ? (
+                <div className="mb-6 p-4 md:p-5 border border-stone/30 bg-stone/5 relative">
+                  <p className="text-xs md:text-sm text-dark-charcoal/80 font-light italic leading-relaxed">
+                    <span className="font-semibold text-terracotta not-italic uppercase tracking-wider text-[10px] md:text-xs mr-2">Note:</span>
+                    The Pack of 5 includes all 5 signature colors (Black, Navy, Brown, Maroon, Khaki) in a curated mix of sizes (2 Medium and 3 Large).
+                  </p>
+                </div>
+              ) : (
+                Array.from({ length: quantity }).map((_, index) => (
+                  <div key={index} className="mb-6 last:mb-0 p-4 md:p-5 border border-stone/30 bg-stone/5 relative">
+                    {quantity > 1 && (
+                      <span className="absolute -top-2.5 left-3 bg-cream px-2 text-[9px] md:text-[10px] font-bold tracking-widest uppercase text-terracotta">
+                        Sample {index + 1}
+                      </span>
+                    )}
+                    
+                    <div className="flex flex-row items-start justify-between sm:justify-start gap-4 md:gap-10">
+                      {/* Color Picker */}
+                      <div>
+                        <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-2 md:mb-3">
+                          Color: <span className="font-medium text-dark-charcoal/70">{selectedColors[index]}</span>
+                        </span>
+                        <div className="flex gap-3 md:gap-4">
+                          {colors.map((color) => (
+                            <button
+                              key={color.name}
+                              onClick={() => handleColorChange(index, color.name)}
+                              className={`w-8 h-8 md:w-10 md:h-10 rounded-full border-2 transition-all duration-300 ${selectedColors[index] === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
+                              aria-label={`Select ${color.name}`}
+                            >
+                              <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      {/* Size Picker */}
+                      <div>
+                        <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-2 md:mb-3">
+                          Size: <span className="font-medium text-dark-charcoal/70">{selectedSizes[index]}</span>
+                        </span>
+                        <div className="flex gap-2 md:gap-3">
+                          {['M', 'L'].map((size) => (
+                            <button
+                              key={size}
+                              onClick={() => handleSizeChange(index, size)}
+                              className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-xs md:text-sm font-bold uppercase tracking-widest border transition-colors duration-300 rounded-none ${selectedSizes[index] === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                            >
+                              {size}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
             
             {/* CTA Buttons */}
@@ -310,17 +468,30 @@ const Product = () => {
               <div className="flex justify-start mb-1">
                 <button 
                   onClick={() => setIsSamplePolicyOpen(true)}
-                  className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-terracotta hover:text-dark-charcoal transition-colors underline underline-offset-4"
+                  className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-terracotta hover:text-dark-charcoal transition-colors flex items-center gap-1.5"
                 >
-                  Sample Order Policy
+                  <Info className="w-3.5 h-3.5 md:w-4 md:h-4 stroke-[2.5]" />
+                  <span className="underline underline-offset-4">Sample Order Policy</span>
                 </button>
               </div>
+              {/* Shipping Status */}
+              <div className="mb-1 text-center">
+                {isLoadingLocalization ? (
+                  <div className="h-4 w-48 bg-stone/20 animate-pulse rounded mx-auto"></div>
+                ) : (
+                  <p className="text-[10px] md:text-xs font-semibold text-soft-black/80 tracking-wide">
+                    ✈️ Shipping to {userCountry}: {currencySymbol}{shippingCostLocal.toFixed(2)}
+                  </p>
+                )}
+              </div>
+
               <button 
                 onClick={() => setIsOrderFormOpen(true)}
                 className="w-full bg-soft-black text-cream text-center px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-none hover:bg-dark-charcoal transition-colors"
               >
                 Order Sample
               </button>
+              
               <Link 
                 to="/contact" 
                 className="w-full border border-soft-black text-soft-black text-center px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-none hover:bg-soft-black/5 transition-colors"
@@ -482,11 +653,12 @@ const Product = () => {
               
               <div className="bg-stone/5 rounded-lg border border-stone/10 p-4 mb-4">
                 <ul className="space-y-3 text-xs text-dark-charcoal/80 font-light list-disc list-outside ml-4">
-                  <li>Samples are charged at the standard single-unit price.</li>
+                  <li>Order up to 5 samples per design with discounted tiered pricing.</li>
+                  <li>Customize colors and sizes individually for each sample in a multi-pack.</li>
                   <li><strong>Bangladesh:</strong> Cash on Delivery (COD) available.</li>
                   <li><strong>International:</strong> Full advance payment required prior to shipping.</li>
                   <li><strong>Reimbursement:</strong> Full sample cost is deducted from your subsequent confirmed bulk order invoice.</li>
-                  <li>Limited to one sample per design. Shipping charges are non-refundable.</li>
+                  <li>Shipping charges are strictly non-refundable.</li>
                 </ul>
               </div>
               
@@ -561,7 +733,7 @@ const Product = () => {
         onClose={() => setIsOrderFormOpen(false)} 
         formType="sample" 
         initialColor={selectedColor}
-        initialSize={selectedSize}
+        initialSize={selectedSizes[0]}
       />
 
       {/* Features Grid */}
@@ -572,10 +744,10 @@ const Product = () => {
             {/* Bento Card 1: Premium Materials */}
             <div className="group relative rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
               <img src="/premium_materials_bento.jpg" alt="Premium Materials" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-soft-black/90 via-soft-black/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-85 md:opacity-75 md:group-hover:opacity-95 transition-opacity duration-500"></div>
               
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
-                <div className="flex items-center gap-4 transform transition-transform duration-500 group-hover:-translate-y-2">
+                <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
                   <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
@@ -584,7 +756,7 @@ const Product = () => {
                   <h3 className="text-xl md:text-2xl font-serif text-white leading-tight">Premium Materials</h3>
                 </div>
                 
-                <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
+                <div className="grid grid-rows-[1fr] md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-100 md:opacity-0 md:group-hover:opacity-100">
                   <div className="overflow-hidden">
                     <p className="text-white/80 text-xs md:text-sm leading-relaxed mt-2 pb-2">
                       We source only high-quality cotton macramé cord and rust-resistant, durable metal buckles for every piece.
@@ -597,10 +769,10 @@ const Product = () => {
             {/* Bento Card 2: OEM & Private Label */}
             <div className="group relative rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
               <img src="/oem_private_label_bento.jpg" alt="OEM & Private Label" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-soft-black/90 via-soft-black/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-85 md:opacity-75 md:group-hover:opacity-95 transition-opacity duration-500"></div>
               
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
-                <div className="flex items-center gap-4 transform transition-transform duration-500 group-hover:-translate-y-2">
+                <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
                   <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
@@ -611,7 +783,7 @@ const Product = () => {
                   <h3 className="text-xl md:text-2xl font-serif text-white leading-tight">OEM &<br/>Private Label</h3>
                 </div>
                 
-                <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
+                <div className="grid grid-rows-[1fr] md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-100 md:opacity-0 md:group-hover:opacity-100">
                   <div className="overflow-hidden">
                     <p className="text-white/80 text-xs md:text-sm leading-relaxed mt-2 pb-2">
                       Complete customization including custom tags, packaging, bespoke colors, and specific size requirements.
@@ -624,10 +796,10 @@ const Product = () => {
             {/* Bento Card 3: Quality Assured */}
             <div className="group relative rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
               <img src="/quality_assured_bento.jpg" alt="Quality Assured" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-soft-black/90 via-soft-black/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-85 md:opacity-75 md:group-hover:opacity-95 transition-opacity duration-500"></div>
               
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
-                <div className="flex items-center gap-4 transform transition-transform duration-500 group-hover:-translate-y-2">
+                <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
                   <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -636,7 +808,7 @@ const Product = () => {
                   <h3 className="text-xl md:text-2xl font-serif text-white leading-tight">Quality Assured</h3>
                 </div>
                 
-                <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
+                <div className="grid grid-rows-[1fr] md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-100 md:opacity-0 md:group-hover:opacity-100">
                   <div className="overflow-hidden">
                     <p className="text-white/80 text-xs md:text-sm leading-relaxed mt-2 pb-2">
                       Every belt undergoes rigorous individual inspection covering weaving quality, size accuracy, and buckle strength.
