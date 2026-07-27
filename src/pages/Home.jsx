@@ -256,8 +256,8 @@ const Home = () => {
       </section>
 
       {/* Who We Work With */}
-      <section className="py-16 md:py-24 overflow-hidden bg-cream">
-        <div className="text-center px-6 mb-12 md:mb-20">
+      <section className="py-12 md:py-16 overflow-hidden bg-cream">
+        <div className="text-center px-6 mb-10 md:mb-12">
           <h2 className="text-4xl md:text-5xl font-serif mb-4 md:mb-6 text-soft-black">
             Who We Work With
           </h2>
@@ -267,7 +267,7 @@ const Home = () => {
         </div>
 
         <div className="max-w-5xl mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3 lg:gap-4 auto-rows-[90px] sm:auto-rows-[110px] lg:auto-rows-[130px]">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3 lg:gap-4 auto-rows-[90px] sm:auto-rows-[110px] lg:auto-rows-[90px]">
             {[
               { title: "Boutique Fashion Brands", desc: "Elevate your curated collections with artisanal macramé accessories.", span: "col-span-2 row-span-1 lg:col-span-2 lg:row-span-2", img: "/boutique_bento.jpg" },
               { title: "Private Label Brands", desc: "Seamlessly integrate our high-quality belts into your unique product lineup.", span: "col-span-1 row-span-2 lg:col-span-1 lg:row-span-2", img: "/private_label_bento.jpg" },
