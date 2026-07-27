@@ -391,7 +391,7 @@ const Product = () => {
                 </span>
                 <button 
                   onClick={() => setIsSizeGuideOpen(true)}
-                  className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-terracotta hover:text-dark-charcoal transition-colors underline underline-offset-4 flex items-center gap-1.5"
+                  className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors underline underline-offset-4 flex items-center gap-1.5"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/>
@@ -468,7 +468,7 @@ const Product = () => {
               <div className="flex justify-start mb-1">
                 <button 
                   onClick={() => setIsSamplePolicyOpen(true)}
-                  className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-terracotta hover:text-dark-charcoal transition-colors flex items-center gap-1.5"
+                  className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors flex items-center gap-1.5"
                 >
                   <Info className="w-3.5 h-3.5 md:w-4 md:h-4 stroke-[2.5]" />
                   <span className="underline underline-offset-4">Sample Order Policy</span>
@@ -647,12 +647,12 @@ const Product = () => {
                 <h2 className="text-xl font-serif text-soft-black mb-5">Sample Order Policy</h2>
               </div>
               
-              <p className="text-xs text-dark-charcoal/80 font-light mb-4 px-2 text-center">
+              <p className="text-sm text-dark-charcoal mb-4 px-2 text-center">
                 Evaluate our craftsmanship before placing a wholesale order.
               </p>
               
-              <div className="bg-stone/5 rounded-lg border border-stone/10 p-4 mb-4">
-                <ul className="space-y-3 text-xs text-dark-charcoal/80 font-light list-disc list-outside ml-4">
+              <div className="bg-stone/5 rounded-lg border border-stone/10 p-5 mb-4 shadow-sm">
+                <ul className="space-y-4 text-sm text-dark-charcoal list-disc list-outside ml-4 leading-relaxed">
                   <li>Order up to 5 samples per design with discounted tiered pricing.</li>
                   <li>Customize colors and sizes individually for each sample in a multi-pack.</li>
                   <li><strong>Bangladesh:</strong> Cash on Delivery (COD) available.</li>
@@ -662,7 +662,7 @@ const Product = () => {
                 </ul>
               </div>
               
-              <p className="text-[11px] font-medium text-dark-charcoal/70 leading-relaxed text-center px-2">
+              <p className="text-xs font-medium text-dark-charcoal/80 leading-relaxed text-center px-2">
                 Assess product quality with confidence, knowing your investment is credited toward future purchases.
               </p>
             </motion.div>
