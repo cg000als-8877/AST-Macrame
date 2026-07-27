@@ -732,8 +732,16 @@ const Product = () => {
         isOpen={isOrderFormOpen} 
         onClose={() => setIsOrderFormOpen(false)} 
         formType="sample" 
-        initialColor={selectedColor}
-        initialSize={selectedSizes[0]}
+        orderDetails={{
+          quantity,
+          selectedColors,
+          selectedSizes,
+          unitPriceLocal,
+          shippingCostLocal,
+          totalPriceLocal,
+          currencySymbol,
+          localCurrency
+        }}
       />
 
       {/* Features Grid */}

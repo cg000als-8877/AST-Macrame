@@ -18,17 +18,10 @@ const colorImages = {
   Khaki: k1,
 };
 
-const InquiryModal = ({ isOpen, onClose, formType, initialColor = '', initialSize = '' }) => {
-  const [selectedColor, setSelectedColor] = useState(initialColor || 'Black');
+const InquiryModal = ({ isOpen, onClose, formType, orderDetails }) => {
   const [selectedCountryCode, setSelectedCountryCode] = useState('+880');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-
-  useEffect(() => {
-    if (initialColor) {
-      setSelectedColor(initialColor);
-    }
-  }, [initialColor]);
 
   useEffect(() => {
     if (isOpen) {
@@ -60,8 +53,9 @@ const InquiryModal = ({ isOpen, onClose, formType, initialColor = '', initialSiz
 
     const formData = new FormData(e.target);
     formData.append('formType', formType === 'sample' ? 'Sample' : 'Wholesale');
-    if (!formData.get('color')) {
-      formData.append('color', selectedColor);
+    
+    if (orderDetails) {
+      formData.append('orderDetails', JSON.stringify(orderDetails));
     }
 
     const countryCode = formData.get('countryCode');
@@ -198,42 +192,59 @@ const InquiryModal = ({ isOpen, onClose, formType, initialColor = '', initialSiz
                     <input type="text" name="address" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Full delivery address" required />
                   </div>
 
-                  <div className="flex gap-4 md:gap-8 items-center border-t border-b border-stone/10 py-3 md:py-4">
-                    <div className="flex-1">
-                      <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-2 md:mb-3">Select Color</label>
-                      <div className="grid grid-flow-col grid-rows-3 gap-y-2 gap-x-2 md:gap-x-4">
-                        {['Black', 'Navy', 'Brown', 'Maroon', 'Khaki'].map(color => (
-                          <label key={color} className="flex items-center gap-2 cursor-pointer text-xs md:text-sm text-dark-charcoal font-medium">
-                            <input 
-                              type="radio" 
-                              name="color" 
-                              value={color} 
-                              checked={selectedColor === color} 
-                              onChange={(e) => setSelectedColor(e.target.value)}
-                              className="w-3.5 h-3.5 md:w-4 md:h-4 accent-soft-black" 
-                              required 
-                            />
-                            {color}
-                          </label>
-                        ))}
+                  {orderDetails && formType === 'sample' && (
+                    <div className="border-t border-b border-stone/10 py-4 md:py-5 mb-4">
+                      <h3 className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-3">Order Summary</h3>
+                      
+                      <div className="bg-stone/5 rounded-lg border border-stone/10 p-4 mb-4">
+                        {orderDetails.quantity === 5 ? (
+                          <div className="flex items-center gap-3">
+                            <div className="flex-1">
+                              <p className="text-sm font-medium text-soft-black mb-1">Pack of 5 Samples</p>
+                              <p className="text-xs text-dark-charcoal/70">Includes all 5 colors (2 Medium, 3 Large)</p>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="space-y-3">
+                            {Array.from({ length: orderDetails.quantity }).map((_, idx) => (
+                              <div key={idx} className="flex items-center gap-3">
+                                <div className="w-6 h-6 rounded-md shadow-sm border border-stone/20 overflow-hidden shrink-0">
+                                  <img 
+                                    src={colorImages[orderDetails.selectedColors[idx] || 'Black']} 
+                                    alt={orderDetails.selectedColors[idx]} 
+                                    className="w-full h-full object-cover mix-blend-multiply" 
+                                  />
+                                </div>
+                                <div className="flex-1">
+                                  <p className="text-xs md:text-sm font-medium text-soft-black">
+                                    Sample {idx + 1}: {orderDetails.selectedColors[idx] || 'Black'}
+                                  </p>
+                                </div>
+                                <div className="text-xs md:text-sm text-dark-charcoal/80 font-medium">
+                                  Size {orderDetails.selectedSizes[idx] || 'M'}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-xs md:text-sm text-dark-charcoal/80">
+                          <span>Subtotal</span>
+                          <span className="font-medium">{orderDetails.currencySymbol}{orderDetails.totalPriceLocal.toLocaleString()}</span>
+                        </div>
+                        <div className="flex justify-between text-xs md:text-sm text-dark-charcoal/80">
+                          <span>Estimated Shipping</span>
+                          <span className="font-medium">{orderDetails.currencySymbol}{orderDetails.shippingCostLocal.toLocaleString()}</span>
+                        </div>
+                        <div className="flex justify-between text-sm md:text-base text-soft-black font-bold pt-2 border-t border-stone/10 mt-2">
+                          <span>Total</span>
+                          <span>{orderDetails.currencySymbol}{(orderDetails.totalPriceLocal + orderDetails.shippingCostLocal).toLocaleString()}</span>
+                        </div>
                       </div>
                     </div>
-                    <div className="w-24 md:w-32 shrink-0 aspect-[4/5] bg-stone/10 rounded-lg overflow-hidden border border-stone/20 shadow-sm">
-                      <img src={colorImages[selectedColor]} alt={selectedColor} className="w-full h-full object-cover mix-blend-multiply" />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-2 md:mb-2">Select Size</label>
-                    <div className="flex gap-4 md:gap-6">
-                      {['M', 'L'].map(size => (
-                        <label key={size} className="flex items-center gap-1.5 md:gap-2 cursor-pointer text-xs md:text-sm text-dark-charcoal">
-                          <input type="radio" name="size" value={size} defaultChecked={size === initialSize} className="w-3.5 h-3.5 md:w-4 md:h-4 accent-soft-black" required />
-                          {size}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
+                  )}
 
                   <div>
                     <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Message / Requirements (Optional)</label>
