@@ -377,7 +377,7 @@ const Product = () => {
                     onClick={() => handleQuantityChange(q)}
                     className={`h-10 px-4 md:px-5 flex items-center justify-center text-[10px] md:text-xs font-bold uppercase tracking-widest border transition-colors duration-300 rounded-none ${quantity === q ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
                   >
-                    {q === 1 ? '1 Sample' : q === 5 ? 'Pack of 5' : `${q} Samples`}
+                    {q === 1 ? 'SINGLE' : `PACK OF ${q}`}
                   </button>
                 ))}
               </div>
