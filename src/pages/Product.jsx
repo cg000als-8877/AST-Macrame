@@ -104,7 +104,7 @@ const Product = () => {
         let baseShippingBDT = 2500;
         if (ipData.country_code === 'US') baseShippingBDT = 1500;
         else if (ipData.continent_code === 'EU') baseShippingBDT = 2000;
-        else if (ipData.country_code === 'BD') baseShippingBDT = 120;
+        else if (ipData.country_code === 'BD') baseShippingBDT = 130;
         
         setShippingCostLocal(baseShippingBDT * rate);
       } catch (err) {
@@ -480,7 +480,7 @@ const Product = () => {
                   <div className="h-4 w-48 bg-stone/20 animate-pulse rounded mx-auto"></div>
                 ) : (
                   <p className="text-[10px] md:text-xs font-semibold text-soft-black/80 tracking-wide">
-                    ✈️ Shipping to {userCountry}: {currencySymbol}{shippingCostLocal.toFixed(2)}
+                    ✈️ Estimated Shipping to {userCountry}: {currencySymbol}{shippingCostLocal.toFixed(2)}
                   </p>
                 )}
               </div>
