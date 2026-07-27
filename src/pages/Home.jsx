@@ -57,7 +57,7 @@ const FeaturedProductSection = () => {
           {belts.map((belt) => (
             <div key={belt.id} className="min-w-[85vw] sm:min-w-[45vw] lg:min-w-0 flex flex-col items-center text-center snap-center">
               {/* 3:4 Frame with rounded corners */}
-              <div className="w-full relative aspect-[3/4] bg-stone/10 overflow-hidden mb-6 rounded-[2rem] shadow-sm">
+              <div className="w-full relative aspect-[3/4] bg-stone/10 overflow-hidden mb-6 rounded-none shadow-sm">
                 <img 
                   src={belt.img}
                   className="absolute inset-0 w-full h-full object-cover"
@@ -67,7 +67,7 @@ const FeaturedProductSection = () => {
 
               {/* Details */}
               <div className="flex items-start gap-3 text-left mb-4 w-full px-2">
-                <div className="w-5 h-5 md:w-6 md:h-6 rounded-full shadow-sm border border-stone/20 shrink-0 mt-[2px]" style={{ backgroundColor: belt.hex }} />
+                <div className="w-5 h-5 md:w-6 md:h-6 rounded-none shadow-sm border border-stone/20 shrink-0 mt-[2px]" style={{ backgroundColor: belt.hex }} />
                 <div className="flex flex-col">
                   <h3 className="text-base md:text-lg font-serif text-soft-black mb-1 leading-none">{belt.colorName}</h3>
                   <p className="text-xs md:text-sm text-dark-charcoal/70 font-light leading-relaxed">
@@ -145,7 +145,7 @@ const Home = () => {
             >
               <Link 
                 to="/product" 
-                className="bg-cream text-soft-black px-8 py-3.5 md:px-8 md:py-3.5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-warm-sand transition-colors inline-block"
+                className="bg-cream text-soft-black px-8 py-3.5 md:px-8 md:py-3.5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-none hover:bg-warm-sand transition-colors inline-block"
               >
                 Explore Products
               </Link>
@@ -175,13 +175,13 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8 w-full">
             
             {/* Bento Card 1: Premium Materials */}
-            <div className="group relative rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
+            <div className="group relative rounded-none overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
               <img src="/premium_materials_bento.jpg" alt="Premium Materials" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-85 md:opacity-75 md:group-hover:opacity-95 transition-opacity duration-500"></div>
               
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
                 <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-none bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                     </svg>
@@ -200,13 +200,13 @@ const Home = () => {
             </div>
             
             {/* Bento Card 2: OEM & Private Label */}
-            <div className="group relative rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
+            <div className="group relative rounded-none overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
               <img src="/oem_private_label_bento.jpg" alt="OEM & Private Label" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-85 md:opacity-75 md:group-hover:opacity-95 transition-opacity duration-500"></div>
               
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
                 <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-none bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
                       <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
@@ -227,13 +227,13 @@ const Home = () => {
             </div>
             
             {/* Bento Card 3: Quality Assured */}
-            <div className="group relative rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
+            <div className="group relative rounded-none overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
               <img src="/quality_assured_bento.jpg" alt="Quality Assured" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-85 md:opacity-75 md:group-hover:opacity-95 transition-opacity duration-500"></div>
               
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
                 <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-none bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                     </svg>
@@ -280,7 +280,7 @@ const Home = () => {
             ].map((partner, idx) => (
               <div 
                 key={idx}
-                className={`group relative rounded-[1.5rem] shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col items-center justify-center overflow-hidden cursor-default ${partner.span}`}
+                className={`group relative rounded-none shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col items-center justify-center overflow-hidden cursor-default ${partner.span}`}
               >
                 <img src={partner.img} alt={partner.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-soft-black/95 via-soft-black/70 to-soft-black/50 opacity-90 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
@@ -318,7 +318,7 @@ const Home = () => {
           <div className="flex flex-col items-center justify-center gap-[1px]">
             <Link 
               to="/sample-wholesale" 
-              className="bg-soft-black text-cream px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-dark-charcoal transition-colors"
+              className="bg-soft-black text-cream px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-none hover:bg-dark-charcoal transition-colors"
             >
               Get Started
             </Link>
