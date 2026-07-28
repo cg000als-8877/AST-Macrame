@@ -6,7 +6,7 @@ import hgBlack from '../assets/homepage-gallery/Black.jpg';
 import hgNavy from '../assets/homepage-gallery/Navy.jpg';
 import hgBrown from '../assets/homepage-gallery/Brown.jpg';
 import hgMaroon from '../assets/homepage-gallery/Maroon.jpg';
-import hgKhaki from '../assets/homepage-gallery/Khaki.jpg';
+import hgKhaki from '../assets/homepage-gallery/khaki2.jpg';
 
 const FeaturedProductSection = () => {
   const belts = [
