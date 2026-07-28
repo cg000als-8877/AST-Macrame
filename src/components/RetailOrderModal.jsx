@@ -104,7 +104,7 @@ const RetailOrderModal = ({
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-3xl bg-cream p-5 sm:p-8 md:px-12 md:py-8 rounded-xl md:rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto z-10"
+            className="relative w-full max-w-2xl bg-cream p-4 sm:p-6 md:px-8 md:py-6 rounded-xl md:rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto z-10"
           >
             <button 
               onClick={onClose}
@@ -146,54 +146,54 @@ const RetailOrderModal = ({
                 </div>
                 
                 <form 
-                  className="space-y-4 md:space-y-5"
+                  className="space-y-3 md:space-y-4"
                   onSubmit={handleSubmit}
                 >
-                  <div className="grid grid-cols-2 gap-3 md:gap-6">
+                  <div className="grid grid-cols-2 gap-3 md:gap-4">
                     <div>
-                      <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">
-                        Name / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[13px] capitalize">নাম</span>
+                      <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                        Name / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">নাম</span>
                       </label>
-                      <input type="text" name="name" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Your Full Name" required />
+                      <input type="text" name="name" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Your Full Name" required />
                     </div>
                     <div>
-                      <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">
-                        Phone / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[13px] capitalize">মোবাইল</span>
+                      <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                        Phone / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">মোবাইল</span>
                       </label>
-                      <input type="tel" name="phone" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="01XXX XXXXXX" required />
+                      <input type="tel" name="phone" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="01XXX XXXXXX" required />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3 md:gap-6">
+                  <div className="grid grid-cols-2 gap-3 md:gap-4">
                     <div>
-                      <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">
-                        Thana / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[13px] capitalize">থানা</span>
+                      <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                        Thana / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">থানা</span>
                       </label>
-                      <input type="text" name="thana" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="e.g. Kotwali" required />
+                      <input type="text" name="thana" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="e.g. Kotwali" required />
                     </div>
                     <div>
-                      <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">
-                        District / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[13px] capitalize">জেলা</span>
+                      <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                        District / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">জেলা</span>
                       </label>
-                      <input type="text" name="district" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="e.g. Chittagong" required />
+                      <input type="text" name="district" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="e.g. Chittagong" required />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">
-                      Delivery Point / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[13px] capitalize">যে জায়গা থেকে রিসিভ করবেন</span>
+                    <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                      Delivery Point / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">যে জায়গা থেকে রিসিভ করবেন</span>
                     </label>
-                    <input type="text" name="delivery_point" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Full Address" required />
+                    <input type="text" name="delivery_point" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Full Address" required />
                   </div>
 
                   <div>
-                    <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">
-                      Note / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[13px] capitalize">নোট</span> <span className="text-dark-charcoal/50 font-normal normal-case tracking-normal">(Optional)</span>
+                    <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                      Note / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">নোট</span> <span className="text-dark-charcoal/50 font-normal normal-case tracking-normal">(Optional)</span>
                     </label>
                     <textarea 
                       name="message"
                       rows="2" 
-                      className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm resize-none" 
+                      className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm resize-none" 
                       placeholder="Any custom instructions..."
                     ></textarea>
                   </div>
