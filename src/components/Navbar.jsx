@@ -81,9 +81,9 @@ const Navbar = () => {
                 <img 
                   src="/logo_black.png" 
                   alt="AST Handmade Macramé Belts" 
-                  className="h-5 w-auto object-contain transition-all duration-300 drop-shadow-md mobile-navbar-logo"
+                  className="h-7 w-auto object-contain transition-all duration-300 drop-shadow-md mobile-navbar-logo"
                 />
-                <span className="font-serif font-bold text-soft-black text-[11px] tracking-wide">AST Macramé</span>
+                <span className="font-serif font-bold text-soft-black text-[11px] tracking-wide mt-0.5">AST Macramé</span>
               </Link>
 
               <div className="flex gap-1.5">
@@ -111,8 +111,8 @@ const Navbar = () => {
             </div>
 
             {/* Navigation Links */}
-            <div className="flex flex-shrink-0 items-center justify-center px-1 w-full sm:w-auto">
-              <nav className="flex items-center justify-center sm:justify-center w-full sm:w-auto space-x-3 sm:space-x-4 md:space-x-6 lg:space-x-8 text-soft-black">
+            <div className="flex flex-shrink-0 items-center justify-center px-4 sm:px-1 w-full sm:w-auto">
+              <nav className="flex items-center justify-between sm:justify-center w-full sm:w-auto sm:space-x-4 md:space-x-6 lg:space-x-8 text-soft-black">
                 {navLinks.map((link, index) => {
                   const isActive = location.pathname === link.path;
                   return (
