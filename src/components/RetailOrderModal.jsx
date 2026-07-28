@@ -104,7 +104,7 @@ const RetailOrderModal = ({
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-2xl bg-cream p-4 sm:p-6 md:px-8 md:py-6 rounded-xl md:rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto z-10"
+            className="relative w-full max-w-4xl lg:max-w-5xl bg-cream p-4 sm:p-6 md:px-8 md:py-8 rounded-xl md:rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto z-10"
           >
             <button 
               onClick={onClose}
@@ -146,44 +146,45 @@ const RetailOrderModal = ({
                 </div>
                 
                 <form 
-                  className="space-y-3 md:space-y-4"
+                  className="md:grid md:grid-cols-2 md:gap-8 lg:gap-12 md:items-start space-y-4 md:space-y-0"
                   onSubmit={handleSubmit}
                 >
-                  <div className="grid grid-cols-2 gap-3 md:gap-4">
-                    <div>
-                      <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                        Name / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">নাম</span>
-                      </label>
-                      <input type="text" name="name" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Your Full Name" required />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                        Phone / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">মোবাইল</span>
-                      </label>
-                      <input type="tel" name="phone" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="01XXX XXXXXX" required />
-                    </div>
+                  <div className="space-y-3 md:space-y-4">
+                  <div>
+                    <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                      Name / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">নাম</span>
+                    </label>
+                    <input type="text" name="name" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Your Full Name" required />
                   </div>
-
-                  <div className="grid grid-cols-2 gap-3 md:gap-4">
-                    <div>
-                      <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                        Thana / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">থানা</span>
-                      </label>
-                      <input type="text" name="thana" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="e.g. Kotwali" required />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                        District / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">জেলা</span>
-                      </label>
-                      <input type="text" name="district" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="e.g. Chittagong" required />
-                    </div>
+                  <div>
+                    <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                      Phone / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">মোবাইল</span>
+                    </label>
+                    <input type="tel" name="phone" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="01XXX XXXXXX" required />
                   </div>
-
+                  <div>
+                    <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                      Thana / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">থানা</span>
+                    </label>
+                    <input type="text" name="thana" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="e.g. Kotwali" required />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                      District / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">জেলা</span>
+                    </label>
+                    <input type="text" name="district" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="e.g. Chittagong" required />
+                  </div>
                   <div>
                     <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
                       Delivery Point / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">যে জায়গা থেকে রিসিভ করবেন</span>
                     </label>
-                    <input type="text" name="delivery_point" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Full Address" required />
+                    <textarea 
+                      name="delivery_point"
+                      rows="3" 
+                      className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm resize-none" 
+                      placeholder="Full Address" 
+                      required
+                    ></textarea>
                   </div>
 
                   <div>
@@ -192,12 +193,16 @@ const RetailOrderModal = ({
                     </label>
                     <textarea 
                       name="message"
-                      rows="2" 
+                      rows="3" 
                       className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm resize-none" 
                       placeholder="Any custom instructions..."
                     ></textarea>
                   </div>
-                  <div className="w-full h-px bg-stone/20 my-4 md:my-5"></div>
+                  </div>
+
+                  <div className="md:hidden w-full h-px bg-stone/20 my-4 md:my-5"></div>
+                  
+                  <div className="flex flex-col h-full">
                   {/* Order Summary */}
                   <div className="bg-stone/5 border border-stone/20 rounded-xl p-4 md:p-5">
                     <h3 className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-4 border-b border-stone/10 pb-3">Order Summary</h3>
@@ -235,8 +240,8 @@ const RetailOrderModal = ({
                         <span>Subtotal</span>
                         <span className="font-medium">{orderType === 'single' ? '1,090' : '1,990'} BDT</span>
                       </div>
-                      <div className="flex justify-between items-center text-xs text-dark-charcoal/80">
-                        <span>Standard Delivery</span>
+                      <div className="flex justify-between items-center text-xs text-dark-charcoal/80 mt-1 md:mt-2">
+                        <span>Standard Delivery Charge</span>
                         <span className="font-medium text-terracotta">+ 100 BDT</span>
                       </div>
                       <div className="flex justify-between items-center mt-3 pt-3 border-t border-stone/10">
@@ -246,10 +251,11 @@ const RetailOrderModal = ({
                     </div>
                   </div>
 
-                  <div className="pt-6 md:pt-8 text-center">
-                    <button type="submit" disabled={isSubmitting} className="w-full md:w-auto bg-terracotta text-cream px-10 md:px-12 py-4 md:py-4 text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-muted-burgundy transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
+                  <div className="pt-6 mt-auto">
+                    <button type="submit" disabled={isSubmitting} className="w-full bg-soft-black text-cream px-10 py-4 text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-terracotta transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
                       {isSubmitting ? 'Processing...' : 'Submit Order'}
                     </button>
+                  </div>
                   </div>
                 </form>
               </>
