@@ -141,11 +141,11 @@ const Home = () => {
       {/* Craftsmanship Intro */}
       <section className="py-16 md:py-24 bg-cream text-soft-black px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-serif mb-8 text-dark-charcoal">
-            Traditional Craftsmanship.<br/>Modern Manufacturing.
+          <h2 className="text-4xl md:text-5xl font-serif mb-6 md:mb-8 text-dark-charcoal leading-tight">
+            Handcrafted for Brands That Value Quality
           </h2>
           <p className="text-sm md:text-lg text-dark-charcoal/80 font-light leading-relaxed max-w-3xl mx-auto">
-            Based in Chattogram, Bangladesh, our artisan workshop specializes exclusively in high-quality cotton macramé belts. Rather than relying on mass production, every belt is meticulously handwoven by skilled artisans, ensuring consistency, durability, and a premium tactile finish.
+            Every AST macramé belt is handwoven by skilled artisans in our workshop in Chattogram, Bangladesh. We combine traditional craftsmanship with reliable manufacturing to help fashion brands source premium handmade belts with consistent quality, flexible customization, and dependable production.
           </p>
         </div>
       </section>

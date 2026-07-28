@@ -19,7 +19,7 @@ const Navbar = () => {
   const isRetailPage = location.pathname === '/retail';
 
   const navLinks = [
-    { name: 'Order a Sample', path: '/product' },
+    { name: 'Order Sample', path: '/product' },
     { name: 'Manufacturing', path: '/manufacturing' },
     { name: 'Wholesale', path: '/sample-wholesale' },
     { name: 'Retail', path: '/retail' },
