@@ -47,14 +47,14 @@ const About = () => {
         <section className="mb-24">
           <h2 className="text-2xl font-serif text-soft-black mb-6">Leadership</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div className="glass p-8 rounded-xl shadow-sm">
+            <div className="glass p-8 rounded-3xl shadow-sm">
               <h3 className="text-xl font-serif text-soft-black mb-1">Saifuddin Sony</h3>
               <p className="text-xs font-sans uppercase tracking-widest text-terracotta mb-4">Founder</p>
               <p className="text-sm font-light text-dark-charcoal/80 leading-relaxed">
                 Driving the vision of AST to preserve handmade authenticity while meeting the exacting standards of modern fashion brands.
               </p>
             </div>
-            <div className="glass p-8 rounded-xl shadow-sm">
+            <div className="glass p-8 rounded-3xl shadow-sm">
               <h3 className="text-xl font-serif text-soft-black mb-1">Arfat Risve</h3>
               <p className="text-xs font-sans uppercase tracking-widest text-terracotta mb-4">Export Sales Manager</p>
               <p className="text-sm font-light text-dark-charcoal/80 leading-relaxed">

@@ -100,7 +100,7 @@ const Manufacturing = () => {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.05 }}
               key={index} 
-              className="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-stone/10 hover:shadow-md transition-shadow flex flex-col h-full"
+              className="bg-white p-4 md:p-8 rounded-3xl shadow-sm border border-stone/10 hover:shadow-md transition-shadow flex flex-col h-full"
             >
               <div className="text-terracotta font-serif text-2xl md:text-3xl font-medium mb-2 md:mb-4">
                 {String(index + 1).padStart(2, '0')}
@@ -114,7 +114,7 @@ const Manufacturing = () => {
 
       {/* Quality Control */}
       <section className="px-6 lg:px-12 max-w-7xl mx-auto pb-16 md:pb-0">
-        <div className="bg-white border border-stone/20 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-sm flex flex-col p-6 md:p-12 lg:p-16">
+        <div className="bg-white border border-stone/20 rounded-3xl overflow-hidden shadow-sm flex flex-col p-6 md:p-12 lg:p-16">
           
           {/* Content & Image Row */}
           <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16 mb-6 md:mb-14">

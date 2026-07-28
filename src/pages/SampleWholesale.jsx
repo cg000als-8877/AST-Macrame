@@ -30,7 +30,7 @@ const SampleWholesale = () => {
           </motion.p>
         </section>
 
-        <div className="glass max-w-4xl mx-auto p-8 md:p-14 rounded-[2rem] shadow-sm border border-stone/20 mb-24">
+        <div className="glass max-w-4xl mx-auto p-8 md:p-14 rounded-3xl shadow-sm border border-stone/20 mb-24">
           <h2 className="text-3xl font-serif text-soft-black mb-6 text-center">Sample & Bulk Manufacturing</h2>
           <p className="text-sm text-dark-charcoal/80 font-light mb-12 leading-relaxed text-center max-w-3xl mx-auto">
             We highly encourage ordering a physical sample to experience our premium cotton cord, buckle strength, and weaving consistency firsthand. For boutique labels and established brands, we provide end-to-end OEM and Private Label manufacturing tailored to your exact specifications.

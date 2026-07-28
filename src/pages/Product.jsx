@@ -163,8 +163,11 @@ const Product = () => {
   const handleQuantityChange = (qty) => {
     setQuantity(qty);
     if (qty > selectedColors.length) {
-      const addedColors = Array(qty - selectedColors.length).fill(selectedColors[0]);
-      setSelectedColors([...selectedColors, ...addedColors]);
+      const newColors = [...selectedColors];
+      for (let i = selectedColors.length; i < qty; i++) {
+        newColors.push(colors[i % colors.length].name);
+      }
+      setSelectedColors(newColors);
       const addedSizes = Array(qty - selectedSizes.length).fill(selectedSizes[0]);
       setSelectedSizes([...selectedSizes, ...addedSizes]);
     } else if (qty < selectedColors.length) {
@@ -264,7 +267,7 @@ const Product = () => {
   };
 
   return (
-    <div className="w-full bg-cream min-h-screen pt-[102px] sm:pt-[76px] md:pt-[96px] pb-16 md:pb-24">
+    <div className="w-full bg-cream min-h-screen pt-[102px] sm:pt-[76px] md:pt-[96px]">
       <div className="max-w-7xl mx-auto px-0 lg:px-12">
         
         {/* Product Hero & Details */}
@@ -284,7 +287,7 @@ const Product = () => {
                 className="w-full flex overflow-x-auto snap-x snap-mandatory gap-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               >
                 {images.map((img, idx) => (
-                  <div key={idx} className="relative w-full shrink-0 aspect-[4/5] bg-stone/20 overflow-hidden snap-start snap-always">
+                  <div key={idx} className="relative w-full shrink-0 aspect-[4/5] bg-stone/20 overflow-hidden snap-center rounded-none">
                     <img 
                       src={img} 
                       alt={`Macrame Belt ${selectedColor} view ${idx + 1}`} 
@@ -316,7 +319,7 @@ const Product = () => {
             {/* Desktop 2x2 Grid (Hidden on mobile) */}
             <div className="hidden lg:grid grid-cols-2 gap-4">
               {images.slice(0, 4).map((img, idx) => (
-                <div key={idx} className="relative w-full aspect-[4/5] bg-stone/10 overflow-hidden group">
+                <div key={idx} className="relative w-full aspect-[4/5] bg-stone/10 overflow-hidden group rounded-none">
                   <motion.img 
                     key={selectedColor + idx}
                     initial={{ opacity: 0 }}
@@ -349,12 +352,12 @@ const Product = () => {
             </p>
             <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-2 md:mb-3">Unisex Design • 100% Cotton</p>
             
-            {/* Price Display */}
+            {/* Price Display & Policy */}
             <div className="mb-6">
               {isLoadingLocalization ? (
-                <div className="h-8 w-24 bg-stone/20 animate-pulse rounded"></div>
+                <div className="h-8 w-24 bg-stone/20 animate-pulse rounded mb-2"></div>
               ) : (
-                <div className="flex items-baseline gap-2">
+                <div className="flex items-baseline gap-2 mb-2">
                   <span className="text-2xl md:text-3xl font-serif text-soft-black">
                     {currencySymbol}{totalPriceLocal.toFixed(2)}
                   </span>
@@ -363,6 +366,18 @@ const Product = () => {
                   </span>
                 </div>
               )}
+              
+              <hr className="border-t border-stone/30 mb-2 w-full" />
+              
+              <div className="flex justify-start">
+                <button 
+                  onClick={() => setIsSamplePolicyOpen(true)}
+                  className="text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors flex items-center gap-1.5"
+                >
+                  <Info className="w-3.5 h-3.5 md:w-4 md:h-4 stroke-[2.5]" />
+                  <span className="underline underline-offset-4">Sample Order Policy</span>
+                </button>
+              </div>
             </div>
 
             {/* Quantity Selection */}
@@ -375,7 +390,7 @@ const Product = () => {
                   <button
                     key={q}
                     onClick={() => handleQuantityChange(q)}
-                    className={`h-10 px-4 md:px-5 flex items-center justify-center text-[10px] md:text-xs font-bold uppercase tracking-widest border transition-colors duration-300 rounded-none ${quantity === q ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                    className={`h-10 px-4 md:px-5 flex items-center justify-center text-[10px] md:text-xs font-bold uppercase tracking-widest border transition-colors duration-300 rounded-full ${quantity === q ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
                   >
                     {q === 1 ? 'SINGLE' : `PACK OF ${q}`}
                   </button>
@@ -405,75 +420,55 @@ const Product = () => {
               </div>
 
               {quantity === 5 ? (
-                <div className="mb-6 p-4 md:p-5 border border-stone/30 bg-stone/5 relative">
+                <div className="mb-6 p-4 md:p-5 border border-stone/30 bg-stone/5 relative rounded-2xl md:rounded-3xl">
                   <p className="text-xs md:text-sm text-dark-charcoal/80 font-light italic leading-relaxed">
                     <span className="font-semibold text-terracotta not-italic uppercase tracking-wider text-[10px] md:text-xs mr-2">Note:</span>
                     The Pack of 5 includes all 5 signature colors (Black, Navy, Brown, Maroon, Khaki) in a curated mix of sizes (2 Medium and 3 Large).
                   </p>
                 </div>
               ) : (
-                Array.from({ length: quantity }).map((_, index) => (
-                  <div key={index} className="mb-6 last:mb-0 p-4 md:p-5 border border-stone/30 bg-stone/5 relative">
-                    {quantity > 1 && (
-                      <span className="absolute -top-2.5 left-3 bg-cream px-2 text-[9px] md:text-[10px] font-bold tracking-widest uppercase text-terracotta">
-                        Sample {index + 1}
-                      </span>
-                    )}
-                    
-                    <div className="flex flex-row items-start justify-between sm:justify-start gap-4 md:gap-10">
-                      {/* Color Picker */}
-                      <div>
-                        <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-2 md:mb-3">
-                          Color: <span className="font-medium text-dark-charcoal/70">{selectedColors[index]}</span>
-                        </span>
-                        <div className="flex gap-3 md:gap-4">
-                          {colors.map((color) => (
-                            <button
-                              key={color.name}
-                              onClick={() => handleColorChange(index, color.name)}
-                              className={`w-8 h-8 md:w-10 md:h-10 rounded-full border-2 transition-all duration-300 ${selectedColors[index] === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
-                              aria-label={`Select ${color.name}`}
-                            >
-                              <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
-                            </button>
-                          ))}
-                        </div>
+                <div className="flex flex-col gap-2 md:gap-4 w-full">
+                  {Array.from({ length: quantity }).map((_, index) => (
+                    <div key={index} className="flex items-center justify-between sm:justify-start gap-1 sm:gap-3 bg-stone/5 border border-stone/10 p-2 sm:p-2.5 md:p-3 rounded-2xl md:rounded-3xl shadow-sm overflow-x-auto [&::-webkit-scrollbar]:hidden">
+                      {quantity > 1 && (
+                        <span className="text-[9px] sm:text-[10px] font-bold text-dark-charcoal uppercase shrink-0 sm:w-10 md:w-12">Belt {index + 1}:</span>
+                      )}
+                      
+                      <div className="flex gap-1 sm:gap-1.5 md:gap-2 items-center shrink-0">
+                        {colors.map((color) => (
+                          <button
+                            key={color.name}
+                            onClick={() => handleColorChange(index, color.name)}
+                            className={`w-[22px] h-[22px] sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full border transition-all duration-300 ${selectedColors[index] === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
+                            title={color.name}
+                          >
+                            <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
+                          </button>
+                        ))}
                       </div>
                       
-                      {/* Size Picker */}
-                      <div>
-                        <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-2 md:mb-3">
-                          Size: <span className="font-medium text-dark-charcoal/70">{selectedSizes[index]}</span>
-                        </span>
-                        <div className="flex gap-2 md:gap-3">
-                          {['M', 'L'].map((size) => (
-                            <button
-                              key={size}
-                              onClick={() => handleSizeChange(index, size)}
-                              className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-xs md:text-sm font-bold uppercase tracking-widest border transition-colors duration-300 rounded-none ${selectedSizes[index] === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
-                            >
-                              {size}
-                            </button>
-                          ))}
-                        </div>
+                      <div className="w-[1px] h-5 sm:h-6 md:h-7 bg-stone/20 mx-0.5 sm:mx-2 shrink-0"></div>
+                      
+                      <div className="flex gap-1 sm:gap-2 shrink-0 items-center">
+                        <span className="text-[7px] sm:text-[8px] font-bold text-dark-charcoal/60 uppercase mr-0.5 tracking-wider">Size</span>
+                        {['M', 'L'].map((size) => (
+                          <button
+                            key={size}
+                            onClick={() => handleSizeChange(index, size)}
+                            className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 flex items-center justify-center text-[10px] sm:text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-full ${selectedSizes[index] === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                          >
+                            {size}
+                          </button>
+                        ))}
                       </div>
                     </div>
-                  </div>
-                ))
+                  ))}
+                </div>
               )}
             </div>
             
             {/* CTA Buttons */}
             <div className="flex flex-col gap-3 md:gap-4 mb-10 md:mb-12">
-              <div className="flex justify-start mb-1">
-                <button 
-                  onClick={() => setIsSamplePolicyOpen(true)}
-                  className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors flex items-center gap-1.5"
-                >
-                  <Info className="w-3.5 h-3.5 md:w-4 md:h-4 stroke-[2.5]" />
-                  <span className="underline underline-offset-4">Sample Order Policy</span>
-                </button>
-              </div>
               {/* Shipping Status */}
               <div className="mb-1 text-center">
                 {isLoadingLocalization ? (
@@ -487,14 +482,14 @@ const Product = () => {
 
               <button 
                 onClick={() => setIsOrderFormOpen(true)}
-                className="w-full bg-soft-black text-cream text-center px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-none hover:bg-dark-charcoal transition-colors"
+                className="w-full flex items-center justify-center bg-soft-black text-cream px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-dark-charcoal transition-colors border border-transparent"
               >
                 Order Sample
               </button>
               
               <Link 
                 to="/contact" 
-                className="w-full border border-soft-black text-soft-black text-center px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-none hover:bg-soft-black/5 transition-colors"
+                className="w-full flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-soft-black/5 transition-colors"
               >
                 Wholesale Inquiry
               </Link>
@@ -519,15 +514,15 @@ const Product = () => {
               >
                 <ul className="space-y-1.5 pt-2 text-sm md:text-base text-dark-charcoal/80 font-light">
                   <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-none bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
+                    <span className="w-1 h-1 rounded-full bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
                     <span>Premium High-Quality Cotton Macramé Cord</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-none bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
+                    <span className="w-1 h-1 rounded-full bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
                     <span>Rust-Resistant Metal Buckle with Modern Finish</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-none bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
+                    <span className="w-1 h-1 rounded-full bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
                     <span>Soft, Flexible & Comfortable against the waist</span>
                   </li>
                 </ul>
@@ -540,15 +535,15 @@ const Product = () => {
               >
                 <ul className="space-y-1.5 pt-2 text-sm md:text-base text-dark-charcoal/80 font-light">
                   <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-none bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
+                    <span className="w-1 h-1 rounded-full bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
                     <span>Custom Belt Colors to match your brand palette</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-none bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
+                    <span className="w-1 h-1 rounded-full bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
                     <span>Custom Buckle finishes (Matte, Brass, Silver, Gunmetal)</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-none bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
+                    <span className="w-1 h-1 rounded-full bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
                     <span>Custom Logo, Hangtags, and Premium Packaging</span>
                   </li>
                 </ul>
@@ -701,7 +696,7 @@ const Product = () => {
                 <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
               </button>
               
-              <div className="relative max-h-[90vh] md:max-h-[95vh] max-w-[95vw] aspect-[4/5] overflow-hidden">
+              <div className="relative max-h-[90vh] md:max-h-[95vh] max-w-[95vw] aspect-[4/5] overflow-hidden rounded-none">
                 <button 
                   onClick={() => { setLightboxImage(null); setZoomLevel(1); }}
                   className="absolute top-2 right-2 md:top-4 md:right-4 text-white mix-blend-difference z-[110] transition-transform hover:scale-110 p-2"
@@ -745,12 +740,12 @@ const Product = () => {
       />
 
       {/* Features Grid */}
-      <section className="py-12 md:py-20 bg-cotton-white px-6">
+      <section className="pt-12 md:pt-20 pb-8 md:pb-12 bg-cotton-white px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8 w-full">
             
             {/* Bento Card 1: Premium Materials */}
-            <div className="group relative rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
+            <div className="group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
               <img src="/premium_materials_bento.jpg" alt="Premium Materials" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-85 md:opacity-75 md:group-hover:opacity-95 transition-opacity duration-500"></div>
               
@@ -775,7 +770,7 @@ const Product = () => {
             </div>
             
             {/* Bento Card 2: OEM & Private Label */}
-            <div className="group relative rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
+            <div className="group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
               <img src="/oem_private_label_bento.jpg" alt="OEM & Private Label" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-85 md:opacity-75 md:group-hover:opacity-95 transition-opacity duration-500"></div>
               
@@ -802,7 +797,7 @@ const Product = () => {
             </div>
             
             {/* Bento Card 3: Quality Assured */}
-            <div className="group relative rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
+            <div className="group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
               <img src="/quality_assured_bento.jpg" alt="Quality Assured" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-85 md:opacity-75 md:group-hover:opacity-95 transition-opacity duration-500"></div>
               
