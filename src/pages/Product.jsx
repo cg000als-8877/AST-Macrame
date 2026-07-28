@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Plus, Minus, X, ZoomIn, Info } from 'lucide-react';
-import InquiryModal from '../components/InquiryModal';
+import SampleOrderDrawer from '../components/SampleOrderDrawer';
 
 import b1 from '../assets/products/Black/1.jpg';
 import b2 from '../assets/products/Black/2.jpg';
@@ -73,6 +73,8 @@ const Product = () => {
   const [currencySymbol, setCurrencySymbol] = useState('৳');
   const [exchangeRate, setExchangeRate] = useState(1);
   const [userCountry, setUserCountry] = useState('Bangladesh');
+  const [userCountryCode, setUserCountryCode] = useState('BD');
+  const [userCallingCode, setUserCallingCode] = useState('+880');
   const [shippingCostLocal, setShippingCostLocal] = useState(120);
   const [isLoadingLocalization, setIsLoadingLocalization] = useState(true);
 
@@ -85,12 +87,16 @@ const Product = () => {
         
         const currencyCode = ipData.currency || 'USD';
         const country = ipData.country_name || 'United States';
+        const countryCode = ipData.country_code || 'US';
+        const callingCode = ipData.country_calling_code || '+1';
         
         const symbolMap = { 'USD': '$', 'EUR': '€', 'GBP': '£', 'BDT': '৳', 'CAD': 'C$', 'AUD': 'A$' };
         const symbol = symbolMap[currencyCode] || currencyCode + ' ';
         
         if (!isMounted) return;
         setUserCountry(country);
+        setUserCountryCode(countryCode);
+        setUserCallingCode(callingCode);
         setLocalCurrency(currencyCode);
         setCurrencySymbol(symbol);
 
@@ -723,10 +729,9 @@ const Product = () => {
         )}
       </AnimatePresence>
 
-      <InquiryModal 
+      <SampleOrderDrawer 
         isOpen={isOrderFormOpen} 
         onClose={() => setIsOrderFormOpen(false)} 
-        formType="sample" 
         orderDetails={{
           quantity,
           selectedColors,
@@ -735,7 +740,10 @@ const Product = () => {
           shippingCostLocal,
           totalPriceLocal,
           currencySymbol,
-          localCurrency
+          localCurrency,
+          userCountry,
+          userCountryCode,
+          userCallingCode
         }}
       />
 

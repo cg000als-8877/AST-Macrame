@@ -22,6 +22,7 @@ const Navbar = () => {
     { name: 'Order a Sample', path: '/product' },
     { name: 'Manufacturing', path: '/manufacturing' },
     { name: 'Wholesale', path: '/sample-wholesale' },
+    { name: 'Retail', path: '/retail' },
     { name: 'Contact', path: '/contact' }
   ];
 

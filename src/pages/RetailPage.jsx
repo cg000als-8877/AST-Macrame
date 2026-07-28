@@ -71,6 +71,23 @@ const RetailPage = () => {
   const [zoomLevel, setZoomLevel] = useState(1);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
+  
+  const [isForeignUser, setIsForeignUser] = useState(false);
+
+  useEffect(() => {
+    const checkLocation = async () => {
+      try {
+        const response = await fetch('https://api.country.is');
+        const data = await response.json();
+        if (data.country !== 'BD') {
+          setIsForeignUser(true);
+        }
+      } catch (error) {
+        console.error('Error fetching location:', error);
+      }
+    };
+    checkLocation();
+  }, []);
 
   useEffect(() => {
     if (lightboxImage) {
@@ -180,7 +197,43 @@ const RetailPage = () => {
   };
 
   return (
-    <div className="w-full bg-cream min-h-screen pt-[68px] sm:pt-[76px] md:pt-[96px]">
+    <>
+      <AnimatePresence>
+        {isForeignUser && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-soft-black/80 backdrop-blur-sm p-4"
+          >
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              className="bg-cream rounded-2xl p-6 md:p-8 max-w-sm md:max-w-md w-full text-center shadow-2xl border border-stone/10"
+            >
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-5">
+                <svg className="w-7 h-7 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <h2 className="text-xl md:text-2xl font-serif font-bold text-soft-black mb-2 md:mb-3">
+                Region Restricted
+              </h2>
+              <p className="text-dark-charcoal/80 mb-6 md:mb-8 text-sm md:text-base leading-relaxed">
+                This retail section is exclusively available for customers residing in <strong>Bangladesh</strong>. 
+                For international orders, please visit our wholesale section or order a sample.
+              </p>
+              <Link 
+                to="/product"
+                className="inline-block w-full bg-soft-black text-cream px-6 py-3.5 md:py-4 font-bold uppercase tracking-widest text-[10px] md:text-xs rounded-full hover:bg-terracotta transition-all shadow-md"
+              >
+                Return to Product Page
+              </Link>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="w-full bg-cream min-h-screen pt-[68px] sm:pt-[76px] md:pt-[96px]">
       <div className="max-w-7xl mx-auto px-0 lg:px-12">
         
         {/* Product Hero & Details */}
@@ -695,6 +748,7 @@ const RetailPage = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 
