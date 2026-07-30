@@ -238,6 +238,31 @@ const Home = () => {
           </div>
         </div>
       </section>
+      {/* Our Mission */}
+      <section className="py-12 md:py-20 bg-cream px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="relative rounded-3xl overflow-hidden shadow-lg w-full aspect-[3/4] md:aspect-[4/3] lg:aspect-[12/6]">
+            {/* Mobile Image (3:4 aspect ratio approx) */}
+            <img src="/mission_mobile.jpg" alt="Our Mission" className="md:hidden absolute inset-0 w-full h-full object-cover" />
+            
+            {/* Desktop Image (4:3 / 12:9 aspect ratio approx) */}
+            <img src="/mission_desktop.jpg" alt="Our Mission" className="hidden md:block absolute inset-0 w-full h-full object-cover" />
+            
+            {/* Overlay for text readability */}
+            <div className="absolute inset-0 bg-black/50"></div>
+            
+            {/* Text Content */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 md:p-12 lg:p-24 z-10">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-white mb-6 md:mb-8 leading-tight">
+                Our Mission
+              </h2>
+              <p className="text-base md:text-xl lg:text-2xl text-white/95 font-light max-w-4xl leading-relaxed">
+                To become a trusted partner for fashion brands worldwide by producing premium handmade macramé belts with skilled craftsmanship, consistent quality, honest business practices, and dependable service.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Who We Work With */}
       <section className="py-12 md:py-16 overflow-hidden bg-cream">
