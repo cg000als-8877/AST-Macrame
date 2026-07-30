@@ -233,7 +233,7 @@ const RetailPage = () => {
         )}
       </AnimatePresence>
 
-      <div className="w-full bg-cream min-h-screen pt-[68px] sm:pt-[76px] md:pt-[96px]">
+      <div className="w-full bg-cream min-h-screen pt-[49px] sm:pt-[76px] md:pt-[96px]">
       <div className="max-w-7xl mx-auto px-0 lg:px-12">
         
         {/* Product Hero & Details */}
@@ -336,17 +336,17 @@ const RetailPage = () => {
             <div className="w-full h-px bg-stone/20 mb-5 md:mb-6"></div>
 
             {/* Order Type Selection */}
-            <div className="mb-6">
-              <div className="flex bg-stone/10 p-1 rounded-lg w-full max-w-sm">
+            <div className="mb-6 md:mb-8">
+              <div className="flex gap-3 w-full max-w-md">
                 <button 
                   onClick={() => setOrderType('single')}
-                  className={`flex-1 py-2 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-md transition-all ${orderType === 'single' ? 'bg-white shadow-sm text-soft-black' : 'text-dark-charcoal/60 hover:text-soft-black'}`}
+                  className={`flex-1 py-3 md:py-3.5 px-2 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-xl border transition-all duration-300 ${orderType === 'single' ? 'bg-soft-black text-cream border-soft-black shadow-md' : 'bg-transparent text-soft-black border-stone/30 hover:border-soft-black/50 hover:bg-stone/5'}`}
                 >
                   Single Product
                 </button>
                 <button 
                   onClick={() => setOrderType('combo')}
-                  className={`flex-1 py-2 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-md transition-all ${orderType === 'combo' ? 'bg-white shadow-sm text-soft-black' : 'text-dark-charcoal/60 hover:text-soft-black'}`}
+                  className={`flex-1 py-3 md:py-3.5 px-2 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-xl border transition-all duration-300 ${orderType === 'combo' ? 'bg-soft-black text-cream border-soft-black shadow-md' : 'bg-transparent text-soft-black border-stone/30 hover:border-soft-black/50 hover:bg-stone/5'}`}
                 >
                   Combo (2 Belts)
                 </button>
