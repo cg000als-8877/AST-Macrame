@@ -239,9 +239,9 @@ const Home = () => {
         </div>
       </section>
       {/* Our Mission */}
-      <section className="py-12 md:py-20 bg-cream px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="relative rounded-3xl overflow-hidden shadow-lg w-full aspect-[3/4] md:aspect-[4/3] lg:aspect-[12/6]">
+      <section className="py-12 md:py-20 bg-cream px-0">
+        <div className="w-full">
+          <div className="relative overflow-hidden shadow-lg w-full aspect-[3/4] md:aspect-[4/3] lg:aspect-[21/9]">
             {/* Mobile Image (3:4 aspect ratio approx) */}
             <img src="/mission_mobile.jpg" alt="Our Mission" className="md:hidden absolute inset-0 w-full h-full object-cover" />
             

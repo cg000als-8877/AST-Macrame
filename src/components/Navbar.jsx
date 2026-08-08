@@ -119,7 +119,7 @@ const Navbar = () => {
                   <React.Fragment key={link.name}>
                     <Link 
                       to={link.path}
-                      className={`relative text-[clamp(9px,2vw,14px)] font-bold md:font-semibold tracking-tighter sm:tracking-widest uppercase active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap py-0.5 ${isActive ? 'text-terracotta' : 'hover:text-terracotta text-soft-black'}`}
+                      className={`relative text-[clamp(9px,1.5vw,12px)] font-bold md:font-semibold tracking-tighter sm:tracking-widest uppercase active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap py-0.5 ${isActive ? 'text-terracotta' : 'hover:text-terracotta text-soft-black'}`}
                     >
                       {link.name}
                       {isActive && (
