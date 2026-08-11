@@ -354,7 +354,7 @@ const RetailPage = () => {
                       className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors"
                     >
                       <Ruler className="w-3.5 h-3.5 md:w-4 md:h-4 text-terracotta" />
-                      <span className="underline underline-offset-4">Size Guide</span>
+                      <span>Size Guide</span>
                     </button>
                     <div className="w-[1px] h-4 bg-dark-charcoal/30 mx-1 md:mx-2 shrink-0"></div>
                     <button 
@@ -362,7 +362,7 @@ const RetailPage = () => {
                       className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors"
                     >
                       <Droplets className="w-3.5 h-3.5 md:w-4 md:h-4 text-terracotta" />
-                      <span className="underline underline-offset-4">Care Guide</span>
+                      <span>Care Guide</span>
                     </button>
                   </div>
                 </div>
@@ -416,7 +416,7 @@ const RetailPage = () => {
                       className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors"
                     >
                       <Ruler className="w-3.5 h-3.5 md:w-4 md:h-4 text-terracotta" />
-                      <span className="underline underline-offset-4">Size Guide</span>
+                      <span>Size Guide</span>
                     </button>
                     <div className="w-[1px] h-4 bg-dark-charcoal/30 mx-1 md:mx-2 shrink-0"></div>
                     <button 
@@ -424,7 +424,7 @@ const RetailPage = () => {
                       className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors"
                     >
                       <Droplets className="w-3.5 h-3.5 md:w-4 md:h-4 text-terracotta" />
-                      <span className="underline underline-offset-4">Care Guide</span>
+                      <span>Care Guide</span>
                     </button>
                   </div>
                 </div>
@@ -695,7 +695,7 @@ const RetailPage = () => {
             onClick={() => setIsCareGuideOpen(false)}
             className="absolute inset-0 bg-soft-black/40 backdrop-blur-sm"
           />
-          <div className="bg-white border border-stone/20 w-full max-w-sm p-6 md:p-8 relative z-10 shadow-2xl rounded-xl text-center">
+          <div className="bg-white border border-stone/20 w-full max-w-sm p-6 relative z-10 shadow-2xl rounded-xl text-center">
               <button 
                 onClick={() => setIsCareGuideOpen(false)}
                 className="absolute top-4 right-4 text-soft-black/40 hover:text-soft-black transition-colors"
@@ -703,35 +703,25 @@ const RetailPage = () => {
                 <X className="w-5 h-5" />
               </button>
               
-              <Droplets className="h-8 w-8 mx-auto mb-4 text-terracotta" />
+              <img src="/logo_black.png" alt="AST Logo" className="h-5 w-auto mx-auto mb-4 object-contain opacity-80" />
               
-              <h2 className="text-xl md:text-2xl font-serif text-soft-black mb-6">Care Instructions</h2>
+              <h2 className="text-xl font-serif text-soft-black mb-5">Care Instructions</h2>
               
-              <div className="space-y-4 text-left">
-                <div className="flex items-start gap-3 p-3 bg-stone/5 rounded-lg border border-stone/10">
-                  <div className="w-1.5 h-1.5 rounded-full bg-terracotta mt-2 shrink-0"></div>
-                  <p className="text-sm text-dark-charcoal/80 leading-relaxed font-medium">Hand wash cold & gently</p>
-                </div>
-                
-                <div className="flex items-start gap-3 p-3 bg-stone/5 rounded-lg border border-stone/10">
-                  <div className="w-1.5 h-1.5 rounded-full bg-terracotta mt-2 shrink-0"></div>
-                  <p className="text-sm text-dark-charcoal/80 leading-relaxed font-medium">Use mild detergent</p>
-                </div>
-                
-                <div className="flex items-start gap-3 p-3 bg-stone/5 rounded-lg border border-stone/10">
-                  <div className="w-1.5 h-1.5 rounded-full bg-terracotta mt-2 shrink-0"></div>
-                  <p className="text-sm text-dark-charcoal/80 leading-relaxed font-medium">Do not bleach or soak</p>
-                </div>
-                
-                <div className="flex items-start gap-3 p-3 bg-stone/5 rounded-lg border border-stone/10">
-                  <div className="w-1.5 h-1.5 rounded-full bg-terracotta mt-2 shrink-0"></div>
-                  <p className="text-sm text-dark-charcoal/80 leading-relaxed font-medium">Air dry naturally</p>
-                </div>
-                
-                <div className="flex items-start gap-3 p-3 bg-stone/5 rounded-lg border border-stone/10">
-                  <div className="w-1.5 h-1.5 rounded-full bg-terracotta mt-2 shrink-0"></div>
-                  <p className="text-sm text-dark-charcoal/80 leading-relaxed font-medium">Do not tumble dry or iron</p>
-                </div>
+              <div className="w-full bg-stone/5 rounded-lg border border-stone/10 overflow-hidden mb-4 p-4 text-left">
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-terracotta mt-1.5 shrink-0"></div>
+                    <span className="text-[13px] font-medium text-dark-charcoal/80 leading-relaxed">Hand wash cold & gently with a mild detergent</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-terracotta mt-1.5 shrink-0"></div>
+                    <span className="text-[13px] font-medium text-dark-charcoal/80 leading-relaxed">Air dry naturally; avoid direct heat</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-terracotta mt-1.5 shrink-0"></div>
+                    <span className="text-[13px] font-medium text-dark-charcoal/80 leading-relaxed">Do not bleach, soak, iron, or tumble dry</span>
+                  </li>
+                </ul>
               </div>
           </div>
         </div>
