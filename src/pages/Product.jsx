@@ -712,8 +712,19 @@ const Product = () => {
                 <img 
                   src={lightboxImage} 
                   alt="Product Zoom"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const now = Date.now();
+                    const DOUBLE_PRESS_DELAY = 300;
+                    if (now - (e.target.lastTap || 0) < DOUBLE_PRESS_DELAY) {
+                      setZoomLevel(prev => prev === 1 ? 2.5 : 1);
+                      e.target.lastTap = 0;
+                    } else {
+                      e.target.lastTap = now;
+                    }
+                  }}
                   style={{ transform: `scale(${zoomLevel})` }}
-                  className="w-full h-full object-contain transition-transform duration-75 ease-out rounded-lg md:rounded-xl bg-white select-none"
+                  className="w-full h-full object-contain transition-transform duration-200 ease-out rounded-lg md:rounded-xl bg-white select-none cursor-zoom-in"
                   draggable="false"
                 />
               </div>
