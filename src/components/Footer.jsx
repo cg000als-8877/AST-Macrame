@@ -35,18 +35,18 @@ const Footer = () => {
               <h4 className="font-sans text-[9px] md:text-xs font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Services</h4>
               <ul className="flex flex-col space-y-2 md:space-y-3 items-center lg:items-start">
                 <li><Link to="/retail" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Retail</Link></li>
-                <li><Link to="/product" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Sample</Link></li>
-                <li><Link to="/sample-wholesale" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Wholesale</Link></li>
-                <li><Link to="/manufacturing" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">OEM</Link></li>
+                <li><Link to="/product" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate"><span className="hidden lg:inline">Order a </span>Sample</Link></li>
+                <li><Link to="/sample-wholesale" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Wholesale<span className="hidden lg:inline"> Inquiry</span></Link></li>
+                <li><Link to="/manufacturing" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">OEM<span className="hidden lg:inline"> & Private Label</span></Link></li>
               </ul>
             </div>
 
             <div className="flex flex-col items-center text-center pl-2 lg:pl-0 lg:items-start lg:text-left">
               <h4 className="font-sans text-[9px] md:text-xs font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Legal</h4>
               <ul className="flex flex-col space-y-2 md:space-y-3 items-center lg:items-start">
-                <li><Link to="/terms" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Terms</Link></li>
-                <li><Link to="/privacy" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Privacy</Link></li>
-                <li><Link to="/refund" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Refund</Link></li>
+                <li><Link to="/terms" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Terms<span className="hidden lg:inline"> & Conditions</span></Link></li>
+                <li><Link to="/privacy" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Privacy<span className="hidden lg:inline"> Policy</span></Link></li>
+                <li><Link to="/refund" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Refund<span className="hidden lg:inline"> Policy</span></Link></li>
               </ul>
             </div>
             
