@@ -190,24 +190,24 @@ const RetailOrderModal = ({
                 >
                   <div className="order-2 md:order-1 space-y-3 md:space-y-4">
                   <div>
-                    <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      Name / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">নাম</span>
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                      Name / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">নাম</span>
                     </label>
-                    <input type="text" name="name" className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Your Full Name" required />
+                    <input type="text" name="name" className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px]" placeholder="Your Full Name" required />
                   </div>
                   <div>
-                    <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      Phone / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">মোবাইল</span>
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                      Phone / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">মোবাইল</span>
                     </label>
-                    <input type="tel" name="phone" className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="01XXX XXXXXX" required />
+                    <input type="tel" name="phone" className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px]" placeholder="01XXX XXXXXX" required />
                   </div>
                   <div>
-                    <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      District / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">জেলা</span>
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                      District / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">জেলা</span>
                     </label>
                     <select 
                       name="district" 
-                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm appearance-none" 
+                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px] appearance-none" 
                       required
                       value={selectedDistrictId}
                       onChange={(e) => setSelectedDistrictId(e.target.value)}
@@ -219,12 +219,12 @@ const RetailOrderModal = ({
                     </select>
                   </div>
                   <div>
-                    <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      Thana/Upazila / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">থানা</span>
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                      Thana/Upazila / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">থানা</span>
                     </label>
                     <select 
                       name="thana" 
-                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm appearance-none" 
+                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px] appearance-none" 
                       value={selectedUpazilaName}
                       onChange={(e) => setSelectedUpazilaName(e.target.value)}
                       disabled={!selectedDistrictId}
@@ -236,26 +236,26 @@ const RetailOrderModal = ({
                     </select>
                   </div>
                   <div>
-                    <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      Delivery Point / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">যে জায়গা থেকে রিসিভ করবেন</span>
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                      Delivery Point / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">যে জায়গা থেকে রিসিভ করবেন</span>
                     </label>
                     <textarea 
                       name="delivery_point"
                       rows="3" 
-                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm resize-none" 
+                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px] resize-none" 
                       placeholder="Full Address" 
                       required
                     ></textarea>
                   </div>
 
                   <div>
-                    <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      Note / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">নোট</span> <span className="text-dark-charcoal/50 font-normal normal-case tracking-normal">(Optional)</span>
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                      Note / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">নোট</span> <span className="text-dark-charcoal/50 font-normal normal-case tracking-normal">(Optional)</span>
                     </label>
                     <textarea 
                       name="message"
                       rows="3" 
-                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm resize-none" 
+                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px] resize-none" 
                       placeholder="Any custom instructions..."
                     ></textarea>
                   </div>

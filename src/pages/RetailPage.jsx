@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Plus, Minus, X, Ruler, ZoomIn, AlignLeft, Layers, Truck, AlertCircle, Droplets } from 'lucide-react';
 import RetailOrderModal from '../components/RetailOrderModal';
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import b1 from '../assets/products/Black/1.jpg';
 import b2 from '../assets/products/Black/2.jpg';
@@ -731,14 +732,6 @@ const RetailPage = () => {
       {lightboxImage && (
         <div 
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 px-4 overflow-hidden"
-          onWheel={(e) => {
-            const zoomStep = 0.15;
-            if (e.deltaY < 0) {
-              setZoomLevel(prev => Math.min(prev + zoomStep, 3));
-            } else {
-              setZoomLevel(prev => Math.max(prev - zoomStep, 1));
-            }
-          }}
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEndEvent}
@@ -751,31 +744,30 @@ const RetailPage = () => {
                 <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
               </button>
               
-              <div className="relative max-h-[90vh] md:max-h-[95vh] max-w-[95vw] aspect-[4/5] overflow-hidden rounded-none">
+              <div className="relative w-full max-h-[90vh] md:max-h-[95vh] max-w-[95vw] aspect-[4/5] flex items-center justify-center overflow-hidden rounded-none md:rounded-xl">
                 <button 
                   onClick={() => { setLightboxImage(null); setZoomLevel(1); }}
                   className="absolute top-2 right-2 md:top-4 md:right-4 text-white mix-blend-difference z-[110] transition-transform hover:scale-110 p-2"
                 >
                   <X className="w-6 h-6 md:w-8 md:h-8" />
                 </button>
-                <img 
-                  src={lightboxImage} 
-                  alt="Product Zoom"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    const now = Date.now();
-                    const DOUBLE_PRESS_DELAY = 300;
-                    if (now - (e.target.lastTap || 0) < DOUBLE_PRESS_DELAY) {
-                      setZoomLevel(prev => prev === 1 ? 2.5 : 1);
-                      e.target.lastTap = 0;
-                    } else {
-                      e.target.lastTap = now;
-                    }
-                  }}
-                  style={{ transform: `scale(${zoomLevel})` }}
-                  className="w-full h-full object-contain transition-transform duration-200 ease-out rounded-lg md:rounded-xl bg-white select-none cursor-zoom-in"
-                  draggable="false"
-                />
+                <TransformWrapper
+                  initialScale={1}
+                  minScale={1}
+                  maxScale={4}
+                  centerOnInit={true}
+                  doubleClick={{ mode: "toggle" }}
+                  wheel={{ step: 0.1 }}
+                >
+                  <TransformComponent wrapperClass="!w-full !h-full" contentClass="!w-full !h-full flex items-center justify-center">
+                    <img 
+                      src={lightboxImage} 
+                      alt="Product Zoom"
+                      className="w-full h-full object-contain cursor-grab active:cursor-grabbing bg-white select-none"
+                      draggable="false"
+                    />
+                  </TransformComponent>
+                </TransformWrapper>
               </div>
 
               <button 
@@ -817,7 +809,7 @@ const RetailPage = () => {
                 Handcrafted
               </h3>
               <p className="text-dark-charcoal/70 text-[10px] md:text-sm leading-tight md:leading-relaxed">
-                Meticulously hand-woven by artisans.
+                Meticulously hand-woven by master artisans. Every knot is tied with precision to preserve traditional craftsmanship.
               </p>
             </div>
 
@@ -835,7 +827,7 @@ const RetailPage = () => {
                 100% Cotton
               </h3>
               <p className="text-dark-charcoal/70 text-[10px] md:text-sm leading-tight md:leading-relaxed">
-                Sustainable cord built to last.
+                Crafted from premium, eco-friendly cotton cords for a natural texture and superior durability built to last.
               </p>
             </div>
 
@@ -856,7 +848,7 @@ const RetailPage = () => {
                 COD Available
               </h3>
               <p className="text-dark-charcoal/70 text-[10px] md:text-sm leading-tight md:leading-relaxed">
-                Fast cash on delivery in BD.
+                Enjoy fast, reliable Cash on Delivery nationwide across Bangladesh for a seamless shopping experience.
               </p>
             </div>
             
