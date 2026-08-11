@@ -10,6 +10,9 @@ import About from './pages/About';
 import SampleWholesale from './pages/SampleWholesale';
 import Contact from './pages/Contact';
 import RetailPage from './pages/RetailPage';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
+import Refund from './pages/Refund';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -44,6 +47,9 @@ const AnimatedRoutes = () => {
         <Route path="/sample-wholesale" element={<PageWrapper><SampleWholesale /></PageWrapper>} />
         <Route path="/retail" element={<PageWrapper><RetailPage /></PageWrapper>} />
         <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
+        <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
+        <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
+        <Route path="/refund" element={<PageWrapper><Refund /></PageWrapper>} />
       </Routes>
     </AnimatePresence>
   );

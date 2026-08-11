@@ -7,43 +7,52 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex flex-col lg:grid lg:grid-cols-4 lg:gap-12 mb-12">
           
-          <div className="lg:col-span-1 mb-12 lg:mb-0 flex flex-col lg:items-start">
-            <Link to="/" className="block mb-6">
+          <div className="lg:col-span-1 mb-12 lg:mb-0 flex flex-row items-center gap-4 lg:flex-col lg:items-start lg:gap-0">
+            <Link to="/" className="block shrink-0 lg:mb-6">
               <img 
                 src="/logo_white.png" 
                 alt="AST Handmade Macramé Belts" 
                 className="h-10 w-auto object-contain opacity-90"
               />
             </Link>
-            <p className="font-sans font-light text-cream/60 text-xs leading-relaxed max-w-xs">
+            <p className="font-sans font-light text-cream/60 text-[10px] md:text-xs leading-relaxed max-w-xs border-l border-cream/20 pl-4 lg:border-none lg:pl-0">
               Premium handmade macramé belt manufacturer based in Chattogram, Bangladesh. We craft for the world's most demanding boutique labels.
             </p>
           </div>
           
-          <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-3 lg:gap-8 lg:col-span-3">
+          <div className="grid grid-cols-3 gap-x-2 gap-y-10 lg:grid-cols-4 lg:gap-8 lg:col-span-3">
             
-            <div className="flex flex-col">
-              <h4 className="font-sans text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase mb-4 text-cream/40">Company</h4>
-              <ul className="flex flex-col space-y-3">
-                <li><Link to="/about" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">Our Story</Link></li>
-                <li><Link to="/product" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">Products</Link></li>
-                <li><Link to="/contact" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">Contact</Link></li>
+            <div className="flex flex-col items-center text-center border-r border-cream/10 pr-2 lg:border-none lg:pr-0 lg:items-start lg:text-left">
+              <h4 className="font-sans text-[9px] md:text-xs font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Company</h4>
+              <ul className="flex flex-col space-y-2 md:space-y-3 items-center lg:items-start">
+                <li><Link to="/about" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Our Story</Link></li>
+                <li><Link to="/product" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Products</Link></li>
+                <li><Link to="/contact" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Contact</Link></li>
               </ul>
             </div>
             
-            <div className="flex flex-col">
-              <h4 className="font-sans text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase mb-4 text-cream/40">Services</h4>
-              <ul className="flex flex-col space-y-3">
-                <li><Link to="/retail" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">Retail</Link></li>
-                <li><Link to="/product" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">Order a Sample</Link></li>
-                <li><Link to="/sample-wholesale" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">Wholesale Inquiry</Link></li>
-                <li><Link to="/manufacturing" className="font-sans text-[13px] text-cream/80 hover:text-warm-sand transition-colors">OEM & Private Label</Link></li>
+            <div className="flex flex-col items-center text-center border-r border-cream/10 px-2 lg:border-none lg:px-0 lg:items-start lg:text-left">
+              <h4 className="font-sans text-[9px] md:text-xs font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Services</h4>
+              <ul className="flex flex-col space-y-2 md:space-y-3 items-center lg:items-start">
+                <li><Link to="/retail" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Retail</Link></li>
+                <li><Link to="/product" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Sample</Link></li>
+                <li><Link to="/sample-wholesale" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Wholesale</Link></li>
+                <li><Link to="/manufacturing" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">OEM</Link></li>
+              </ul>
+            </div>
+
+            <div className="flex flex-col items-center text-center pl-2 lg:pl-0 lg:items-start lg:text-left">
+              <h4 className="font-sans text-[9px] md:text-xs font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Legal</h4>
+              <ul className="flex flex-col space-y-2 md:space-y-3 items-center lg:items-start">
+                <li><Link to="/terms" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Terms</Link></li>
+                <li><Link to="/privacy" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Privacy</Link></li>
+                <li><Link to="/refund" className="font-sans text-[10px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Refund</Link></li>
               </ul>
             </div>
             
-            <div className="col-span-2 lg:col-span-1 flex flex-col mt-2 lg:mt-0 pt-6 lg:pt-0 border-t border-cream/10 lg:border-none">
+            <div className="col-span-3 lg:col-span-1 flex flex-col items-center text-center mt-2 lg:mt-0 pt-6 lg:pt-0 border-t border-cream/10 lg:border-none lg:items-start lg:text-left">
               <h4 className="font-sans text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase mb-4 text-cream/40">Connect</h4>
-              <ul className="flex gap-4">
+              <ul className="flex justify-center lg:justify-start gap-4">
                 <li>
                   <a href="mailto:astmacrame@gmail.com" className="w-10 h-10 flex items-center justify-center rounded-full border border-cream/20 text-cream/80 hover:bg-cream/10 hover:text-white transition-all" aria-label="Mail">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
@@ -66,8 +75,8 @@ const Footer = () => {
         </div>
         
         <div className="pt-6 border-t border-cream/10 flex flex-col items-center">
-          <p className="font-sans text-[10px] text-cream/40 tracking-widest uppercase">
-            © {new Date().getFullYear()} AST Handmade Macramé Belts. All rights reserved.
+          <p className="font-sans text-[10px] text-cream/40 tracking-widest text-center">
+            © {new Date().getFullYear()} AST Handmade Macramé Belts. All Rights Reserved.
           </p>
         </div>
       </div>

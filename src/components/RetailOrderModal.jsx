@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import bd from '../utils/bd-location';
@@ -259,8 +260,14 @@ const RetailOrderModal = ({
                     ></textarea>
                   </div>
                   
-                  {/* Mobile Submit Button */}
-                  <div className="md:hidden pt-6 mt-4 w-full">
+                  {/* Mobile Submit Button & Checkbox */}
+                  <div className="md:hidden pt-4 mt-4 w-full flex flex-col gap-4">
+                    <div className="flex items-start gap-2">
+                      <input type="checkbox" id="terms-mobile" defaultChecked required className="mt-1 accent-terracotta shrink-0" />
+                      <label htmlFor="terms-mobile" className="text-[10px] md:text-xs text-dark-charcoal/80 leading-relaxed">
+                        I have read and agree to the <Link to="/terms" target="_blank" className="text-terracotta font-bold hover:underline">Terms and Conditions</Link>, <Link to="/privacy" target="_blank" className="text-terracotta font-bold hover:underline">Privacy Policy</Link> & <Link to="/refund" target="_blank" className="text-terracotta font-bold hover:underline">Refund and Return Policy</Link>.
+                      </label>
+                    </div>
                     <button type="submit" disabled={isSubmitting} className="w-full bg-soft-black text-cream px-10 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-terracotta transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
                       {isSubmitting ? 'Processing...' : 'Submit Order'}
                     </button>
@@ -316,8 +323,14 @@ const RetailOrderModal = ({
                     </div>
                   </div>
 
-                  {/* Desktop Submit Button */}
-                  <div className="hidden md:block pt-6 mt-auto">
+                  {/* Desktop Submit Button & Checkbox */}
+                  <div className="hidden md:flex flex-col pt-4 mt-auto gap-4">
+                    <div className="flex items-start gap-2">
+                      <input type="checkbox" id="terms-desktop" defaultChecked required className="mt-1 accent-terracotta shrink-0" />
+                      <label htmlFor="terms-desktop" className="text-[10px] md:text-xs text-dark-charcoal/80 leading-relaxed">
+                        I have read and agree to the <Link to="/terms" target="_blank" className="text-terracotta font-bold hover:underline">Terms and Conditions</Link>, <Link to="/privacy" target="_blank" className="text-terracotta font-bold hover:underline">Privacy Policy</Link> & <Link to="/refund" target="_blank" className="text-terracotta font-bold hover:underline">Refund and Return Policy</Link>.
+                      </label>
+                    </div>
                     <button type="submit" disabled={isSubmitting} className="w-full bg-soft-black text-cream px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-terracotta transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
                       {isSubmitting ? 'Processing...' : 'Submit Order'}
                     </button>
