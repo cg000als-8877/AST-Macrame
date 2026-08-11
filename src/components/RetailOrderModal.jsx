@@ -192,13 +192,13 @@ const RetailOrderModal = ({
                     <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
                       Name / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">নাম</span>
                     </label>
-                    <input type="text" name="name" className="w-full bg-white/50 border border-dark-charcoal/40 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Your Full Name" required />
+                    <input type="text" name="name" className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Your Full Name" required />
                   </div>
                   <div>
                     <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
                       Phone / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">মোবাইল</span>
                     </label>
-                    <input type="tel" name="phone" className="w-full bg-white/50 border border-dark-charcoal/40 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="01XXX XXXXXX" required />
+                    <input type="tel" name="phone" className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="01XXX XXXXXX" required />
                   </div>
                   <div>
                     <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
@@ -206,7 +206,7 @@ const RetailOrderModal = ({
                     </label>
                     <select 
                       name="district" 
-                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm appearance-none" 
+                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm appearance-none" 
                       required
                       value={selectedDistrictId}
                       onChange={(e) => setSelectedDistrictId(e.target.value)}
@@ -223,7 +223,7 @@ const RetailOrderModal = ({
                     </label>
                     <select 
                       name="thana" 
-                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm appearance-none" 
+                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm appearance-none" 
                       required
                       value={selectedUpazilaName}
                       onChange={(e) => setSelectedUpazilaName(e.target.value)}
@@ -242,7 +242,7 @@ const RetailOrderModal = ({
                     <textarea 
                       name="delivery_point"
                       rows="3" 
-                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm resize-none" 
+                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm resize-none" 
                       placeholder="Full Address" 
                       required
                     ></textarea>
@@ -255,7 +255,7 @@ const RetailOrderModal = ({
                     <textarea 
                       name="message"
                       rows="3" 
-                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm resize-none" 
+                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm resize-none" 
                       placeholder="Any custom instructions..."
                     ></textarea>
                   </div>
