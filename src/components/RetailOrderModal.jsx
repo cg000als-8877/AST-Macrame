@@ -146,10 +146,10 @@ const RetailOrderModal = ({
                 </div>
                 
                 <form 
-                  className="md:grid md:grid-cols-2 md:gap-8 lg:gap-12 md:items-start space-y-4 md:space-y-0"
+                  className="flex flex-col md:grid md:grid-cols-2 md:gap-8 lg:gap-12 md:items-start"
                   onSubmit={handleSubmit}
                 >
-                  <div className="space-y-3 md:space-y-4">
+                  <div className="order-2 md:order-1 space-y-3 md:space-y-4">
                   <div>
                     <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
                       Name / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">নাম</span>
@@ -197,62 +197,67 @@ const RetailOrderModal = ({
                       className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm resize-none" 
                       placeholder="Any custom instructions..."
                     ></textarea>
+                  
+                  {/* Mobile Submit Button */}
+                  <div className="md:hidden pt-6 mt-4 w-full">
+                    <button type="submit" disabled={isSubmitting} className="w-full bg-soft-black text-cream px-10 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-terracotta transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
+                      {isSubmitting ? 'Processing...' : 'Submit Order'}
+                    </button>
                   </div>
                   </div>
 
-                  <div className="md:hidden w-full h-px bg-stone/20 my-4 md:my-5"></div>
-                  
-                  <div className="flex flex-col h-full">
+                  <div className="order-1 md:order-2 flex flex-col h-full mb-6 md:mb-0">
                   {/* Order Summary */}
-                  <div className="bg-stone/5 border border-stone/20 rounded-xl p-4 md:p-5">
-                    <h3 className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-4 border-b border-stone/10 pb-3">Order Summary</h3>
+                  <div className="bg-stone/5 border border-stone/20 rounded-xl p-3 md:p-5">
+                    <h3 className="text-[9px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-3 md:mb-4 border-b border-stone/10 pb-2 md:pb-3">Order Summary</h3>
                     
                     {orderType === 'single' ? (
-                      <div className="flex items-center gap-4 mb-4">
-                        <div className="w-16 h-16 shrink-0 bg-stone/10 rounded-lg overflow-hidden border border-stone/20">
+                      <div className="flex items-center gap-3 md:gap-4 mb-3 md:mb-4">
+                        <div className="w-12 h-12 md:w-16 md:h-16 shrink-0 bg-stone/10 rounded-lg overflow-hidden border border-stone/20">
                           <img src={colorImages[selectedColor]} alt={selectedColor} className="w-full h-full object-cover mix-blend-multiply" />
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-xs md:text-sm font-bold text-soft-black">Single Product</span>
-                          <span className="text-[11px] md:text-xs text-dark-charcoal/70 mt-1">Color: {selectedColor} &bull; Size: {selectedSize}</span>
+                          <span className="text-[11px] md:text-sm font-bold text-soft-black">Single Product</span>
+                          <span className="text-[10px] md:text-xs text-dark-charcoal/70 mt-0.5 md:mt-1">Color: {selectedColor} &bull; Size: {selectedSize}</span>
                         </div>
                       </div>
                     ) : (
-                      <div className="flex flex-col gap-3 mb-4">
-                        <span className="text-xs md:text-sm font-bold text-soft-black">Combo Pack (2 Belts)</span>
-                        <div className="flex items-center gap-4 bg-white/50 p-2 rounded-lg border border-stone/10">
-                          <div className="w-10 h-10 shrink-0 bg-stone/10 rounded-md overflow-hidden">
+                      <div className="flex flex-col gap-2 md:gap-3 mb-3 md:mb-4">
+                        <span className="text-[11px] md:text-sm font-bold text-soft-black">Combo Pack (2 Belts)</span>
+                        <div className="flex items-center gap-3 md:gap-4 bg-white/50 p-1.5 md:p-2 rounded-lg border border-stone/10">
+                          <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 bg-stone/10 rounded-md overflow-hidden">
                             <img src={colorImages[comboColor1]} alt={comboColor1} className="w-full h-full object-cover mix-blend-multiply" />
                           </div>
-                          <span className="text-[11px] md:text-xs text-dark-charcoal/80">Belt 1: {comboColor1} ({comboSize1})</span>
+                          <span className="text-[10px] md:text-xs text-dark-charcoal/80">Belt 1: {comboColor1} ({comboSize1})</span>
                         </div>
-                        <div className="flex items-center gap-4 bg-white/50 p-2 rounded-lg border border-stone/10">
-                          <div className="w-10 h-10 shrink-0 bg-stone/10 rounded-md overflow-hidden">
+                        <div className="flex items-center gap-3 md:gap-4 bg-white/50 p-1.5 md:p-2 rounded-lg border border-stone/10">
+                          <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 bg-stone/10 rounded-md overflow-hidden">
                             <img src={colorImages[comboColor2]} alt={comboColor2} className="w-full h-full object-cover mix-blend-multiply" />
                           </div>
-                          <span className="text-[11px] md:text-xs text-dark-charcoal/80">Belt 2: {comboColor2} ({comboSize2})</span>
+                          <span className="text-[10px] md:text-xs text-dark-charcoal/80">Belt 2: {comboColor2} ({comboSize2})</span>
                         </div>
                       </div>
                     )}
 
-                    <div className="space-y-2 mt-4 pt-4 border-t border-stone/10">
-                      <div className="flex justify-between items-center text-xs text-dark-charcoal/80">
+                    <div className="space-y-1.5 md:space-y-2 mt-3 md:mt-4 pt-3 md:pt-4 border-t border-stone/10">
+                      <div className="flex justify-between items-center text-[11px] md:text-xs text-dark-charcoal/80">
                         <span>Subtotal</span>
                         <span className="font-medium">{orderType === 'single' ? '990' : '1,790'} BDT</span>
                       </div>
-                      <div className="flex justify-between items-center text-xs text-dark-charcoal/80 mt-1 md:mt-2">
-                        <span>Standard Delivery Charge</span>
+                      <div className="flex justify-between items-center text-[11px] md:text-xs text-dark-charcoal/80 mt-1">
+                        <span>Standard Delivery</span>
                         <span className="font-medium text-terracotta">+ 100 BDT</span>
                       </div>
-                      <div className="flex justify-between items-center mt-3 pt-3 border-t border-stone/10">
-                        <span className="text-[11px] md:text-xs font-bold uppercase tracking-widest text-soft-black">Total Amount</span>
-                        <span className="text-lg md:text-xl font-serif font-bold text-terracotta">{(orderType === 'single' ? 990 : 1790) + 100} BDT</span>
+                      <div className="flex justify-between items-center mt-2 md:mt-3 pt-2 md:pt-3 border-t border-stone/10">
+                        <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-soft-black">Total</span>
+                        <span className="text-base md:text-xl font-serif font-bold text-terracotta">{(orderType === 'single' ? 990 : 1790) + 100} BDT</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="pt-6 mt-auto">
-                    <button type="submit" disabled={isSubmitting} className="w-full bg-soft-black text-cream px-10 py-4 text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-terracotta transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
+                  {/* Desktop Submit Button */}
+                  <div className="hidden md:block pt-6 mt-auto">
+                    <button type="submit" disabled={isSubmitting} className="w-full bg-soft-black text-cream px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-terracotta transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
                       {isSubmitting ? 'Processing...' : 'Submit Order'}
                     </button>
                   </div>
