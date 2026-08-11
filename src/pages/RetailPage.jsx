@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Plus, Minus, X, Ruler, ZoomIn } from 'lucide-react';
 import RetailOrderModal from '../components/RetailOrderModal';
@@ -34,20 +34,11 @@ const Accordion = ({ title, isOpen, onClick, children }) => (
       <span className="font-serif text-base md:text-lg text-soft-black">{title}</span>
       {isOpen ? <Minus className="w-4 h-4 text-soft-black/50" /> : <Plus className="w-4 h-4 text-soft-black/50" />}
     </button>
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: 'auto', opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          className="overflow-hidden"
-        >
-          <div className="pb-4 text-dark-charcoal/80 font-light text-sm">
-            {children}
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    {isOpen && (
+      <div className="overflow-hidden pb-4 text-dark-charcoal/80 font-light text-sm">
+        {children}
+      </div>
+    )}
   </div>
 );
 
@@ -60,11 +51,7 @@ const RetailPage = () => {
   const [comboColor2, setComboColor2] = useState('Navy');
   const [comboSize1, setComboSize1] = useState('M');
   const [comboSize2, setComboSize2] = useState('M');
-  const [openAccordions, setOpenAccordions] = useState({
-    description: true,
-    materials: true,
-    custom: true
-  });
+  const [openAccordions, setOpenAccordions] = useState({});
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState(null);
@@ -198,18 +185,9 @@ const RetailPage = () => {
 
   return (
     <>
-      <AnimatePresence>
-        {isForeignUser && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-soft-black/80 backdrop-blur-sm p-4"
-          >
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              className="bg-cream rounded-2xl p-6 md:p-8 max-w-sm md:max-w-md w-full text-center shadow-2xl border border-stone/10"
-            >
+      {isForeignUser && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-soft-black/80 backdrop-blur-sm p-4">
+          <div className="bg-cream rounded-2xl p-6 md:p-8 max-w-sm md:max-w-md w-full text-center shadow-2xl border border-stone/10">
               <div className="w-14 h-14 md:w-16 md:h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-5">
                 <svg className="w-7 h-7 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -228,10 +206,9 @@ const RetailPage = () => {
               >
                 Return to Product Page
               </Link>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      )}
 
       <div className="w-full bg-cream min-h-screen pt-[49px] sm:pt-[76px] md:pt-[96px]">
       <div className="max-w-7xl mx-auto px-0 lg:px-12">
@@ -239,12 +216,7 @@ const RetailPage = () => {
         {/* Product Hero & Details */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-5 lg:gap-y-0 lg:gap-x-10 items-start mb-24">
           
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="relative px-0 lg:px-0 lg:col-span-7"
-          >
+          <div className="relative px-0 lg:px-0 lg:col-span-7">
             {/* Mobile Carousel (Hidden on lg) */}
             <div className="lg:hidden w-full relative mb-0">
               <div 
@@ -286,11 +258,8 @@ const RetailPage = () => {
             <div className="hidden lg:grid grid-cols-2 gap-4">
               {images.slice(0, 4).map((img, idx) => (
                 <div key={idx} className="relative w-full aspect-[4/5] bg-stone/10 overflow-hidden group rounded-none">
-                  <motion.img 
+                  <img 
                     key={selectedColor + idx}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
                     src={img} 
                     alt={`Macrame Belt ${selectedColor} view ${idx + 1}`} 
                     onClick={() => setLightboxImage(img)}
@@ -304,14 +273,9 @@ const RetailPage = () => {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
           
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-col px-6 lg:px-0 lg:pt-0 lg:col-span-5"
-          >
+          <div className="flex flex-col px-6 lg:px-0 lg:pt-0 lg:col-span-5">
             <h1 className="text-2xl lg:text-3xl font-serif text-soft-black mb-1 md:mb-2 mt-2 lg:mt-0">AST Handmade Macramé Belt</h1>
             <p className="text-xs md:text-sm font-light italic text-dark-charcoal/80 mb-2 md:mb-3 leading-relaxed">
               Fully handmade, very strong, and comfortable to wear. A belt made to last for years, even for the next generation!
@@ -543,29 +507,57 @@ const RetailPage = () => {
                   </li>
                 </ul>
               </Accordion>
+
+              <Accordion 
+                title="Shipping" 
+                isOpen={!!openAccordions['shipping']} 
+                onClick={() => toggleAccordion('shipping')}
+              >
+                <p className="leading-relaxed">
+                  We are committed to delivering your orders quickly and securely. Once your order is confirmed, packages shipped within Chittagong will arrive at your doorstep in 3 working days. For deliveries outside of Chittagong, please expect your order to arrive within 7 working days.
+                </p>
+              </Accordion>
+
+              <Accordion 
+                title="Disclaimer" 
+                isOpen={!!openAccordions['disclaimer']} 
+                onClick={() => toggleAccordion('disclaimer')}
+              >
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.4rem] mr-2.5 flex-shrink-0"></span>
+                    <p className="leading-relaxed text-dark-charcoal/90">
+                      Please note that actual product colors may vary slightly due to photographic lighting or monitor settings. A hassle-free return and refund policy is available.
+                      <Link to="/refund" className="inline-block ml-1.5 font-bold uppercase tracking-widest text-[10px] text-soft-black hover:text-terracotta underline underline-offset-4 transition-colors">
+                        Learn More!
+                      </Link>
+                    </p>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.4rem] mr-2.5 flex-shrink-0"></span>
+                    <p className="leading-relaxed text-dark-charcoal/90">
+                      We request you to kindly inspect your item in front of the delivery personnel before completing your payment. Free instant returns are available for your peace of mind.
+                      <Link to="/refund" className="inline-block ml-1.5 font-bold uppercase tracking-widest text-[10px] text-soft-black hover:text-terracotta underline underline-offset-4 transition-colors">
+                        Learn More!
+                      </Link>
+                    </p>
+                  </li>
+                </ul>
+              </Accordion>
             </div>
-          </motion.div>
+          </div>
         </div>
         
       </div>
       
       {/* Size Guide Modal */}
-      <AnimatePresence>
-        {isSizeGuideOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsSizeGuideOpen(false)}
-              className="absolute inset-0 bg-soft-black/40 backdrop-blur-sm"
-            />
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-white border border-stone/20 w-full max-w-sm p-6 relative z-10 shadow-2xl rounded-xl text-center"
-            >
+      {isSizeGuideOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+          <div 
+            onClick={() => setIsSizeGuideOpen(false)}
+            className="absolute inset-0 bg-soft-black/40 backdrop-blur-sm"
+          />
+          <div className="bg-white border border-stone/20 w-full max-w-sm p-6 relative z-10 shadow-2xl rounded-xl text-center">
               <button 
                 onClick={() => setIsSizeGuideOpen(false)}
                 className="absolute top-4 right-4 text-soft-black/40 hover:text-soft-black transition-colors"
@@ -603,35 +595,27 @@ const RetailPage = () => {
               <p className="italic font-light text-dark-charcoal/70 text-[11px] leading-relaxed px-2">
                 * Our macramé weave is naturally flexible, offering a slightly adjustable and comfortable fit.
               </p>
-            </motion.div>
+            </div>
           </div>
         )}
-      </AnimatePresence>
 
       {/* Lightbox Modal */}
-      <AnimatePresence>
-        {lightboxImage && (
-          <div 
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 px-4 overflow-hidden"
-            onWheel={(e) => {
-              const zoomStep = 0.15;
-              if (e.deltaY < 0) {
-                setZoomLevel(prev => Math.min(prev + zoomStep, 3));
-              } else {
-                setZoomLevel(prev => Math.max(prev - zoomStep, 1));
-              }
-            }}
-            onTouchStart={onTouchStart}
-            onTouchMove={onTouchMove}
-            onTouchEnd={onTouchEndEvent}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.3 }}
-              className="relative flex items-center justify-center w-full h-full"
-            >
+      {lightboxImage && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 px-4 overflow-hidden"
+          onWheel={(e) => {
+            const zoomStep = 0.15;
+            if (e.deltaY < 0) {
+              setZoomLevel(prev => Math.min(prev + zoomStep, 3));
+            } else {
+              setZoomLevel(prev => Math.max(prev - zoomStep, 1));
+            }
+          }}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEndEvent}
+        >
+          <div className="relative flex items-center justify-center w-full h-full">
               <button 
                 onClick={handlePrevImage}
                 className="absolute left-2 md:left-8 text-white z-[110] p-1.5 md:p-2.5 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full transition-all"
@@ -672,10 +656,9 @@ const RetailPage = () => {
               >
                 <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
               </button>
-            </motion.div>
           </div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
 
       <RetailOrderModal 
         isOpen={isOrderFormOpen} 

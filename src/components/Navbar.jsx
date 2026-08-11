@@ -119,7 +119,7 @@ const Navbar = () => {
                   <React.Fragment key={link.name}>
                     <Link 
                       to={link.path}
-                      className={`relative text-[clamp(9px,1.5vw,12px)] font-bold md:font-semibold tracking-tighter sm:tracking-widest uppercase active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap py-0.5 ${isActive ? 'text-terracotta' : 'hover:text-terracotta text-soft-black'}`}
+                      className={`relative text-[clamp(9px,1.5vw,12px)] font-bold md:font-semibold tracking-tighter sm:tracking-widest uppercase active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap py-0.5 ${isActive ? 'text-terracotta' : 'hover:text-terracotta text-soft-black'} ${link.name === 'Contact' ? 'hidden sm:block' : ''}`}
                     >
                       {link.name}
                       {isActive && (
@@ -127,7 +127,7 @@ const Navbar = () => {
                       )}
                     </Link>
                     {index < navLinks.length - 1 && (
-                      <div className="w-[1px] h-2.5 sm:h-3 md:h-4 bg-soft-black/20"></div>
+                      <div className={`w-[1px] h-2.5 sm:h-3 md:h-4 bg-soft-black/20 ${index === navLinks.length - 2 ? 'hidden sm:block' : ''}`}></div>
                     )}
                   </React.Fragment>
                 )})}
