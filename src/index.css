@@ -1,18 +1,66 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Serif+Bengali:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
+:root {
+  /* Default/Original Theme */
+  --tw-color-cream: #FDFBF7;
+  --tw-color-cotton-white: #FFFFFF;
+  --tw-color-warm-sand: #E6D5C3;
+  --tw-color-stone: #B8B0A5;
+  --tw-color-clay: #A38771;
+  --tw-color-terracotta: #A45C40;
+  --tw-color-dark-charcoal: #2D2D2D;
+  --tw-color-soft-black: #1A1A1A;
+  --tw-color-deep-navy: #1C2B39;
+  --tw-color-muted-burgundy: #6C3035;
+  --tw-color-natural-linen: #DED3C4;
+}
+
+[data-theme="sage"] {
+  --tw-color-cream: #EBF0EC;
+  --tw-color-cotton-white: #F8FAF9;
+  --tw-color-warm-sand: #C9D9C3;
+  --tw-color-stone: #A3B5A5;
+  --tw-color-clay: #7A9684;
+  --tw-color-terracotta: #5E7A68;
+  --tw-color-dark-charcoal: #344238;
+  --tw-color-soft-black: #242E27;
+}
+
+[data-theme="rose"] {
+  --tw-color-cream: #F7EDE8;
+  --tw-color-cotton-white: #FEFCFB;
+  --tw-color-warm-sand: #E2C2B3;
+  --tw-color-stone: #C4A198;
+  --tw-color-clay: #B07C6F;
+  --tw-color-terracotta: #A85A4C;
+  --tw-color-dark-charcoal: #4A322C;
+  --tw-color-soft-black: #38241F;
+}
+
+[data-theme="slate"] {
+  --tw-color-cream: #E8ECEF;
+  --tw-color-cotton-white: #F8F9FA;
+  --tw-color-warm-sand: #B9C6D1;
+  --tw-color-stone: #94A6B5;
+  --tw-color-clay: #667F91;
+  --tw-color-terracotta: #4A6375;
+  --tw-color-dark-charcoal: #273642;
+  --tw-color-soft-black: #1B262E;
+}
+
 @theme {
-  --color-cream: #FDFBF7;
-  --color-cotton-white: #FFFFFF;
-  --color-warm-sand: #E6D5C3;
-  --color-stone: #B8B0A5;
-  --color-clay: #A38771;
-  --color-terracotta: #A45C40;
-  --color-dark-charcoal: #2D2D2D;
-  --color-soft-black: #1A1A1A;
-  --color-deep-navy: #1C2B39;
-  --color-muted-burgundy: #6C3035;
-  --color-natural-linen: #DED3C4;
+  --color-cream: var(--tw-color-cream);
+  --color-cotton-white: var(--tw-color-cotton-white);
+  --color-warm-sand: var(--tw-color-warm-sand);
+  --color-stone: var(--tw-color-stone);
+  --color-clay: var(--tw-color-clay);
+  --color-terracotta: var(--tw-color-terracotta);
+  --color-dark-charcoal: var(--tw-color-dark-charcoal);
+  --color-soft-black: var(--tw-color-soft-black);
+  --color-deep-navy: var(--tw-color-deep-navy);
+  --color-muted-burgundy: var(--tw-color-muted-burgundy);
+  --color-natural-linen: var(--tw-color-natural-linen);
   
   --font-serif: 'Outfit', sans-serif;
   --font-sans: 'Outfit', sans-serif;

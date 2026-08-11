@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Plus, Minus, X, Ruler, ZoomIn } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Minus, X, Ruler, ZoomIn, AlignLeft, Layers, Truck, AlertCircle, Droplets } from 'lucide-react';
 import RetailOrderModal from '../components/RetailOrderModal';
 
 import b1 from '../assets/products/Black/1.jpg';
@@ -53,6 +53,7 @@ const RetailPage = () => {
   const [comboSize2, setComboSize2] = useState('M');
   const [openAccordions, setOpenAccordions] = useState({});
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
+  const [isCareGuideOpen, setIsCareGuideOpen] = useState(false);
   const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(1);
@@ -340,14 +341,21 @@ const RetailPage = () => {
 
                 {/* Size Selection */}
                 <div className="mb-4 md:mb-5">
-                  <div className="flex items-center justify-between mb-3 md:mb-4">
+                  <div className="flex items-center gap-4 mb-3 md:mb-4">
                     <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black">Size</span>
                     <button 
                       onClick={() => setIsSizeGuideOpen(true)}
                       className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors"
                     >
-                      <Ruler className="w-4 h-4 md:w-4 md:h-4" />
+                      <Ruler className="w-4 h-4 md:w-4 md:h-4 text-terracotta" />
                       <span className="underline underline-offset-4">Size Guide</span>
+                    </button>
+                    <button 
+                      onClick={() => setIsCareGuideOpen(true)}
+                      className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors"
+                    >
+                      <Droplets className="w-4 h-4 md:w-4 md:h-4 text-terracotta" />
+                      <span className="underline underline-offset-4">Care Guide</span>
                     </button>
                   </div>
                   <div className="flex gap-3 md:gap-4">
@@ -365,15 +373,26 @@ const RetailPage = () => {
               </>
             ) : (
               <div className="mb-6 md:mb-8">
-                <div className="flex items-center justify-between mb-3 md:mb-4">
+                <div className="flex items-center gap-4 mb-3 md:mb-4">
                   <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black">Select Combo Options</span>
-                  <button 
-                    onClick={() => setIsSizeGuideOpen(true)}
-                    className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors"
-                  >
-                    <Ruler className="w-4 h-4 md:w-4 md:h-4" />
-                    <span className="underline underline-offset-4">Size Guide</span>
-                  </button>
+                  <div className="flex items-center gap-3 md:gap-4 ml-auto sm:ml-0">
+                    <button 
+                      onClick={() => setIsSizeGuideOpen(true)}
+                      className="flex items-center gap-1 text-[9px] sm:text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors"
+                    >
+                      <Ruler className="w-3.5 h-3.5 md:w-4 md:h-4 text-terracotta" />
+                      <span className="underline underline-offset-4 hidden sm:inline">Size Guide</span>
+                      <span className="underline underline-offset-4 sm:hidden">Size</span>
+                    </button>
+                    <button 
+                      onClick={() => setIsCareGuideOpen(true)}
+                      className="flex items-center gap-1 text-[9px] sm:text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors"
+                    >
+                      <Droplets className="w-3.5 h-3.5 md:w-4 md:h-4 text-terracotta" />
+                      <span className="underline underline-offset-4 hidden sm:inline">Care Guide</span>
+                      <span className="underline underline-offset-4 sm:hidden">Care</span>
+                    </button>
+                  </div>
                 </div>
                 <div className="flex flex-col gap-2 md:gap-4 w-full">
                   {/* Belt 1 */}
@@ -478,7 +497,12 @@ const RetailPage = () => {
             {/* Expandable Accordions */}
             <div className="border-t border-stone/30">
               <Accordion 
-                title="Description" 
+                title={
+                  <div className="flex items-center gap-3">
+                    <AlignLeft className="w-4 h-4 text-terracotta" />
+                    <span>Description</span>
+                  </div>
+                } 
                 isOpen={!!openAccordions['description']} 
                 onClick={() => toggleAccordion('description')}
               >
@@ -488,7 +512,12 @@ const RetailPage = () => {
               </Accordion>
 
               <Accordion 
-                title="Materials & Construction" 
+                title={
+                  <div className="flex items-center gap-3">
+                    <Layers className="w-4 h-4 text-terracotta" />
+                    <span>Materials & Construction</span>
+                  </div>
+                } 
                 isOpen={!!openAccordions['materials']} 
                 onClick={() => toggleAccordion('materials')}
               >
@@ -509,7 +538,12 @@ const RetailPage = () => {
               </Accordion>
 
               <Accordion 
-                title="Shipping" 
+                title={
+                  <div className="flex items-center gap-3">
+                    <Truck className="w-4 h-4 text-terracotta" />
+                    <span>Shipping</span>
+                  </div>
+                } 
                 isOpen={!!openAccordions['shipping']} 
                 onClick={() => toggleAccordion('shipping')}
               >
@@ -519,7 +553,12 @@ const RetailPage = () => {
               </Accordion>
 
               <Accordion 
-                title="Disclaimer" 
+                title={
+                  <div className="flex items-center gap-3">
+                    <AlertCircle className="w-4 h-4 text-terracotta" />
+                    <span>Disclaimer</span>
+                  </div>
+                } 
                 isOpen={!!openAccordions['disclaimer']} 
                 onClick={() => toggleAccordion('disclaimer')}
               >
@@ -674,53 +713,49 @@ const RetailPage = () => {
 
       {/* Retail Features - Clean, Borderless Layout */}
       <section className="pt-12 md:pt-24 pb-8 md:pb-12 bg-cotton-white px-4 md:px-6 border-t border-stone/10">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex flex-row flex-wrap md:flex-nowrap justify-center items-start md:items-start gap-x-4 gap-y-8 md:gap-8 lg:gap-16">
+        <div className="max-w-5xl mx-auto w-full">
+          <div className="flex flex-row justify-between md:justify-center items-start w-full md:gap-8 lg:gap-16 px-2 md:px-0">
             
             {/* Feature 1 */}
-            <div className="flex flex-col items-center text-center w-[45%] md:w-full max-w-[280px] group">
-              <div className="w-8 h-8 md:w-14 md:h-14 mb-3 md:mb-5 text-terracotta flex items-center justify-center transition-transform duration-500 group-hover:-translate-y-2">
+            <div className="flex flex-col items-center text-center flex-1 group px-1 md:px-0">
+              <div className="w-8 h-8 md:w-14 md:h-14 mb-2 md:mb-5 text-terracotta flex items-center justify-center transition-transform duration-500 group-hover:-translate-y-2">
                 <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
                   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
                   <line x1="7" y1="7" x2="7.01" y2="7"></line>
                 </svg>
               </div>
-              <h3 className="text-xs md:text-lg font-serif font-bold md:font-normal mb-1.5 md:mb-3 text-soft-black">
-                <span className="md:hidden">Handcrafted</span>
-                <span className="hidden md:inline">Handcrafted Quality</span>
+              <h3 className="text-[12px] md:text-lg font-serif font-bold md:font-normal mb-1 md:mb-3 text-soft-black leading-tight">
+                Handcrafted
               </h3>
-              <p className="text-dark-charcoal/70 text-[10px] md:text-sm leading-relaxed">
-                <span className="md:hidden">Meticulously hand-woven by artisans for a premium finish.</span>
-                <span className="hidden md:inline">Every belt is meticulously hand-woven by skilled artisans, ensuring a unique and premium finish.</span>
+              <p className="text-dark-charcoal/70 text-[10px] md:text-sm leading-tight md:leading-relaxed">
+                Meticulously hand-woven by artisans.
               </p>
             </div>
 
-            {/* Divider for desktop */}
-            <div className="hidden md:block w-px h-24 bg-stone/20 mt-4 shrink-0"></div>
+            {/* Faded Vertical Partition */}
+            <div className="w-px h-20 md:h-24 bg-gradient-to-b from-transparent via-stone/40 to-transparent mt-2 md:mt-4 shrink-0"></div>
             
             {/* Feature 2 */}
-            <div className="flex flex-col items-center text-center w-[45%] md:w-full max-w-[280px] group">
-              <div className="w-8 h-8 md:w-14 md:h-14 mb-3 md:mb-5 text-terracotta flex items-center justify-center transition-transform duration-500 group-hover:-translate-y-2">
+            <div className="flex flex-col items-center text-center flex-1 group px-1 md:px-0">
+              <div className="w-8 h-8 md:w-14 md:h-14 mb-2 md:mb-5 text-terracotta flex items-center justify-center transition-transform duration-500 group-hover:-translate-y-2">
                 <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
                   <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
                 </svg>
               </div>
-              <h3 className="text-xs md:text-lg font-serif font-bold md:font-normal mb-1.5 md:mb-3 text-soft-black">
-                <span className="md:hidden">100% Cotton</span>
-                <span className="hidden md:inline">100% Eco-Cotton</span>
+              <h3 className="text-[12px] md:text-lg font-serif font-bold md:font-normal mb-1 md:mb-3 text-soft-black leading-tight">
+                100% Cotton
               </h3>
-              <p className="text-dark-charcoal/70 text-[10px] md:text-sm leading-relaxed">
-                <span className="md:hidden">Sustainable, durable cord that is soft and built to last.</span>
-                <span className="hidden md:inline">Made from sustainable, highly durable cotton macramé cord that is soft to the touch and built to last.</span>
+              <p className="text-dark-charcoal/70 text-[10px] md:text-sm leading-tight md:leading-relaxed">
+                Sustainable cord built to last.
               </p>
             </div>
 
-            {/* Divider for desktop */}
-            <div className="hidden md:block w-px h-24 bg-stone/20 mt-4 shrink-0"></div>
+            {/* Faded Vertical Partition */}
+            <div className="w-px h-20 md:h-24 bg-gradient-to-b from-transparent via-stone/40 to-transparent mt-2 md:mt-4 shrink-0"></div>
             
             {/* Feature 3 */}
-            <div className="flex flex-col items-center text-center w-[45%] md:w-full max-w-[280px] group">
-              <div className="w-8 h-8 md:w-14 md:h-14 mb-3 md:mb-5 text-terracotta flex items-center justify-center transition-transform duration-500 group-hover:-translate-y-2">
+            <div className="flex flex-col items-center text-center flex-1 group px-1 md:px-0">
+              <div className="w-8 h-8 md:w-14 md:h-14 mb-2 md:mb-5 text-terracotta flex items-center justify-center transition-transform duration-500 group-hover:-translate-y-2">
                 <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
                   <rect x="1" y="3" width="15" height="13"></rect>
                   <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
@@ -728,13 +763,11 @@ const RetailPage = () => {
                   <circle cx="18.5" cy="18.5" r="2.5"></circle>
                 </svg>
               </div>
-              <h3 className="text-xs md:text-lg font-serif font-bold md:font-normal mb-1.5 md:mb-3 text-soft-black">
-                <span className="md:hidden">COD Available</span>
-                <span className="hidden md:inline">Cash on Delivery</span>
+              <h3 className="text-[12px] md:text-lg font-serif font-bold md:font-normal mb-1 md:mb-3 text-soft-black leading-tight">
+                COD Available
               </h3>
-              <p className="text-dark-charcoal/70 text-[10px] md:text-sm leading-relaxed">
-                <span className="md:hidden">Fast and reliable cash on delivery all over Bangladesh.</span>
-                <span className="hidden md:inline">Shop with complete confidence. We offer fast and reliable cash on delivery services anywhere in Bangladesh.</span>
+              <p className="text-dark-charcoal/70 text-[10px] md:text-sm leading-tight md:leading-relaxed">
+                Fast cash on delivery in BD.
               </p>
             </div>
             

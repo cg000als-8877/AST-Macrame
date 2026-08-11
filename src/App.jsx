@@ -13,6 +13,7 @@ import RetailPage from './pages/RetailPage';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import Refund from './pages/Refund';
+import ThemeSwitcher from './components/ThemeSwitcher';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -67,6 +68,7 @@ function App() {
         </main>
         
         <Footer />
+        <ThemeSwitcher />
       </div>
     </Router>
   );
