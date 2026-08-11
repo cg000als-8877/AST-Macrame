@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
+import bd from 'bangladesh-geojson';
 
 import b1 from '../assets/products/Black/1.jpg';
 import n1 from '../assets/products/Navy/1.jpg';
@@ -32,53 +33,33 @@ const RetailOrderModal = ({
 
   const [districts, setDistricts] = useState([]);
   const [upazilas, setUpazilas] = useState([]);
-  const [selectedDistrict, setSelectedDistrict] = useState('');
-  const [selectedUpazila, setSelectedUpazila] = useState('');
-  const [isLoadingDistricts, setIsLoadingDistricts] = useState(false);
-  const [isLoadingUpazilas, setIsLoadingUpazilas] = useState(false);
+  const [selectedDistrictId, setSelectedDistrictId] = useState('');
+  const [selectedUpazilaName, setSelectedUpazilaName] = useState('');
 
   useEffect(() => {
     if (isOpen) {
-      setIsLoadingDistricts(true);
-      fetch('https://bdapis.com/api/v1.2/districts')
-        .then(res => res.json())
-        .then(data => {
-          if (data && data.data) {
-            const sorted = data.data.sort((a, b) => a.district.localeCompare(b.district));
-            setDistricts(sorted);
-          }
-        })
-        .catch(console.error)
-        .finally(() => setIsLoadingDistricts(false));
+      const allDistricts = bd.getDistricts();
+      const sorted = [...allDistricts].sort((a, b) => a.name.localeCompare(b.name));
+      setDistricts(sorted);
     } else {
-      setSelectedDistrict('');
-      setSelectedUpazila('');
+      setSelectedDistrictId('');
+      setSelectedUpazilaName('');
       setDistricts([]);
       setUpazilas([]);
     }
   }, [isOpen]);
 
   useEffect(() => {
-    if (selectedDistrict) {
-      setIsLoadingUpazilas(true);
-      fetch(`https://bdapis.com/api/v1.2/district/${selectedDistrict.toLowerCase()}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data && data.data && data.data.length > 0) {
-            const upazillaArray = data.data[0].upazillas || [];
-            setUpazilas(upazillaArray.sort());
-          } else {
-            setUpazilas([]);
-          }
-          setSelectedUpazila('');
-        })
-        .catch(console.error)
-        .finally(() => setIsLoadingUpazilas(false));
+    if (selectedDistrictId) {
+      const upazillaArray = bd.getUpazilasByDistrict(selectedDistrictId);
+      const sorted = [...upazillaArray].sort((a, b) => a.name.localeCompare(b.name));
+      setUpazilas(sorted);
+      setSelectedUpazilaName('');
     } else {
       setUpazilas([]);
-      setSelectedUpazila('');
+      setSelectedUpazilaName('');
     }
-  }, [selectedDistrict]);
+  }, [selectedDistrictId]);
 
   useEffect(() => {
     if (isOpen) {
@@ -95,6 +76,13 @@ const RetailOrderModal = ({
     setIsSubmitting(true);
 
     const formData = new FormData(e.target);
+    
+    // Convert district ID back to name for the form submission
+    const districtObj = districts.find(d => d.id === selectedDistrictId);
+    if (districtObj) {
+      formData.set('district', districtObj.name);
+    }
+    
     formData.append('formType', 'Retail Order');
     if (orderType === 'combo') {
       formData.append('orderType', 'Combo (1990 BDT)');
@@ -220,12 +208,12 @@ const RetailOrderModal = ({
                       name="district" 
                       className="w-full bg-white/50 border border-dark-charcoal/40 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm appearance-none" 
                       required
-                      value={selectedDistrict}
-                      onChange={(e) => setSelectedDistrict(e.target.value)}
+                      value={selectedDistrictId}
+                      onChange={(e) => setSelectedDistrictId(e.target.value)}
                     >
-                      <option value="" disabled>{isLoadingDistricts ? 'Loading Districts...' : 'Select District'}</option>
+                      <option value="" disabled>Select District</option>
                       {districts.map(d => (
-                        <option key={d.district} value={d.district}>{d.district} - {d.districtbn}</option>
+                        <option key={d.id} value={d.id}>{d.name} - {d.bn_name}</option>
                       ))}
                     </select>
                   </div>
@@ -237,13 +225,13 @@ const RetailOrderModal = ({
                       name="thana" 
                       className="w-full bg-white/50 border border-dark-charcoal/40 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm appearance-none" 
                       required
-                      value={selectedUpazila}
-                      onChange={(e) => setSelectedUpazila(e.target.value)}
-                      disabled={!selectedDistrict || isLoadingUpazilas}
+                      value={selectedUpazilaName}
+                      onChange={(e) => setSelectedUpazilaName(e.target.value)}
+                      disabled={!selectedDistrictId}
                     >
-                      <option value="" disabled>{isLoadingUpazilas ? 'Loading Upazilas...' : 'Select Thana/Upazila'}</option>
+                      <option value="" disabled>Select Thana/Upazila</option>
                       {upazilas.map(u => (
-                        <option key={u} value={u}>{u}</option>
+                        <option key={u.id} value={u.name}>{u.name} - {u.bn_name}</option>
                       ))}
                     </select>
                   </div>
