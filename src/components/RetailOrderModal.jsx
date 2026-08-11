@@ -30,6 +30,56 @@ const RetailOrderModal = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  const [districts, setDistricts] = useState([]);
+  const [upazilas, setUpazilas] = useState([]);
+  const [selectedDistrict, setSelectedDistrict] = useState('');
+  const [selectedUpazila, setSelectedUpazila] = useState('');
+  const [isLoadingDistricts, setIsLoadingDistricts] = useState(false);
+  const [isLoadingUpazilas, setIsLoadingUpazilas] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsLoadingDistricts(true);
+      fetch('https://bdapis.com/api/v1.2/districts')
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.data) {
+            const sorted = data.data.sort((a, b) => a.district.localeCompare(b.district));
+            setDistricts(sorted);
+          }
+        })
+        .catch(console.error)
+        .finally(() => setIsLoadingDistricts(false));
+    } else {
+      setSelectedDistrict('');
+      setSelectedUpazila('');
+      setDistricts([]);
+      setUpazilas([]);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (selectedDistrict) {
+      setIsLoadingUpazilas(true);
+      fetch(`https://bdapis.com/api/v1.2/district/${selectedDistrict.toLowerCase()}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.data && data.data.length > 0) {
+            const upazillaArray = data.data[0].upazillas || [];
+            setUpazilas(upazillaArray.sort());
+          } else {
+            setUpazilas([]);
+          }
+          setSelectedUpazila('');
+        })
+        .catch(console.error)
+        .finally(() => setIsLoadingUpazilas(false));
+    } else {
+      setUpazilas([]);
+      setSelectedUpazila('');
+    }
+  }, [selectedDistrict]);
+
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add('modal-open');
@@ -92,19 +142,19 @@ const RetailOrderModal = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-6 lg:p-12">
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-soft-black/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
           />
           <motion.div 
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-4xl lg:max-w-5xl bg-cream p-4 sm:p-6 md:px-8 md:py-8 rounded-xl md:rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto z-10"
+            className="bg-cream w-full h-full md:h-auto md:max-h-full max-w-5xl p-4 sm:p-5 md:p-8 rounded-none md:rounded-3xl shadow-2xl overflow-y-auto relative flex flex-col md:block"
           >
             <button 
               onClick={onClose}
@@ -154,25 +204,48 @@ const RetailOrderModal = ({
                     <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
                       Name / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">নাম</span>
                     </label>
-                    <input type="text" name="name" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Your Full Name" required />
+                    <input type="text" name="name" className="w-full bg-white/50 border border-dark-charcoal/40 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Your Full Name" required />
                   </div>
                   <div>
                     <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
                       Phone / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">মোবাইল</span>
                     </label>
-                    <input type="tel" name="phone" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="01XXX XXXXXX" required />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      Thana / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">থানা</span>
-                    </label>
-                    <input type="text" name="thana" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="e.g. Kotwali" required />
+                    <input type="tel" name="phone" className="w-full bg-white/50 border border-dark-charcoal/40 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="01XXX XXXXXX" required />
                   </div>
                   <div>
                     <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
                       District / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">জেলা</span>
                     </label>
-                    <input type="text" name="district" className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="e.g. Chittagong" required />
+                    <select 
+                      name="district" 
+                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm appearance-none" 
+                      required
+                      value={selectedDistrict}
+                      onChange={(e) => setSelectedDistrict(e.target.value)}
+                    >
+                      <option value="" disabled>{isLoadingDistricts ? 'Loading Districts...' : 'Select District'}</option>
+                      {districts.map(d => (
+                        <option key={d.district} value={d.district}>{d.district} - {d.districtbn}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                      Thana/Upazila / <span className="font-bengali tracking-normal font-medium text-[11px] md:text-[12px] capitalize">থানা</span>
+                    </label>
+                    <select 
+                      name="thana" 
+                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm appearance-none" 
+                      required
+                      value={selectedUpazila}
+                      onChange={(e) => setSelectedUpazila(e.target.value)}
+                      disabled={!selectedDistrict || isLoadingUpazilas}
+                    >
+                      <option value="" disabled>{isLoadingUpazilas ? 'Loading Upazilas...' : 'Select Thana/Upazila'}</option>
+                      {upazilas.map(u => (
+                        <option key={u} value={u}>{u}</option>
+                      ))}
+                    </select>
                   </div>
                   <div>
                     <label className="block text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
@@ -181,7 +254,7 @@ const RetailOrderModal = ({
                     <textarea 
                       name="delivery_point"
                       rows="3" 
-                      className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm resize-none" 
+                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm resize-none" 
                       placeholder="Full Address" 
                       required
                     ></textarea>
@@ -194,9 +267,10 @@ const RetailOrderModal = ({
                     <textarea 
                       name="message"
                       rows="3" 
-                      className="w-full bg-white/50 border border-stone/30 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm resize-none" 
+                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-none px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm resize-none" 
                       placeholder="Any custom instructions..."
                     ></textarea>
+                  </div>
                   
                   {/* Mobile Submit Button */}
                   <div className="md:hidden pt-6 mt-4 w-full">
