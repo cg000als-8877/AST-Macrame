@@ -224,7 +224,6 @@ const RetailOrderModal = ({
                     <select 
                       name="thana" 
                       className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm appearance-none" 
-                      required
                       value={selectedUpazilaName}
                       onChange={(e) => setSelectedUpazilaName(e.target.value)}
                       disabled={!selectedDistrictId}
