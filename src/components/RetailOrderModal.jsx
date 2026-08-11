@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
-import bd from 'bangladesh-geojson';
+import bd from '../utils/bd-location';
 
 import b1 from '../assets/products/Black/1.jpg';
 import n1 from '../assets/products/Navy/1.jpg';
