@@ -431,7 +431,7 @@ const RetailPage = () => {
                 </div>
                 <div className="flex flex-col w-full">
                   {/* Belt 1 */}
-                  <div className="flex flex-row justify-between items-end gap-2 sm:gap-4 mb-6 md:mb-8">
+                  <div className="flex flex-row justify-start items-end gap-24 sm:gap-32 md:gap-40 mb-6 md:mb-8">
                     {/* Belt 1 Color */}
                     <div>
                       <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-3 md:mb-4 text-left">
@@ -471,7 +471,7 @@ const RetailPage = () => {
                   </div>
 
                   {/* Belt 2 */}
-                  <div className="flex flex-row justify-between items-end gap-2 sm:gap-4 mb-2 md:mb-4">
+                  <div className="flex flex-row justify-start items-end gap-24 sm:gap-32 md:gap-40 mb-2 md:mb-4">
                     {/* Belt 2 Color */}
                     <div>
                       <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-3 md:mb-4 text-left">

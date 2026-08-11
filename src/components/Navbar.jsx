@@ -121,11 +121,11 @@ const Navbar = () => {
                   <React.Fragment key={link.name}>
                     <Link 
                       to={link.path}
-                      className={`relative px-2 py-1 sm:px-0 sm:py-0.5 rounded-full sm:rounded-none text-[clamp(10px,1.8vw,13px)] font-bold md:font-semibold tracking-tighter sm:tracking-widest uppercase active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap ${isActive ? 'text-terracotta border border-terracotta sm:border-transparent' : 'hover:text-terracotta text-soft-black border border-transparent'} ${link.name === 'Contact' ? 'hidden sm:block' : ''}`}
+                      className={`relative px-2 py-1 sm:px-0 sm:py-0.5 text-[clamp(10px,1.8vw,13px)] font-bold md:font-semibold tracking-tighter sm:tracking-widest uppercase active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap ${isActive ? 'text-terracotta' : 'hover:text-terracotta text-soft-black'} ${link.name === 'Contact' ? 'hidden sm:block' : ''}`}
                     >
                       {link.name}
                       {isActive && (
-                        <span className="hidden sm:block absolute -bottom-1 left-0 w-full h-[1.5px] bg-gradient-to-r from-transparent via-terracotta to-transparent"></span>
+                        <span className="absolute -bottom-1 left-0 w-full h-[1.5px] bg-gradient-to-r from-transparent via-terracotta to-transparent"></span>
                       )}
                     </Link>
                     {index < navLinks.length - 1 && (
