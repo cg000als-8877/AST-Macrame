@@ -43,14 +43,14 @@ const Accordion = ({ title, isOpen, onClick, children }) => (
 );
 
 const RetailPage = () => {
-  const [selectedColor, setSelectedColor] = useState('Black');
-  const [selectedSize, setSelectedSize] = useState('M');
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [orderType, setOrderType] = useState('single');
-  const [comboColor1, setComboColor1] = useState('Black');
-  const [comboColor2, setComboColor2] = useState('Navy');
-  const [comboSize1, setComboSize1] = useState('M');
-  const [comboSize2, setComboSize2] = useState('M');
+  const [comboColor1, setComboColor1] = useState(null);
+  const [comboColor2, setComboColor2] = useState(null);
+  const [comboSize1, setComboSize1] = useState(null);
+  const [comboSize2, setComboSize2] = useState(null);
   const [openAccordions, setOpenAccordions] = useState({});
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isCareGuideOpen, setIsCareGuideOpen] = useState(false);
@@ -104,7 +104,9 @@ const RetailPage = () => {
     Khaki: [k1, k2, k3, k4],
   };
 
-  const images = colorImages[selectedColor];
+  // Safely fallback to Black images if no color is selected yet
+  const displayColor = selectedColor || 'Black';
+  const images = colorImages[displayColor];
 
   const handleColorChange = (colorName) => {
     setSelectedColor(colorName);
@@ -183,6 +185,30 @@ const RetailPage = () => {
       setZoomLevel(1);
     }
   };
+
+  let orderButtonText = "ORDER NOW";
+  let isOrderReady = false;
+
+  if (orderType === 'single') {
+    if (!selectedColor && !selectedSize) {
+      orderButtonText = "SELECT COLOR & SIZE";
+    } else if (selectedColor && !selectedSize) {
+      orderButtonText = "SELECT SIZE";
+    } else if (!selectedColor && selectedSize) {
+      orderButtonText = "SELECT COLOR";
+    } else {
+      orderButtonText = "ORDER NOW";
+      isOrderReady = true;
+    }
+  } else {
+    // combo
+    if (!comboColor1 || !comboColor2 || !comboSize1 || !comboSize2) {
+      orderButtonText = "SELECT COMBO OPTIONS";
+    } else {
+      orderButtonText = "ORDER NOW";
+      isOrderReady = true;
+    }
+  }
 
   return (
     <>
@@ -320,147 +346,170 @@ const RetailPage = () => {
 
             {orderType === 'single' ? (
               <>
-                {/* Color Selection */}
-                <div className="mb-6 md:mb-10">
-                  <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-3 md:mb-4">
-                    Color: <span className="font-medium text-dark-charcoal/70">{selectedColor}</span>
-                  </span>
-                  <div className="flex gap-4">
-                    {colors.map((color) => (
-                      <button
-                        key={color.name}
-                        onClick={() => handleColorChange(color.name)}
-                        className={`w-9 h-9 md:w-10 md:h-10 rounded-full border-2 transition-all duration-300 ${selectedColor === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
-                        aria-label={`Select ${color.name}`}
-                      >
-                        <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Size Selection */}
-                <div className="mb-4 md:mb-5">
-                  <div className="flex items-center gap-4 mb-3 md:mb-4">
-                    <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black">Size</span>
+                {/* Size and Care Guide Row */}
+                <div className="flex justify-start mb-4 md:mb-6">
+                  <div className="flex items-center gap-2 md:gap-3">
                     <button 
                       onClick={() => setIsSizeGuideOpen(true)}
                       className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors"
                     >
-                      <Ruler className="w-4 h-4 md:w-4 md:h-4 text-terracotta" />
+                      <Ruler className="w-3.5 h-3.5 md:w-4 md:h-4 text-terracotta" />
                       <span className="underline underline-offset-4">Size Guide</span>
                     </button>
+                    <div className="w-[1px] h-4 bg-dark-charcoal/30 mx-1 md:mx-2 shrink-0"></div>
                     <button 
                       onClick={() => setIsCareGuideOpen(true)}
                       className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors"
                     >
-                      <Droplets className="w-4 h-4 md:w-4 md:h-4 text-terracotta" />
+                      <Droplets className="w-3.5 h-3.5 md:w-4 md:h-4 text-terracotta" />
                       <span className="underline underline-offset-4">Care Guide</span>
                     </button>
                   </div>
-                  <div className="flex gap-3 md:gap-4">
-                    {['M', 'L'].map((size) => (
-                      <button
-                        key={size}
-                        onClick={() => setSelectedSize(size)}
-                        className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-xs md:text-sm font-bold uppercase tracking-widest border transition-colors duration-300 rounded-full ${selectedSize === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
-                      >
-                        {size}
-                      </button>
-                    ))}
+                </div>
+
+                {/* Color and Size Row */}
+                <div className="flex flex-row justify-between items-end gap-2 sm:gap-4 mb-6 md:mb-10 w-full">
+                  {/* Color Selection */}
+                  <div>
+                    <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-3 md:mb-4">
+                      Color: <span className="font-medium text-dark-charcoal/70">{selectedColor}</span>
+                    </span>
+                    <div className="flex gap-2 sm:gap-3 md:gap-4">
+                      {colors.map((color) => (
+                        <button
+                          key={color.name}
+                          onClick={() => handleColorChange(color.name)}
+                          className={`w-9 h-9 md:w-10 md:h-10 rounded-full border-2 transition-all duration-300 shrink-0 ${selectedColor === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
+                          aria-label={`Select ${color.name}`}
+                        >
+                          <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Size Selection */}
+                  <div>
+                    <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black text-left mb-3 md:mb-4">
+                      Size
+                    </span>
+                    <div className="flex gap-2 sm:gap-3 md:gap-4 justify-start">
+                      {['M', 'L'].map((size) => (
+                        <button
+                          key={size}
+                          onClick={() => setSelectedSize(size)}
+                          className={`w-9 h-9 md:w-10 md:h-10 flex items-center justify-center text-[11px] md:text-xs font-bold uppercase tracking-widest border transition-colors duration-300 rounded-full shrink-0 ${selectedSize === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </>
             ) : (
               <div className="mb-6 md:mb-8">
-                <div className="flex items-center gap-4 mb-3 md:mb-4">
-                  <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black">Select Combo Options</span>
-                  <div className="flex items-center gap-3 md:gap-4 ml-auto sm:ml-0">
+                <div className="flex justify-start mb-4 md:mb-6">
+                  <div className="flex items-center gap-2 md:gap-3">
                     <button 
                       onClick={() => setIsSizeGuideOpen(true)}
-                      className="flex items-center gap-1 text-[9px] sm:text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors"
+                      className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors"
                     >
                       <Ruler className="w-3.5 h-3.5 md:w-4 md:h-4 text-terracotta" />
-                      <span className="underline underline-offset-4 hidden sm:inline">Size Guide</span>
-                      <span className="underline underline-offset-4 sm:hidden">Size</span>
+                      <span className="underline underline-offset-4">Size Guide</span>
                     </button>
+                    <div className="w-[1px] h-4 bg-dark-charcoal/30 mx-1 md:mx-2 shrink-0"></div>
                     <button 
                       onClick={() => setIsCareGuideOpen(true)}
-                      className="flex items-center gap-1 text-[9px] sm:text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors"
+                      className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors"
                     >
                       <Droplets className="w-3.5 h-3.5 md:w-4 md:h-4 text-terracotta" />
-                      <span className="underline underline-offset-4 hidden sm:inline">Care Guide</span>
-                      <span className="underline underline-offset-4 sm:hidden">Care</span>
+                      <span className="underline underline-offset-4">Care Guide</span>
                     </button>
                   </div>
                 </div>
-                <div className="flex flex-col gap-2 md:gap-4 w-full">
+                <div className="flex flex-col w-full">
                   {/* Belt 1 */}
-                  <div className="flex items-center justify-between sm:justify-start gap-1 sm:gap-3 bg-stone/5 border border-stone/10 p-1.5 sm:p-2.5 md:p-3 rounded-2xl md:rounded-3xl shadow-sm overflow-x-auto [&::-webkit-scrollbar]:hidden">
-                    <span className="text-[9px] sm:text-[10px] font-bold text-dark-charcoal uppercase shrink-0 sm:w-10 md:w-12">Belt 1:</span>
-                    
-                    <div className="flex gap-1 sm:gap-1.5 md:gap-2 items-center shrink-0">
-                      {colors.map((color) => (
-                        <button
-                          key={color.name}
-                          onClick={() => { setComboColor1(color.name); handleColorChange(color.name); }}
-                          className={`w-[22px] h-[22px] sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full border transition-all duration-300 ${comboColor1 === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
-                          title={color.name}
-                        >
-                          <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
-                        </button>
-                      ))}
+                  <div className="flex flex-row justify-between items-end gap-2 sm:gap-4 mb-6 md:mb-8">
+                    {/* Belt 1 Color */}
+                    <div>
+                      <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-3 md:mb-4 text-left">
+                        Belt 1 Color
+                      </span>
+                      <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4">
+                        {colors.map((color) => (
+                          <button
+                            key={color.name}
+                            onClick={() => { setComboColor1(color.name); handleColorChange(color.name); }}
+                            className={`w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-full border transition-all duration-300 shrink-0 ${comboColor1 === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
+                            title={color.name}
+                          >
+                            <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                    
-                    <div className="w-[1px] h-5 sm:h-6 md:h-7 bg-stone/20 mx-0.5 sm:mx-1 shrink-0"></div>
-                    
-                    <div className="flex gap-1 sm:gap-2 shrink-0 items-center">
-                      <span className="text-[7px] sm:text-[8px] font-bold text-dark-charcoal/60 uppercase mr-0.5 tracking-wider">Size</span>
-                      {['M', 'L'].map((size) => (
-                        <button
-                          key={size}
-                          onClick={() => setComboSize1(size)}
-                          className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 flex items-center justify-center text-[10px] sm:text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-sm ${comboSize1 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
-                        >
-                          {size}
-                        </button>
-                      ))}
+
+                    {/* Belt 1 Size */}
+                    <div>
+                      <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black text-left mb-3 md:mb-4">
+                        Size
+                      </span>
+                      <div className="flex gap-2 sm:gap-3 md:gap-4 justify-start">
+                        {['M', 'L'].map((size) => (
+                          <button
+                            key={size}
+                            onClick={() => setComboSize1(size)}
+                            className={`w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 flex items-center justify-center text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-full shrink-0 ${comboSize1 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                          >
+                            {size}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </div>
 
                   {/* Belt 2 */}
-                  <div className="flex items-center justify-between sm:justify-start gap-1 sm:gap-3 bg-stone/5 border border-stone/10 p-1.5 sm:p-2.5 md:p-3 rounded-2xl md:rounded-3xl shadow-sm overflow-x-auto [&::-webkit-scrollbar]:hidden">
-                    <span className="text-[9px] sm:text-[10px] font-bold text-dark-charcoal uppercase shrink-0 sm:w-10 md:w-12">Belt 2:</span>
-                    
-                    <div className="flex gap-1 sm:gap-1.5 md:gap-2 items-center shrink-0">
-                      {colors.map((color) => (
-                        <button
-                          key={color.name}
-                          onClick={() => { setComboColor2(color.name); handleColorChange(color.name); }}
-                          className={`w-[22px] h-[22px] sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full border transition-all duration-300 ${comboColor2 === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
-                          title={color.name}
-                        >
-                          <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
-                        </button>
-                      ))}
+                  <div className="flex flex-row justify-between items-end gap-2 sm:gap-4 mb-2 md:mb-4">
+                    {/* Belt 2 Color */}
+                    <div>
+                      <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-3 md:mb-4 text-left">
+                        Belt 2 Color
+                      </span>
+                      <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4">
+                        {colors.map((color) => (
+                          <button
+                            key={color.name}
+                            onClick={() => { setComboColor2(color.name); handleColorChange(color.name); }}
+                            className={`w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-full border transition-all duration-300 shrink-0 ${comboColor2 === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
+                            title={color.name}
+                          >
+                            <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                    
-                    <div className="w-[1px] h-5 sm:h-6 md:h-7 bg-stone/20 mx-0.5 sm:mx-1 shrink-0"></div>
-                    
-                    <div className="flex gap-1 sm:gap-2 shrink-0 items-center">
-                      <span className="text-[7px] sm:text-[8px] font-bold text-dark-charcoal/60 uppercase mr-0.5 tracking-wider">Size</span>
-                      {['M', 'L'].map((size) => (
-                        <button
-                          key={size}
-                          onClick={() => setComboSize2(size)}
-                          className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 flex items-center justify-center text-[10px] sm:text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-sm ${comboSize2 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
-                        >
-                          {size}
-                        </button>
-                      ))}
+
+                    {/* Belt 2 Size */}
+                    <div>
+                      <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black text-left mb-3 md:mb-4">
+                        Size
+                      </span>
+                      <div className="flex gap-2 sm:gap-3 md:gap-4 justify-start">
+                        {['M', 'L'].map((size) => (
+                          <button
+                            key={size}
+                            onClick={() => setComboSize2(size)}
+                            className={`w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 flex items-center justify-center text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-full shrink-0 ${comboSize2 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                          >
+                            {size}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                  <p className="text-[12px] md:text-[13px] font-medium text-dark-charcoal/70 italic text-center mt-2">
+                  
+                  <p className="text-[12px] md:text-[13px] font-medium text-dark-charcoal/70 italic text-center mt-4">
                     * Please select color and size for your combo.
                   </p>
                 </div>
@@ -472,9 +521,10 @@ const RetailPage = () => {
               <div className="flex flex-col gap-3 md:gap-4">
                 <button 
                   onClick={() => setIsOrderFormOpen(true)}
-                  className="w-full flex items-center justify-center bg-soft-black text-cream px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-dark-charcoal transition-colors border border-transparent"
+                  disabled={!isOrderReady}
+                  className={`w-full flex items-center justify-center bg-soft-black text-cream px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full transition-colors border border-transparent ${!isOrderReady ? 'opacity-50 cursor-not-allowed' : 'hover:bg-dark-charcoal'}`}
                 >
-                  ORDER NOW
+                  {orderButtonText}
                 </button>
                 <a 
                   href="https://wa.me/8801940689061"
@@ -637,6 +687,55 @@ const RetailPage = () => {
             </div>
           </div>
         )}
+
+      {/* Care Guide Modal */}
+      {isCareGuideOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+          <div 
+            onClick={() => setIsCareGuideOpen(false)}
+            className="absolute inset-0 bg-soft-black/40 backdrop-blur-sm"
+          />
+          <div className="bg-white border border-stone/20 w-full max-w-sm p-6 md:p-8 relative z-10 shadow-2xl rounded-xl text-center">
+              <button 
+                onClick={() => setIsCareGuideOpen(false)}
+                className="absolute top-4 right-4 text-soft-black/40 hover:text-soft-black transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              
+              <Droplets className="h-8 w-8 mx-auto mb-4 text-terracotta" />
+              
+              <h2 className="text-xl md:text-2xl font-serif text-soft-black mb-6">Care Instructions</h2>
+              
+              <div className="space-y-4 text-left">
+                <div className="flex items-start gap-3 p-3 bg-stone/5 rounded-lg border border-stone/10">
+                  <div className="w-1.5 h-1.5 rounded-full bg-terracotta mt-2 shrink-0"></div>
+                  <p className="text-sm text-dark-charcoal/80 leading-relaxed font-medium">Hand wash cold & gently</p>
+                </div>
+                
+                <div className="flex items-start gap-3 p-3 bg-stone/5 rounded-lg border border-stone/10">
+                  <div className="w-1.5 h-1.5 rounded-full bg-terracotta mt-2 shrink-0"></div>
+                  <p className="text-sm text-dark-charcoal/80 leading-relaxed font-medium">Use mild detergent</p>
+                </div>
+                
+                <div className="flex items-start gap-3 p-3 bg-stone/5 rounded-lg border border-stone/10">
+                  <div className="w-1.5 h-1.5 rounded-full bg-terracotta mt-2 shrink-0"></div>
+                  <p className="text-sm text-dark-charcoal/80 leading-relaxed font-medium">Do not bleach or soak</p>
+                </div>
+                
+                <div className="flex items-start gap-3 p-3 bg-stone/5 rounded-lg border border-stone/10">
+                  <div className="w-1.5 h-1.5 rounded-full bg-terracotta mt-2 shrink-0"></div>
+                  <p className="text-sm text-dark-charcoal/80 leading-relaxed font-medium">Air dry naturally</p>
+                </div>
+                
+                <div className="flex items-start gap-3 p-3 bg-stone/5 rounded-lg border border-stone/10">
+                  <div className="w-1.5 h-1.5 rounded-full bg-terracotta mt-2 shrink-0"></div>
+                  <p className="text-sm text-dark-charcoal/80 leading-relaxed font-medium">Do not tumble dry or iron</p>
+                </div>
+              </div>
+          </div>
+        </div>
+      )}
 
       {/* Lightbox Modal */}
       {lightboxImage && (
