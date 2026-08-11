@@ -340,13 +340,13 @@ const RetailPage = () => {
               <div className="flex gap-3 w-full max-w-md">
                 <button 
                   onClick={() => setOrderType('single')}
-                  className={`flex-1 py-3 md:py-3.5 px-2 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-xl border transition-all duration-300 ${orderType === 'single' ? 'bg-soft-black text-cream border-soft-black shadow-md' : 'bg-transparent text-soft-black border-stone/30 hover:border-soft-black/50 hover:bg-stone/5'}`}
+                  className={`flex-1 py-3 md:py-3.5 px-2 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-full border transition-all duration-300 ${orderType === 'single' ? 'bg-soft-black text-cream border-soft-black shadow-md' : 'bg-transparent text-soft-black border-stone/30 hover:border-soft-black/50 hover:bg-stone/5'}`}
                 >
                   Single Product
                 </button>
                 <button 
                   onClick={() => setOrderType('combo')}
-                  className={`flex-1 py-3 md:py-3.5 px-2 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-xl border transition-all duration-300 ${orderType === 'combo' ? 'bg-soft-black text-cream border-soft-black shadow-md' : 'bg-transparent text-soft-black border-stone/30 hover:border-soft-black/50 hover:bg-stone/5'}`}
+                  className={`flex-1 py-3 md:py-3.5 px-2 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-full border transition-all duration-300 ${orderType === 'combo' ? 'bg-soft-black text-cream border-soft-black shadow-md' : 'bg-transparent text-soft-black border-stone/30 hover:border-soft-black/50 hover:bg-stone/5'}`}
                 >
                   Combo (2 Belts)
                 </button>
