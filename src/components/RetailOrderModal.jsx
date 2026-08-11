@@ -238,7 +238,7 @@ const RetailOrderModal = ({
                     <div className="space-y-2 mt-4 pt-4 border-t border-stone/10">
                       <div className="flex justify-between items-center text-xs text-dark-charcoal/80">
                         <span>Subtotal</span>
-                        <span className="font-medium">{orderType === 'single' ? '1,090' : '1,990'} BDT</span>
+                        <span className="font-medium">{orderType === 'single' ? '990' : '1,790'} BDT</span>
                       </div>
                       <div className="flex justify-between items-center text-xs text-dark-charcoal/80 mt-1 md:mt-2">
                         <span>Standard Delivery Charge</span>
@@ -246,7 +246,7 @@ const RetailOrderModal = ({
                       </div>
                       <div className="flex justify-between items-center mt-3 pt-3 border-t border-stone/10">
                         <span className="text-[11px] md:text-xs font-bold uppercase tracking-widest text-soft-black">Total Amount</span>
-                        <span className="text-lg md:text-xl font-serif font-bold text-terracotta">{(orderType === 'single' ? 1090 : 1990) + 100} BDT</span>
+                        <span className="text-lg md:text-xl font-serif font-bold text-terracotta">{(orderType === 'single' ? 990 : 1790) + 100} BDT</span>
                       </div>
                     </div>
                   </div>

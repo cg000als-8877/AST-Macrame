@@ -321,11 +321,11 @@ const RetailPage = () => {
             {/* Added Price */}
             <div className="mb-4 md:mb-5 flex items-center gap-3 md:gap-4 mt-2">
               <span className="text-2xl md:text-3xl font-serif text-soft-black leading-none">
-                {orderType === 'single' ? '1,090 BDT' : '1,990 BDT'}
+                {orderType === 'single' ? '990 BDT' : '1,790 BDT'}
               </span>
               <div className="flex items-start gap-2 pt-1">
                 <span className="text-[15px] md:text-lg text-red-500/80 line-through font-bold whitespace-nowrap leading-none">
-                  {orderType === 'single' ? '1,250 BDT' : '2,500 BDT'}
+                  {orderType === 'single' ? '1,150 BDT' : '2,300 BDT'}
                 </span>
                 <span className="bg-red-500 text-white text-[7px] md:text-[8px] font-bold uppercase tracking-widest px-1.5 py-[1px] rounded-full shadow-sm whitespace-nowrap -mt-0.5">
                   {orderType === 'single' ? 'Save 160 Tk' : 'Save 510 Tk'}
