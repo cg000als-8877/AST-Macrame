@@ -437,7 +437,7 @@ const RetailPage = () => {
                       <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-3 md:mb-4 text-left">
                         Belt 1 Color
                       </span>
-                      <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4">
+                      <div className="flex flex-nowrap gap-2 sm:gap-3 md:gap-4">
                         {colors.map((color) => (
                           <button
                             key={color.name}
@@ -477,7 +477,7 @@ const RetailPage = () => {
                       <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-3 md:mb-4 text-left">
                         Belt 2 Color
                       </span>
-                      <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4">
+                      <div className="flex flex-nowrap gap-2 sm:gap-3 md:gap-4">
                         {colors.map((color) => (
                           <button
                             key={color.name}
