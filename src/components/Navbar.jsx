@@ -75,15 +75,15 @@ const Navbar = () => {
             
           </div>
         ) : (
-          <div className="px-2 sm:px-6 lg:px-10 py-2 sm:py-0 sm:h-11 md:h-14 flex flex-col sm:flex-row items-center justify-center sm:justify-between w-full gap-2 sm:gap-0">
+          <div className="px-2 sm:px-6 lg:px-10 py-1 sm:py-0 sm:h-11 md:h-14 flex flex-col sm:flex-row items-center justify-center sm:justify-between w-full gap-1 sm:gap-0">
             
             {/* Mobile Top Row: Logo & Icons */}
-            <div className={`flex w-full justify-between items-center sm:hidden px-4 transition-all duration-300 overflow-hidden ${isScrolled ? 'max-h-0 opacity-0 pb-0 mb-0 border-transparent' : 'max-h-16 pb-2 mb-1 border-b border-stone/20'}`}>
+            <div className={`flex w-full justify-between items-center sm:hidden px-2 transition-all duration-300 overflow-hidden ${isScrolled ? 'max-h-0 opacity-0 pb-0 mb-0 border-transparent' : 'max-h-12 pb-1 mb-0 border-b border-stone/20'}`}>
               <Link to="/" className="flex items-center gap-2 active:scale-95 transition-transform duration-200">
                 <img 
                   src="/logo_black.png" 
                   alt="AST Handmade Macramé Belts" 
-                  className="h-9 w-auto object-contain transition-all duration-300 drop-shadow-md mobile-navbar-logo"
+                  className="h-7 md:h-8 w-auto object-contain transition-all duration-300 drop-shadow-md mobile-navbar-logo"
                 />
                 <span className="font-serif font-bold text-soft-black text-[13px] tracking-wide mt-0.5">AST Macramé</span>
               </Link>
@@ -113,15 +113,15 @@ const Navbar = () => {
             </div>
 
             {/* Navigation Links */}
-            <div className="flex flex-shrink-0 items-center justify-center px-4 sm:px-1 w-full sm:w-auto">
-              <nav className="flex items-center justify-between sm:justify-center w-full sm:w-auto sm:space-x-4 md:space-x-6 lg:space-x-8 text-soft-black">
+            <div className="flex w-full px-2 sm:px-1 sm:w-auto justify-between items-center sm:justify-center shrink-0">
+              <nav className="flex items-center justify-between w-full sm:w-auto sm:space-x-4 md:space-x-6 lg:space-x-8 text-soft-black">
                 {navLinks.map((link, index) => {
                   const isActive = location.pathname === link.path;
                   return (
                   <React.Fragment key={link.name}>
                     <Link 
                       to={link.path}
-                      className={`relative px-2 py-1 sm:px-0 sm:py-0.5 text-[clamp(10px,1.8vw,13px)] font-bold md:font-semibold tracking-tighter sm:tracking-widest uppercase active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap ${isActive ? 'text-terracotta' : 'hover:text-terracotta text-soft-black'} ${link.name === 'Contact' ? 'hidden sm:block' : ''}`}
+                      className={`relative py-1 sm:py-0.5 text-[clamp(10.5px,2.2vw,13px)] font-bold md:font-semibold tracking-tight sm:tracking-widest uppercase active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap ${isActive ? 'text-terracotta' : 'hover:text-terracotta text-soft-black'} ${link.name === 'Contact' ? 'hidden sm:block' : ''}`}
                     >
                       {link.name}
                       {isActive && (
@@ -129,7 +129,7 @@ const Navbar = () => {
                       )}
                     </Link>
                     {index < navLinks.length - 1 && (
-                      <div className={`w-[1px] h-2.5 sm:h-3 md:h-4 bg-soft-black/20 ${index === navLinks.length - 2 ? 'hidden sm:block' : ''}`}></div>
+                      <div className={`w-[1px] h-2.5 sm:h-3 md:h-4 bg-soft-black/20 shrink-0 ${index === navLinks.length - 2 ? 'hidden sm:block' : ''}`}></div>
                     )}
                   </React.Fragment>
                 )})}
