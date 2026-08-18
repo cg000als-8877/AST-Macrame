@@ -676,7 +676,7 @@ const Product = () => {
       <AnimatePresence>
         {lightboxImage && (
           <div 
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 px-4 overflow-hidden"
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/95 px-0 md:px-4 overflow-hidden"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEndEvent}
@@ -686,18 +686,18 @@ const Product = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.3 }}
-              className="relative flex items-center justify-center w-full h-full"
+              className="relative flex items-center justify-center w-full h-[85vh] md:h-full"
             >
               <button 
                 onClick={handlePrevImage}
-                className="absolute left-2 md:left-8 text-white z-[110] p-1.5 md:p-2.5 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full transition-all"
+                className="hidden md:flex absolute left-2 md:left-8 text-white z-[110] p-1.5 md:p-2.5 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full transition-all"
               >
                 <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
               </button>
               
-              <div className="relative w-full max-h-[90vh] md:max-h-[95vh] max-w-[95vw] aspect-[4/5] flex items-center justify-center overflow-hidden rounded-none md:rounded-xl">
+              <div className="relative w-full h-full md:max-h-[95vh] md:max-w-[95vw] aspect-[4/5] flex items-center justify-center overflow-hidden rounded-none md:rounded-xl bg-black md:bg-transparent">
                 <button 
-                  onClick={() => { setLightboxImage(null); }}
+                  onClick={() => { setLightboxImage(null); setZoomLevel(1); }}
                   className="absolute top-2 right-2 md:top-4 md:right-4 text-white mix-blend-difference z-[110] transition-transform hover:scale-110 p-2"
                 >
                   <X className="w-6 h-6 md:w-8 md:h-8" />
@@ -710,24 +710,48 @@ const Product = () => {
                   doubleClick={{ mode: "toggle" }}
                   wheel={{ step: 0.1 }}
                 >
-                  <TransformComponent wrapperClass="!w-full !h-full" contentClass="!w-full !h-full flex items-center justify-center">
-                    <img 
-                      src={lightboxImage} 
-                      alt="Product Zoom"
-                      className="w-full h-full object-contain cursor-grab active:cursor-grabbing bg-white select-none"
-                      draggable="false"
-                    />
-                  </TransformComponent>
+                  {({ zoomIn, zoomOut, resetTransform }) => (
+                    <React.Fragment>
+                      <TransformComponent wrapperClass="!w-full !h-full" contentClass="!w-full !h-full flex items-center justify-center">
+                        <img 
+                          src={lightboxImage} 
+                          alt="Product Zoom"
+                          className="w-full h-full object-contain cursor-grab active:cursor-grabbing md:bg-white select-none"
+                          draggable="false"
+                        />
+                      </TransformComponent>
+                      
+                      {/* Mobile Zoom Controls */}
+                      <div className="md:hidden absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-6 z-[110] bg-black/60 backdrop-blur-md px-6 py-2.5 rounded-full border border-white/20">
+                        <button onClick={() => zoomOut()} className="text-white hover:text-terracotta transition-colors"><Minus className="w-5 h-5" /></button>
+                        <button onClick={() => resetTransform()} className="text-[10px] text-white font-bold uppercase tracking-widest hover:text-terracotta transition-colors">Reset</button>
+                        <button onClick={() => zoomIn()} className="text-white hover:text-terracotta transition-colors"><Plus className="w-5 h-5" /></button>
+                      </div>
+                    </React.Fragment>
+                  )}
                 </TransformWrapper>
               </div>
 
               <button 
                 onClick={handleNextImage}
-                className="absolute right-2 md:right-8 text-white z-[110] p-1.5 md:p-2.5 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full transition-all"
+                className="hidden md:flex absolute right-2 md:right-8 text-white z-[110] p-1.5 md:p-2.5 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full transition-all"
               >
                 <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
               </button>
             </motion.div>
+
+            {/* Mobile Thumbnails */}
+            <div className="md:hidden w-full h-[15vh] flex items-center justify-center gap-3 px-4 pb-4">
+               {images.map((img, idx) => (
+                  <button 
+                    key={idx}
+                    onClick={() => { setLightboxImage(img); setZoomLevel(1); }}
+                    className={`w-14 h-14 shrink-0 rounded-md overflow-hidden border-2 transition-all ${lightboxImage === img ? 'border-terracotta scale-105' : 'border-transparent opacity-50'}`}
+                  >
+                    <img src={img} className="w-full h-full object-cover" alt="Thumbnail" />
+                  </button>
+               ))}
+            </div>
           </div>
         )}
       </AnimatePresence>

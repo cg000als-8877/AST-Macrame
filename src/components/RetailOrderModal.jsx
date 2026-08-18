@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
+import { X, ChevronDown } from 'lucide-react';
 import bd from '../utils/bd-location';
 
 import b1 from '../assets/products/Black/1.jpg';
@@ -36,6 +36,9 @@ const RetailOrderModal = ({
   const [upazilas, setUpazilas] = useState([]);
   const [selectedDistrictId, setSelectedDistrictId] = useState('');
   const [selectedUpazilaName, setSelectedUpazilaName] = useState('');
+  
+  // 'outside' (120 Tk) or 'inside' (50 Tk)
+  const [deliveryType, setDeliveryType] = useState('outside');
 
   useEffect(() => {
     if (isOpen) {
@@ -47,6 +50,7 @@ const RetailOrderModal = ({
       setSelectedUpazilaName('');
       setDistricts([]);
       setUpazilas([]);
+      setDeliveryType('outside'); // Reset to default
     }
   }, [isOpen]);
 
@@ -96,7 +100,10 @@ const RetailOrderModal = ({
     }
     
     // Add Delivery Charge label for Google Sheet
-    formData.append('deliveryCharge', 'Standard Delivery Charge 100 Taka (All Over BD)');
+    const deliveryText = deliveryType === 'inside' 
+      ? 'Chittagong City Delivery Charge 50 Tk' 
+      : 'Outside Chittagong Delivery Charge 120 Tk';
+    formData.append('deliveryCharge', deliveryText);
     
     // Explicitly ask third-party Apps Script libraries to use Sheet2
     formData.append('sheet', 'Sheet2');
@@ -128,6 +135,10 @@ const RetailOrderModal = ({
     }
   };
 
+  const deliveryCost = deliveryType === 'inside' ? 50 : 120;
+  const productCost = orderType === 'single' ? 990 : 1790;
+  const totalCost = productCost + deliveryCost;
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -151,15 +162,6 @@ const RetailOrderModal = ({
             >
               <X size={24} />
             </button>
-
-            {/* Watermark Logo for Mobile */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 sm:hidden opacity-5 overflow-hidden">
-              <img 
-                src="/logo_black.png" 
-                alt="" 
-                className="w-3/4 max-w-[200px] object-contain"
-              />
-            </div>
             
             <div className="relative z-10">
             {isSuccess ? (
@@ -177,11 +179,8 @@ const RetailOrderModal = ({
               </div>
             ) : (
               <>
-                <div className="flex flex-col items-center justify-center mb-6 md:mb-8 text-center">
-                  <img src="/logo_black.png" alt="AST Handmade Macramé Belts" className="h-8 md:h-10 w-auto object-contain mb-2 md:mb-3" />
-                  <p className="text-[11px] md:text-xs font-bold text-dark-charcoal tracking-wide uppercase">
-                    Cash on delivery (COD) all over Bangladesh
-                  </p>
+                <div className="flex flex-col items-center justify-center mb-3 md:mb-8 text-center">
+                  <img src="/logo_black.png" alt="AST Handmade Macramé Belts" className="h-8 md:h-10 w-auto object-contain md:mb-3" />
                 </div>
                 
                 <form 
@@ -190,24 +189,24 @@ const RetailOrderModal = ({
                 >
                   <div className="order-2 md:order-1 space-y-3 md:space-y-4">
                   <div>
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
                       Name / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">নাম</span>
                     </label>
-                    <input type="text" name="name" className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px]" placeholder="Your Full Name" required />
+                    <input type="text" name="name" className="w-full bg-white border border-black rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px]" placeholder="Your Full Name" required />
                   </div>
                   <div>
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
                       Phone / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">মোবাইল</span>
                     </label>
-                    <input type="tel" name="phone" className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px]" placeholder="01XXX XXXXXX" required />
+                    <input type="tel" name="phone" className="w-full bg-white border border-black rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px]" placeholder="01XXX XXXXXX" required />
                   </div>
-                  <div>
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                  <div className="relative">
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
                       District / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">জেলা</span>
                     </label>
                     <select 
                       name="district" 
-                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px] appearance-none" 
+                      className="w-full bg-white border border-black rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px] appearance-none pr-8" 
                       required
                       value={selectedDistrictId}
                       onChange={(e) => setSelectedDistrictId(e.target.value)}
@@ -217,14 +216,17 @@ const RetailOrderModal = ({
                         <option key={d.id} value={d.id}>{d.name} - {d.bn_name}</option>
                       ))}
                     </select>
+                    <div className="absolute right-2.5 top-[25px] md:top-[30px] pointer-events-none text-black">
+                      <ChevronDown size={18} />
+                    </div>
                   </div>
-                  <div>
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                  <div className="relative">
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
                       Thana/Upazila / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">থানা</span>
                     </label>
                     <select 
                       name="thana" 
-                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px] appearance-none" 
+                      className="w-full bg-white border border-black rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px] appearance-none pr-8" 
                       value={selectedUpazilaName}
                       onChange={(e) => setSelectedUpazilaName(e.target.value)}
                       disabled={!selectedDistrictId}
@@ -234,28 +236,31 @@ const RetailOrderModal = ({
                         <option key={u.id} value={u.name}>{u.name} - {u.bn_name}</option>
                       ))}
                     </select>
+                    <div className="absolute right-2.5 top-[25px] md:top-[30px] pointer-events-none text-black">
+                      <ChevronDown size={18} />
+                    </div>
                   </div>
                   <div>
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
                       Delivery Point / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">যে জায়গা থেকে রিসিভ করবেন</span>
                     </label>
                     <textarea 
                       name="delivery_point"
                       rows="3" 
-                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px] resize-none" 
+                      className="w-full bg-white border border-black rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px] resize-none" 
                       placeholder="Full Address" 
                       required
                     ></textarea>
                   </div>
 
                   <div>
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-widest uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
                       Note / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">নোট</span> <span className="text-dark-charcoal/50 font-normal normal-case tracking-normal">(Optional)</span>
                     </label>
                     <textarea 
                       name="message"
                       rows="3" 
-                      className="w-full bg-white/50 border border-dark-charcoal/40 rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px] resize-none" 
+                      className="w-full bg-white border border-black rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px] resize-none" 
                       placeholder="Any custom instructions..."
                     ></textarea>
                   </div>
@@ -264,7 +269,7 @@ const RetailOrderModal = ({
                   <div className="md:hidden pt-4 mt-4 w-full flex flex-col gap-4">
                     <div className="flex items-start gap-2">
                       <input type="checkbox" id="terms-mobile" defaultChecked required className="mt-1 accent-terracotta shrink-0" />
-                      <label htmlFor="terms-mobile" className="text-[10px] md:text-xs text-dark-charcoal/80 leading-relaxed">
+                      <label htmlFor="terms-mobile" className="text-[10px] md:text-xs text-dark-charcoal/80 leading-relaxed tracking-normal">
                         I have read and agree to the <Link to="/terms" target="_blank" className="text-terracotta font-bold hover:underline">Terms and Conditions</Link>, <Link to="/privacy" target="_blank" className="text-terracotta font-bold hover:underline">Privacy Policy</Link> & <Link to="/refund" target="_blank" className="text-terracotta font-bold hover:underline">Refund and Return Policy</Link>.
                       </label>
                     </div>
@@ -274,10 +279,10 @@ const RetailOrderModal = ({
                   </div>
                   </div>
 
-                  <div className="order-1 md:order-2 flex flex-col h-full mb-6 md:mb-0">
+                  <div className="order-1 md:order-2 flex flex-col h-full mb-4 md:mb-0">
                   {/* Order Summary */}
-                  <div className="bg-stone/5 border border-stone/20 rounded-xl p-3 md:p-5">
-                    <h3 className="text-[9px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-3 md:mb-4 border-b border-stone/10 pb-2 md:pb-3">Order Summary</h3>
+                  <div className="bg-white border border-black/40 rounded-xl p-2.5 md:p-5 shadow-sm">
+                    <h3 className="text-[9px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-2 md:mb-4 border-b border-stone/10 pb-1.5 md:pb-3">Order Summary</h3>
                     
                     {orderType === 'single' ? (
                       <div className="flex items-center gap-3 md:gap-4 mb-3 md:mb-4">
@@ -292,17 +297,17 @@ const RetailOrderModal = ({
                     ) : (
                       <div className="flex flex-col gap-2 md:gap-3 mb-3 md:mb-4">
                         <span className="text-[11px] md:text-sm font-bold text-soft-black">Combo Pack (2 Belts)</span>
-                        <div className="flex items-center gap-3 md:gap-4 bg-white/50 p-1.5 md:p-2 rounded-lg border border-stone/10">
-                          <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 bg-stone/10 rounded-md overflow-hidden">
+                        <div className="flex items-center gap-3 md:gap-4 p-1.5 md:p-2 rounded-lg bg-stone/5">
+                          <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 bg-stone/10 rounded-md overflow-hidden border border-black/10">
                             <img src={colorImages[comboColor1]} alt={comboColor1} className="w-full h-full object-cover mix-blend-multiply" />
                           </div>
-                          <span className="text-[10px] md:text-xs text-dark-charcoal/80">Belt 1: {comboColor1} ({comboSize1})</span>
+                          <span className="text-[10px] md:text-xs text-dark-charcoal/80 tracking-normal">Belt 1: {comboColor1} ({comboSize1})</span>
                         </div>
-                        <div className="flex items-center gap-3 md:gap-4 bg-white/50 p-1.5 md:p-2 rounded-lg border border-stone/10">
-                          <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 bg-stone/10 rounded-md overflow-hidden">
+                        <div className="flex items-center gap-3 md:gap-4 p-1.5 md:p-2 rounded-lg bg-stone/5">
+                          <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 bg-stone/10 rounded-md overflow-hidden border border-black/10">
                             <img src={colorImages[comboColor2]} alt={comboColor2} className="w-full h-full object-cover mix-blend-multiply" />
                           </div>
-                          <span className="text-[10px] md:text-xs text-dark-charcoal/80">Belt 2: {comboColor2} ({comboSize2})</span>
+                          <span className="text-[10px] md:text-xs text-dark-charcoal/80 tracking-normal">Belt 2: {comboColor2} ({comboSize2})</span>
                         </div>
                       </div>
                     )}
@@ -310,15 +315,49 @@ const RetailOrderModal = ({
                     <div className="space-y-1.5 md:space-y-2 mt-3 md:mt-4 pt-3 md:pt-4 border-t border-stone/10">
                       <div className="flex justify-between items-center text-[11px] md:text-xs text-dark-charcoal/80">
                         <span>Subtotal</span>
-                        <span className="font-medium">{orderType === 'single' ? '990' : '1,790'} BDT</span>
+                        <span className="font-medium">{productCost} BDT</span>
                       </div>
-                      <div className="flex justify-between items-center text-[11px] md:text-xs text-dark-charcoal/80 mt-1">
-                        <span>Standard Delivery</span>
-                        <span className="font-medium text-terracotta">+ 100 BDT</span>
+                      
+                      <div className="flex flex-col gap-1.5 md:gap-2 mt-3 pt-3 border-t border-stone/10">
+                        <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-dark-charcoal mb-1">Delivery Area</span>
+                        
+                        <label className="flex items-center justify-between cursor-pointer group p-1.5 md:p-2 rounded-lg transition-colors bg-stone/5 hover:bg-stone/10">
+                          <div className="flex items-center gap-2.5 md:gap-3">
+                            <input 
+                              type="radio" 
+                              name="delivery_area" 
+                              value="inside" 
+                              checked={deliveryType === 'inside'} 
+                              onChange={() => setDeliveryType('inside')}
+                              className="accent-terracotta w-3.5 h-3.5 md:w-4 md:h-4 cursor-pointer" 
+                            />
+                            <span className="text-[11px] md:text-xs text-dark-charcoal group-hover:text-soft-black transition-colors">Chittagong City</span>
+                          </div>
+                          <span className="text-[11px] md:text-xs font-medium text-terracotta">+ 50 BDT</span>
+                        </label>
+                        
+                        <label className="flex items-center justify-between cursor-pointer group p-1.5 md:p-2 rounded-lg transition-colors bg-stone/5 hover:bg-stone/10">
+                          <div className="flex items-center gap-2.5 md:gap-3">
+                            <input 
+                              type="radio" 
+                              name="delivery_area" 
+                              value="outside" 
+                              checked={deliveryType === 'outside'} 
+                              onChange={() => setDeliveryType('outside')}
+                              className="accent-terracotta w-3.5 h-3.5 md:w-4 md:h-4 cursor-pointer" 
+                            />
+                            <span className="text-[11px] md:text-xs text-dark-charcoal group-hover:text-soft-black transition-colors">Outside Chittagong</span>
+                          </div>
+                          <span className="text-[11px] md:text-xs font-medium text-terracotta">+ 120 BDT</span>
+                        </label>
+                        <p className="text-[11px] md:text-[13px] text-terracotta font-medium mt-1.5 text-center">
+                          Cash on delivery (COD) all over Bangladesh
+                        </p>
                       </div>
-                      <div className="flex justify-between items-center mt-2 md:mt-3 pt-2 md:pt-3 border-t border-stone/10">
+
+                      <div className="flex justify-between items-center mt-3 md:mt-4 pt-3 md:pt-4 border-t border-stone/10">
                         <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-soft-black">Total</span>
-                        <span className="text-base md:text-xl font-serif font-bold text-terracotta">{(orderType === 'single' ? 990 : 1790) + 100} BDT</span>
+                        <span className="text-base md:text-xl font-serif font-bold text-terracotta">{totalCost} BDT</span>
                       </div>
                     </div>
                   </div>
@@ -327,7 +366,7 @@ const RetailOrderModal = ({
                   <div className="hidden md:flex flex-col pt-4 mt-auto gap-4">
                     <div className="flex items-start gap-2">
                       <input type="checkbox" id="terms-desktop" defaultChecked required className="mt-1 accent-terracotta shrink-0" />
-                      <label htmlFor="terms-desktop" className="text-[10px] md:text-xs text-dark-charcoal/80 leading-relaxed">
+                      <label htmlFor="terms-desktop" className="text-[10px] md:text-xs text-dark-charcoal/80 leading-relaxed tracking-normal">
                         I have read and agree to the <Link to="/terms" target="_blank" className="text-terracotta font-bold hover:underline">Terms and Conditions</Link>, <Link to="/privacy" target="_blank" className="text-terracotta font-bold hover:underline">Privacy Policy</Link> & <Link to="/refund" target="_blank" className="text-terracotta font-bold hover:underline">Refund and Return Policy</Link>.
                       </label>
                     </div>

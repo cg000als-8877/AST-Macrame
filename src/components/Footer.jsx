@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer className="bg-soft-black text-cream pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="flex flex-col lg:grid lg:grid-cols-4 lg:gap-12 mb-12">
+        <div className="flex flex-col lg:grid lg:grid-cols-4 lg:gap-12 mb-0 md:mb-12 gap-6">
           
           <div className="lg:col-span-1 mb-12 lg:mb-0 flex flex-row items-center gap-4 lg:flex-col lg:items-start lg:gap-0">
             <Link to="/" className="block shrink-0 lg:mb-6">
@@ -74,7 +74,7 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="pt-6 border-t border-cream/10 flex flex-col items-center">
+        <div className="mt-6 md:mt-0 pt-4 md:pt-6 border-t border-cream/10 flex flex-col items-center">
           <p className="font-sans text-[10px] text-cream/40 tracking-widest text-center">
             © {new Date().getFullYear()} AST Handmade Macramé Belts. All Rights Reserved.
           </p>
