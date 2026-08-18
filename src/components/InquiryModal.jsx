@@ -53,6 +53,7 @@ const InquiryModal = ({ isOpen, onClose, formType, orderDetails }) => {
 
     const formData = new FormData(e.target);
     formData.append('formType', formType === 'sample' ? 'Sample' : 'Wholesale');
+    formData.append('sheetName', formType === 'sample' ? 'Sample' : 'Wholesale');
     
     if (orderDetails) {
       formData.append('orderDetails', JSON.stringify(orderDetails));
@@ -72,7 +73,7 @@ const InquiryModal = ({ isOpen, onClose, formType, orderDetails }) => {
       const delay = new Promise(resolve => setTimeout(resolve, 2000));
       
       await Promise.all([
-        fetch('https://script.google.com/macros/s/AKfycbzJtqUpaA-Zfo1MId06SHg2omv178oBX8NsjZkRVKdr4_3RhsRCZDYy6nPuHlocAHME/exec', {
+        fetch('https://script.google.com/macros/s/AKfycby-t_SgCbjwZUNz40wgSBINlPOyvbqWcQWW3E5Kdvk5J5WCIhUmcrj3vXc8SgGdWMFY/exec', {
           method: 'POST',
           mode: 'no-cors',
           headers: {
