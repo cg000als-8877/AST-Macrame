@@ -82,11 +82,20 @@ const RetailOrderModal = ({
 
     const formData = new FormData(e.target);
     
-    // Convert district ID back to name for the form submission
+    // Combine Address, Thana, and District into one cell
+    let districtName = '';
     const districtObj = districts.find(d => d.id === selectedDistrictId);
     if (districtObj) {
-      formData.set('district', districtObj.name);
+      districtName = districtObj.name;
     }
+    const thanaName = formData.get('thana') || '';
+    const addressDetail = formData.get('address') || '';
+    
+    const fullAddress = [addressDetail, thanaName, districtName].filter(Boolean).join(', ');
+    
+    formData.delete('district');
+    formData.delete('thana');
+    formData.set('address', fullAddress);
     
     formData.append('formType', 'Retail Order');
     if (orderType === 'combo') {
@@ -104,10 +113,22 @@ const RetailOrderModal = ({
       ? 'Chittagong City Delivery Charge 50 Tk' 
       : 'Outside Chittagong Delivery Charge 120 Tk';
     formData.append('deliveryCharge', deliveryText);
+
+    // Add Date, Time, and Total Amount
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+    const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
     
-    // Explicitly ask third-party Apps Script libraries to use Sheet2
-    formData.append('sheet', 'Sheet2');
-    formData.append('sheetName', 'Sheet2');
+    const deliveryCostAmount = deliveryType === 'inside' ? 50 : 120;
+    const productCostAmount = orderType === 'single' ? 990 : 1790;
+    
+    formData.append('date', dateStr);
+    formData.append('time', timeStr);
+    formData.append('totalAmount', `${productCostAmount + deliveryCostAmount} BDT`);
+    
+    // Explicitly ask third-party Apps Script libraries to use Sheet1
+    formData.append('sheet', 'Sheet1');
+    formData.append('sheetName', 'Sheet1');
 
     const urlEncodedData = new URLSearchParams(formData).toString();
 
