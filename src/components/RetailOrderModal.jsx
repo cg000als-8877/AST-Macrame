@@ -388,8 +388,8 @@ const RetailOrderModal = ({
                           </div>
                           <span className="text-[11px] md:text-xs font-medium text-terracotta">+ 120 BDT</span>
                         </label>
-                        <p className="text-[11px] md:text-[12px] text-terracotta font-medium mt-1.5 text-center font-bengali tracking-normal">
-                          পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন, দ্রুত সময়ের মধ্যে সারা বাংলাদেশে "হোম ডেলিভারি"
+                        <p className="text-[12px] md:text-[13px] text-soft-black font-medium mt-1.5 text-center font-bengali tracking-normal">
+                          পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন,<br />দ্রুত সময়ের মধ্যে সারা বাংলাদেশে "হোম ডেলিভারি"
                         </p>
                       </div>
 
