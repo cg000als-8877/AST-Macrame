@@ -31,6 +31,7 @@ const RetailOrderModal = ({
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const [districts, setDistricts] = useState([]);
   const [upazilas, setUpazilas] = useState([]);
@@ -82,6 +83,17 @@ const RetailOrderModal = ({
 
     const formData = new FormData(e.target);
     
+    // Format phone to always include +88
+    let rawPhone = (formData.get('phone') || '').trim();
+    if (rawPhone.startsWith('+88')) {
+      // already has it
+    } else if (rawPhone.startsWith('88')) {
+      rawPhone = '+' + rawPhone;
+    } else {
+      rawPhone = '+88' + rawPhone;
+    }
+    formData.set('phone', rawPhone);
+    
     // Combine Address, Thana, and District into one cell
     let districtName = '';
     const districtObj = districts.find(d => d.id === selectedDistrictId);
@@ -89,21 +101,22 @@ const RetailOrderModal = ({
       districtName = districtObj.name;
     }
     const thanaName = formData.get('thana') || '';
-    const addressDetail = formData.get('address') || '';
+    const deliveryPoint = formData.get('delivery_point') || '';
     
-    const fullAddress = [addressDetail, thanaName, districtName].filter(Boolean).join(', ');
+    const fullAddress = [deliveryPoint, thanaName, districtName].filter(Boolean).join(', ');
     
     formData.delete('district');
     formData.delete('thana');
+    formData.delete('delivery_point');
     formData.set('address', fullAddress);
     
     formData.append('formType', 'Retail Order');
     if (orderType === 'combo') {
-      formData.append('orderType', 'Combo (1990 BDT)');
+      formData.append('orderType', 'Combo (1790 BDT)');
       if (!formData.get('color')) formData.append('color', `${comboColor1} + ${comboColor2}`);
       if (!formData.get('size')) formData.append('size', `${comboSize1} + ${comboSize2}`);
     } else {
-      formData.append('orderType', 'Single (1090 BDT)');
+      formData.append('orderType', 'Single (990 BDT)');
       if (!formData.get('color')) formData.append('color', selectedColor);
       if (!formData.get('size')) formData.append('size', selectedSize);
     }
@@ -206,23 +219,27 @@ const RetailOrderModal = ({
                 <form 
                   className="flex flex-col md:grid md:grid-cols-2 md:gap-8 lg:gap-12 md:items-start"
                   onSubmit={handleSubmit}
+                  onChange={(e) => setIsFormValid(e.currentTarget.checkValidity())}
                 >
                   <div className="order-2 md:order-1 space-y-3 md:space-y-4">
                   <div>
                     <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      Name / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">নাম</span>
+                      Name / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">নাম</span> <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>
                     </label>
                     <input type="text" name="name" className="w-full bg-white border border-black rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px]" placeholder="Your Full Name" required />
                   </div>
-                  <div>
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      Phone / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">মোবাইল</span>
-                    </label>
-                    <input type="tel" name="phone" className="w-full bg-white border border-black rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px]" placeholder="01XXX XXXXXX" required />
-                  </div>
+                    <div>
+                      <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
+                        Phone / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">মোবাইল নম্বর</span> <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>
+                      </label>
+                      <div className="relative flex items-center w-full bg-white border border-black rounded-md focus-within:border-terracotta transition-colors">
+                        <span className="pl-2.5 text-[13px] md:text-[15px] text-dark-charcoal/80 font-medium">+88</span>
+                        <input type="tel" name="phone" className="w-full bg-transparent px-1.5 py-1.5 md:py-2 focus:outline-none text-[13px] md:text-[15px]" placeholder="01XXX XXXXXX" required />
+                      </div>
+                    </div>
                   <div className="relative">
                     <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      District / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">জেলা</span>
+                      District / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">জেলা</span> <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>
                     </label>
                     <select 
                       name="district" 
@@ -242,7 +259,7 @@ const RetailOrderModal = ({
                   </div>
                   <div className="relative">
                     <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      Thana/Upazila / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">থানা</span>
+                      Thana/Upazila / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">থানা</span> <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>
                     </label>
                     <select 
                       name="thana" 
@@ -250,6 +267,7 @@ const RetailOrderModal = ({
                       value={selectedUpazilaName}
                       onChange={(e) => setSelectedUpazilaName(e.target.value)}
                       disabled={!selectedDistrictId}
+                      required
                     >
                       <option value="" disabled>Select Thana/Upazila</option>
                       {upazilas.map(u => (
@@ -262,7 +280,7 @@ const RetailOrderModal = ({
                   </div>
                   <div>
                     <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      Delivery Point / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">যে জায়গা থেকে রিসিভ করবেন</span>
+                      Delivery Point / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">যে জায়গা থেকে রিসিভ করবেন</span> <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>
                     </label>
                     <textarea 
                       name="delivery_point"
@@ -293,7 +311,7 @@ const RetailOrderModal = ({
                         I have read and agree to the <Link to="/terms" target="_blank" className="text-terracotta font-bold hover:underline">Terms and Conditions</Link>, <Link to="/privacy" target="_blank" className="text-terracotta font-bold hover:underline">Privacy Policy</Link> & <Link to="/refund" target="_blank" className="text-terracotta font-bold hover:underline">Refund and Return Policy</Link>.
                       </label>
                     </div>
-                    <button type="submit" disabled={isSubmitting} className="w-full bg-soft-black text-cream px-10 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-terracotta transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
+                    <button type="submit" disabled={isSubmitting || !isFormValid} className="w-full bg-soft-black text-cream px-10 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-terracotta transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
                       {isSubmitting ? 'Processing...' : 'Submit Order'}
                     </button>
                   </div>
@@ -390,7 +408,7 @@ const RetailOrderModal = ({
                         I have read and agree to the <Link to="/terms" target="_blank" className="text-terracotta font-bold hover:underline">Terms and Conditions</Link>, <Link to="/privacy" target="_blank" className="text-terracotta font-bold hover:underline">Privacy Policy</Link> & <Link to="/refund" target="_blank" className="text-terracotta font-bold hover:underline">Refund and Return Policy</Link>.
                       </label>
                     </div>
-                    <button type="submit" disabled={isSubmitting} className="w-full bg-soft-black text-cream px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-terracotta transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
+                    <button type="submit" disabled={isSubmitting || !isFormValid} className="w-full bg-soft-black text-cream px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-terracotta transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
                       {isSubmitting ? 'Processing...' : 'Submit Order'}
                     </button>
                   </div>

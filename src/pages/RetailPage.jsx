@@ -52,7 +52,15 @@ const RetailPage = () => {
   const [comboColor2, setComboColor2] = useState(null);
   const [comboSize1, setComboSize1] = useState(null);
   const [comboSize2, setComboSize2] = useState(null);
-  const [openAccordions, setOpenAccordions] = useState({});
+  const [openAccordions, setOpenAccordions] = useState(() => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    return {
+      description: isMobile,
+      materials: isMobile,
+      shipping: isMobile,
+      disclaimer: isMobile
+    };
+  });
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isCareGuideOpen, setIsCareGuideOpen] = useState(false);
   const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
@@ -445,7 +453,7 @@ const RetailPage = () => {
                           <button
                             key={color.name}
                             onClick={() => { setComboColor1(color.name); handleColorChange(color.name); }}
-                            className={`w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-full border transition-all duration-300 shrink-0 ${comboColor1 === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
+                            className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full border transition-all duration-300 shrink-0 ${comboColor1 === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
                             title={color.name}
                           >
                             <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
@@ -467,7 +475,7 @@ const RetailPage = () => {
                           <button
                             key={size}
                             onClick={() => setComboSize1(size)}
-                            className={`w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 flex items-center justify-center text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-md shrink-0 ${comboSize1 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                            className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-md shrink-0 ${comboSize1 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
                           >
                             {size}
                           </button>
@@ -488,7 +496,7 @@ const RetailPage = () => {
                           <button
                             key={color.name}
                             onClick={() => { setComboColor2(color.name); handleColorChange(color.name); }}
-                            className={`w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-full border transition-all duration-300 shrink-0 ${comboColor2 === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
+                            className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full border transition-all duration-300 shrink-0 ${comboColor2 === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
                             title={color.name}
                           >
                             <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
@@ -510,7 +518,7 @@ const RetailPage = () => {
                           <button
                             key={size}
                             onClick={() => setComboSize2(size)}
-                            className={`w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 flex items-center justify-center text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-md shrink-0 ${comboSize2 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                            className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-md shrink-0 ${comboSize2 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
                           >
                             {size}
                           </button>
