@@ -32,13 +32,16 @@ const RetailOrderModal = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
+  const [nameFilled, setNameFilled] = useState(false);
+  const [phoneFilled, setPhoneFilled] = useState(false);
+  const [deliveryPointFilled, setDeliveryPointFilled] = useState(false);
 
   const [districts, setDistricts] = useState([]);
   const [upazilas, setUpazilas] = useState([]);
   const [selectedDistrictId, setSelectedDistrictId] = useState('');
   const [selectedUpazilaName, setSelectedUpazilaName] = useState('');
   
-  // 'outside' (120 Tk) or 'inside' (50 Tk)
+  // 'outside' (100 Tk) or 'inside' (50 Tk)
   const [deliveryType, setDeliveryType] = useState('outside');
 
   useEffect(() => {
@@ -76,6 +79,14 @@ const RetailOrderModal = ({
     }
     return () => document.body.classList.remove('modal-open');
   }, [isOpen]);
+
+  const handleFormChange = (e) => {
+    const form = e.currentTarget;
+    setIsFormValid(form.checkValidity());
+    setNameFilled(!!form.name?.value.trim());
+    setPhoneFilled(!!form.phone?.value.trim());
+    setDeliveryPointFilled(!!form.delivery_point?.value.trim());
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -124,7 +135,7 @@ const RetailOrderModal = ({
     // Add Delivery Charge label for Google Sheet
     const deliveryText = deliveryType === 'inside' 
       ? 'Chittagong City Delivery Charge 50 Tk' 
-      : 'Outside Chittagong Delivery Charge 120 Tk';
+      : 'Outside Chittagong Delivery Charge 100 Tk';
     formData.append('deliveryCharge', deliveryText);
 
     // Add Date, Time, and Total Amount
@@ -132,7 +143,7 @@ const RetailOrderModal = ({
     const dateStr = now.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
     const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
     
-    const deliveryCostAmount = deliveryType === 'inside' ? 50 : 120;
+    const deliveryCostAmount = deliveryType === 'inside' ? 50 : 100;
     const productCostAmount = orderType === 'single' ? 990 : 1790;
     
     formData.append('date', dateStr);
@@ -168,7 +179,7 @@ const RetailOrderModal = ({
     }
   };
 
-  const deliveryCost = deliveryType === 'inside' ? 50 : 120;
+  const deliveryCost = deliveryType === 'inside' ? 50 : 100;
   const productCost = orderType === 'single' ? 990 : 1790;
   const totalCost = productCost + deliveryCost;
 
@@ -219,18 +230,18 @@ const RetailOrderModal = ({
                 <form 
                   className="flex flex-col md:grid md:grid-cols-2 md:gap-8 lg:gap-12 md:items-start"
                   onSubmit={handleSubmit}
-                  onChange={(e) => setIsFormValid(e.currentTarget.checkValidity())}
+                  onChange={handleFormChange}
                 >
                   <div className="order-2 md:order-1 space-y-3 md:space-y-4">
                   <div>
                     <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      Name / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">নাম</span> <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>
+                      Name / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">নাম</span> {!nameFilled && <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
                     </label>
                     <input type="text" name="name" className="w-full bg-white border border-black rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px]" placeholder="Your Full Name" required />
                   </div>
                     <div>
                       <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                        Phone / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">মোবাইল নম্বর</span> <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>
+                        Phone / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">মোবাইল নম্বর</span> {!phoneFilled && <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
                       </label>
                       <div className="relative flex items-center w-full bg-white border border-black rounded-md focus-within:border-terracotta transition-colors">
                         <span className="pl-2.5 text-[13px] md:text-[15px] text-dark-charcoal/80 font-medium">+88</span>
@@ -239,7 +250,7 @@ const RetailOrderModal = ({
                     </div>
                   <div className="relative">
                     <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      District / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">জেলা</span> <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>
+                      District / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">জেলা</span> {!selectedDistrictId && <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
                     </label>
                     <select 
                       name="district" 
@@ -259,7 +270,7 @@ const RetailOrderModal = ({
                   </div>
                   <div className="relative">
                     <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      Thana/Upazila / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">থানা</span> <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>
+                      Thana/Upazila / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">থানা</span> {!selectedUpazilaName && <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
                     </label>
                     <select 
                       name="thana" 
@@ -280,7 +291,7 @@ const RetailOrderModal = ({
                   </div>
                   <div>
                     <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      Delivery Point / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">যে জায়গা থেকে রিসিভ করবেন</span> <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>
+                      Delivery Point / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">যে জায়গা থেকে রিসিভ করবেন</span> {!deliveryPointFilled && <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
                     </label>
                     <textarea 
                       name="delivery_point"
@@ -311,7 +322,7 @@ const RetailOrderModal = ({
                         I have read and agree to the <Link to="/terms" target="_blank" className="text-terracotta font-bold hover:underline">Terms and Conditions</Link>, <Link to="/privacy" target="_blank" className="text-terracotta font-bold hover:underline">Privacy Policy</Link> & <Link to="/refund" target="_blank" className="text-terracotta font-bold hover:underline">Refund and Return Policy</Link>.
                       </label>
                     </div>
-                    <button type="submit" disabled={isSubmitting || !isFormValid} className="w-full bg-soft-black text-cream px-10 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-terracotta transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
+                    <button type="submit" disabled={isSubmitting || !isFormValid} className="w-full bg-soft-black text-cream px-10 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-terracotta transition-colors shadow-lg disabled:bg-[#D1D5DB] disabled:text-[#6B7280] disabled:cursor-not-allowed disabled:shadow-none">
                       {isSubmitting ? 'Processing...' : 'Submit Order'}
                     </button>
                   </div>
@@ -386,16 +397,19 @@ const RetailOrderModal = ({
                             />
                             <span className="text-[11px] md:text-xs text-dark-charcoal group-hover:text-soft-black transition-colors">Outside Chittagong</span>
                           </div>
-                          <span className="text-[11px] md:text-xs font-medium text-terracotta">+ 120 BDT</span>
+                          <span className="text-[11px] md:text-xs font-medium text-terracotta">+ 100 BDT</span>
                         </label>
-                        <p className="text-[12px] md:text-[13px] text-soft-black font-medium mt-1.5 text-center font-bengali tracking-normal">
-                          পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন,<br />দ্রুত সময়ের মধ্যে সারা বাংলাদেশে "হোম ডেলিভারি"
-                        </p>
                       </div>
 
                       <div className="flex justify-between items-center mt-3 md:mt-4 pt-3 md:pt-4 border-t border-stone/10">
                         <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-soft-black">Total</span>
                         <span className="text-base md:text-xl font-serif font-bold text-terracotta">{totalCost} BDT</span>
+                      </div>
+                      
+                      <div className="mt-2 text-center bg-stone/5 p-2 rounded-lg border border-stone/10">
+                        <p className="text-[12px] md:text-[13px] text-soft-black font-medium font-bengali tracking-normal">
+                          পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন,<br />দ্রুত সময়ের মধ্যে সারা বাংলাদেশে "হোম ডেলিভারি"
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -408,7 +422,7 @@ const RetailOrderModal = ({
                         I have read and agree to the <Link to="/terms" target="_blank" className="text-terracotta font-bold hover:underline">Terms and Conditions</Link>, <Link to="/privacy" target="_blank" className="text-terracotta font-bold hover:underline">Privacy Policy</Link> & <Link to="/refund" target="_blank" className="text-terracotta font-bold hover:underline">Refund and Return Policy</Link>.
                       </label>
                     </div>
-                    <button type="submit" disabled={isSubmitting || !isFormValid} className="w-full bg-soft-black text-cream px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-terracotta transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
+                    <button type="submit" disabled={isSubmitting || !isFormValid} className="w-full bg-soft-black text-cream px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-terracotta transition-colors shadow-lg disabled:bg-[#D1D5DB] disabled:text-[#6B7280] disabled:cursor-not-allowed disabled:shadow-none">
                       {isSubmitting ? 'Processing...' : 'Submit Order'}
                     </button>
                   </div>
