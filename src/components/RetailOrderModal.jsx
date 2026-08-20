@@ -49,6 +49,15 @@ const RetailOrderModal = ({
       const allDistricts = bd.getDistricts();
       const sorted = [...allDistricts].sort((a, b) => a.name.localeCompare(b.name));
       setDistricts(sorted);
+
+      // Meta Pixel: track when someone opens the order form
+      if (typeof fbq === 'function') {
+        fbq('track', 'InitiateCheckout', {
+          content_name: orderType === 'single' ? 'Single Belt' : 'Combo Belt Set',
+          currency: 'BDT',
+          value: orderType === 'single' ? 990 : 1790,
+        });
+      }
     } else {
       setSelectedDistrictId('');
       setSelectedUpazilaName('');
@@ -153,13 +162,26 @@ const RetailOrderModal = ({
     // Target the Retail sheet
     formData.append('sheetName', 'Retail');
 
+    // Security: attach secret token - Apps Script will reject requests without this
+    formData.append('token', import.meta.env.VITE_FORM_TOKEN || '');
+
+    // Security: honeypot check - if bot_field is filled, silently reject (bots fill hidden fields)
+    const honeypot = e.target.querySelector('input[name="website"]');
+    if (honeypot && honeypot.value) {
+      // It's a bot - fake a success response without sending anything
+      setIsSuccess(true);
+      setIsSubmitting(false);
+      return;
+    }
+
     const urlEncodedData = new URLSearchParams(formData).toString();
+    const scriptUrl = import.meta.env.VITE_APPS_SCRIPT_URL;
 
     try {
       const delay = new Promise(resolve => setTimeout(resolve, 2000));
       
       await Promise.all([
-        fetch('https://script.google.com/macros/s/AKfycby-t_SgCbjwZUNz40wgSBINlPOyvbqWcQWW3E5Kdvk5J5WCIhUmcrj3vXc8SgGdWMFY/exec', {
+        fetch(scriptUrl, {
           method: 'POST',
           mode: 'no-cors',
           headers: {
@@ -171,6 +193,16 @@ const RetailOrderModal = ({
       ]);
       
       setIsSuccess(true);
+
+      // Meta Pixel: track successful order as a Purchase event
+      if (typeof fbq === 'function') {
+        fbq('track', 'Purchase', {
+          value: productCostAmount + deliveryCostAmount,
+          currency: 'BDT',
+          content_name: orderType === 'single' ? 'Single Belt' : 'Combo Belt Set',
+          content_type: 'product',
+        });
+      }
     } catch (error) {
       console.error(error);
       setIsSuccess(true); 
@@ -232,6 +264,15 @@ const RetailOrderModal = ({
                   onSubmit={handleSubmit}
                   onChange={handleFormChange}
                 >
+                  {/* Honeypot field - invisible to humans, bots will fill this automatically */}
+                  <input
+                    type="text"
+                    name="website"
+                    autoComplete="off"
+                    tabIndex="-1"
+                    aria-hidden="true"
+                    style={{ display: 'none', position: 'absolute', left: '-9999px' }}
+                  />
                   <div className="order-2 md:order-1 space-y-3 md:space-y-4">
                   <div>
                     <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
