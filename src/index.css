@@ -8,11 +8,11 @@
   --tw-color-warm-sand: #E6D5C3;
   --tw-color-stone: #B8B0A5;
   --tw-color-clay: #A38771;
-  --tw-color-terracotta: #A45C40;
+  --tw-color-terracotta: #1C2841;
   --tw-color-dark-charcoal: #2D2D2D;
   --tw-color-soft-black: #1A1A1A;
-  --tw-color-deep-navy: #1C2B39;
-  --tw-color-muted-burgundy: #6C3035;
+  --tw-color-deep-navy: #1C2841;
+  --tw-color-muted-burgundy: #131E33;
   --tw-color-natural-linen: #DED3C4;
 }
 
@@ -102,6 +102,19 @@ h1, h2, h3, h4, h5, h6 {
   animation: marquee 35s linear infinite reverse;
   display: flex;
   width: max-content;
+}
+
+@keyframes border-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-border-beam {
+  animation: border-rotate 2.8s linear infinite;
 }
 
 body.modal-open .mobile-navbar-logo {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Plus, Minus, X, ZoomIn, Info } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Minus, X, ZoomIn, ZoomOut, RotateCcw, Info } from 'lucide-react';
 import SampleOrderDrawer from '../components/SampleOrderDrawer';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
@@ -676,32 +676,36 @@ const Product = () => {
       <AnimatePresence>
         {lightboxImage && (
           <div 
-            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/95 px-0 md:px-4 overflow-hidden"
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-between bg-black/95 px-2 sm:px-4 py-3 sm:py-4 overflow-hidden select-none"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEndEvent}
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.3 }}
-              className="relative flex items-center justify-center w-full h-[85vh] md:h-full"
-            >
+            {/* Top Bar with Counter & Close */}
+            <div className="w-full flex items-center justify-between px-2 sm:px-6 z-[120]">
+              <div className="text-white/75 text-xs sm:text-sm font-mono tracking-wider">
+                {images.indexOf(lightboxImage) + 1} / {images.length}
+              </div>
+              <button 
+                onClick={() => { setLightboxImage(null); setZoomLevel(1); }}
+                className="text-white/80 hover:text-white transition-all hover:scale-110 p-2 cursor-pointer bg-white/10 hover:bg-white/20 rounded-full"
+                aria-label="Close Preview"
+              >
+                <X className="w-5 h-5 sm:w-6 sm:h-6" />
+              </button>
+            </div>
+
+            {/* Main Zoomable Image View */}
+            <div className="relative flex items-center justify-center w-full flex-1 max-h-[70vh] sm:max-h-[75vh] md:max-h-[78vh] my-auto">
               <button 
                 onClick={handlePrevImage}
-                className="hidden md:flex absolute left-2 md:left-8 text-white z-[110] p-1.5 md:p-2.5 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full transition-all"
+                className="absolute left-2 sm:left-4 md:left-8 text-white z-[110] p-2 sm:p-3 bg-black/40 hover:bg-black/70 backdrop-blur-sm rounded-full transition-all cursor-pointer shadow-lg"
+                aria-label="Previous Image"
               >
-                <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
+                <ChevronLeft className="w-5 h-5 sm:w-7 sm:h-7" />
               </button>
               
-              <div className="relative w-full h-full md:max-h-[95vh] md:max-w-[95vw] aspect-[4/5] flex items-center justify-center overflow-hidden rounded-none md:rounded-xl bg-black md:bg-transparent">
-                <button 
-                  onClick={() => { setLightboxImage(null); setZoomLevel(1); }}
-                  className="absolute top-2 right-2 md:top-4 md:right-4 text-white mix-blend-difference z-[110] transition-transform hover:scale-110 p-2"
-                >
-                  <X className="w-6 h-6 md:w-8 md:h-8" />
-                </button>
+              <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
                 <TransformWrapper
                   initialScale={1}
                   minScale={1}
@@ -716,16 +720,23 @@ const Product = () => {
                         <img 
                           src={lightboxImage} 
                           alt="Product Zoom"
-                          className="w-full h-full object-contain cursor-grab active:cursor-grabbing md:bg-white select-none"
+                          className="w-full h-full object-contain cursor-grab active:cursor-grabbing bg-transparent select-none"
                           draggable="false"
                         />
                       </TransformComponent>
                       
-                      {/* Mobile Zoom Controls */}
-                      <div className="md:hidden absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-6 z-[110] bg-black/60 backdrop-blur-md px-6 py-2.5 rounded-full border border-white/20">
-                        <button onClick={() => zoomOut()} className="text-white hover:text-terracotta transition-colors"><Minus className="w-5 h-5" /></button>
-                        <button onClick={() => resetTransform()} className="text-[10px] text-white font-bold uppercase tracking-widest hover:text-terracotta transition-colors">Reset</button>
-                        <button onClick={() => zoomIn()} className="text-white hover:text-terracotta transition-colors"><Plus className="w-5 h-5" /></button>
+                      {/* Zoom Controls (Desktop & Mobile) */}
+                      <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-3 sm:gap-5 z-[110] bg-black/75 backdrop-blur-md px-4 sm:px-6 py-2 rounded-full border border-white/20 shadow-2xl">
+                        <button onClick={() => zoomOut()} className="text-white/80 hover:text-white hover:scale-110 transition-all p-1 cursor-pointer" title="Zoom Out">
+                          <ZoomOut className="w-4 h-4 sm:w-5 sm:h-5" />
+                        </button>
+                        <button onClick={() => resetTransform()} className="flex items-center gap-1.5 text-[10px] sm:text-xs text-white/90 font-mono uppercase tracking-widest hover:text-white hover:scale-105 transition-all px-2.5 py-0.5 border-x border-white/25 cursor-pointer" title="Reset View">
+                          <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                          <span>Reset</span>
+                        </button>
+                        <button onClick={() => zoomIn()} className="text-white/80 hover:text-white hover:scale-110 transition-all p-1 cursor-pointer" title="Zoom In">
+                          <ZoomIn className="w-4 h-4 sm:w-5 sm:h-5" />
+                        </button>
                       </div>
                     </React.Fragment>
                   )}
@@ -734,21 +745,27 @@ const Product = () => {
 
               <button 
                 onClick={handleNextImage}
-                className="hidden md:flex absolute right-2 md:right-8 text-white z-[110] p-1.5 md:p-2.5 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full transition-all"
+                className="absolute right-2 sm:right-4 md:right-8 text-white z-[110] p-2 sm:p-3 bg-black/40 hover:bg-black/70 backdrop-blur-sm rounded-full transition-all cursor-pointer shadow-lg"
+                aria-label="Next Image"
               >
-                <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
+                <ChevronRight className="w-5 h-5 sm:w-7 sm:h-7" />
               </button>
-            </motion.div>
+            </div>
 
-            {/* Mobile Thumbnails */}
-            <div className="md:hidden w-full h-[15vh] flex items-center justify-center gap-3 px-4 pb-4">
+            {/* Thumbnails (Desktop & Mobile) */}
+            <div className="w-full h-16 sm:h-20 flex items-center justify-center gap-2 sm:gap-3 px-4 z-[110]">
                {images.map((img, idx) => (
                   <button 
                     key={idx}
                     onClick={() => { setLightboxImage(img); setZoomLevel(1); }}
-                    className={`w-14 h-14 shrink-0 rounded-md overflow-hidden border-2 transition-all ${lightboxImage === img ? 'border-terracotta scale-105' : 'border-transparent opacity-50'}`}
+                    className={`w-12 h-14 sm:w-14 sm:h-16 shrink-0 rounded-none overflow-hidden border-2 transition-all cursor-pointer ${
+                      lightboxImage === img 
+                        ? 'border-terracotta scale-105 shadow-md opacity-100' 
+                        : 'border-transparent opacity-50 hover:opacity-80'
+                    }`}
+                    aria-label={`View thumbnail ${idx + 1}`}
                   >
-                    <img src={img} className="w-full h-full object-cover" alt="Thumbnail" />
+                    <img src={img} className="w-full h-full object-cover" alt={`Thumbnail ${idx + 1}`} />
                   </button>
                ))}
             </div>

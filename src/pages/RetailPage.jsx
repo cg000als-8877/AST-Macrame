@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Plus, Minus, X, Ruler, ZoomIn, AlignLeft, Layers, Truck, AlertCircle, Droplets, Sparkles, Leaf, Banknote, ArrowUp } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown, Plus, Minus, X, Ruler, ZoomIn, ZoomOut, RotateCcw, AlignLeft, Layers, Truck, AlertCircle, Droplets, Sparkles, Leaf, Banknote, ArrowUp } from 'lucide-react';
 import RetailOrderModal from '../components/RetailOrderModal';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
@@ -118,52 +118,88 @@ const RetailPage = () => {
     };
   }, [lightboxImage]);
 
-  const [openFaq, setOpenFaq] = useState(null);
+  const [openCategory, setOpenCategory] = useState(null);
+  const [openQuestions, setOpenQuestions] = useState({});
 
-  const toggleFaq = (idx) => {
-    setOpenFaq(prev => (prev === idx ? null : idx));
+  const toggleCategory = (catId) => {
+    setOpenCategory(prev => (prev === catId ? null : catId));
   };
 
-  const faqs = [
+  const toggleQuestion = (catId, qIdx) => {
+    setOpenQuestions(prev => ({
+      ...prev,
+      [catId]: prev[catId] === qIdx ? null : qIdx
+    }));
+  };
+
+  const faqCategories = [
     {
-      category: "Product & Sizing",
-      question: "How do I choose the right belt size?",
-      answer: "We offer two versatile sizes: M (28\"–34\" waist) and L (36\"–42\" waist). Thanks to our signature open-weave macramé design, there are no fixed hole limitations—the buckle prong glides smoothly through any point along the weave for an effortless, micro-adjustable custom fit."
+      id: 'product-sizing',
+      number: '01',
+      name: 'Product & Sizing',
+      tagline: 'Sizes, cord strength & open-weave adjustability',
+      questions: [
+        {
+          q: "How do I choose the right belt size?",
+          a: "We offer two versatile sizes: M (28\"–34\" waist) and L (36\"–42\" waist). Thanks to our signature open-weave macramé design, there are no fixed hole limitations—the buckle prong glides smoothly through any point along the weave for an effortless, micro-adjustable custom fit."
+        },
+        {
+          q: "Will the macramé cord stretch out or sag over time?",
+          a: "No. We hand-knot each belt using premium high-density, multi-ply combed cotton cord under calibrated artisan tension. While it naturally adapts to the contour of your waist for all-day comfort, the knot pattern is firmly locked to prevent stretching or sagging."
+        },
+        {
+          q: "Are the metal buckles rust-resistant?",
+          a: "Yes. All AST belts are fitted with treated, rust-resistant zinc alloy metal hardware designed for daily durability in all weather conditions."
+        }
+      ]
     },
     {
-      category: "Product & Sizing",
-      question: "Will the macramé cord stretch out or sag over time?",
-      answer: "No. We hand-knot each belt using premium high-density, multi-ply combed cotton cord under calibrated artisan tension. While it naturally adapts to the contour of your waist for all-day comfort, the knot pattern is firmly locked to prevent stretching or sagging."
+      id: 'shipping-delivery',
+      number: '02',
+      name: 'Shipping & Delivery',
+      tagline: 'Delivery speed, charges & 100% COD policy',
+      questions: [
+        {
+          q: "How long does delivery take and what are the charges?",
+          a: "We provide reliable doorstep home delivery across all 64 districts in Bangladesh:\n• Chittagong City: 24 to 48 Hours (৳50 Delivery Fee)\n• Dhaka & Nationwide: 2 to 4 Working Days (৳100 Delivery Fee)"
+        },
+        {
+          q: "Do I need to pay any advance for Cash on Delivery (COD)?",
+          a: "No advance payment is required for regular retail orders. You pay 100% in cash directly to the delivery rider once your parcel safely arrives at your doorstep."
+        }
+      ]
     },
     {
-      category: "Shipping & Delivery",
-      question: "How long does delivery take and what are the charges?",
-      answer: "We provide reliable doorstep home delivery across all 64 districts in Bangladesh:\n• Chittagong City: 24 to 48 Hours (৳50 Delivery Fee)\n• Dhaka & Nationwide: 2 to 4 Working Days (৳100 Delivery Fee)"
+      id: 'returns-inspection',
+      number: '03',
+      name: 'Returns & Inspection',
+      tagline: 'Doorstep open-box checking & exchange policy',
+      questions: [
+        {
+          q: "Can I inspect the belt before paying the courier rider?",
+          a: "Yes! We fully support Open-Box Checking. You can open the package and inspect your belt in front of the delivery rider. If there is any defect or mismatch, you can hand it back on the spot with zero hassle."
+        },
+        {
+          q: "What if I need an exchange or assistance after delivery?",
+          a: "If you notice any manufacturing defect or need a size exchange, simply message our WhatsApp support within 48 hours of receiving your parcel. We will arrange a replacement or exchange promptly."
+        }
+      ]
     },
     {
-      category: "Shipping & Delivery",
-      question: "Do I need to pay any advance for Cash on Delivery (COD)?",
-      answer: "No advance payment is required for regular retail orders. You pay 100% in cash directly to the delivery rider once your parcel safely arrives at your doorstep."
-    },
-    {
-      category: "Returns & Inspection",
-      question: "Can I inspect the belt before paying the courier rider?",
-      answer: "Yes! We fully support Open-Box Checking. You can open the package and inspect your belt in front of the delivery rider. If there is any defect or mismatch, you can hand it back on the spot with zero hassle."
-    },
-    {
-      category: "Returns & Inspection",
-      question: "What if I need an exchange or assistance after delivery?",
-      answer: "If you notice any manufacturing defect or need a size exchange, simply message our WhatsApp support within 48 hours of receiving your parcel. We will arrange a replacement or exchange promptly."
-    },
-    {
-      category: "Care & Maintenance",
-      question: "How should I clean and care for my macramé belt?",
-      answer: "Spot clean gently with a soft cloth dampened with cold water and mild soap. Avoid machine washing, bleaching, or soaking in water. Allow it to air dry naturally away from direct heat."
-    },
-    {
-      category: "Custom & Bulk Orders",
-      question: "Do you accept custom lengths or wholesale orders?",
-      answer: "Yes. As the direct manufacturer, we offer custom sizing, specialized colorways, corporate gifting packages, and wholesale/B2B pricing for boutiques and brands. Click the WhatsApp button on our page to connect directly with our workshop."
+      id: 'care-custom',
+      number: '04',
+      name: 'Care & Custom Orders',
+      tagline: 'Maintenance tips & bulk/corporate inquiries',
+      questions: [
+        {
+          q: "How should I clean and care for my macramé belt?",
+          a: "Spot clean gently with a soft cloth dampened with cold water and mild soap. Avoid machine washing, bleaching, or soaking in water. Allow it to air dry naturally away from direct heat."
+        },
+        {
+          q: "Do you accept custom lengths or wholesale orders?",
+          a: "Yes. As the direct manufacturer, we offer custom sizing, specialized colorways, corporate gifting packages, and wholesale/B2B pricing for boutiques and brands. Click the WhatsApp button on our page to connect directly with our workshop."
+        }
+      ]
     }
   ];
 
@@ -634,9 +670,8 @@ const RetailPage = () => {
                   WHATSAPP
                 </a>
               </div>
-              <p className="text-[12px] md:text-[13px] text-dark-charcoal/70 mt-3 md:mt-4 italic flex items-center justify-center gap-1.5 font-medium px-1">
-                <svg className="w-3.5 h-3.5 text-terracotta shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span>If you want to order more than 2 products, please contact us via WhatsApp.</span>
+              <p className="text-[11.5px] sm:text-[12px] md:text-[13px] text-dark-charcoal/75 mt-3 md:mt-4 italic text-center font-medium px-2 leading-relaxed max-w-md mx-auto">
+                Need custom sizing or bulk/corporate orders? Tap WhatsApp to chat directly with our workshop.
               </p>
             </div>
 
@@ -855,73 +890,108 @@ const RetailPage = () => {
       {/* Lightbox Modal */}
       {lightboxImage && (
         <div 
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/95 px-0 md:px-4 overflow-hidden"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-between bg-black/95 px-2 sm:px-4 py-3 sm:py-4 overflow-hidden select-none"
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEndEvent}
         >
-          <div className="relative flex items-center justify-center w-full h-[85vh] md:h-full">
-              <button 
-                onClick={handlePrevImage}
-                className="hidden md:flex absolute left-2 md:left-8 text-white z-[110] p-1.5 md:p-2.5 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-none transition-all"
-              >
-                <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
-              </button>
-              
-              <div className="relative w-full h-full md:max-h-[95vh] md:max-w-[95vw] aspect-[4/5] flex items-center justify-center overflow-hidden rounded-none bg-black md:bg-transparent">
-                <button 
-                  onClick={() => { setLightboxImage(null); setZoomLevel(1); }}
-                  className="absolute top-2 right-2 md:top-4 md:right-4 text-white mix-blend-difference z-[110] transition-transform hover:scale-110 p-2"
-                >
-                  <X className="w-6 h-6 md:w-8 md:h-8" />
-                </button>
-                <TransformWrapper
-                  initialScale={1}
-                  minScale={1}
-                  maxScale={4}
-                  centerOnInit={true}
-                  doubleClick={{ mode: "toggle" }}
-                  wheel={{ step: 0.1 }}
-                >
-                  {({ zoomIn, zoomOut, resetTransform }) => (
-                    <React.Fragment>
-                      <TransformComponent wrapperClass="!w-full !h-full" contentClass="!w-full !h-full flex items-center justify-center">
-                        <img 
-                          src={lightboxImage} 
-                          alt="Product Zoom"
-                          className="w-full h-full object-contain cursor-grab active:cursor-grabbing md:bg-white select-none"
-                          draggable="false"
-                        />
-                      </TransformComponent>
-                      
-                      {/* Mobile Zoom Controls */}
-                      <div className="md:hidden absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-6 z-[110] bg-black/60 backdrop-blur-md px-6 py-2.5 rounded-none border border-white/20">
-                        <button onClick={() => zoomOut()} className="text-white hover:text-terracotta transition-colors"><Minus className="w-5 h-5" /></button>
-                        <button onClick={() => resetTransform()} className="text-[10px] text-white font-bold uppercase tracking-widest hover:text-terracotta transition-colors">Reset</button>
-                        <button onClick={() => zoomIn()} className="text-white hover:text-terracotta transition-colors"><Plus className="w-5 h-5" /></button>
-                      </div>
-                    </React.Fragment>
-                  )}
-                </TransformWrapper>
-              </div>
-
-              <button 
-                onClick={handleNextImage}
-                className="hidden md:flex absolute right-2 md:right-8 text-white z-[110] p-1.5 md:p-2.5 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-none transition-all"
-              >
-                <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
-              </button>
+          {/* Top Bar with Image Counter & Close Button */}
+          <div className="w-full flex items-center justify-between px-2 sm:px-6 z-[120]">
+            <div className="text-white/75 text-xs sm:text-sm font-mono tracking-wider">
+              {images.indexOf(lightboxImage) + 1} / {images.length}
+            </div>
+            <button 
+              onClick={() => { setLightboxImage(null); setZoomLevel(1); }}
+              className="text-white/80 hover:text-white transition-all hover:scale-110 p-2 cursor-pointer bg-white/10 hover:bg-white/20 rounded-full"
+              aria-label="Close Preview"
+            >
+              <X className="w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
           </div>
 
-          {/* Mobile Thumbnails */}
-          <div className="md:hidden w-full h-[15vh] flex items-center justify-center gap-3 px-4 pb-4">
+          {/* Main Zoomable Image View */}
+          <div className="relative flex items-center justify-center w-full flex-1 max-h-[70vh] sm:max-h-[75vh] md:max-h-[78vh] my-auto">
+            <button 
+              onClick={handlePrevImage}
+              className="absolute left-2 sm:left-4 md:left-8 text-white z-[110] p-2 sm:p-3 bg-black/40 hover:bg-black/70 backdrop-blur-sm rounded-full transition-all cursor-pointer shadow-lg"
+              aria-label="Previous Image"
+            >
+              <ChevronLeft className="w-5 h-5 sm:w-7 sm:h-7" />
+            </button>
+            
+            <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+              <TransformWrapper
+                initialScale={1}
+                minScale={1}
+                maxScale={4}
+                centerOnInit={true}
+                doubleClick={{ mode: "toggle" }}
+                wheel={{ step: 0.1 }}
+              >
+                {({ zoomIn, zoomOut, resetTransform }) => (
+                  <React.Fragment>
+                    <TransformComponent wrapperClass="!w-full !h-full" contentClass="!w-full !h-full flex items-center justify-center">
+                      <img 
+                        src={lightboxImage} 
+                        alt="Product Zoom"
+                        className="w-full h-full object-contain cursor-grab active:cursor-grabbing bg-transparent select-none"
+                        draggable="false"
+                      />
+                    </TransformComponent>
+                    
+                    {/* Zoom In, Zoom Out & Reset Controls (Visible on Both Desktop & Mobile) */}
+                    <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-3 sm:gap-5 z-[110] bg-black/75 backdrop-blur-md px-4 sm:px-6 py-2 rounded-full border border-white/20 shadow-2xl">
+                      <button 
+                        onClick={() => zoomOut()} 
+                        className="text-white/80 hover:text-white hover:scale-110 transition-all p-1 cursor-pointer flex items-center justify-center"
+                        title="Zoom Out"
+                      >
+                        <ZoomOut className="w-4 h-4 sm:w-5 sm:h-5" />
+                      </button>
+                      <button 
+                        onClick={() => resetTransform()} 
+                        className="flex items-center gap-1.5 text-[10px] sm:text-xs text-white/90 font-mono uppercase tracking-widest hover:text-white hover:scale-105 transition-all px-2.5 py-0.5 border-x border-white/25 cursor-pointer"
+                        title="Reset View"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                        <span>Reset</span>
+                      </button>
+                      <button 
+                        onClick={() => zoomIn()} 
+                        className="text-white/80 hover:text-white hover:scale-110 transition-all p-1 cursor-pointer flex items-center justify-center"
+                        title="Zoom In"
+                      >
+                        <ZoomIn className="w-4 h-4 sm:w-5 sm:h-5" />
+                      </button>
+                    </div>
+                  </React.Fragment>
+                )}
+              </TransformWrapper>
+            </div>
+
+            <button 
+              onClick={handleNextImage}
+              className="absolute right-2 sm:right-4 md:right-8 text-white z-[110] p-2 sm:p-3 bg-black/40 hover:bg-black/70 backdrop-blur-sm rounded-full transition-all cursor-pointer shadow-lg"
+              aria-label="Next Image"
+            >
+              <ChevronRight className="w-5 h-5 sm:w-7 sm:h-7" />
+            </button>
+          </div>
+
+          {/* Picture Thumbnails (Visible on Both Desktop & Mobile) */}
+          <div className="w-full h-16 sm:h-20 flex items-center justify-center gap-2 sm:gap-3 px-4 z-[110]">
              {images.map((img, idx) => (
                 <button 
                   key={idx}
                   onClick={() => { setLightboxImage(img); setZoomLevel(1); }}
-                  className={`w-14 h-14 shrink-0 rounded-none overflow-hidden border-2 transition-all ${lightboxImage === img ? 'border-terracotta scale-105' : 'border-transparent opacity-50'}`}
+                  className={`w-12 h-14 sm:w-14 sm:h-16 shrink-0 rounded-none overflow-hidden border-2 transition-all cursor-pointer ${
+                    lightboxImage === img 
+                      ? 'border-terracotta scale-105 shadow-md opacity-100' 
+                      : 'border-transparent opacity-50 hover:opacity-80'
+                  }`}
+                  aria-label={`View image ${idx + 1}`}
                 >
-                  <img src={img} className="w-full h-full object-cover" alt="Thumbnail" />
+                  <img src={img} className="w-full h-full object-cover" alt={`Thumbnail ${idx + 1}`} />
                 </button>
              ))}
           </div>
@@ -941,65 +1011,121 @@ const RetailPage = () => {
       />
 
       {/* Frequently Asked Questions Section */}
-      <section className="py-14 md:py-20 bg-[#FAF7F2] border-t border-stone/20 px-4 sm:px-6 lg:px-12">
-        <div className="max-w-4xl mx-auto">
+      <section className="py-8 md:py-12 bg-cream/70 px-3 sm:px-6 lg:px-12">
+        <div className="max-w-3xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-8 md:mb-14">
-            <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-terracotta mb-2 inline-block">
-              Got Questions? We Have Answers
-            </span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-soft-black font-normal mb-3">
-              Frequently Asked Questions (FAQ)
+          <div className="text-center mb-5 md:mb-7">
+            <h2 className="text-2xl sm:text-3xl font-serif text-soft-black font-normal mb-1.5">
+              FAQ
             </h2>
-            <p className="text-xs md:text-sm text-dark-charcoal/70 max-w-xl mx-auto leading-relaxed">
-              Everything you need to know about our handcrafted macramé belts, custom sizing, cash on delivery, and doorstep inspection.
+            <p className="text-xs sm:text-sm text-dark-charcoal/70 max-w-md mx-auto leading-relaxed">
+              Tap any topic to view questions, sizing details, delivery timelines, and inspection policies.
             </p>
           </div>
 
-          {/* Collapsible FAQ Accordion List */}
-          <div className="space-y-3">
-            {faqs.map((faq, idx) => {
-              const isOpen = openFaq === idx;
+          {/* 2-Level Collapsible Accordion System */}
+          <div className="space-y-2 sm:space-y-2.5">
+            {faqCategories?.map((category) => {
+              const isCatOpen = openCategory === category.id;
+              const activeQ = openQuestions?.[category.id] ?? null;
+
               return (
                 <div 
-                  key={idx}
+                  key={category.id}
                   className={`border transition-all duration-200 rounded-none overflow-hidden ${
-                    isOpen 
+                    isCatOpen 
                       ? 'bg-white border-[#D1CCC0] shadow-sm' 
-                      : 'bg-white/80 border-stone/20 hover:border-stone/40 hover:bg-white'
+                      : 'bg-white/80 border-[#E5E0D6] hover:bg-white hover:border-[#D1CCC0]'
                   }`}
                 >
+                  {/* Category Header Button */}
                   <button
-                    onClick={() => toggleFaq(idx)}
-                    className="w-full p-3.5 sm:p-4 md:p-5 text-left flex items-center justify-between gap-3 cursor-pointer select-none"
-                    aria-expanded={isOpen}
+                    onClick={() => toggleCategory(category.id)}
+                    className="w-full p-3 sm:p-4 flex items-center justify-between text-left cursor-pointer select-none transition-colors"
                   >
-                    <div className="flex flex-col gap-0.5 pr-2">
-                      <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-terracotta">
-                        {faq.category}
-                      </span>
-                      <h3 className="text-xs sm:text-sm md:text-base font-serif font-bold text-soft-black leading-snug">
-                        {faq.question}
-                      </h3>
+                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 pr-2">
+                      <div className={`w-6 h-6 sm:w-7 sm:h-7 shrink-0 flex items-center justify-center border transition-colors ${
+                        isCatOpen 
+                          ? 'bg-soft-black text-white border-soft-black' 
+                          : 'bg-[#FAF7F2] text-soft-black border-[#E5E0D6]'
+                      }`}>
+                        <span className="font-serif font-bold text-[11px] sm:text-xs">
+                          {category.number}
+                        </span>
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-xs sm:text-sm md:text-base font-serif font-bold text-soft-black truncate">
+                            {category.name}
+                          </h3>
+                          <span className="text-[8.5px] sm:text-[9.5px] font-sans font-semibold text-terracotta bg-terracotta/10 px-1.5 py-0.2 shrink-0">
+                            {category.questions.length} Qs
+                          </span>
+                        </div>
+                        <span className="text-[10px] sm:text-[11px] text-dark-charcoal/60 truncate font-sans">
+                          {category.tagline}
+                        </span>
+                      </div>
                     </div>
-                    <div className={`w-6 h-6 sm:w-7 sm:h-7 shrink-0 rounded-none flex items-center justify-center border transition-colors ${
-                      isOpen ? 'bg-soft-black text-white border-soft-black' : 'border-stone/30 text-soft-black/70 bg-stone/5'
+
+                    <div className={`w-5 h-5 sm:w-6 sm:h-6 shrink-0 flex items-center justify-center text-soft-black/70 transition-transform duration-300 ${
+                      isCatOpen ? 'rotate-180 text-soft-black' : ''
                     }`}>
-                      {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
+                      <ChevronDown className="w-4 h-4" />
                     </div>
                   </button>
 
+                  {/* Category Questions (Expanded when category is clicked) */}
                   <AnimatePresence initial={false}>
-                    {isOpen && (
+                    {isCatOpen && (
                       <motion.div
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.25, ease: "easeInOut" }}
-                        className="overflow-hidden"
+                        className="overflow-hidden border-t border-[#E5E0D6] bg-[#FAF7F2]/60"
                       >
-                        <div className="px-3.5 pb-4 pt-1 sm:px-4 sm:pb-5 md:px-5 md:pb-6 text-xs md:text-sm text-dark-charcoal/85 leading-relaxed border-t border-stone/10 whitespace-pre-line font-sans">
-                          {faq.answer}
+                        <div className="divide-y divide-stone/15">
+                          {category.questions.map((item, qIdx) => {
+                            const isQOpen = activeQ === qIdx;
+                            return (
+                              <div key={qIdx} className="transition-colors">
+                                {/* Question Button */}
+                                <button
+                                  onClick={() => toggleQuestion(category.id, qIdx)}
+                                  className="w-full py-2.5 px-3 sm:px-5 flex items-center justify-between text-left gap-3 cursor-pointer select-none group"
+                                >
+                                  <span className={`text-xs sm:text-sm font-medium transition-colors ${
+                                    isQOpen ? 'text-terracotta font-semibold' : 'text-soft-black group-hover:text-terracotta'
+                                  }`}>
+                                    {item.q}
+                                  </span>
+                                  <div className={`w-4 h-4 shrink-0 flex items-center justify-center text-xs transition-colors ${
+                                    isQOpen ? 'text-terracotta' : 'text-stone-400 group-hover:text-soft-black'
+                                  }`}>
+                                    {isQOpen ? <Minus className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+                                  </div>
+                                </button>
+
+                                {/* Answer Content (Expanded when question is clicked) */}
+                                <AnimatePresence initial={false}>
+                                  {isQOpen && (
+                                    <motion.div
+                                      initial={{ height: 0, opacity: 0 }}
+                                      animate={{ height: "auto", opacity: 1 }}
+                                      exit={{ height: 0, opacity: 0 }}
+                                      transition={{ duration: 0.2, ease: "easeInOut" }}
+                                      className="overflow-hidden"
+                                    >
+                                      <div className="px-3 py-2.5 mb-2.5 text-[11px] sm:text-xs md:text-sm text-dark-charcoal/80 leading-relaxed font-sans whitespace-pre-line bg-white/80 mx-2 sm:mx-3.5 border border-[#E5E0D6]/80">
+                                        {item.a}
+                                      </div>
+                                    </motion.div>
+                                  )}
+                                </AnimatePresence>
+                              </div>
+                            );
+                          })}
                         </div>
                       </motion.div>
                     )}
@@ -1009,26 +1135,26 @@ const RetailPage = () => {
             })}
           </div>
 
-          {/* WhatsApp Support Prompt */}
-          <div className="mt-8 md:mt-12 p-4 sm:p-6 bg-white border border-[#E5E0D6] flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left shadow-sm">
+          {/* Quick WhatsApp Support Prompt */}
+          <div className="mt-5 sm:mt-7 p-3.5 sm:p-4 bg-white border border-[#E5E0D6] flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3 text-center sm:text-left shadow-sm">
             <div>
-              <h4 className="text-xs sm:text-sm md:text-base font-serif font-bold text-soft-black mb-1">
-                Still have an unanswered question?
+              <h4 className="text-xs sm:text-sm font-serif font-bold text-soft-black">
+                Have a specific question?
               </h4>
-              <p className="text-[11px] sm:text-xs text-dark-charcoal/70">
-                Our support team is available on WhatsApp for direct assistance and custom queries.
+              <p className="text-[10.5px] sm:text-[11px] text-dark-charcoal/70">
+                Our support team is live on WhatsApp for instant assistance.
               </p>
             </div>
             <a
               href="https://wa.me/8801940689061"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#25D366] text-white px-4 sm:px-5 py-2.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider rounded-none hover:bg-[#1EBE5D] transition-colors shrink-0 shadow-sm"
+              className="inline-flex items-center gap-1.5 bg-[#25D366] text-white px-3.5 py-1.5 text-[10.5px] sm:text-[11px] font-bold uppercase tracking-wider rounded-none hover:bg-[#1EBE5D] transition-colors shrink-0 shadow-sm"
             >
-              <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
+              <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
               </svg>
-              <span>Chat on WhatsApp</span>
+              <span>WhatsApp Support</span>
             </a>
           </div>
         </div>
@@ -1115,13 +1241,22 @@ const RetailPage = () => {
                 </div>
               </div>
 
-              <button
-                onClick={handleStickyOrderClick}
-                className="bg-terracotta text-cream hover:bg-muted-burgundy px-4 sm:px-7 py-2.5 sm:py-3 text-[10px] sm:text-xs font-bold uppercase tracking-widest rounded-none shadow-md transition-all active:scale-[0.99] shrink-0 flex items-center gap-1.5 cursor-pointer"
-              >
-                <span>ORDER NOW</span>
-                <ArrowUp className="w-3.5 h-3.5" />
-              </button>
+              {/* Circling Stroke Light Beam Border */}
+              <div className="relative p-[1.5px] overflow-hidden rounded-none shadow-xl shrink-0 group">
+                <div 
+                  className="absolute -top-[100%] -left-[100%] w-[300%] h-[300%] animate-border-beam pointer-events-none"
+                  style={{
+                    background: 'conic-gradient(from 0deg, transparent 0deg, transparent 240deg, #60A5FA 320deg, #FFFFFF 360deg)'
+                  }}
+                />
+                <button
+                  onClick={handleStickyOrderClick}
+                  className="relative z-10 bg-[#1C2841] hover:bg-[#131E33] text-white px-4 sm:px-7 py-2.5 sm:py-3 text-[10.5px] sm:text-xs font-bold uppercase tracking-widest rounded-none transition-all active:scale-[0.98] flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span className="font-bold tracking-widest">ORDER NOW</span>
+                  <ArrowUp className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform" />
+                </button>
+              </div>
             </div>
           </motion.div>
         )}

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ChevronDown } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Download, Check } from 'lucide-react';
+import html2canvas from 'html2canvas';
 import bd from '../utils/bd-location';
 
 import b1 from '../assets/products/Black/1.jpg';
@@ -31,6 +32,10 @@ const RetailOrderModal = ({
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [orderReceipt, setOrderReceipt] = useState(null);
+  const receiptRef = useRef(null);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadSuccess, setDownloadSuccess] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
   const [nameFilled, setNameFilled] = useState(false);
   const [phoneFilled, setPhoneFilled] = useState(false);
@@ -87,7 +92,10 @@ const RetailOrderModal = ({
       document.body.classList.add('modal-open');
     } else {
       document.body.classList.remove('modal-open');
-      setTimeout(() => setIsSuccess(false), 300);
+      setTimeout(() => {
+        setIsSuccess(false);
+        setOrderReceipt(null);
+      }, 300);
     }
     return () => document.body.classList.remove('modal-open');
   }, [isOpen]);
@@ -195,16 +203,43 @@ const RetailOrderModal = ({
     
     const deliveryCostAmount = deliveryType === 'inside' ? 50 : 100;
     const productCostAmount = orderType === 'single' ? 990 : 1790;
+    const totalCostAmount = productCostAmount + deliveryCostAmount;
     
     formData.append('date', dateStr);
     formData.append('time', timeStr);
-    formData.append('totalAmount', `${productCostAmount + deliveryCostAmount} BDT`);
+    formData.append('totalAmount', `${totalCostAmount} BDT`);
 
     // Target the Retail sheet
     formData.append('sheetName', 'Retail');
 
     // Security: attach secret token - Apps Script will reject requests without this
     formData.append('token', import.meta.env.VITE_FORM_TOKEN || '');
+
+    const note = (formData.get('note') || '').trim();
+    const orderId = `AST-${Math.floor(100000 + Math.random() * 900000)}`;
+
+    const receiptPayload = {
+      orderId,
+      date: dateStr,
+      time: timeStr,
+      name,
+      phone: rawPhone,
+      address: fullAddress,
+      note,
+      orderType,
+      items: orderType === 'combo' ? [
+        { name: 'AST Handmade Macramé Belt (1)', color: comboColor1, size: comboSize1 },
+        { name: 'AST Handmade Macramé Belt (2)', color: comboColor2, size: comboSize2 }
+      ] : [
+        { name: 'AST Handmade Macramé Belt', color: selectedColor, size: selectedSize }
+      ],
+      productCost: productCostAmount,
+      deliveryCost: deliveryCostAmount,
+      deliveryLocation: deliveryType === 'inside' ? 'Chittagong City' : 'Outside Chittagong',
+      totalCost: totalCostAmount,
+      paymentMethod: 'Cash on Delivery (COD)'
+    };
+    setOrderReceipt(receiptPayload);
 
     // Security: honeypot check - if bot_field is filled, silently reject (bots fill hidden fields)
     const honeypot = e.target.querySelector('input[name="website"]');
@@ -238,7 +273,7 @@ const RetailOrderModal = ({
       // Meta Pixel: track successful order as a Purchase event
       if (typeof fbq === 'function') {
         fbq('track', 'Purchase', {
-          value: productCostAmount + deliveryCostAmount,
+          value: totalCostAmount,
           currency: 'BDT',
           content_name: orderType === 'single' ? 'Single Belt' : 'Combo Belt Set',
           content_type: 'product',
@@ -249,6 +284,34 @@ const RetailOrderModal = ({
       setIsSuccess(true); 
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleDownloadReceipt = async () => {
+    if (!receiptRef.current || isDownloading) return;
+    try {
+      setIsDownloading(true);
+      const canvas = await html2canvas(receiptRef.current, {
+        scale: 2.5,
+        useCORS: true,
+        backgroundColor: '#FFFFFF',
+        logging: false,
+      });
+
+      const image = canvas.toDataURL('image/jpeg', 0.95);
+      const link = document.createElement('a');
+      link.href = image;
+      link.download = `${orderReceipt?.orderId || 'AST-Receipt'}.jpg`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      setDownloadSuccess(true);
+      setTimeout(() => setDownloadSuccess(false), 3000);
+    } catch (err) {
+      console.error('Failed to download receipt:', err);
+    } finally {
+      setIsDownloading(false);
     }
   };
 
@@ -283,18 +346,160 @@ const RetailOrderModal = ({
             </button>
             
             <div className="relative z-10">
-            {isSuccess ? (
-              <div className="py-12 flex flex-col items-center justify-center text-center">
-                <div className="w-16 h-16 rounded-none bg-stone/20 flex items-center justify-center mb-6">
-                  <svg className="w-8 h-8 text-soft-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+            {isSuccess && orderReceipt ? (
+              <div className="py-4 md:py-6 flex flex-col items-center justify-center">
+                
+                {/* Printable / Monospace White Receipt */}
+                <div 
+                  ref={receiptRef}
+                  className="w-full max-w-lg bg-white border border-[#D1CCC0] p-6 sm:p-8 rounded-none shadow-2xl font-mono text-soft-black text-left select-text relative"
+                >
+                  
+                  {/* Top brand & Logo */}
+                  <div className="text-center pb-4 border-b border-dashed border-stone/40">
+                    <img 
+                      src="/logo_black.png" 
+                      alt="AST Logo" 
+                      className="h-8 md:h-10 w-auto mx-auto mb-2 object-contain opacity-90" 
+                    />
+                    <h2 className="text-base sm:text-lg font-bold tracking-widest uppercase">
+                      AST MACRAMÉ
+                    </h2>
+                    <p className="text-[10.5px] text-dark-charcoal/70 uppercase tracking-widest mt-0.5">
+                      — Official Order Receipt —
+                    </p>
+                  </div>
+
+                  {/* Order Meta Info */}
+                  <div className="py-3.5 border-b border-dashed border-stone/40 text-xs space-y-1.5 text-dark-charcoal/90">
+                    <div className="flex justify-between">
+                      <span className="text-dark-charcoal/60">ORDER ID:</span>
+                      <span className="font-bold tracking-wider">{orderReceipt.orderId}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-dark-charcoal/60">DATE & TIME:</span>
+                      <span>{orderReceipt.date}, {orderReceipt.time}</span>
+                    </div>
+                    <div className="flex justify-between items-center pt-0.5">
+                      <span className="text-dark-charcoal/60">PAYMENT:</span>
+                      <span className="font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 border border-emerald-200 text-[11px]">
+                        {orderReceipt.paymentMethod}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Customer Information */}
+                  <div className="py-3.5 border-b border-dashed border-stone/40 text-xs space-y-2">
+                    <div className="font-bold uppercase text-dark-charcoal text-[11px] tracking-wider text-terracotta">
+                      [ CUSTOMER DETAILS ]
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-dark-charcoal/60 text-[10px] uppercase">Name:</span>
+                      <span className="font-semibold text-soft-black">{orderReceipt.name}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-dark-charcoal/60 text-[10px] uppercase">Phone:</span>
+                      <span className="font-semibold text-soft-black">{orderReceipt.phone}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-dark-charcoal/60 text-[10px] uppercase">Delivery Address:</span>
+                      <span className="text-soft-black font-sans text-xs leading-relaxed mt-0.5">{orderReceipt.address}</span>
+                    </div>
+                    {orderReceipt.note && (
+                      <div className="flex flex-col pt-1">
+                        <span className="text-dark-charcoal/60 text-[10px] uppercase">Special Note:</span>
+                        <span className="italic text-dark-charcoal/80 font-sans text-xs">{orderReceipt.note}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Order Items */}
+                  <div className="py-3.5 border-b border-dashed border-stone/40 text-xs">
+                    <div className="font-bold uppercase text-dark-charcoal text-[11px] tracking-wider mb-2 text-terracotta">
+                      [ ORDER ITEMS ]
+                    </div>
+                    <div className="space-y-2.5">
+                      {orderReceipt.items.map((item, idx) => (
+                        <div key={idx} className="flex justify-between items-start gap-2 bg-[#FAF7F2] p-2.5 border border-[#E5E0D6]">
+                          <div>
+                            <p className="font-bold text-soft-black">{item.name}</p>
+                            <p className="text-[11px] text-dark-charcoal/70 mt-0.5">
+                              Color: <span className="font-semibold text-soft-black">{item.color}</span> | Size: <span className="font-semibold text-soft-black">{item.size}</span>
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Pricing Breakdown */}
+                  <div className="py-3.5 border-b border-dashed border-stone/40 text-xs space-y-1.5">
+                    <div className="flex justify-between text-dark-charcoal/80">
+                      <span>Product Subtotal:</span>
+                      <span>৳ {orderReceipt.productCost.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between text-dark-charcoal/80">
+                      <span>Delivery Fee ({orderReceipt.deliveryLocation}):</span>
+                      <span>৳ {orderReceipt.deliveryCost.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between text-sm font-bold pt-2 border-t border-stone/30 text-soft-black">
+                      <span>TOTAL PAYABLE (COD):</span>
+                      <span className="text-terracotta text-base">৳ {orderReceipt.totalCost.toLocaleString()}</span>
+                    </div>
+                  </div>
+
+                  {/* Thank you note */}
+                  <div className="pt-4 text-center">
+                    <div className="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center mx-auto mb-2.5">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <p className="text-xs font-bold uppercase tracking-wider text-soft-black mb-1">
+                      THANK YOU FOR YOUR ORDER!
+                    </p>
+                    <p className="text-[11px] text-dark-charcoal/80 leading-relaxed font-sans mb-3">
+                      We truly appreciate your support for authentic handcrafted macramé belts. We will carefully prepare and dispatch your parcel shortly.
+                    </p>
+                    <div className="inline-block bg-[#FAF7F2] border border-[#E5E0D6] px-3 py-1.5 text-[10.5px] text-dark-charcoal/80">
+                      Support: <span className="font-semibold">WhatsApp +8801940689061</span>
+                    </div>
+                  </div>
+
                 </div>
-                <h2 className="text-2xl md:text-3xl font-serif text-soft-black mb-4">Thank You For Your Order!</h2>
-                <p className="text-sm md:text-base text-dark-charcoal/70">
-                  Your retail order has been successfully placed.<br />We will process it shortly.
-                </p>
-                <button onClick={onClose} className="mt-8 bg-terracotta text-cream px-10 py-3 text-xs font-bold uppercase tracking-[0.2em] rounded-none hover:bg-muted-burgundy transition-colors shadow-lg">
-                  Close Window
-                </button>
+
+                {/* Modal actions */}
+                <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
+                  <button 
+                    onClick={handleDownloadReceipt}
+                    disabled={isDownloading}
+                    className="bg-[#1C2841] text-white hover:bg-[#131E33] px-5 sm:px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition-all shadow-md cursor-pointer font-mono flex items-center gap-2 active:scale-95 disabled:opacity-75"
+                  >
+                    {downloadSuccess ? (
+                      <>
+                        <Check className="w-4 h-4 text-emerald-400" />
+                        <span>Saved to Device!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Download className="w-4 h-4" />
+                        <span>{isDownloading ? 'Saving JPG...' : 'Download Receipt (JPG)'}</span>
+                      </>
+                    )}
+                  </button>
+                  <button 
+                    onClick={() => window.print()}
+                    className="bg-white border border-soft-black text-soft-black hover:bg-stone/10 px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer shadow-sm font-mono"
+                  >
+                    Print Receipt
+                  </button>
+                  <button 
+                    onClick={onClose} 
+                    className="bg-stone/15 text-soft-black hover:bg-stone/25 px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors shadow-sm cursor-pointer font-mono"
+                  >
+                    Close Window
+                  </button>
+                </div>
               </div>
             ) : (
               <>
