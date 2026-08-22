@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ChevronDown, Download, Check } from 'lucide-react';
-import html2canvas from 'html2canvas';
+import * as htmlToImage from 'html-to-image';
 import bd from '../utils/bd-location';
 
 import b1 from '../assets/products/Black/1.jpg';
@@ -292,20 +292,24 @@ const RetailOrderModal = ({
     if (!receiptRef.current || isDownloading) return;
     try {
       setIsDownloading(true);
-      const canvas = await html2canvas(receiptRef.current, {
-        scale: 3,
-        useCORS: true,
+      
+      const node = receiptRef.current;
+      const blob = await htmlToImage.toBlob(node, {
+        quality: 0.95,
+        pixelRatio: 2.5,
         backgroundColor: '#FFFFFF',
-        logging: false,
+        cacheBust: true,
       });
 
-      const image = canvas.toDataURL('image/jpeg', 0.96);
-      const filename = `${orderReceipt?.orderId || 'AST-Receipt'}.jpg`;
+      if (!blob) {
+        throw new Error('Could not generate receipt image blob');
+      }
+
+      const filename = `AST-Receipt-${orderReceipt?.orderId || 'Order'}.jpg`;
 
       // Try Mobile Native Share (allows direct "Save Image / Add to Photos" in gallery on iOS & Android)
       if (navigator.canShare && navigator.share) {
         try {
-          const blob = await (await fetch(image)).blob();
           const file = new File([blob], filename, { type: 'image/jpeg' });
           if (navigator.canShare({ files: [file] })) {
             await navigator.share({
@@ -319,23 +323,25 @@ const RetailOrderModal = ({
           }
         } catch (shareErr) {
           if (shareErr.name !== 'AbortError') {
-            console.log('Share fallback to download link:', shareErr);
+            console.log('Share fallback:', shareErr);
           }
         }
       }
 
-      // Direct download fallback
+      // Direct link download
+      const blobUrl = URL.createObjectURL(blob);
       const link = document.createElement('a');
-      link.href = image;
       link.download = filename;
+      link.href = blobUrl;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
 
       setDownloadSuccess(true);
       setTimeout(() => setDownloadSuccess(false), 3000);
     } catch (err) {
-      console.error('Failed to download receipt:', err);
+      console.error('Failed to download receipt image:', err);
     } finally {
       setIsDownloading(false);
     }
@@ -392,83 +398,70 @@ const RetailOrderModal = ({
             ) : isSuccess && orderReceipt ? (
               <div className="py-4 md:py-6 flex flex-col items-center justify-center">
                 
-                {/* Printable / Monospace White Receipt */}
+                {/* Simplified, Clean Minimalist Monospace Receipt */}
                 <div 
                   ref={receiptRef}
-                  className="w-full max-w-lg bg-white border border-[#D1CCC0] p-6 sm:p-8 rounded-none shadow-2xl font-mono text-soft-black text-left select-text relative"
+                  className="w-full max-w-md bg-white border border-[#E5E0D6] p-6 sm:p-7 rounded-none shadow-xl font-mono text-soft-black text-left select-text relative"
                 >
                   
                   {/* Top brand & Logo */}
-                  <div className="text-center pb-4 border-b border-dashed border-stone/40">
+                  <div className="text-center pb-4 border-b border-[#E5E0D6]">
                     <img 
                       src="/logo_black.png" 
                       alt="AST Logo" 
-                      className="h-8 md:h-10 w-auto mx-auto mb-2 object-contain opacity-90" 
+                      className="h-7 w-auto mx-auto mb-2 object-contain" 
                     />
-                    <h2 className="text-base sm:text-lg font-bold tracking-widest uppercase">
+                    <h2 className="text-sm sm:text-base font-bold tracking-widest uppercase text-soft-black">
                       AST MACRAMÉ
                     </h2>
-                    <p className="text-[10.5px] text-dark-charcoal/70 uppercase tracking-widest mt-0.5">
-                      — Official Order Receipt —
+                    <p className="text-[10px] text-dark-charcoal/60 uppercase tracking-widest mt-0.5">
+                      Order Confirmation Receipt
                     </p>
                   </div>
 
                   {/* Order Meta Info */}
-                  <div className="py-3.5 border-b border-dashed border-stone/40 text-xs space-y-1.5 text-dark-charcoal/90">
+                  <div className="py-3 border-b border-[#E5E0D6] text-xs space-y-1.5 text-dark-charcoal/80">
                     <div className="flex justify-between">
                       <span className="text-dark-charcoal/60">ORDER ID:</span>
-                      <span className="font-bold tracking-wider">{orderReceipt.orderId}</span>
+                      <span className="font-bold text-soft-black">{orderReceipt.orderId}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-dark-charcoal/60">DATE & TIME:</span>
+                      <span className="text-dark-charcoal/60">DATE:</span>
                       <span>{orderReceipt.date}, {orderReceipt.time}</span>
                     </div>
-                    <div className="flex justify-between items-center pt-0.5">
+                    <div className="flex justify-between">
                       <span className="text-dark-charcoal/60">PAYMENT:</span>
-                      <span className="font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 border border-emerald-200 text-[11px]">
-                        {orderReceipt.paymentMethod}
-                      </span>
+                      <span className="font-semibold text-emerald-800">{orderReceipt.paymentMethod}</span>
                     </div>
                   </div>
 
                   {/* Customer Information */}
-                  <div className="py-3.5 border-b border-dashed border-stone/40 text-xs space-y-2">
-                    <div className="font-bold uppercase text-dark-charcoal text-[11px] tracking-wider text-terracotta">
-                      [ CUSTOMER DETAILS ]
+                  <div className="py-3 border-b border-[#E5E0D6] text-xs space-y-1">
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-dark-charcoal/60 mb-1">
+                      DELIVERY DETAILS
                     </div>
-                    <div className="flex flex-col">
-                      <span className="text-dark-charcoal/60 text-[10px] uppercase">Name:</span>
-                      <span className="font-semibold text-soft-black">{orderReceipt.name}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-dark-charcoal/60 text-[10px] uppercase">Phone:</span>
-                      <span className="font-semibold text-soft-black">{orderReceipt.phone}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-dark-charcoal/60 text-[10px] uppercase">Delivery Address:</span>
-                      <span className="text-soft-black font-sans text-xs leading-relaxed mt-0.5">{orderReceipt.address}</span>
-                    </div>
+                    <div className="font-bold text-soft-black">{orderReceipt.name} ({orderReceipt.phone})</div>
+                    <div className="text-dark-charcoal/80 text-[11px] leading-relaxed font-sans mt-0.5">{orderReceipt.address}</div>
                     {orderReceipt.note && (
-                      <div className="flex flex-col pt-1">
-                        <span className="text-dark-charcoal/60 text-[10px] uppercase">Special Note:</span>
-                        <span className="italic text-dark-charcoal/80 font-sans text-xs">{orderReceipt.note}</span>
+                      <div className="text-[10.5px] text-dark-charcoal/70 italic pt-0.5 font-sans">
+                        Note: {orderReceipt.note}
                       </div>
                     )}
                   </div>
 
                   {/* Order Items */}
-                  <div className="py-3.5 border-b border-dashed border-stone/40 text-xs">
-                    <div className="font-bold uppercase text-dark-charcoal text-[11px] tracking-wider mb-2 text-terracotta">
-                      [ ORDER ITEMS ]
+                  <div className="py-3 border-b border-[#E5E0D6] text-xs">
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-dark-charcoal/60 mb-2">
+                      ITEMS ORDERED
                     </div>
-                    <div className="space-y-2.5">
+                    <div className="space-y-2">
                       {orderReceipt.items.map((item, idx) => (
-                        <div key={idx} className="flex justify-between items-start gap-2 bg-[#FAF7F2] p-2.5 border border-[#E5E0D6]">
+                        <div key={idx} className="flex justify-between items-center text-xs">
                           <div>
-                            <p className="font-bold text-soft-black">{item.name}</p>
-                            <p className="text-[11px] text-dark-charcoal/70 mt-0.5">
-                              Color: <span className="font-semibold text-soft-black">{item.color}</span> | Size: <span className="font-semibold text-soft-black">{item.size}</span>
-                            </p>
+                            <span className="font-bold text-soft-black">{item.name}</span>
+                            <div className="text-[10.5px] text-dark-charcoal/70">
+                              {item.color} • Size {item.size}
+                            </div>
                           </div>
                         </div>
                       ))}
@@ -476,43 +469,38 @@ const RetailOrderModal = ({
                   </div>
 
                   {/* Pricing Breakdown */}
-                  <div className="py-3.5 border-b border-dashed border-stone/40 text-xs space-y-1.5">
-                    <div className="flex justify-between text-dark-charcoal/80">
+                  <div className="py-3 border-b border-[#E5E0D6] text-xs space-y-1.5 text-dark-charcoal/80">
+                    <div className="flex justify-between">
                       <span>Product Subtotal:</span>
                       <span>৳ {orderReceipt.productCost.toLocaleString()}</span>
                     </div>
-                    <div className="flex justify-between text-dark-charcoal/80">
+                    <div className="flex justify-between">
                       <span>Delivery Fee ({orderReceipt.deliveryLocation}):</span>
                       <span>৳ {orderReceipt.deliveryCost.toLocaleString()}</span>
                     </div>
-                    <div className="flex justify-between text-sm font-bold pt-2 border-t border-stone/30 text-soft-black">
+                    <div className="flex justify-between text-sm font-bold pt-2 border-t border-[#E5E0D6] text-soft-black">
                       <span>TOTAL PAYABLE (COD):</span>
-                      <span className="text-terracotta text-base">৳ {orderReceipt.totalCost.toLocaleString()}</span>
+                      <span className="text-base text-[#1C2841]">৳ {orderReceipt.totalCost.toLocaleString()}</span>
                     </div>
                   </div>
 
                   {/* Thank you note */}
-                  <div className="pt-4 text-center">
-                    <div className="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center mx-auto mb-2.5">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <p className="text-xs font-bold uppercase tracking-wider text-soft-black mb-1">
+                  <div className="pt-4 text-center text-xs">
+                    <p className="font-bold tracking-wider uppercase text-soft-black mb-0.5">
                       THANK YOU FOR YOUR ORDER!
                     </p>
-                    <p className="text-[11px] text-dark-charcoal/80 leading-relaxed font-sans mb-3">
-                      We truly appreciate your support for authentic handcrafted macramé belts. We will carefully prepare and dispatch your parcel shortly.
+                    <p className="text-[10.5px] text-dark-charcoal/60 font-sans mb-1">
+                      We will carefully prepare and dispatch your parcel shortly.
                     </p>
-                    <div className="inline-block bg-[#FAF7F2] border border-[#E5E0D6] px-3 py-1.5 text-[10.5px] text-dark-charcoal/80">
-                      Support: <span className="font-semibold">WhatsApp +8801940689061</span>
-                    </div>
+                    <p className="text-[10.5px] text-dark-charcoal/60 font-sans">
+                      WhatsApp Support: +8801940689061
+                    </p>
                   </div>
 
                 </div>
 
                 {/* Modal action - Save Receipt Image */}
-                <div className="flex items-center justify-center mt-6 w-full max-w-lg mx-auto">
+                <div className="flex items-center justify-center mt-6 w-full max-w-md mx-auto">
                   <button 
                     onClick={handleDownloadReceipt}
                     disabled={isDownloading}
