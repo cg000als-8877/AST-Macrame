@@ -48,8 +48,12 @@ const Navbar = () => {
         {isRetailPage ? (
           <>
             {/* Announcement Bar (Retail Only as requested) */}
-            <div className="sm:hidden w-full bg-soft-black text-white text-[10px] md:text-[11px] font-bold text-center py-1 z-50 tracking-wider">
-              Cash On Delivery all over Bangladesh
+            <div className="sm:hidden w-full bg-soft-black text-white text-[10px] md:text-[11px] font-bold flex items-center justify-center gap-1.5 py-1 z-50 tracking-wider">
+              <svg className="w-3.5 h-3.5 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1" />
+              </svg>
+              <span>Cash On Delivery all over Bangladesh</span>
             </div>
             
             <div className="px-3 sm:px-6 h-12 md:h-14 grid grid-cols-3 items-center w-full relative">
@@ -167,11 +171,11 @@ const Navbar = () => {
                   <React.Fragment key={link.name}>
                     <Link 
                       to={link.path}
-                      className={`relative py-1 sm:py-0.5 text-[clamp(10.5px,2.2vw,13px)] font-bold md:font-semibold tracking-tight sm:tracking-widest uppercase active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap ${isActive ? 'text-terracotta' : 'hover:text-terracotta text-soft-black'} ${link.name === 'Contact' ? 'hidden sm:block' : ''}`}
+                      className={`relative py-1 sm:py-0.5 text-[clamp(10px,2.2vw,13px)] font-bold md:font-semibold tracking-tight sm:tracking-widest uppercase active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap ${isActive ? 'text-terracotta' : 'hover:text-terracotta text-soft-black'} ${link.name === 'Contact' ? 'hidden sm:block' : ''}`}
                     >
                       {link.name}
                       {isActive && (
-                        <span className="absolute -bottom-1 left-0 w-full h-[1.5px] bg-gradient-to-r from-transparent via-terracotta to-transparent"></span>
+                        <span className="absolute -bottom-0.5 left-0 w-full h-[1.5px] bg-gradient-to-r from-transparent via-terracotta to-transparent"></span>
                       )}
                     </Link>
                     {index < navLinks.length - 1 && (

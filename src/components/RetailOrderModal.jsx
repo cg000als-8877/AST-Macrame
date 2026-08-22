@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronDown } from 'lucide-react';
+import { ArrowLeft, ChevronDown } from 'lucide-react';
 import bd from '../utils/bd-location';
 
 import b1 from '../assets/products/Black/1.jpg';
@@ -26,7 +26,7 @@ const RetailOrderModal = ({
   selectedSize = 'M', 
   comboColor1 = 'Black', 
   comboSize1 = 'M', 
-  comboColor2 = 'Navy', 
+  comboColor2 = 'Black', 
   comboSize2 = 'M' 
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -40,6 +40,7 @@ const RetailOrderModal = ({
   const [upazilas, setUpazilas] = useState([]);
   const [selectedDistrictId, setSelectedDistrictId] = useState('');
   const [selectedUpazilaName, setSelectedUpazilaName] = useState('');
+  const [formError, setFormError] = useState(null);
   
   // 'outside' (100 Tk) or 'inside' (50 Tk)
   const [deliveryType, setDeliveryType] = useState('outside');
@@ -49,6 +50,7 @@ const RetailOrderModal = ({
       const allDistricts = bd.getDistricts();
       const sorted = [...allDistricts].sort((a, b) => a.name.localeCompare(b.name));
       setDistricts(sorted);
+      setFormError(null);
 
       // Meta Pixel: track when someone opens the order form
       if (typeof fbq === 'function') {
@@ -63,6 +65,7 @@ const RetailOrderModal = ({
       setSelectedUpazilaName('');
       setDistricts([]);
       setUpazilas([]);
+      setFormError(null);
       setDeliveryType('outside'); // Reset to default
     }
   }, [isOpen]);
@@ -95,16 +98,55 @@ const RetailOrderModal = ({
     setNameFilled(!!form.name?.value.trim());
     setPhoneFilled(!!form.phone?.value.trim());
     setDeliveryPointFilled(!!form.delivery_point?.value.trim());
+    if (formError) {
+      setFormError(null);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
 
-    const formData = new FormData(e.target);
+    const name = (formData.get('name') || '').trim();
+    let rawPhone = (formData.get('phone') || '').trim();
+    const deliveryPoint = (formData.get('delivery_point') || '').trim();
+
+    if (!name) {
+      setFormError('অনুগ্রহ করে আপনার পুরো নাম প্রদান করুন।');
+      form.name?.focus();
+      return;
+    }
+
+    const cleanPhoneDigits = rawPhone.replace(/\D/g, '');
+    if (!rawPhone || cleanPhoneDigits.length < 10) {
+      setFormError('অনুগ্রহ করে ১১ ডিজিটের সঠিক মোবাইল নম্বর প্রদান করুন।');
+      form.phone?.focus();
+      return;
+    }
+
+    if (!selectedDistrictId) {
+      setFormError('অনুগ্রহ করে আপনার জেলা সিলেক্ট করুন।');
+      form.district?.focus();
+      return;
+    }
+
+    if (!selectedUpazilaName) {
+      setFormError('অনুগ্রহ করে আপনার থানা / উপজেলা সিলেক্ট করুন।');
+      form.thana?.focus();
+      return;
+    }
+
+    if (!deliveryPoint) {
+      setFormError('অনুগ্রহ করে আপনার সম্পূর্ণ ডেলিভারি ঠিকানা প্রদান করুন।');
+      form.delivery_point?.focus();
+      return;
+    }
+
+    setFormError(null);
+    setIsSubmitting(true);
     
     // Format phone to always include +88
-    let rawPhone = (formData.get('phone') || '').trim();
     if (rawPhone.startsWith('+88')) {
       // already has it
     } else if (rawPhone.startsWith('88')) {
@@ -121,7 +163,6 @@ const RetailOrderModal = ({
       districtName = districtObj.name;
     }
     const thanaName = formData.get('thana') || '';
-    const deliveryPoint = formData.get('delivery_point') || '';
     
     const fullAddress = [deliveryPoint, thanaName, districtName].filter(Boolean).join(', ');
     
@@ -230,26 +271,28 @@ const RetailOrderModal = ({
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="bg-cream w-full h-full md:h-auto md:max-h-full max-w-5xl p-4 sm:p-5 md:p-8 rounded-none md:rounded-3xl shadow-2xl overflow-y-auto relative flex flex-col md:block"
+            className="bg-cream w-full h-full md:h-auto md:max-h-full max-w-5xl p-4 sm:p-5 md:p-8 rounded-none shadow-2xl overflow-y-auto relative flex flex-col md:block"
           >
             <button 
               onClick={onClose}
-              className="absolute top-4 right-4 md:top-6 md:right-6 text-soft-black/50 hover:text-soft-black transition-colors z-20"
+              className="absolute top-4 left-4 md:top-6 md:left-6 flex items-center gap-1.5 text-soft-black/70 hover:text-soft-black transition-colors z-20 group cursor-pointer"
+              aria-label="Back"
             >
-              <X size={24} />
+              <ArrowLeft size={18} className="group-hover:-translate-x-0.5 transition-transform" />
+              <span className="text-[11px] md:text-xs font-bold uppercase tracking-wider">Back</span>
             </button>
             
             <div className="relative z-10">
             {isSuccess ? (
               <div className="py-12 flex flex-col items-center justify-center text-center">
-                <div className="w-16 h-16 rounded-full bg-stone/20 flex items-center justify-center mb-6">
+                <div className="w-16 h-16 rounded-none bg-stone/20 flex items-center justify-center mb-6">
                   <svg className="w-8 h-8 text-soft-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
                 </div>
                 <h2 className="text-2xl md:text-3xl font-serif text-soft-black mb-4">Thank You For Your Order!</h2>
                 <p className="text-sm md:text-base text-dark-charcoal/70">
                   Your retail order has been successfully placed.<br />We will process it shortly.
                 </p>
-                <button onClick={onClose} className="mt-8 bg-terracotta text-cream px-10 py-3 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-muted-burgundy transition-colors shadow-lg">
+                <button onClick={onClose} className="mt-8 bg-terracotta text-cream px-10 py-3 text-xs font-bold uppercase tracking-[0.2em] rounded-none hover:bg-muted-burgundy transition-colors shadow-lg">
                   Close Window
                 </button>
               </div>
@@ -275,108 +318,146 @@ const RetailOrderModal = ({
                   />
                   <div className="order-2 md:order-1 space-y-3 md:space-y-4">
                   <div>
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      Name / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">নাম</span> {!nameFilled && <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-1">
+                      Name / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px]">নাম</span> {!nameFilled && <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
                     </label>
-                    <input type="text" name="name" className="w-full bg-white border border-black rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px]" placeholder="Your Full Name" required />
+                    <input 
+                      type="text" 
+                      name="name" 
+                      className="w-full bg-white border border-[#D1CCC0] rounded-none px-3 py-2.5 md:py-3 focus:outline-none focus:border-soft-black focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]" 
+                      placeholder="Your Full Name" 
+                      required 
+                    />
                   </div>
-                    <div>
-                      <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                        Phone / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">মোবাইল নম্বর</span> {!phoneFilled && <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
-                      </label>
-                      <div className="relative flex items-center w-full bg-white border border-black rounded-md focus-within:border-terracotta transition-colors">
-                        <span className="pl-2.5 text-[13px] md:text-[15px] text-dark-charcoal/80 font-medium">+88</span>
-                        <input type="tel" name="phone" className="w-full bg-transparent px-1.5 py-1.5 md:py-2 focus:outline-none text-[13px] md:text-[15px]" placeholder="01XXX XXXXXX" required />
+                  <div>
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-1">
+                      Phone / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px]">মোবাইল নম্বর</span> {!phoneFilled && <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
+                    </label>
+                    <div className="relative flex items-center w-full bg-white border border-[#D1CCC0] rounded-none focus-within:border-soft-black focus-within:ring-1 focus-within:ring-soft-black/10 transition-all min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                      <span className="pl-3 text-[13px] md:text-[15px] text-dark-charcoal/70 font-medium">+88</span>
+                      <input 
+                        type="tel" 
+                        name="phone" 
+                        className="w-full bg-transparent px-2 py-2.5 md:py-3 focus:outline-none text-[13px] md:text-[15px]" 
+                        placeholder="01XXX XXXXXX" 
+                        required 
+                      />
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-1">
+                      District / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px]">জেলা</span> {!selectedDistrictId && <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
+                    </label>
+                    <div className="relative">
+                      <select 
+                        name="district" 
+                        className="w-full bg-white border border-[#D1CCC0] rounded-none px-3 py-2.5 md:py-3 focus:outline-none focus:border-soft-black focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] appearance-none pr-8 font-bengali min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]" 
+                        required
+                        value={selectedDistrictId}
+                        onChange={(e) => setSelectedDistrictId(e.target.value)}
+                      >
+                        <option value="" disabled>Select District</option>
+                        {districts.map(d => (
+                          <option key={d.id} value={d.id}>{d.name} - {d.bn_name}</option>
+                        ))}
+                      </select>
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-dark-charcoal/60">
+                        <ChevronDown size={18} />
                       </div>
                     </div>
-                  <div className="relative">
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      District / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">জেলা</span> {!selectedDistrictId && <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
-                    </label>
-                    <select 
-                      name="district" 
-                      className="w-full bg-white border border-black rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px] appearance-none pr-8" 
-                      required
-                      value={selectedDistrictId}
-                      onChange={(e) => setSelectedDistrictId(e.target.value)}
-                    >
-                      <option value="" disabled>Select District</option>
-                      {districts.map(d => (
-                        <option key={d.id} value={d.id}>{d.name} - {d.bn_name}</option>
-                      ))}
-                    </select>
-                    <div className="absolute right-2.5 top-[25px] md:top-[30px] pointer-events-none text-black">
-                      <ChevronDown size={18} />
-                    </div>
                   </div>
                   <div className="relative">
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      Thana/Upazila / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">থানা</span> {!selectedUpazilaName && <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-1">
+                      Thana/Upazila / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px]">থানা / উপজেলা</span> {!selectedUpazilaName && <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
                     </label>
-                    <select 
-                      name="thana" 
-                      className="w-full bg-white border border-black rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px] appearance-none pr-8" 
-                      value={selectedUpazilaName}
-                      onChange={(e) => setSelectedUpazilaName(e.target.value)}
-                      disabled={!selectedDistrictId}
-                      required
-                    >
-                      <option value="" disabled>Select Thana/Upazila</option>
-                      {upazilas.map(u => (
-                        <option key={u.id} value={u.name}>{u.name} - {u.bn_name}</option>
-                      ))}
-                    </select>
-                    <div className="absolute right-2.5 top-[25px] md:top-[30px] pointer-events-none text-black">
-                      <ChevronDown size={18} />
+                    <div className="relative">
+                      <select 
+                        name="thana" 
+                        className="w-full bg-white border border-[#D1CCC0] rounded-none px-3 py-2.5 md:py-3 focus:outline-none focus:border-soft-black focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] appearance-none pr-8 font-bengali min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]" 
+                        value={selectedUpazilaName}
+                        onChange={(e) => setSelectedUpazilaName(e.target.value)}
+                        disabled={!selectedDistrictId}
+                        required
+                      >
+                        <option value="" disabled>Select Thana/Upazila</option>
+                        {upazilas.map(u => (
+                          <option key={u.id} value={u.name}>{u.name} - {u.bn_name}</option>
+                        ))}
+                      </select>
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-dark-charcoal/60">
+                        <ChevronDown size={18} />
+                      </div>
                     </div>
                   </div>
                   <div>
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      Delivery Point / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">যে জায়গা থেকে রিসিভ করবেন</span> {!deliveryPointFilled && <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-1">
+                      Full Address / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px]">সম্পূর্ণ ঠিকানা</span> {!deliveryPointFilled && <span className="text-red-500 font-bold normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
                     </label>
                     <textarea 
                       name="delivery_point"
-                      rows="3" 
-                      className="w-full bg-white border border-black rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px] resize-none" 
-                      placeholder="Full Address" 
+                      rows="1" 
+                      onInput={(e) => {
+                        e.target.style.height = 'auto';
+                        e.target.style.height = `${e.target.scrollHeight}px`;
+                      }}
+                      className="w-full bg-white border border-[#D1CCC0] rounded-none px-3 py-2.5 md:py-3 focus:outline-none focus:border-soft-black focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] resize-none overflow-hidden min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]" 
+                      placeholder="House/Flat, Road, Area/Village" 
                       required
                     ></textarea>
                   </div>
 
                   <div>
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-0.5 md:mb-1">
-                      Note / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px] capitalize">নোট</span> <span className="text-dark-charcoal/50 font-normal normal-case tracking-normal">(Optional)</span>
+                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-1">
+                      Note / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px]">নোট</span> <span className="text-dark-charcoal/50 font-normal normal-case tracking-normal">(Optional)</span>
                     </label>
                     <textarea 
                       name="message"
-                      rows="3" 
-                      className="w-full bg-white border border-black rounded-md px-2.5 py-1.5 md:py-2 focus:outline-none focus:border-terracotta transition-colors text-[13px] md:text-[15px] resize-none" 
+                      rows="1" 
+                      onInput={(e) => {
+                        e.target.style.height = 'auto';
+                        e.target.style.height = `${e.target.scrollHeight}px`;
+                      }}
+                      className="w-full bg-white border border-[#D1CCC0] rounded-none px-3 py-2.5 md:py-3 focus:outline-none focus:border-soft-black focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] resize-none overflow-hidden min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]" 
                       placeholder="Any custom instructions..."
                     ></textarea>
                   </div>
                   
                   {/* Mobile Submit Button & Checkbox */}
-                  <div className="md:hidden pt-4 mt-4 w-full flex flex-col gap-4">
+                  <div className="md:hidden pt-4 mt-4 w-full flex flex-col gap-3">
+                    {formError && (
+                      <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 text-[11px] rounded-none flex items-center gap-2">
+                        <span className="shrink-0 text-red-500 font-bold">⚠️</span>
+                        <span className="font-bengali font-medium leading-tight">{formError}</span>
+                      </div>
+                    )}
                     <div className="flex items-start gap-2">
                       <input type="checkbox" id="terms-mobile" defaultChecked required className="mt-1 accent-terracotta shrink-0" />
                       <label htmlFor="terms-mobile" className="text-[10px] md:text-xs text-dark-charcoal/80 leading-relaxed tracking-normal">
-                        I have read and agree to the <Link to="/terms" target="_blank" className="text-terracotta font-bold hover:underline">Terms and Conditions</Link>, <Link to="/privacy" target="_blank" className="text-terracotta font-bold hover:underline">Privacy Policy</Link> & <Link to="/refund" target="_blank" className="text-terracotta font-bold hover:underline">Refund and Return Policy</Link>.
+                        By clicking Confirm Order, you agree to our <Link to="/terms" target="_blank" className="text-terracotta font-bold hover:underline">Terms</Link> and <Link to="/refund" target="_blank" className="text-terracotta font-bold hover:underline">Return Policy</Link>.
                       </label>
                     </div>
-                    <button type="submit" disabled={isSubmitting || !isFormValid} className="w-full bg-soft-black text-cream px-10 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-terracotta transition-colors shadow-lg disabled:bg-[#D1D5DB] disabled:text-[#6B7280] disabled:cursor-not-allowed disabled:shadow-none">
-                      {isSubmitting ? 'Processing...' : 'Submit Order'}
+                    <button 
+                      type="submit" 
+                      disabled={isSubmitting} 
+                      className="w-full bg-black text-white px-2 sm:px-4 py-3.5 text-[10.5px] min-[360px]:text-[11.5px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider rounded-none hover:bg-neutral-800 transition-colors shadow-lg active:scale-[0.99] disabled:opacity-75 disabled:cursor-wait whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 cursor-pointer"
+                    >
+                      {isSubmitting ? (
+                        'Processing...'
+                      ) : (
+                        <span>CONFIRM ORDER — ৳ {totalCost.toLocaleString()} (CASH ON DELIVERY)</span>
+                      )}
                     </button>
                   </div>
                   </div>
 
                   <div className="order-1 md:order-2 flex flex-col h-full mb-4 md:mb-0">
                   {/* Order Summary */}
-                  <div className="bg-white border border-black/40 rounded-xl p-2.5 md:p-5 shadow-sm">
-                    <h3 className="text-[9px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-2 md:mb-4 border-b border-stone/10 pb-1.5 md:pb-3">Order Summary</h3>
+                  <div className="bg-white border border-[#D1CCC0] rounded-none p-3 sm:p-4 md:p-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+                    <h3 className="text-[9px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-2 md:mb-4 border-b border-[#E5E0D6] pb-1.5 md:pb-3">Order Summary</h3>
                     
                     {orderType === 'single' ? (
                       <div className="flex items-center gap-3 md:gap-4 mb-3 md:mb-4">
-                        <div className="w-12 h-12 md:w-16 md:h-16 shrink-0 bg-stone/10 rounded-lg overflow-hidden border border-stone/20">
+                        <div className="w-12 h-12 md:w-16 md:h-16 shrink-0 bg-stone/10 rounded-none overflow-hidden border border-[#E5E0D6]">
                           <img src={colorImages[selectedColor]} alt={selectedColor} className="w-full h-full object-cover mix-blend-multiply" />
                         </div>
                         <div className="flex flex-col">
@@ -387,14 +468,14 @@ const RetailOrderModal = ({
                     ) : (
                       <div className="flex flex-col gap-2 md:gap-3 mb-3 md:mb-4">
                         <span className="text-[11px] md:text-sm font-bold text-soft-black">Combo Pack (2 Belts)</span>
-                        <div className="flex items-center gap-3 md:gap-4 p-1.5 md:p-2 rounded-lg bg-stone/5">
-                          <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 bg-stone/10 rounded-md overflow-hidden border border-black/10">
+                        <div className="flex items-center gap-3 md:gap-4 p-1.5 md:p-2 rounded-none bg-[#FAF8F5] border border-[#E5E0D6]">
+                          <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 bg-stone/10 rounded-none overflow-hidden border border-[#E5E0D6]">
                             <img src={colorImages[comboColor1]} alt={comboColor1} className="w-full h-full object-cover mix-blend-multiply" />
                           </div>
                           <span className="text-[10px] md:text-xs text-dark-charcoal/80 tracking-normal">Belt 1: {comboColor1} ({comboSize1})</span>
                         </div>
-                        <div className="flex items-center gap-3 md:gap-4 p-1.5 md:p-2 rounded-lg bg-stone/5">
-                          <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 bg-stone/10 rounded-md overflow-hidden border border-black/10">
+                        <div className="flex items-center gap-3 md:gap-4 p-1.5 md:p-2 rounded-none bg-[#FAF8F5] border border-[#E5E0D6]">
+                          <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 bg-stone/10 rounded-none overflow-hidden border border-[#E5E0D6]">
                             <img src={colorImages[comboColor2]} alt={comboColor2} className="w-full h-full object-cover mix-blend-multiply" />
                           </div>
                           <span className="text-[10px] md:text-xs text-dark-charcoal/80 tracking-normal">Belt 2: {comboColor2} ({comboSize2})</span>
@@ -402,16 +483,16 @@ const RetailOrderModal = ({
                       </div>
                     )}
 
-                    <div className="space-y-1.5 md:space-y-2 mt-3 md:mt-4 pt-3 md:pt-4 border-t border-stone/10">
+                    <div className="space-y-1.5 md:space-y-2 mt-3 md:mt-4 pt-3 md:pt-4 border-t border-[#E5E0D6]">
                       <div className="flex justify-between items-center text-[11px] md:text-xs text-dark-charcoal/80">
                         <span>Subtotal</span>
                         <span className="font-medium">{productCost} BDT</span>
                       </div>
                       
-                      <div className="flex flex-col gap-1.5 md:gap-2 mt-3 pt-3 border-t border-stone/10">
+                      <div className="flex flex-col gap-1.5 md:gap-2 mt-3 pt-3 border-t border-[#E5E0D6]">
                         <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-dark-charcoal mb-1">Delivery Area</span>
                         
-                        <label className="flex items-center justify-between cursor-pointer group p-1.5 md:p-2 rounded-lg transition-colors bg-stone/5 hover:bg-stone/10">
+                        <label className="flex items-center justify-between cursor-pointer group p-2 rounded-none transition-all bg-[#FAF8F5] hover:bg-[#F3EFEA] border border-[#E5E0D6]">
                           <div className="flex items-center gap-2.5 md:gap-3">
                             <input 
                               type="radio" 
@@ -426,7 +507,7 @@ const RetailOrderModal = ({
                           <span className="text-[11px] md:text-xs font-medium text-terracotta">+ 50 BDT</span>
                         </label>
                         
-                        <label className="flex items-center justify-between cursor-pointer group p-1.5 md:p-2 rounded-lg transition-colors bg-stone/5 hover:bg-stone/10">
+                        <label className="flex items-center justify-between cursor-pointer group p-2 rounded-none transition-all bg-[#FAF8F5] hover:bg-[#F3EFEA] border border-[#E5E0D6]">
                           <div className="flex items-center gap-2.5 md:gap-3">
                             <input 
                               type="radio" 
@@ -442,29 +523,37 @@ const RetailOrderModal = ({
                         </label>
                       </div>
 
-                      <div className="flex justify-between items-center mt-3 md:mt-4 pt-3 md:pt-4 border-t border-stone/10">
+                      <div className="flex justify-between items-center mt-3 md:mt-4 pt-3 md:pt-4 border-t border-[#E5E0D6]">
                         <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-soft-black">Total</span>
                         <span className="text-base md:text-xl font-serif font-bold text-terracotta">{totalCost} BDT</span>
-                      </div>
-                      
-                      <div className="mt-2 text-center bg-stone/5 p-2 rounded-lg border border-stone/10">
-                        <p className="text-[12px] md:text-[13px] text-soft-black font-medium font-bengali tracking-normal">
-                          পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন,<br />দ্রুত সময়ের মধ্যে সারা বাংলাদেশে "হোম ডেলিভারি"
-                        </p>
                       </div>
                     </div>
                   </div>
 
                   {/* Desktop Submit Button & Checkbox */}
-                  <div className="hidden md:flex flex-col pt-4 mt-auto gap-4">
+                  <div className="hidden md:flex flex-col pt-4 mt-auto gap-3">
+                    {formError && (
+                      <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 text-xs rounded-none flex items-center gap-2">
+                        <span className="shrink-0 text-red-500 font-bold">⚠️</span>
+                        <span className="font-bengali font-medium leading-tight">{formError}</span>
+                      </div>
+                    )}
                     <div className="flex items-start gap-2">
                       <input type="checkbox" id="terms-desktop" defaultChecked required className="mt-1 accent-terracotta shrink-0" />
                       <label htmlFor="terms-desktop" className="text-[10px] md:text-xs text-dark-charcoal/80 leading-relaxed tracking-normal">
-                        I have read and agree to the <Link to="/terms" target="_blank" className="text-terracotta font-bold hover:underline">Terms and Conditions</Link>, <Link to="/privacy" target="_blank" className="text-terracotta font-bold hover:underline">Privacy Policy</Link> & <Link to="/refund" target="_blank" className="text-terracotta font-bold hover:underline">Refund and Return Policy</Link>.
+                        By clicking Confirm Order, you agree to our <Link to="/terms" target="_blank" className="text-terracotta font-bold hover:underline">Terms</Link> and <Link to="/refund" target="_blank" className="text-terracotta font-bold hover:underline">Return Policy</Link>.
                       </label>
                     </div>
-                    <button type="submit" disabled={isSubmitting || !isFormValid} className="w-full bg-soft-black text-cream px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-terracotta transition-colors shadow-lg disabled:bg-[#D1D5DB] disabled:text-[#6B7280] disabled:cursor-not-allowed disabled:shadow-none">
-                      {isSubmitting ? 'Processing...' : 'Submit Order'}
+                    <button 
+                      type="submit" 
+                      disabled={isSubmitting} 
+                      className="w-full bg-black text-white px-4 py-4 text-xs lg:text-sm font-bold uppercase tracking-wider rounded-none hover:bg-neutral-800 transition-colors shadow-lg active:scale-[0.99] disabled:opacity-75 disabled:cursor-wait whitespace-nowrap flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      {isSubmitting ? (
+                        'Processing...'
+                      ) : (
+                        <span>CONFIRM ORDER — ৳ {totalCost.toLocaleString()} (CASH ON DELIVERY)</span>
+                      )}
                     </button>
                   </div>
                   </div>
@@ -480,3 +569,4 @@ const RetailOrderModal = ({
 };
 
 export default RetailOrderModal;
+

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Plus, Minus, X, Ruler, ZoomIn, AlignLeft, Layers, Truck, AlertCircle, Droplets, Sparkles, Leaf, Banknote } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Minus, X, Ruler, ZoomIn, AlignLeft, Layers, Truck, AlertCircle, Droplets, Sparkles, Leaf, Banknote, ArrowUp } from 'lucide-react';
 import RetailOrderModal from '../components/RetailOrderModal';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
@@ -32,11 +32,11 @@ const Accordion = ({ title, isOpen, onClick, children }) => (
       onClick={onClick}
       className="w-full py-3 flex justify-between items-center text-left"
     >
-      <span className="font-serif text-base md:text-lg text-soft-black">{title}</span>
-      {isOpen ? <Minus className="w-4 h-4 text-soft-black/50" /> : <Plus className="w-4 h-4 text-soft-black/50" />}
+      <span className="font-serif text-base md:text-lg text-soft-black font-medium">{title}</span>
+      {isOpen ? <Minus className="w-4 h-4 text-soft-black/60" /> : <Plus className="w-4 h-4 text-soft-black/60" />}
     </button>
     {isOpen && (
-      <div className="overflow-hidden pb-4 text-dark-charcoal/80 font-light text-sm">
+      <div className="overflow-hidden pb-4 text-dark-charcoal/90 text-sm">
         {children}
       </div>
     )}
@@ -44,22 +44,19 @@ const Accordion = ({ title, isOpen, onClick, children }) => (
 );
 
 const RetailPage = () => {
-  const [selectedColor, setSelectedColor] = useState(null);
-  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedColor, setSelectedColor] = useState('Black');
+  const [selectedSize, setSelectedSize] = useState('M');
   const [activeIndex, setActiveIndex] = useState(0);
   const [orderType, setOrderType] = useState('single');
-  const [comboColor1, setComboColor1] = useState(null);
-  const [comboColor2, setComboColor2] = useState(null);
-  const [comboSize1, setComboSize1] = useState(null);
-  const [comboSize2, setComboSize2] = useState(null);
-  const [openAccordions, setOpenAccordions] = useState(() => {
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    return {
-      description: isMobile,
-      materials: isMobile,
-      shipping: isMobile,
-      disclaimer: isMobile
-    };
+  const [comboColor1, setComboColor1] = useState('Black');
+  const [comboColor2, setComboColor2] = useState('Black');
+  const [comboSize1, setComboSize1] = useState('M');
+  const [comboSize2, setComboSize2] = useState('M');
+  const [openAccordions, setOpenAccordions] = useState({
+    description: true,
+    materials: false,
+    shipping: false,
+    disclaimer: false
   });
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isCareGuideOpen, setIsCareGuideOpen] = useState(false);
@@ -70,6 +67,30 @@ const RetailPage = () => {
   const [touchEnd, setTouchEnd] = useState(null);
   
   const [isForeignUser, setIsForeignUser] = useState(false);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+  const optionsRef = useRef(null);
+  const ctaRef = useRef(null);
+
+  useEffect(() => {
+    const handleScrollVisibility = () => {
+      if (ctaRef.current) {
+        const rect = ctaRef.current.getBoundingClientRect();
+        // Show sticky bar when the user has scrolled past the main CTA button
+        setShowStickyBar(rect.bottom < 0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScrollVisibility, { passive: true });
+    return () => window.removeEventListener('scroll', handleScrollVisibility);
+  }, []);
+
+  const handleStickyOrderClick = () => {
+    if (optionsRef.current) {
+      const yOffset = -90;
+      const y = optionsRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     const checkLocation = async () => {
@@ -96,6 +117,55 @@ const RetailPage = () => {
       document.body.style.overflow = 'auto';
     };
   }, [lightboxImage]);
+
+  const [openFaq, setOpenFaq] = useState(null);
+
+  const toggleFaq = (idx) => {
+    setOpenFaq(prev => (prev === idx ? null : idx));
+  };
+
+  const faqs = [
+    {
+      category: "Product & Sizing",
+      question: "How do I choose the right belt size?",
+      answer: "We offer two versatile sizes: M (28\"–34\" waist) and L (36\"–42\" waist). Thanks to our signature open-weave macramé design, there are no fixed hole limitations—the buckle prong glides smoothly through any point along the weave for an effortless, micro-adjustable custom fit."
+    },
+    {
+      category: "Product & Sizing",
+      question: "Will the macramé cord stretch out or sag over time?",
+      answer: "No. We hand-knot each belt using premium high-density, multi-ply combed cotton cord under calibrated artisan tension. While it naturally adapts to the contour of your waist for all-day comfort, the knot pattern is firmly locked to prevent stretching or sagging."
+    },
+    {
+      category: "Shipping & Delivery",
+      question: "How long does delivery take and what are the charges?",
+      answer: "We provide reliable doorstep home delivery across all 64 districts in Bangladesh:\n• Chittagong City: 24 to 48 Hours (৳50 Delivery Fee)\n• Dhaka & Nationwide: 2 to 4 Working Days (৳100 Delivery Fee)"
+    },
+    {
+      category: "Shipping & Delivery",
+      question: "Do I need to pay any advance for Cash on Delivery (COD)?",
+      answer: "No advance payment is required for regular retail orders. You pay 100% in cash directly to the delivery rider once your parcel safely arrives at your doorstep."
+    },
+    {
+      category: "Returns & Inspection",
+      question: "Can I inspect the belt before paying the courier rider?",
+      answer: "Yes! We fully support Open-Box Checking. You can open the package and inspect your belt in front of the delivery rider. If there is any defect or mismatch, you can hand it back on the spot with zero hassle."
+    },
+    {
+      category: "Returns & Inspection",
+      question: "What if I need an exchange or assistance after delivery?",
+      answer: "If you notice any manufacturing defect or need a size exchange, simply message our WhatsApp support within 48 hours of receiving your parcel. We will arrange a replacement or exchange promptly."
+    },
+    {
+      category: "Care & Maintenance",
+      question: "How should I clean and care for my macramé belt?",
+      answer: "Spot clean gently with a soft cloth dampened with cold water and mild soap. Avoid machine washing, bleaching, or soaking in water. Allow it to air dry naturally away from direct heat."
+    },
+    {
+      category: "Custom & Bulk Orders",
+      question: "Do you accept custom lengths or wholesale orders?",
+      answer: "Yes. As the direct manufacturer, we offer custom sizing, specialized colorways, corporate gifting packages, and wholesale/B2B pricing for boutiques and brands. Click the WhatsApp button on our page to connect directly with our workshop."
+    }
+  ];
 
   const colors = [
     { name: 'Black', hex: '#1a1a1a' },
@@ -133,10 +203,11 @@ const RetailPage = () => {
 
   const handleScroll = (e) => {
     const { scrollLeft, scrollWidth } = e.target;
-    if (scrollWidth > 0 && images.length > 0) {
-      const itemWidth = scrollWidth / images.length;
+    if (scrollRef.current && images.length > 0) {
+      const firstChild = scrollRef.current.children[0];
+      const itemWidth = firstChild ? firstChild.offsetWidth + 1 : scrollWidth / images.length;
       const newIndex = Math.round(scrollLeft / itemWidth);
-      if (newIndex !== activeIndex) {
+      if (newIndex >= 0 && newIndex < images.length && newIndex !== activeIndex) {
         setActiveIndex(newIndex);
       }
     }
@@ -145,7 +216,8 @@ const RetailPage = () => {
   const scrollToDot = (idx) => {
     setActiveIndex(idx);
     if (scrollRef.current) {
-      const itemWidth = scrollRef.current.scrollWidth / images.length;
+      const firstChild = scrollRef.current.children[0];
+      const itemWidth = firstChild ? firstChild.offsetWidth + 1 : scrollRef.current.scrollWidth / images.length;
       scrollRef.current.scrollTo({
         left: itemWidth * idx,
         behavior: 'smooth'
@@ -223,8 +295,8 @@ const RetailPage = () => {
     <>
       {isForeignUser && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-soft-black/80 backdrop-blur-sm p-4">
-          <div className="bg-cream rounded-2xl p-6 md:p-8 max-w-sm md:max-w-md w-full text-center shadow-2xl border border-stone/10">
-              <div className="w-14 h-14 md:w-16 md:h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-5">
+          <div className="bg-cream rounded-none p-6 md:p-8 max-w-sm md:max-w-md w-full text-center shadow-2xl border border-stone/10">
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-red-100 text-red-600 rounded-none flex items-center justify-center mx-auto mb-4 md:mb-5">
                 <svg className="w-7 h-7 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
@@ -238,7 +310,7 @@ const RetailPage = () => {
               </p>
               <Link 
                 to="/product"
-                className="inline-block w-full bg-soft-black text-cream px-6 py-3.5 md:py-4 font-bold uppercase tracking-widest text-[10px] md:text-xs rounded-full hover:bg-terracotta transition-all shadow-md"
+                className="inline-block w-full bg-soft-black text-cream px-6 py-3.5 md:py-4 font-bold uppercase tracking-widest text-[10px] md:text-xs rounded-none hover:bg-terracotta transition-all shadow-md"
               >
                 Return to Product Page
               </Link>
@@ -272,21 +344,26 @@ const RetailPage = () => {
                 ))}
               </div>
 
-              {/* Zoom Icon (Mobile) */}
-              <div className="absolute bottom-4 left-4 pointer-events-none mix-blend-difference text-white z-10 opacity-70">
-                <ZoomIn className="w-5 h-5 md:w-6 md:h-6 stroke-[1.5]" />
+              {/* Zoom Indicator (Mobile) */}
+              <div className="absolute bottom-3 left-3 pointer-events-none flex items-center gap-1 bg-black/50 backdrop-blur-md text-white text-[9.5px] px-2 py-0.5 rounded-full font-medium tracking-wider shadow-sm z-10">
+                <ZoomIn className="w-3 h-3 stroke-[2]" />
+                <span>Click to zoom</span>
               </div>
 
-              {/* Mobile Swipe Indicators (Overlaid) */}
-              <div className="absolute bottom-5 left-0 right-0 flex justify-center space-x-2 z-10 pointer-events-none">
-                {images.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => scrollToDot(idx)}
-                    className={`h-1.5 rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.2)] backdrop-blur-sm transition-all duration-300 pointer-events-auto ${activeIndex === idx ? 'w-6 bg-white' : 'w-1.5 bg-white/50 hover:bg-white/80'}`}
-                    aria-label={`Go to slide ${idx + 1}`}
-                  />
-                ))}
+              {/* Mobile Swipe Indicators (Compact Capsule) */}
+              <div className="absolute bottom-3 left-0 right-0 flex justify-center items-center z-10 pointer-events-none">
+                <div className="bg-black/50 backdrop-blur-md px-2 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
+                  {images.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => scrollToDot(idx)}
+                      className={`h-1.5 transition-all duration-300 pointer-events-auto rounded-full ${
+                        activeIndex === idx ? 'w-3.5 bg-white' : 'w-1.5 bg-white/40 hover:bg-white/70'
+                      }`}
+                      aria-label={`Go to slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -302,8 +379,9 @@ const RetailPage = () => {
                     className="absolute inset-0 w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700 cursor-zoom-in"
                   />
                   {idx === 0 && (
-                    <div className="absolute bottom-4 left-4 pointer-events-none mix-blend-difference text-white z-10 opacity-70 group-hover:opacity-100 transition-opacity">
-                      <ZoomIn className="w-6 h-6 stroke-[1.5]" />
+                    <div className="absolute bottom-3 left-3 pointer-events-none flex items-center gap-1.5 bg-black/50 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded-full font-medium tracking-wider shadow-sm z-10 opacity-75 group-hover:opacity-100 transition-opacity">
+                      <ZoomIn className="w-3.5 h-3.5 stroke-[2]" />
+                      <span>Click to zoom</span>
                     </div>
                   )}
                 </div>
@@ -314,21 +392,21 @@ const RetailPage = () => {
           <div className="flex flex-col px-6 lg:px-0 lg:pt-0 lg:col-span-5">
             <h1 className="text-2xl lg:text-3xl font-serif text-soft-black mb-1 md:mb-2 mt-2 lg:mt-0">AST Handmade Macramé Belt</h1>
             <p className="text-xs md:text-sm font-light italic text-dark-charcoal/80 mb-2 md:mb-3 leading-relaxed">
-              Fully handmade, very strong, and comfortable to wear. A belt made to last for years, even for the next generation!
+              Handcrafted with high-density cotton weave for superior flexibility, lasting strength, and effortless daily style.
             </p>
-            <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-2 md:mb-3">Unisex Design • 100% Cotton</p>
+            <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-2 md:mb-3">UNISEX | 100% NATURAL COTTON</p>
             
             {/* Added Price */}
-            <div className="mb-4 md:mb-5 flex items-center gap-3 md:gap-4 mt-2">
+            <div className="mb-4 md:mb-5 flex items-center gap-3 md:gap-4 mt-2 flex-wrap">
               <span className="text-2xl md:text-3xl font-serif text-soft-black leading-none">
                 {orderType === 'single' ? '990 BDT' : '1,790 BDT'}
               </span>
-              <div className="flex items-start gap-2 pt-1">
-                <span className="text-[15px] md:text-lg text-red-500/80 line-through font-bold whitespace-nowrap leading-none">
+              <div className="flex items-center gap-2">
+                <span className="text-sm md:text-base text-red-500/80 line-through font-bold whitespace-nowrap leading-none">
                   {orderType === 'single' ? '1,150 BDT' : '2,300 BDT'}
                 </span>
-                <span className="bg-red-500 text-white text-[7px] md:text-[8px] font-bold uppercase tracking-widest px-1.5 py-[1px] rounded-full shadow-sm whitespace-nowrap -mt-0.5">
-                  {orderType === 'single' ? 'Save 160 Tk' : 'Save 510 Tk'}
+                <span className="inline-flex items-center justify-center bg-red-500 text-white text-[10px] md:text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded-[15px] shadow-sm whitespace-nowrap leading-none">
+                  {orderType === 'single' ? 'SAVE 160 TK' : 'SAVE 510 TK'}
                 </span>
               </div>
             </div>
@@ -336,17 +414,17 @@ const RetailPage = () => {
             <div className="w-full h-px bg-stone/20 mb-5 md:mb-6"></div>
 
             {/* Order Type Selection */}
-            <div className="mb-6 md:mb-8">
+            <div ref={optionsRef} className="mb-6 md:mb-8 scroll-mt-28">
               <div className="flex gap-3 w-full max-w-md">
                 <button 
                   onClick={() => setOrderType('single')}
-                  className={`flex-1 py-3 md:py-3.5 px-2 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-[15px] border transition-all duration-300 ${orderType === 'single' ? 'bg-soft-black text-cream border-soft-black shadow-md' : 'bg-transparent text-soft-black border-stone/30 hover:border-soft-black/50 hover:bg-stone/5'}`}
+                  className={`flex-1 py-3 md:py-3.5 px-2 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-none border transition-all duration-300 ${orderType === 'single' ? 'bg-soft-black text-cream border-soft-black shadow-md' : 'bg-transparent text-soft-black border-stone/30 hover:border-soft-black/50 hover:bg-stone/5'}`}
                 >
                   Single Product
                 </button>
                 <button 
                   onClick={() => setOrderType('combo')}
-                  className={`flex-1 py-3 md:py-3.5 px-2 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-[15px] border transition-all duration-300 ${orderType === 'combo' ? 'bg-soft-black text-cream border-soft-black shadow-md' : 'bg-transparent text-soft-black border-stone/30 hover:border-soft-black/50 hover:bg-stone/5'}`}
+                  className={`flex-1 py-3 md:py-3.5 px-2 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-none border transition-all duration-300 ${orderType === 'combo' ? 'bg-soft-black text-cream border-soft-black shadow-md' : 'bg-transparent text-soft-black border-stone/30 hover:border-soft-black/50 hover:bg-stone/5'}`}
                 >
                   Combo (2 Belts)
                 </button>
@@ -410,7 +488,7 @@ const RetailPage = () => {
                         <button
                           key={size}
                           onClick={() => setSelectedSize(size)}
-                          className={`w-9 h-9 md:w-10 md:h-10 flex items-center justify-center text-[11px] md:text-xs font-bold uppercase tracking-widest border transition-colors duration-300 rounded-md shrink-0 ${selectedSize === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                          className={`w-9 h-9 md:w-10 md:h-10 flex items-center justify-center text-[11px] md:text-xs font-bold uppercase tracking-widest border transition-colors duration-300 rounded-none shrink-0 ${selectedSize === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
                         >
                           {size}
                         </button>
@@ -475,7 +553,7 @@ const RetailPage = () => {
                           <button
                             key={size}
                             onClick={() => setComboSize1(size)}
-                            className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-md shrink-0 ${comboSize1 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                            className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-none shrink-0 ${comboSize1 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
                           >
                             {size}
                           </button>
@@ -518,7 +596,7 @@ const RetailPage = () => {
                           <button
                             key={size}
                             onClick={() => setComboSize2(size)}
-                            className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-md shrink-0 ${comboSize2 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                            className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-none shrink-0 ${comboSize2 === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
                           >
                             {size}
                           </button>
@@ -535,12 +613,12 @@ const RetailPage = () => {
             )}
 
             {/* CTA Buttons */}
-            <div className="flex flex-col mb-10 md:mb-12">
+            <div ref={ctaRef} className="flex flex-col mb-10 md:mb-12">
               <div className="flex flex-col gap-3 md:gap-4">
                 <button 
                   onClick={() => setIsOrderFormOpen(true)}
                   disabled={!isOrderReady}
-                  className={`w-full flex items-center justify-center bg-soft-black text-cream px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-[15px] transition-colors border border-transparent ${!isOrderReady ? 'opacity-50 cursor-not-allowed' : 'hover:bg-dark-charcoal'}`}
+                  className={`w-full flex items-center justify-center bg-terracotta text-cream px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-none transition-all shadow-md ${!isOrderReady ? 'opacity-50 cursor-not-allowed' : 'hover:bg-muted-burgundy active:scale-[0.99] cursor-pointer'}`}
                 >
                   {orderButtonText}
                 </button>
@@ -548,7 +626,7 @@ const RetailPage = () => {
                   href="https://wa.me/8801940689061"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-[15px] hover:bg-stone/10 transition-colors"
+                  className="w-full flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-none hover:bg-[#25D366] hover:border-[#25D366] hover:text-white transition-all duration-300"
                 >
                   <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5 mr-2 md:mr-3 fill-current">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
@@ -574,33 +652,46 @@ const RetailPage = () => {
                 isOpen={!!openAccordions['description']} 
                 onClick={() => toggleAccordion('description')}
               >
-                <p className="leading-relaxed">
-                  Carefully woven by skilled artisans in Bangladesh. Made from high-quality soft cotton macramé cord and finished with a durable, rust-resistant metal buckle for everyday wear. Lightweight, flexible, and exceptionally comfortable.
-                </p>
+                <div className="space-y-3 leading-relaxed text-dark-charcoal/90">
+                  <p>
+                    Expertly hand-knotted by skilled Bangladeshi artisans using 100% premium cotton cord. Designed to adapt naturally to your waist without the stiff discomfort of traditional belts, finished with a heavy-duty, anti-rust zinc-alloy buckle.
+                  </p>
+                  <p>
+                    Whether paired with denim, chinos, or casual ethnic wear, it adds a textured, minimalist statement to your everyday wardrobe.
+                  </p>
+                </div>
               </Accordion>
 
               <Accordion 
                 title={
                   <div className="flex items-center gap-3">
                     <Layers className="w-4 h-4 text-terracotta" />
-                    <span>Materials & Construction</span>
+                    <span>Materials & Specifications</span>
                   </div>
                 } 
                 isOpen={!!openAccordions['materials']} 
                 onClick={() => toggleAccordion('materials')}
               >
-                <ul className="space-y-1.5">
+                <ul className="space-y-2 text-dark-charcoal/90">
                   <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-full bg-terracotta mt-[0.4rem] mr-2 flex-shrink-0"></span>
-                    <span>Premium High-Quality Cotton Macramé Cord</span>
+                    <span className="w-1.5 h-1.5 rounded-none bg-terracotta mt-[0.45rem] mr-2.5 flex-shrink-0"></span>
+                    <span><strong className="font-semibold text-soft-black">Cord:</strong> 100% natural, eco-friendly high-grade braided cotton</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-full bg-terracotta mt-[0.4rem] mr-2 flex-shrink-0"></span>
-                    <span>Rust-Resistant Metal Buckle with Modern Finish</span>
+                    <span className="w-1.5 h-1.5 rounded-none bg-terracotta mt-[0.45rem] mr-2.5 flex-shrink-0"></span>
+                    <span><strong className="font-semibold text-soft-black">Hardware:</strong> Rust-resistant metal pin buckle with matte brushed finish</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-full bg-terracotta mt-[0.4rem] mr-2 flex-shrink-0"></span>
-                    <span>Soft, Flexible & Comfortable against the waist</span>
+                    <span className="w-1.5 h-1.5 rounded-none bg-terracotta mt-[0.45rem] mr-2.5 flex-shrink-0"></span>
+                    <span><strong className="font-semibold text-soft-black">Width:</strong> 4 cm (1.6 in) perfectly fits standard pant & denim loops</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="w-1.5 h-1.5 rounded-none bg-terracotta mt-[0.45rem] mr-2.5 flex-shrink-0"></span>
+                    <span><strong className="font-semibold text-soft-black">Flexibility:</strong> Micro-adjustable weave — fasten the buckle prong at any point along the belt for a custom fit</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="w-1.5 h-1.5 rounded-none bg-terracotta mt-[0.45rem] mr-2.5 flex-shrink-0"></span>
+                    <span><strong className="font-semibold text-soft-black">Origin:</strong> Proudly handcrafted in Bangladesh</span>
                   </li>
                 </ul>
               </Accordion>
@@ -615,9 +706,28 @@ const RetailPage = () => {
                 isOpen={!!openAccordions['shipping']} 
                 onClick={() => toggleAccordion('shipping')}
               >
-                <p className="leading-relaxed">
-                  We are committed to delivering your orders quickly and securely. Once your order is confirmed, packages shipped within Chittagong will arrive at your doorstep in 3 working days. For deliveries outside of Chittagong, please expect your order to arrive within 7 working days.
-                </p>
+                <div className="space-y-3 leading-relaxed text-dark-charcoal/90">
+                  <p>
+                    We ship all orders promptly via trusted express couriers:
+                  </p>
+                  <ul className="space-y-2">
+                    <li className="flex items-start">
+                      <span className="w-1.5 h-1.5 rounded-none bg-terracotta mt-[0.45rem] mr-2.5 flex-shrink-0"></span>
+                      <span><strong className="font-semibold text-soft-black">Chittagong City:</strong> 24 to 48 Hours (Home Delivery)</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="w-1.5 h-1.5 rounded-none bg-terracotta mt-[0.45rem] mr-2.5 flex-shrink-0"></span>
+                      <span><strong className="font-semibold text-soft-black">Dhaka & Nationwide:</strong> 2 to 4 Working Days (Home Delivery)</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="w-1.5 h-1.5 rounded-none bg-terracotta mt-[0.45rem] mr-2.5 flex-shrink-0"></span>
+                      <span><strong className="font-semibold text-soft-black">Delivery Charge:</strong> ৳ 50 (Inside CTG City) | ৳100 (Outside CTG)</span>
+                    </li>
+                  </ul>
+                  <p className="text-xs text-dark-charcoal/70 italic pt-1">
+                    * You will receive an SMS and phone confirmation as soon as your parcel is dispatched.
+                  </p>
+                </div>
               </Accordion>
 
               <Accordion 
@@ -630,24 +740,18 @@ const RetailPage = () => {
                 isOpen={!!openAccordions['disclaimer']} 
                 onClick={() => toggleAccordion('disclaimer')}
               >
-                <ul className="space-y-3">
+                <ul className="space-y-2.5 leading-relaxed text-dark-charcoal/90">
                   <li className="flex items-start">
-                    <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.4rem] mr-2.5 flex-shrink-0"></span>
-                    <p className="leading-relaxed text-dark-charcoal/90">
-                      Please note that actual product colors may vary slightly due to photographic lighting or monitor settings. A hassle-free return and refund policy is available.
-                      <Link to="/refund" className="inline-block ml-1.5 font-bold uppercase tracking-widest text-[10px] text-soft-black hover:text-terracotta underline underline-offset-4 transition-colors">
-                        Learn More!
-                      </Link>
-                    </p>
+                    <span className="w-1.5 h-1.5 rounded-none bg-terracotta mt-[0.45rem] mr-2.5 flex-shrink-0"></span>
+                    <span><strong className="font-semibold text-soft-black">Open-Box Checking:</strong> Please check your product in front of the delivery rider before making payment.</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.4rem] mr-2.5 flex-shrink-0"></span>
-                    <p className="leading-relaxed text-dark-charcoal/90">
-                      We request you to kindly inspect your item in front of the delivery personnel before completing your payment. Free instant returns are available for your peace of mind.
-                      <Link to="/refund" className="inline-block ml-1.5 font-bold uppercase tracking-widest text-[10px] text-soft-black hover:text-terracotta underline underline-offset-4 transition-colors">
-                        Learn More!
-                      </Link>
-                    </p>
+                    <span className="w-1.5 h-1.5 rounded-none bg-terracotta mt-[0.45rem] mr-2.5 flex-shrink-0"></span>
+                    <span><strong className="font-semibold text-soft-black">Instant Return:</strong> If you notice any size issue or defect, you can return it instantly with zero return hassle.</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="w-1.5 h-1.5 rounded-none bg-terracotta mt-[0.45rem] mr-2.5 flex-shrink-0"></span>
+                    <span><strong className="font-semibold text-soft-black">Color Note:</strong> Slight color variations may occur due to studio lighting and individual screen displays.</span>
                   </li>
                 </ul>
               </Accordion>
@@ -664,7 +768,7 @@ const RetailPage = () => {
             onClick={() => setIsSizeGuideOpen(false)}
             className="absolute inset-0 bg-soft-black/40 backdrop-blur-sm"
           />
-          <div className="bg-white border border-stone/20 w-full max-w-sm p-6 relative z-10 shadow-2xl rounded-xl text-center">
+          <div className="bg-white border border-stone/20 w-full max-w-sm p-6 relative z-10 shadow-2xl rounded-none text-center">
               <button 
                 onClick={() => setIsSizeGuideOpen(false)}
                 className="absolute top-4 right-4 text-soft-black/40 hover:text-soft-black transition-colors"
@@ -676,7 +780,7 @@ const RetailPage = () => {
               
               <h2 className="text-xl font-serif text-soft-black mb-5">Sizing Guide</h2>
               
-              <div className="w-full bg-stone/5 rounded-lg border border-stone/10 overflow-hidden mb-4">
+              <div className="w-full bg-stone/5 rounded-none border border-stone/10 overflow-hidden mb-4">
                 <div className="grid grid-cols-3 bg-stone/10 border-b border-stone/10 py-2">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Size</span>
                   <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Waist</span>
@@ -694,7 +798,7 @@ const RetailPage = () => {
                 </div>
               </div>
 
-              <div className="flex justify-between items-center px-4 py-3 bg-stone/5 rounded-lg border border-stone/10 mb-4">
+              <div className="flex justify-between items-center px-4 py-3 bg-stone/5 rounded-none border border-stone/10 mb-4">
                  <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Belt Width</span>
                  <span className="text-xs font-semibold text-soft-black">4 cm</span>
               </div>
@@ -713,7 +817,7 @@ const RetailPage = () => {
             onClick={() => setIsCareGuideOpen(false)}
             className="absolute inset-0 bg-soft-black/40 backdrop-blur-sm"
           />
-          <div className="bg-white border border-stone/20 w-full max-w-md md:max-w-lg p-6 relative z-10 shadow-2xl rounded-xl text-center max-h-[90vh] overflow-y-auto">
+          <div className="bg-white border border-stone/20 w-full max-w-md p-5 sm:p-6 relative z-10 shadow-2xl rounded-none text-center max-h-[90vh] overflow-y-auto">
               <button 
                 onClick={() => setIsCareGuideOpen(false)}
                 className="absolute top-4 right-4 text-soft-black/40 hover:text-soft-black transition-colors"
@@ -721,48 +825,29 @@ const RetailPage = () => {
                 <X className="w-5 h-5" />
               </button>
               
-              <img src="/logo_black.png" alt="AST Logo" className="h-5 w-auto mx-auto mb-4 object-contain opacity-80" />
+              <img src="/logo_black.png" alt="AST Logo" className="h-5 w-auto mx-auto mb-3 object-contain opacity-80" />
               
               <h2 className="text-xl md:text-2xl font-serif text-soft-black mb-1">Care Guide</h2>
-              <p className="text-xs md:text-sm font-light text-terracotta uppercase tracking-[0.15em] mb-5">Keep it clean. Keep it natural. Keep it beautiful.</p>
+              <p className="text-xs font-light text-terracotta uppercase tracking-[0.15em] mb-4">Keep it clean. Keep it natural.</p>
               
-              <div className="w-full bg-stone/5 rounded-lg border border-stone/10 overflow-hidden mb-5">
-                <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-stone/10 border-b border-stone/10">
-                  <div className="p-4 text-left">
-                    <h3 className="text-[11px] font-bold uppercase tracking-widest text-dark-charcoal mb-2 flex items-center gap-1.5"><span className="text-terracotta text-sm leading-none">•</span> Spot Clean</h3>
-                    <p className="text-xs text-soft-black/80 leading-relaxed">Gently wipe stains with a soft, damp cloth and mild soap.</p>
-                  </div>
-                  <div className="p-4 text-left">
-                    <h3 className="text-[11px] font-bold uppercase tracking-widest text-dark-charcoal mb-2 flex items-center gap-1.5"><span className="text-terracotta text-sm leading-none">•</span> Avoid Soaking</h3>
-                    <p className="text-xs text-soft-black/80 leading-relaxed">Do not machine wash, bleach, or dry clean. Excess water can affect the cotton fibers and shape.</p>
-                  </div>
+              <div className="w-full bg-stone/5 rounded-none border border-stone/10 overflow-hidden mb-4 text-left text-xs">
+                <div className="p-3 border-b border-stone/10">
+                  <h3 className="text-[11px] font-bold uppercase tracking-widest text-dark-charcoal mb-1 flex items-center gap-1.5"><span className="text-terracotta text-sm leading-none">•</span> Spot Clean Only</h3>
+                  <p className="text-soft-black/80 leading-relaxed">Gently wipe with a soft, damp cloth and mild soap. Avoid soaking, bleach, or machine washing.</p>
                 </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-stone/10 border-b border-stone/10">
-                  <div className="p-4 text-left">
-                    <h3 className="text-[11px] font-bold uppercase tracking-widest text-dark-charcoal mb-2 flex items-center gap-1.5"><span className="text-terracotta text-sm leading-none">•</span> Air Dry</h3>
-                    <p className="text-xs text-soft-black/80 leading-relaxed">If damp, reshape gently and let it air dry naturally. Keep away from direct heat.</p>
-                  </div>
-                  <div className="p-4 text-left">
-                    <h3 className="text-[11px] font-bold uppercase tracking-widest text-dark-charcoal mb-2 flex items-center gap-1.5"><span className="text-terracotta text-sm leading-none">•</span> Store with Care</h3>
-                    <p className="text-xs text-soft-black/80 leading-relaxed">Hang or loosely roll your belt. Avoid folding tightly or placing heavy items on it.</p>
-                  </div>
+                <div className="p-3 border-b border-stone/10">
+                  <h3 className="text-[11px] font-bold uppercase tracking-widest text-dark-charcoal mb-1 flex items-center gap-1.5"><span className="text-terracotta text-sm leading-none">•</span> Air Dry & Storage</h3>
+                  <p className="text-soft-black/80 leading-relaxed">Reshape gently and let air dry away from direct heat. Hang or loosely roll your belt.</p>
                 </div>
-
-                <div className="p-4 text-left">
-                  <h3 className="text-[11px] font-bold uppercase tracking-widest text-dark-charcoal mb-2 flex items-center gap-1.5"><span className="text-terracotta text-sm leading-none">•</span> Protect the Weave</h3>
-                  <p className="text-xs text-soft-black/80 leading-relaxed">Avoid sharp edges, rough surfaces, and excessive pulling that may catch or loosen the handmade knots.</p>
+                <div className="p-3">
+                  <h3 className="text-[11px] font-bold uppercase tracking-widest text-dark-charcoal mb-1 flex items-center gap-1.5"><span className="text-terracotta text-sm leading-none">•</span> Protect Knots</h3>
+                  <p className="text-soft-black/80 leading-relaxed">Avoid sharp surfaces and excessive pulling to preserve the handmade macramé weave.</p>
                 </div>
               </div>
 
-              <div className="px-2">
-                <p className="text-[13px] md:text-sm font-medium text-dark-charcoal/90 italic mb-1">
-                  Handmade with care. Loved with care.
-                </p>
-                <p className="text-[11px] md:text-xs text-soft-black/60 font-light">
-                  Your AST Macramé belt is crafted to age beautifully with proper care.
-                </p>
-              </div>
+              <p className="text-[11px] text-soft-black/60 italic font-light">
+                Handcrafted to age beautifully with proper care.
+              </p>
           </div>
         </div>
       )}
@@ -778,12 +863,12 @@ const RetailPage = () => {
           <div className="relative flex items-center justify-center w-full h-[85vh] md:h-full">
               <button 
                 onClick={handlePrevImage}
-                className="hidden md:flex absolute left-2 md:left-8 text-white z-[110] p-1.5 md:p-2.5 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full transition-all"
+                className="hidden md:flex absolute left-2 md:left-8 text-white z-[110] p-1.5 md:p-2.5 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-none transition-all"
               >
                 <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
               </button>
               
-              <div className="relative w-full h-full md:max-h-[95vh] md:max-w-[95vw] aspect-[4/5] flex items-center justify-center overflow-hidden rounded-none md:rounded-xl bg-black md:bg-transparent">
+              <div className="relative w-full h-full md:max-h-[95vh] md:max-w-[95vw] aspect-[4/5] flex items-center justify-center overflow-hidden rounded-none bg-black md:bg-transparent">
                 <button 
                   onClick={() => { setLightboxImage(null); setZoomLevel(1); }}
                   className="absolute top-2 right-2 md:top-4 md:right-4 text-white mix-blend-difference z-[110] transition-transform hover:scale-110 p-2"
@@ -810,7 +895,7 @@ const RetailPage = () => {
                       </TransformComponent>
                       
                       {/* Mobile Zoom Controls */}
-                      <div className="md:hidden absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-6 z-[110] bg-black/60 backdrop-blur-md px-6 py-2.5 rounded-full border border-white/20">
+                      <div className="md:hidden absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-6 z-[110] bg-black/60 backdrop-blur-md px-6 py-2.5 rounded-none border border-white/20">
                         <button onClick={() => zoomOut()} className="text-white hover:text-terracotta transition-colors"><Minus className="w-5 h-5" /></button>
                         <button onClick={() => resetTransform()} className="text-[10px] text-white font-bold uppercase tracking-widest hover:text-terracotta transition-colors">Reset</button>
                         <button onClick={() => zoomIn()} className="text-white hover:text-terracotta transition-colors"><Plus className="w-5 h-5" /></button>
@@ -822,7 +907,7 @@ const RetailPage = () => {
 
               <button 
                 onClick={handleNextImage}
-                className="hidden md:flex absolute right-2 md:right-8 text-white z-[110] p-1.5 md:p-2.5 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full transition-all"
+                className="hidden md:flex absolute right-2 md:right-8 text-white z-[110] p-1.5 md:p-2.5 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-none transition-all"
               >
                 <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
               </button>
@@ -834,7 +919,7 @@ const RetailPage = () => {
                 <button 
                   key={idx}
                   onClick={() => { setLightboxImage(img); setZoomLevel(1); }}
-                  className={`w-14 h-14 shrink-0 rounded-md overflow-hidden border-2 transition-all ${lightboxImage === img ? 'border-terracotta scale-105' : 'border-transparent opacity-50'}`}
+                  className={`w-14 h-14 shrink-0 rounded-none overflow-hidden border-2 transition-all ${lightboxImage === img ? 'border-terracotta scale-105' : 'border-transparent opacity-50'}`}
                 >
                   <img src={img} className="w-full h-full object-cover" alt="Thumbnail" />
                 </button>
@@ -855,67 +940,192 @@ const RetailPage = () => {
         comboSize2={comboSize2}
       />
 
-      {/* Retail Features - Clean, Borderless Layout */}
-      <section className="pt-12 md:pt-24 pb-8 md:pb-12 bg-cotton-white px-4 md:px-6 border-t border-stone/10">
-        <div className="max-w-5xl mx-auto w-full">
-          <div className="flex flex-col md:flex-row justify-between md:justify-center items-stretch md:items-start w-full gap-5 md:gap-8 lg:gap-16 px-2 md:px-0">
-            
-            {/* Feature 1 */}
-            <div className="flex flex-row md:flex-col items-center md:items-center text-left md:text-center flex-1 group px-1 md:px-0 gap-5 md:gap-0">
-              <div className="w-12 h-12 md:w-16 md:h-16 mb-0 md:mb-5 text-terracotta flex items-center justify-center transition-transform duration-500 group-hover:-translate-y-2 shrink-0 bg-stone/5 md:bg-transparent rounded-full md:rounded-none border md:border-transparent border-stone/10 md:border-none shadow-sm md:shadow-none">
-                <Sparkles strokeWidth={1.5} className="w-6 h-6 md:w-8 md:h-8" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-[15px] md:text-lg font-serif font-bold md:font-normal mb-1 md:mb-3 text-soft-black leading-tight">
-                  Handcrafted
-                </h3>
-                <p className="text-dark-charcoal/70 text-[13px] md:text-sm leading-relaxed md:leading-relaxed">
-                  Meticulously hand-woven by master artisans. Every knot is tied with precision to preserve traditional craftsmanship.
-                </p>
-              </div>
-            </div>
+      {/* Frequently Asked Questions Section */}
+      <section className="py-14 md:py-20 bg-[#FAF7F2] border-t border-stone/20 px-4 sm:px-6 lg:px-12">
+        <div className="max-w-4xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-8 md:mb-14">
+            <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-terracotta mb-2 inline-block">
+              Got Questions? We Have Answers
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-soft-black font-normal mb-3">
+              Frequently Asked Questions (FAQ)
+            </h2>
+            <p className="text-xs md:text-sm text-dark-charcoal/70 max-w-xl mx-auto leading-relaxed">
+              Everything you need to know about our handcrafted macramé belts, custom sizing, cash on delivery, and doorstep inspection.
+            </p>
+          </div>
 
-            {/* Partitions */}
-            <div className="md:hidden w-full h-px bg-gradient-to-r from-transparent via-stone/20 to-transparent my-1"></div>
-            <div className="hidden md:block w-px h-24 bg-gradient-to-b from-transparent via-stone/40 to-transparent mt-4 shrink-0"></div>
-            
-            {/* Feature 2 */}
-            <div className="flex flex-row md:flex-col items-center md:items-center text-left md:text-center flex-1 group px-1 md:px-0 gap-5 md:gap-0">
-              <div className="w-12 h-12 md:w-16 md:h-16 mb-0 md:mb-5 text-terracotta flex items-center justify-center transition-transform duration-500 group-hover:-translate-y-2 shrink-0 bg-stone/5 md:bg-transparent rounded-full md:rounded-none border md:border-transparent border-stone/10 md:border-none shadow-sm md:shadow-none">
-                <Leaf strokeWidth={1.5} className="w-6 h-6 md:w-8 md:h-8" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-[15px] md:text-lg font-serif font-bold md:font-normal mb-1 md:mb-3 text-soft-black leading-tight">
-                  100% Cotton
-                </h3>
-                <p className="text-dark-charcoal/70 text-[13px] md:text-sm leading-relaxed md:leading-relaxed">
-                  Crafted from premium, eco-friendly cotton cords for a natural texture and superior durability built to last.
-                </p>
-              </div>
-            </div>
+          {/* Collapsible FAQ Accordion List */}
+          <div className="space-y-3">
+            {faqs.map((faq, idx) => {
+              const isOpen = openFaq === idx;
+              return (
+                <div 
+                  key={idx}
+                  className={`border transition-all duration-200 rounded-none overflow-hidden ${
+                    isOpen 
+                      ? 'bg-white border-[#D1CCC0] shadow-sm' 
+                      : 'bg-white/80 border-stone/20 hover:border-stone/40 hover:bg-white'
+                  }`}
+                >
+                  <button
+                    onClick={() => toggleFaq(idx)}
+                    className="w-full p-3.5 sm:p-4 md:p-5 text-left flex items-center justify-between gap-3 cursor-pointer select-none"
+                    aria-expanded={isOpen}
+                  >
+                    <div className="flex flex-col gap-0.5 pr-2">
+                      <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-terracotta">
+                        {faq.category}
+                      </span>
+                      <h3 className="text-xs sm:text-sm md:text-base font-serif font-bold text-soft-black leading-snug">
+                        {faq.question}
+                      </h3>
+                    </div>
+                    <div className={`w-6 h-6 sm:w-7 sm:h-7 shrink-0 rounded-none flex items-center justify-center border transition-colors ${
+                      isOpen ? 'bg-soft-black text-white border-soft-black' : 'border-stone/30 text-soft-black/70 bg-stone/5'
+                    }`}>
+                      {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
+                    </div>
+                  </button>
 
-            {/* Partitions */}
-            <div className="md:hidden w-full h-px bg-gradient-to-r from-transparent via-stone/20 to-transparent my-1"></div>
-            <div className="hidden md:block w-px h-24 bg-gradient-to-b from-transparent via-stone/40 to-transparent mt-4 shrink-0"></div>
-            
-            {/* Feature 3 */}
-            <div className="flex flex-row md:flex-col items-center md:items-center text-left md:text-center flex-1 group px-1 md:px-0 gap-5 md:gap-0">
-              <div className="w-12 h-12 md:w-16 md:h-16 mb-0 md:mb-5 text-terracotta flex items-center justify-center transition-transform duration-500 group-hover:-translate-y-2 shrink-0 bg-stone/5 md:bg-transparent rounded-full md:rounded-none border md:border-transparent border-stone/10 md:border-none shadow-sm md:shadow-none">
-                <Banknote strokeWidth={1.5} className="w-6 h-6 md:w-8 md:h-8" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-[15px] md:text-lg font-serif font-bold md:font-normal mb-1 md:mb-3 text-soft-black leading-tight">
-                  COD Available
-                </h3>
-                <p className="text-dark-charcoal/70 text-[13px] md:text-sm leading-relaxed md:leading-relaxed">
-                  Enjoy fast, reliable Cash on Delivery nationwide across Bangladesh for a seamless shopping experience.
-                </p>
-              </div>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25, ease: "easeInOut" }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-3.5 pb-4 pt-1 sm:px-4 sm:pb-5 md:px-5 md:pb-6 text-xs md:text-sm text-dark-charcoal/85 leading-relaxed border-t border-stone/10 whitespace-pre-line font-sans">
+                          {faq.answer}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* WhatsApp Support Prompt */}
+          <div className="mt-8 md:mt-12 p-4 sm:p-6 bg-white border border-[#E5E0D6] flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left shadow-sm">
+            <div>
+              <h4 className="text-xs sm:text-sm md:text-base font-serif font-bold text-soft-black mb-1">
+                Still have an unanswered question?
+              </h4>
+              <p className="text-[11px] sm:text-xs text-dark-charcoal/70">
+                Our support team is available on WhatsApp for direct assistance and custom queries.
+              </p>
             </div>
-            
+            <a
+              href="https://wa.me/8801940689061"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#25D366] text-white px-4 sm:px-5 py-2.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider rounded-none hover:bg-[#1EBE5D] transition-colors shrink-0 shadow-sm"
+            >
+              <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+              </svg>
+              <span>Chat on WhatsApp</span>
+            </a>
           </div>
         </div>
       </section>
+
+      {/* Retail Trust Badges - 3-Column Grid */}
+      <section className="pt-8 md:pt-16 pb-8 md:pb-12 bg-cotton-white px-2 sm:px-4 md:px-6 border-t border-stone/15">
+        <div className="max-w-5xl mx-auto w-full">
+          <div className="grid grid-cols-3 gap-1.5 sm:gap-4 md:gap-8 items-start text-center divide-x divide-stone/20">
+            
+            {/* Badge 1 */}
+            <div className="flex flex-col items-center px-1 sm:px-3">
+              <div className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 mb-2 md:mb-3 text-terracotta flex items-center justify-center bg-stone/5 rounded-none border border-stone/10 shadow-sm">
+                <Sparkles strokeWidth={1.5} className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
+              </div>
+              <h3 className="text-[11px] sm:text-[13px] md:text-base font-serif font-bold text-black leading-tight mb-1">
+                100% Handcrafted
+              </h3>
+              <p className="text-black/80 text-[9.5px] sm:text-[11px] md:text-xs leading-snug md:leading-relaxed">
+                Tied with precision knotting for unmatched artisan durability.
+              </p>
+            </div>
+
+            {/* Badge 2 */}
+            <div className="flex flex-col items-center px-1 sm:px-3">
+              <div className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 mb-2 md:mb-3 text-terracotta flex items-center justify-center bg-stone/5 rounded-none border border-stone/10 shadow-sm">
+                <Leaf strokeWidth={1.5} className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
+              </div>
+              <h3 className="text-[11px] sm:text-[13px] md:text-base font-serif font-bold text-black leading-tight mb-1">
+                Pure Cotton Cord
+              </h3>
+              <p className="text-black/80 text-[9.5px] sm:text-[11px] md:text-xs leading-snug md:leading-relaxed">
+                Breathable, soft on the waist, and free of synthetic plastics.
+              </p>
+            </div>
+
+            {/* Badge 3 */}
+            <div className="flex flex-col items-center px-1 sm:px-3">
+              <div className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 mb-2 md:mb-3 text-terracotta flex items-center justify-center bg-stone/5 rounded-none border border-stone/10 shadow-sm">
+                <Banknote strokeWidth={1.5} className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
+              </div>
+              <h3 className="text-[11px] sm:text-[13px] md:text-base font-serif font-bold text-black leading-tight mb-1">
+                Safe COD Delivery
+              </h3>
+              <p className="text-black/80 text-[9.5px] sm:text-[11px] md:text-xs leading-snug md:leading-relaxed">
+                Inspect before payment with instant on-the-spot returns.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Sticky Bottom Order Bar */}
+      <AnimatePresence>
+        {showStickyBar && (
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed bottom-0 left-0 right-0 z-40 bg-cotton-white/95 backdrop-blur-md border-t border-stone/20 px-3 sm:px-6 py-2.5 sm:py-3 shadow-[0_-4px_25px_rgba(0,0,0,0.12)]"
+          >
+            <div className="max-w-5xl mx-auto flex items-center justify-between gap-2.5 sm:gap-4">
+              <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 bg-stone/10 rounded-none overflow-hidden shrink-0 border border-stone/20">
+                  <img 
+                    src={colorImages[selectedColor][0]} 
+                    alt="AST Macrame Belt" 
+                    className="w-full h-full object-cover mix-blend-multiply" 
+                  />
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className="text-[11px] sm:text-xs md:text-sm font-serif font-bold text-soft-black truncate">
+                    AST Handmade Belt
+                  </span>
+                  <div className="flex items-center gap-1.5 text-[10px] sm:text-xs">
+                    <span className="text-terracotta font-bold">
+                      {orderType === 'single' ? '৳ 990' : '৳ 1,790'}
+                    </span>
+                    <span className="text-dark-charcoal/60 truncate">
+                      {orderType === 'single' ? `• ${selectedColor} (${selectedSize})` : `• Combo`}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                onClick={handleStickyOrderClick}
+                className="bg-terracotta text-cream hover:bg-muted-burgundy px-4 sm:px-7 py-2.5 sm:py-3 text-[10px] sm:text-xs font-bold uppercase tracking-widest rounded-none shadow-md transition-all active:scale-[0.99] shrink-0 flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>ORDER NOW</span>
+                <ArrowUp className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
     </>
   );

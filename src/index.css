@@ -78,6 +78,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Base custom utilities */
+.font-bengali {
+  font-family: 'Noto Serif Bengali', serif !important;
+}
+
 .glass {
   background: rgba(253, 251, 247, 0.8);
   backdrop-filter: blur(12px);
