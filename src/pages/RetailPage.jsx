@@ -1023,8 +1023,8 @@ const RetailPage = () => {
             </p>
           </div>
 
-          {/* 2-Level Collapsible Accordion System */}
-          <div className="space-y-2 sm:space-y-2.5">
+          {/* 2-Level Collapsible Accordion System - Clean & Flat */}
+          <div className="space-y-2">
             {faqCategories?.map((category) => {
               const isCatOpen = openCategory === category.id;
               const activeQ = openQuestions?.[category.id] ?? null;
@@ -1032,10 +1032,10 @@ const RetailPage = () => {
               return (
                 <div 
                   key={category.id}
-                  className={`border transition-all duration-200 rounded-none overflow-hidden ${
+                  className={`transition-all duration-200 rounded-none overflow-hidden ${
                     isCatOpen 
-                      ? 'bg-white border-[#D1CCC0] shadow-sm' 
-                      : 'bg-white/80 border-[#E5E0D6] hover:bg-white hover:border-[#D1CCC0]'
+                      ? 'bg-white' 
+                      : 'bg-white/70 hover:bg-white'
                   }`}
                 >
                   {/* Category Header Button */}
@@ -1043,22 +1043,16 @@ const RetailPage = () => {
                     onClick={() => toggleCategory(category.id)}
                     className="w-full p-3 sm:p-4 flex items-center justify-between text-left cursor-pointer select-none transition-colors"
                   >
-                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 pr-2">
-                      <div className={`w-6 h-6 sm:w-7 sm:h-7 shrink-0 flex items-center justify-center border transition-colors ${
-                        isCatOpen 
-                          ? 'bg-soft-black text-white border-soft-black' 
-                          : 'bg-[#FAF7F2] text-soft-black border-[#E5E0D6]'
-                      }`}>
-                        <span className="font-serif font-bold text-[11px] sm:text-xs">
-                          {category.number}
-                        </span>
-                      </div>
+                    <div className="flex items-center gap-3 min-w-0 pr-2">
+                      <span className="font-serif font-bold text-xs sm:text-sm text-terracotta shrink-0">
+                        {category.number}
+                      </span>
                       <div className="flex flex-col min-w-0">
                         <div className="flex items-center gap-2">
                           <h3 className="text-xs sm:text-sm md:text-base font-serif font-bold text-soft-black truncate">
                             {category.name}
                           </h3>
-                          <span className="text-[8.5px] sm:text-[9.5px] font-sans font-semibold text-terracotta bg-terracotta/10 px-1.5 py-0.2 shrink-0">
+                          <span className="text-[8.5px] sm:text-[9.5px] font-sans font-medium text-dark-charcoal/60 bg-stone/10 px-1.5 py-0.2 shrink-0">
                             {category.questions.length} Qs
                           </span>
                         </div>
@@ -1083,9 +1077,9 @@ const RetailPage = () => {
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.25, ease: "easeInOut" }}
-                        className="overflow-hidden border-t border-[#E5E0D6] bg-[#FAF7F2]/60"
+                        className="overflow-hidden bg-[#FAF7F2]/40"
                       >
-                        <div className="divide-y divide-stone/15">
+                        <div className="divide-y divide-stone/10">
                           {category.questions.map((item, qIdx) => {
                             const isQOpen = activeQ === qIdx;
                             return (
@@ -1117,7 +1111,7 @@ const RetailPage = () => {
                                       transition={{ duration: 0.2, ease: "easeInOut" }}
                                       className="overflow-hidden"
                                     >
-                                      <div className="px-3 py-2.5 mb-2.5 text-[11px] sm:text-xs md:text-sm text-dark-charcoal/80 leading-relaxed font-sans whitespace-pre-line bg-white/80 mx-2 sm:mx-3.5 border border-[#E5E0D6]/80">
+                                      <div className="px-3 sm:px-5 pb-3 text-[11px] sm:text-xs md:text-sm text-dark-charcoal/80 leading-relaxed font-sans whitespace-pre-line">
                                         {item.a}
                                       </div>
                                     </motion.div>
@@ -1135,8 +1129,8 @@ const RetailPage = () => {
             })}
           </div>
 
-          {/* Quick WhatsApp Support Prompt */}
-          <div className="mt-5 sm:mt-7 p-3.5 sm:p-4 bg-white border border-[#E5E0D6] flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3 text-center sm:text-left shadow-sm">
+          {/* Quick WhatsApp Support Prompt - Clean & Flat */}
+          <div className="mt-5 sm:mt-7 p-3.5 sm:p-4 bg-white flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3 text-center sm:text-left">
             <div>
               <h4 className="text-xs sm:text-sm font-serif font-bold text-soft-black">
                 Have a specific question?
@@ -1149,7 +1143,7 @@ const RetailPage = () => {
               href="https://wa.me/8801940689061"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 bg-[#25D366] text-white px-3.5 py-1.5 text-[10.5px] sm:text-[11px] font-bold uppercase tracking-wider rounded-none hover:bg-[#1EBE5D] transition-colors shrink-0 shadow-sm"
+              className="inline-flex items-center gap-1.5 bg-[#25D366] text-white px-3.5 py-1.5 text-[10.5px] sm:text-[11px] font-bold uppercase tracking-wider rounded-none hover:bg-[#1EBE5D] transition-colors shrink-0"
             >
               <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
@@ -1167,8 +1161,8 @@ const RetailPage = () => {
             
             {/* Badge 1 */}
             <div className="flex flex-col items-center px-1 sm:px-3">
-              <div className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 mb-2 md:mb-3 text-terracotta flex items-center justify-center bg-stone/5 rounded-none border border-stone/10 shadow-sm">
-                <Sparkles strokeWidth={1.5} className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
+              <div className="w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 mb-2 md:mb-3 text-terracotta flex items-center justify-center rounded-full border border-stone/30">
+                <Sparkles strokeWidth={1.5} className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
               </div>
               <h3 className="text-[11px] sm:text-[13px] md:text-base font-serif font-bold text-black leading-tight mb-1">
                 100% Handcrafted
@@ -1180,8 +1174,8 @@ const RetailPage = () => {
 
             {/* Badge 2 */}
             <div className="flex flex-col items-center px-1 sm:px-3">
-              <div className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 mb-2 md:mb-3 text-terracotta flex items-center justify-center bg-stone/5 rounded-none border border-stone/10 shadow-sm">
-                <Leaf strokeWidth={1.5} className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
+              <div className="w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 mb-2 md:mb-3 text-terracotta flex items-center justify-center rounded-full border border-stone/30">
+                <Leaf strokeWidth={1.5} className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
               </div>
               <h3 className="text-[11px] sm:text-[13px] md:text-base font-serif font-bold text-black leading-tight mb-1">
                 Pure Cotton Cord
@@ -1193,8 +1187,8 @@ const RetailPage = () => {
 
             {/* Badge 3 */}
             <div className="flex flex-col items-center px-1 sm:px-3">
-              <div className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 mb-2 md:mb-3 text-terracotta flex items-center justify-center bg-stone/5 rounded-none border border-stone/10 shadow-sm">
-                <Banknote strokeWidth={1.5} className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
+              <div className="w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 mb-2 md:mb-3 text-terracotta flex items-center justify-center rounded-full border border-stone/30">
+                <Banknote strokeWidth={1.5} className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
               </div>
               <h3 className="text-[11px] sm:text-[13px] md:text-base font-serif font-bold text-black leading-tight mb-1">
                 Safe COD Delivery
@@ -1254,7 +1248,7 @@ const RetailPage = () => {
                   className="relative z-10 bg-[#1C2841] hover:bg-[#131E33] text-white px-4 sm:px-7 py-2.5 sm:py-3 text-[10.5px] sm:text-xs font-bold uppercase tracking-widest rounded-none transition-all active:scale-[0.98] flex items-center gap-1.5 cursor-pointer"
                 >
                   <span className="font-bold tracking-widest">ORDER NOW</span>
-                  <ArrowUp className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform" />
+                  <ArrowUp className="w-3.5 h-3.5 animate-arrow-up" />
                 </button>
               </div>
             </div>

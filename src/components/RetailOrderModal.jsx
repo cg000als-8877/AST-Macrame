@@ -254,7 +254,8 @@ const RetailOrderModal = ({
     const scriptUrl = import.meta.env.VITE_APPS_SCRIPT_URL;
 
     try {
-      const delay = new Promise(resolve => setTimeout(resolve, 2000));
+      // 3-second realistic processing delay
+      const delay = new Promise(resolve => setTimeout(resolve, 3000));
       
       await Promise.all([
         fetch(scriptUrl, {
@@ -292,16 +293,41 @@ const RetailOrderModal = ({
     try {
       setIsDownloading(true);
       const canvas = await html2canvas(receiptRef.current, {
-        scale: 2.5,
+        scale: 3,
         useCORS: true,
         backgroundColor: '#FFFFFF',
         logging: false,
       });
 
-      const image = canvas.toDataURL('image/jpeg', 0.95);
+      const image = canvas.toDataURL('image/jpeg', 0.96);
+      const filename = `${orderReceipt?.orderId || 'AST-Receipt'}.jpg`;
+
+      // Try Mobile Native Share (allows direct "Save Image / Add to Photos" in gallery on iOS & Android)
+      if (navigator.canShare && navigator.share) {
+        try {
+          const blob = await (await fetch(image)).blob();
+          const file = new File([blob], filename, { type: 'image/jpeg' });
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              files: [file],
+              title: `AST Macramé Receipt`,
+              text: `Official Order Receipt - ${orderReceipt?.orderId}`
+            });
+            setDownloadSuccess(true);
+            setTimeout(() => setDownloadSuccess(false), 3000);
+            return;
+          }
+        } catch (shareErr) {
+          if (shareErr.name !== 'AbortError') {
+            console.log('Share fallback to download link:', shareErr);
+          }
+        }
+      }
+
+      // Direct download fallback
       const link = document.createElement('a');
       link.href = image;
-      link.download = `${orderReceipt?.orderId || 'AST-Receipt'}.jpg`;
+      link.download = filename;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -323,12 +349,13 @@ const RetailOrderModal = ({
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-6 lg:p-12">
+          {/* Blurred Background Backdrop */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={!isSubmitting ? onClose : undefined}
+            className="absolute inset-0 bg-black/75 backdrop-blur-md"
           />
           <motion.div 
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -336,17 +363,33 @@ const RetailOrderModal = ({
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             className="bg-cream w-full h-full md:h-auto md:max-h-full max-w-5xl p-4 sm:p-5 md:p-8 rounded-none shadow-2xl overflow-y-auto relative flex flex-col md:block"
           >
-            <button 
-              onClick={onClose}
-              className="absolute top-4 left-4 md:top-6 md:left-6 flex items-center gap-1.5 text-soft-black/70 hover:text-soft-black transition-colors z-20 group cursor-pointer"
-              aria-label="Back"
-            >
-              <ArrowLeft size={18} className="group-hover:-translate-x-0.5 transition-transform" />
-              <span className="text-[11px] md:text-xs font-bold uppercase tracking-wider">Back</span>
-            </button>
+            {!isSubmitting && (
+              <button 
+                onClick={onClose}
+                className="absolute top-4 left-4 md:top-6 md:left-6 flex items-center gap-1.5 text-soft-black/70 hover:text-soft-black transition-colors z-20 group cursor-pointer"
+                aria-label="Back"
+              >
+                <ArrowLeft size={18} className="group-hover:-translate-x-0.5 transition-transform" />
+                <span className="text-[11px] md:text-xs font-bold uppercase tracking-wider">Back</span>
+              </button>
+            )}
             
             <div className="relative z-10">
-            {isSuccess && orderReceipt ? (
+            {isSubmitting ? (
+              /* 3-Second Realistic Loading Animation */
+              <div className="py-16 md:py-24 flex flex-col items-center justify-center text-center">
+                <div className="relative w-16 h-16 mb-5 flex items-center justify-center">
+                  <div className="w-14 h-14 rounded-full border-3 border-stone/20 border-t-[#1C2841] animate-spin" />
+                  <img src="/logo_black.png" alt="AST" className="h-4 w-auto absolute opacity-70" />
+                </div>
+                <h3 className="text-base sm:text-lg font-serif font-bold text-soft-black mb-1.5">
+                  Confirming Your Order...
+                </h3>
+                <p className="text-xs text-dark-charcoal/70 max-w-xs leading-relaxed font-sans">
+                  Reserving your handcrafted belt and generating your official order receipt.
+                </p>
+              </div>
+            ) : isSuccess && orderReceipt ? (
               <div className="py-4 md:py-6 flex flex-col items-center justify-center">
                 
                 {/* Printable / Monospace White Receipt */}
@@ -468,36 +511,24 @@ const RetailOrderModal = ({
 
                 </div>
 
-                {/* Modal actions */}
-                <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
+                {/* Modal action - Save Receipt Image */}
+                <div className="flex items-center justify-center mt-6 w-full max-w-lg mx-auto">
                   <button 
                     onClick={handleDownloadReceipt}
                     disabled={isDownloading}
-                    className="bg-[#1C2841] text-white hover:bg-[#131E33] px-5 sm:px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition-all shadow-md cursor-pointer font-mono flex items-center gap-2 active:scale-95 disabled:opacity-75"
+                    className="w-full sm:w-auto bg-[#1C2841] text-white hover:bg-[#131E33] px-8 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-lg cursor-pointer font-mono flex items-center justify-center gap-2.5 active:scale-95 disabled:opacity-75"
                   >
                     {downloadSuccess ? (
                       <>
                         <Check className="w-4 h-4 text-emerald-400" />
-                        <span>Saved to Device!</span>
+                        <span>Saved to Gallery! ✓</span>
                       </>
                     ) : (
                       <>
                         <Download className="w-4 h-4" />
-                        <span>{isDownloading ? 'Saving JPG...' : 'Download Receipt (JPG)'}</span>
+                        <span>{isDownloading ? 'Saving Image to Gallery...' : 'Save Receipt to Gallery (JPG)'}</span>
                       </>
                     )}
-                  </button>
-                  <button 
-                    onClick={() => window.print()}
-                    className="bg-white border border-soft-black text-soft-black hover:bg-stone/10 px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer shadow-sm font-mono"
-                  >
-                    Print Receipt
-                  </button>
-                  <button 
-                    onClick={onClose} 
-                    className="bg-stone/15 text-soft-black hover:bg-stone/25 px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors shadow-sm cursor-pointer font-mono"
-                  >
-                    Close Window
                   </button>
                 </div>
               </div>
