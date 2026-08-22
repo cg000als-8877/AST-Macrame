@@ -289,7 +289,7 @@ const RetailOrderModal = ({
   };
 
   const handleDownloadReceipt = async () => {
-    if (!receiptRef.current || isDownloading) return;
+    if (!receiptRef.current) return;
     try {
       setIsDownloading(true);
       
@@ -307,28 +307,7 @@ const RetailOrderModal = ({
 
       const filename = `AST-Receipt-${orderReceipt?.orderId || 'Order'}.jpg`;
 
-      // Try Mobile Native Share (allows direct "Save Image / Add to Photos" in gallery on iOS & Android)
-      if (navigator.canShare && navigator.share) {
-        try {
-          const file = new File([blob], filename, { type: 'image/jpeg' });
-          if (navigator.canShare({ files: [file] })) {
-            await navigator.share({
-              files: [file],
-              title: `AST Macramé Receipt`,
-              text: `Official Order Receipt - ${orderReceipt?.orderId}`
-            });
-            setDownloadSuccess(true);
-            setTimeout(() => setDownloadSuccess(false), 3000);
-            return;
-          }
-        } catch (shareErr) {
-          if (shareErr.name !== 'AbortError') {
-            console.log('Share fallback:', shareErr);
-          }
-        }
-      }
-
-      // Direct link download
+      // Direct automatic download to device storage/gallery
       const blobUrl = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.download = filename;
@@ -336,16 +315,29 @@ const RetailOrderModal = ({
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
 
       setDownloadSuccess(true);
-      setTimeout(() => setDownloadSuccess(false), 3000);
+      setTimeout(() => setDownloadSuccess(false), 3500);
     } catch (err) {
       console.error('Failed to download receipt image:', err);
     } finally {
       setIsDownloading(false);
     }
   };
+
+  // Automatically trigger receipt download to customer device upon successful order
+  useEffect(() => {
+    let timer;
+    if (isSuccess && orderReceipt) {
+      timer = setTimeout(() => {
+        handleDownloadReceipt();
+      }, 700);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [isSuccess, orderReceipt]);
 
   const deliveryCost = deliveryType === 'inside' ? 50 : 100;
   const productCost = orderType === 'single' ? 990 : 1790;
