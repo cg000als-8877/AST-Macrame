@@ -223,15 +223,31 @@ const RetailPage = () => {
     Khaki: [k1, k2, k3, k4],
   };
 
+  const allColorGalleryItems = [
+    ...colorImages.Black.map((img, idx) => ({ color: 'Black', img, subIndex: idx })),
+    ...colorImages.Navy.map((img, idx) => ({ color: 'Navy', img, subIndex: idx })),
+    ...colorImages.Brown.map((img, idx) => ({ color: 'Brown', img, subIndex: idx })),
+    ...colorImages.Maroon.map((img, idx) => ({ color: 'Maroon', img, subIndex: idx })),
+    ...colorImages.Khaki.map((img, idx) => ({ color: 'Khaki', img, subIndex: idx })),
+  ];
+
   // Safely fallback to Black images if no color is selected yet
   const displayColor = selectedColor || 'Black';
   const images = colorImages[displayColor];
 
   const handleColorChange = (colorName) => {
     setSelectedColor(colorName);
-    setActiveIndex(0); // Reset gallery when color changes
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({ left: 0, behavior: 'auto' });
+    const targetIdx = allColorGalleryItems.findIndex(item => item.color === colorName);
+    if (targetIdx !== -1) {
+      setActiveIndex(targetIdx);
+      if (scrollRef.current) {
+        const firstChild = scrollRef.current.children[0];
+        const itemWidth = firstChild ? firstChild.offsetWidth : scrollRef.current.scrollWidth / allColorGalleryItems.length;
+        scrollRef.current.scrollTo({
+          left: itemWidth * targetIdx,
+          behavior: 'smooth'
+        });
+      }
     }
   };
 
@@ -243,27 +259,39 @@ const RetailPage = () => {
 
   const handleScroll = (e) => {
     const { scrollLeft, scrollWidth } = e.target;
-    if (scrollRef.current && images.length > 0) {
+    if (scrollRef.current && allColorGalleryItems.length > 0) {
       const firstChild = scrollRef.current.children[0];
-      const itemWidth = firstChild ? firstChild.offsetWidth + 1 : scrollWidth / images.length;
+      const itemWidth = firstChild ? firstChild.offsetWidth : scrollWidth / allColorGalleryItems.length;
       const newIndex = Math.round(scrollLeft / itemWidth);
-      if (newIndex >= 0 && newIndex < images.length && newIndex !== activeIndex) {
+      if (newIndex >= 0 && newIndex < allColorGalleryItems.length && newIndex !== activeIndex) {
         setActiveIndex(newIndex);
+        const item = allColorGalleryItems[newIndex];
+        if (item && item.color !== selectedColor) {
+          setSelectedColor(item.color);
+        }
       }
     }
   };
 
-  const scrollToDot = (idx) => {
-    setActiveIndex(idx);
-    if (scrollRef.current) {
-      const firstChild = scrollRef.current.children[0];
-      const itemWidth = firstChild ? firstChild.offsetWidth + 1 : scrollRef.current.scrollWidth / images.length;
-      scrollRef.current.scrollTo({
-        left: itemWidth * idx,
-        behavior: 'smooth'
-      });
+  const scrollToSubIndex = (subIdx) => {
+    const currentColor = selectedColor || 'Black';
+    const targetIdx = allColorGalleryItems.findIndex(
+      item => item.color === currentColor && item.subIndex === subIdx
+    );
+    if (targetIdx !== -1) {
+      setActiveIndex(targetIdx);
+      if (scrollRef.current) {
+        const firstChild = scrollRef.current.children[0];
+        const itemWidth = firstChild ? firstChild.offsetWidth : scrollRef.current.scrollWidth / allColorGalleryItems.length;
+        scrollRef.current.scrollTo({
+          left: itemWidth * targetIdx,
+          behavior: 'smooth'
+        });
+      }
     }
   };
+
+  const currentSubIndex = allColorGalleryItems[activeIndex]?.subIndex ?? 0;
 
   const minSwipeDistance = 50;
 
@@ -291,18 +319,18 @@ const RetailPage = () => {
 
   const handleNextImage = (e) => {
     if (e) e.stopPropagation();
-    const currentIdx = images.indexOf(lightboxImage);
+    const currentIdx = allColorGalleryItems.findIndex(item => item.img === lightboxImage);
     if (currentIdx !== -1) {
-      setLightboxImage(images[(currentIdx + 1) % images.length]);
+      setLightboxImage(allColorGalleryItems[(currentIdx + 1) % allColorGalleryItems.length].img);
       setZoomLevel(1);
     }
   };
 
   const handlePrevImage = (e) => {
     if (e) e.stopPropagation();
-    const currentIdx = images.indexOf(lightboxImage);
+    const currentIdx = allColorGalleryItems.findIndex(item => item.img === lightboxImage);
     if (currentIdx !== -1) {
-      setLightboxImage(images[(currentIdx - 1 + images.length) % images.length]);
+      setLightboxImage(allColorGalleryItems[(currentIdx - 1 + allColorGalleryItems.length) % allColorGalleryItems.length].img);
       setZoomLevel(1);
     }
   };
@@ -388,13 +416,13 @@ const RetailPage = () => {
                   {images.map((img, idx) => (
                     <button
                       key={idx}
-                      onClick={() => scrollToDot(idx)}
-                      className={`relative aspect-[4/5] w-full overflow-hidden transition-all rounded-none ${
-                        activeIndex === idx
-                          ? 'border-2 border-terracotta ring-1 ring-terracotta shadow-sm'
-                          : 'border border-stone/30 hover:border-stone/60'
+                      onClick={() => scrollToSubIndex(idx)}
+                      className={`relative aspect-[4/5] w-full overflow-hidden transition-all duration-300 rounded-none cursor-pointer ${
+                        currentSubIndex === idx
+                          ? 'border-[1.5px] border-terracotta shadow-sm scale-[1.03]'
+                          : 'border border-stone/25 hover:border-stone/50'
                       }`}
-                      aria-label={`Select product image ${idx + 1}`}
+                      aria-label={`Select product view ${idx + 1}`}
                     >
                       <img 
                         src={img} 
@@ -413,16 +441,16 @@ const RetailPage = () => {
                     className="w-full flex overflow-x-auto snap-x snap-mandatory gap-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                     style={{ scrollSnapType: 'x mandatory' }}
                   >
-                    {images.map((img, idx) => (
+                    {allColorGalleryItems.map((item, idx) => (
                       <div 
                         key={idx} 
                         className="relative w-full shrink-0 aspect-[4/5] bg-stone/15 overflow-hidden snap-center snap-always rounded-none"
                         style={{ scrollSnapStop: 'always', scrollSnapAlign: 'center' }}
                       >
                         <img 
-                          src={img} 
-                          alt={`Macrame Belt ${selectedColor} view ${idx + 1}`} 
-                          onClick={() => setLightboxImage(img)}
+                          src={item.img} 
+                          alt={`Macrame Belt ${item.color} view ${item.subIndex + 1}`} 
+                          onClick={() => setLightboxImage(item.img)}
                           className="absolute inset-0 w-full h-full object-cover object-center cursor-zoom-in"
                         />
                       </div>
@@ -435,6 +463,22 @@ const RetailPage = () => {
                     <span>Tap to zoom</span>
                   </div>
                 </div>
+              </div>
+
+              {/* Scroll Dots / Dash Indicator Under Image (Center Aligned with 0.5px - 1.5px gap) */}
+              <div className="flex justify-center items-center gap-[2px] mt-2.5 w-full">
+                {images.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => scrollToSubIndex(idx)}
+                    className={`h-[3px] transition-all duration-300 rounded-full cursor-pointer ${
+                      currentSubIndex === idx 
+                        ? 'w-5 bg-terracotta' 
+                        : 'w-1.5 bg-stone/30 hover:bg-stone/60'
+                    }`}
+                    aria-label={`View angle ${idx + 1}`}
+                  />
+                ))}
               </div>
             </div>
 
@@ -1236,19 +1280,19 @@ const RetailPage = () => {
         </div>
       </section>
 
-      {/* Sticky Bottom Order Bar */}
+      {/* Sticky Floating Order Bar - Elevated for easy thumb reach */}
       <AnimatePresence>
         {showStickyBar && (
           <motion.div
-            initial={{ y: 100, opacity: 0 }}
+            initial={{ y: 80, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed bottom-0 left-0 right-0 z-40 bg-cotton-white/95 backdrop-blur-md border-t border-stone/20 px-3 sm:px-6 py-2.5 sm:py-3 shadow-[0_-4px_25px_rgba(0,0,0,0.12)]"
+            exit={{ y: 80, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="fixed bottom-3.5 sm:bottom-5 inset-x-3 sm:inset-x-6 z-40 max-w-lg mx-auto bg-cotton-white/95 backdrop-blur-md border border-stone/25 px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.18)]"
           >
-            <div className="max-w-5xl mx-auto flex items-center justify-between gap-2.5 sm:gap-4">
+            <div className="flex items-center justify-between gap-2.5 sm:gap-4 w-full">
               <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                <div className="w-10 h-10 sm:w-11 sm:h-11 bg-stone/10 rounded-none overflow-hidden shrink-0 border border-stone/20">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 bg-stone/10 rounded-lg overflow-hidden shrink-0 border border-stone/20">
                   <img 
                     src={colorImages[selectedColor][0]} 
                     alt="AST Macrame Belt" 
@@ -1271,7 +1315,7 @@ const RetailPage = () => {
               </div>
 
               {/* Circling Stroke Light Beam Border */}
-              <div className="relative p-[1.5px] overflow-hidden rounded-none shadow-xl shrink-0 group">
+              <div className="relative p-[1.5px] overflow-hidden rounded-lg shadow-md shrink-0 group">
                 <div 
                   className="absolute -top-[100%] -left-[100%] w-[300%] h-[300%] animate-border-beam pointer-events-none"
                   style={{
@@ -1280,7 +1324,7 @@ const RetailPage = () => {
                 />
                 <button
                   onClick={handleStickyOrderClick}
-                  className="relative z-10 bg-[#1C2841] hover:bg-[#131E33] text-white px-4 sm:px-7 py-2.5 sm:py-3 text-[10.5px] sm:text-xs font-bold uppercase tracking-widest rounded-none transition-all active:scale-[0.98] flex items-center gap-1.5 cursor-pointer"
+                  className="relative z-10 bg-[#1C2841] hover:bg-[#131E33] text-white px-4 sm:px-6 py-2.5 sm:py-3 text-[10.5px] sm:text-xs font-bold uppercase tracking-widest rounded-lg transition-all active:scale-[0.98] flex items-center gap-1.5 cursor-pointer"
                 >
                   <span className="font-bold tracking-widest">ORDER NOW</span>
                   <ArrowUp className="w-3.5 h-3.5 animate-arrow-up" />
