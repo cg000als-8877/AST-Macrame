@@ -409,11 +409,11 @@ const RetailPage = () => {
       <div className="max-w-7xl mx-auto px-0 lg:px-12">
         
         {/* Product Hero & Details */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-5 lg:gap-y-0 lg:gap-x-10 items-start mb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-1.5 lg:gap-y-0 lg:gap-x-10 items-start mb-24">
           
           <div className="relative px-0 lg:px-0 lg:col-span-7">
             {/* Mobile Product Gallery: Left Thumbnail Strip + Right Main Image (Hidden on lg) */}
-            <div className="lg:hidden w-full px-0 mb-4">
+            <div className="lg:hidden w-full px-0 mb-1.5">
               <div className="flex gap-1 items-start w-full">
                 {/* Left Vertical Thumbnails */}
                 <div className="flex flex-col gap-1.5 shrink-0 w-[54px] sm:w-16 pl-1 sm:pl-2">
@@ -475,7 +475,7 @@ const RetailPage = () => {
               </div>
 
               {/* Scroll Dots / Dash Indicator Under Image (Center Aligned with 0.5px - 1.5px gap) */}
-              <div className="flex justify-center items-center gap-[2px] mt-2.5 w-full">
+              <div className="flex justify-center items-center gap-[2px] mt-2 w-full">
                 {images.map((_, idx) => (
                   <button
                     key={idx}
@@ -514,7 +514,7 @@ const RetailPage = () => {
           </div>
           
           <div className="flex flex-col px-6 lg:px-0 lg:pt-0 lg:col-span-5">
-            <h1 className="text-2xl lg:text-3xl font-serif text-soft-black mb-1 md:mb-2 mt-2 lg:mt-0">AST Handmade Macramé Belt</h1>
+            <h1 className="text-2xl lg:text-3xl font-serif text-soft-black mb-1 md:mb-2 mt-0 lg:mt-0">AST Handmade Macramé Belt</h1>
             <p className="text-xs md:text-sm font-light italic text-dark-charcoal/80 mb-2 md:mb-3 leading-relaxed">
               Handcrafted with high-density cotton weave for superior flexibility, lasting strength, and effortless daily style.
             </p>
