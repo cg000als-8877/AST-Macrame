@@ -373,56 +373,67 @@ const RetailPage = () => {
         </div>
       )}
 
-      <div className="w-full bg-cream min-h-screen pt-[49px] sm:pt-[76px] md:pt-[96px]">
+      <div className="w-full bg-cream min-h-screen pt-[73px] sm:pt-[76px] md:pt-[96px]">
       <div className="max-w-7xl mx-auto px-0 lg:px-12">
         
         {/* Product Hero & Details */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-5 lg:gap-y-0 lg:gap-x-10 items-start mb-24">
           
           <div className="relative px-0 lg:px-0 lg:col-span-7">
-            {/* Mobile Carousel (Hidden on lg) */}
-            <div className="lg:hidden w-full relative mb-0">
-              <div 
-                ref={scrollRef}
-                onScroll={handleScroll}
-                className="w-full flex overflow-x-auto snap-x snap-mandatory gap-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                style={{ scrollSnapType: 'x mandatory' }}
-              >
-                {images.map((img, idx) => (
-                  <div 
-                    key={idx} 
-                    className="relative w-full shrink-0 aspect-[4/5] bg-stone/20 overflow-hidden snap-center snap-always rounded-none"
-                    style={{ scrollSnapStop: 'always', scrollSnapAlign: 'center' }}
-                  >
-                    <img 
-                      src={img} 
-                      alt={`Macrame Belt ${selectedColor} view ${idx + 1}`} 
-                      onClick={() => setLightboxImage(img)}
-                      className="absolute inset-0 w-full h-full object-cover object-center cursor-zoom-in"
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {/* Zoom Indicator (Mobile) */}
-              <div className="absolute bottom-3 left-3 pointer-events-none flex items-center gap-1 bg-black/50 backdrop-blur-md text-white text-[9.5px] px-2 py-0.5 rounded-full font-medium tracking-wider shadow-sm z-10">
-                <ZoomIn className="w-3 h-3 stroke-[2]" />
-                <span>Click to zoom</span>
-              </div>
-
-              {/* Mobile Swipe Indicators (Compact Capsule) */}
-              <div className="absolute bottom-3 left-0 right-0 flex justify-center items-center z-10 pointer-events-none">
-                <div className="bg-black/50 backdrop-blur-md px-2 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
-                  {images.map((_, idx) => (
+            {/* Mobile Product Gallery: Left Thumbnail Strip + Right Main Image (Hidden on lg) */}
+            <div className="lg:hidden w-full px-0 mb-4">
+              <div className="flex gap-1 items-start w-full">
+                {/* Left Vertical Thumbnails */}
+                <div className="flex flex-col gap-1.5 shrink-0 w-[54px] sm:w-16 pl-1 sm:pl-2">
+                  {images.map((img, idx) => (
                     <button
                       key={idx}
                       onClick={() => scrollToDot(idx)}
-                      className={`h-1.5 transition-all duration-300 pointer-events-auto rounded-full ${
-                        activeIndex === idx ? 'w-3.5 bg-white' : 'w-1.5 bg-white/40 hover:bg-white/70'
+                      className={`relative aspect-[4/5] w-full overflow-hidden transition-all rounded-none border ${
+                        activeIndex === idx
+                          ? 'border-terracotta ring-1 ring-terracotta opacity-100 shadow-sm'
+                          : 'border-stone/25 opacity-60 hover:opacity-100'
                       }`}
-                      aria-label={`Go to slide ${idx + 1}`}
-                    />
+                      aria-label={`Select product image ${idx + 1}`}
+                    >
+                      <img 
+                        src={img} 
+                        alt={`Thumbnail ${idx + 1}`} 
+                        className="w-full h-full object-cover object-center"
+                      />
+                    </button>
                   ))}
+                </div>
+
+                {/* Right Main Featured Image */}
+                <div className="relative flex-1 min-w-0 pr-0">
+                  <div 
+                    ref={scrollRef}
+                    onScroll={handleScroll}
+                    className="w-full flex overflow-x-auto snap-x snap-mandatory gap-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    style={{ scrollSnapType: 'x mandatory' }}
+                  >
+                    {images.map((img, idx) => (
+                      <div 
+                        key={idx} 
+                        className="relative w-full shrink-0 aspect-[4/5] bg-stone/15 overflow-hidden snap-center snap-always rounded-none"
+                        style={{ scrollSnapStop: 'always', scrollSnapAlign: 'center' }}
+                      >
+                        <img 
+                          src={img} 
+                          alt={`Macrame Belt ${selectedColor} view ${idx + 1}`} 
+                          onClick={() => setLightboxImage(img)}
+                          className="absolute inset-0 w-full h-full object-cover object-center cursor-zoom-in"
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Zoom Indicator (Mobile) */}
+                  <div className="absolute bottom-2.5 right-2.5 pointer-events-none flex items-center gap-1 bg-black/60 backdrop-blur-md text-white text-[9px] px-2 py-0.5 rounded-full font-medium tracking-wider shadow-sm z-10">
+                    <ZoomIn className="w-3 h-3 stroke-[2]" />
+                    <span>Tap to zoom</span>
+                  </div>
                 </div>
               </div>
             </div>
