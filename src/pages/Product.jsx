@@ -299,10 +299,10 @@ const Product = () => {
                     <button
                       key={idx}
                       onClick={() => scrollToDot(idx)}
-                      className={`relative aspect-[4/5] w-full overflow-hidden transition-all border ${
+                      className={`relative aspect-[4/5] w-full overflow-hidden transition-all rounded-none ${
                         activeIndex === idx
-                          ? 'border-soft-black ring-1 ring-soft-black opacity-100 shadow-sm'
-                          : 'border-stone/25 opacity-60 hover:opacity-100'
+                          ? 'border-2 border-soft-black ring-1 ring-soft-black shadow-sm'
+                          : 'border border-stone/30 hover:border-stone/60'
                       }`}
                       aria-label={`Select product image ${idx + 1}`}
                     >

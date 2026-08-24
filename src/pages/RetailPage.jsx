@@ -389,10 +389,10 @@ const RetailPage = () => {
                     <button
                       key={idx}
                       onClick={() => scrollToDot(idx)}
-                      className={`relative aspect-[4/5] w-full overflow-hidden transition-all rounded-none border ${
+                      className={`relative aspect-[4/5] w-full overflow-hidden transition-all rounded-none ${
                         activeIndex === idx
-                          ? 'border-terracotta ring-1 ring-terracotta opacity-100 shadow-sm'
-                          : 'border-stone/25 opacity-60 hover:opacity-100'
+                          ? 'border-2 border-terracotta ring-1 ring-terracotta shadow-sm'
+                          : 'border border-stone/30 hover:border-stone/60'
                       }`}
                       aria-label={`Select product image ${idx + 1}`}
                     >
@@ -1049,17 +1049,17 @@ const RetailPage = () => {
       <section className="py-8 md:py-12 bg-cream/70 px-3 sm:px-6 lg:px-12">
         <div className="max-w-3xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-5 md:mb-7">
-            <h2 className="text-2xl sm:text-3xl font-serif text-soft-black font-normal mb-1.5">
-              FAQ
+          <div className="text-center mb-6 md:mb-8">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-soft-black font-normal mb-2">
+              Frequently Asked Questions
             </h2>
-            <p className="text-xs sm:text-sm text-dark-charcoal/70 max-w-md mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base text-dark-charcoal/75 max-w-md mx-auto leading-relaxed">
               Tap any topic to view questions, sizing details, delivery timelines, and inspection policies.
             </p>
           </div>
 
           {/* 2-Level Collapsible Accordion System - Clean & Flat */}
-          <div className="space-y-2">
+          <div className="space-y-2.5 sm:space-y-3">
             {faqCategories?.map((category) => {
               const isCatOpen = openCategory === category.id;
               const activeQ = openQuestions?.[category.id] ?? null;
@@ -1069,38 +1069,38 @@ const RetailPage = () => {
                   key={category.id}
                   className={`transition-all duration-200 rounded-none overflow-hidden ${
                     isCatOpen 
-                      ? 'bg-white' 
-                      : 'bg-white/70 hover:bg-white'
+                      ? 'bg-white shadow-sm' 
+                      : 'bg-white/80 hover:bg-white'
                   }`}
                 >
                   {/* Category Header Button */}
                   <button
                     onClick={() => toggleCategory(category.id)}
-                    className="w-full p-3 sm:p-4 flex items-center justify-between text-left cursor-pointer select-none transition-colors"
+                    className="w-full p-3.5 sm:p-4 md:p-5 flex items-center justify-between text-left cursor-pointer select-none transition-colors"
                   >
                     <div className="flex items-center gap-3 min-w-0 pr-2">
-                      <span className="font-serif font-bold text-xs sm:text-sm text-terracotta shrink-0">
+                      <span className="font-serif font-bold text-sm sm:text-base text-terracotta shrink-0">
                         {category.number}
                       </span>
                       <div className="flex flex-col min-w-0">
                         <div className="flex items-center gap-2">
-                          <h3 className="text-xs sm:text-sm md:text-base font-serif font-bold text-soft-black truncate">
+                          <h3 className="text-sm sm:text-base md:text-lg font-serif font-bold text-soft-black truncate">
                             {category.name}
                           </h3>
-                          <span className="text-[8.5px] sm:text-[9.5px] font-sans font-medium text-dark-charcoal/60 bg-stone/10 px-1.5 py-0.2 shrink-0">
+                          <span className="text-[10px] sm:text-xs font-sans font-medium text-dark-charcoal/70 bg-stone/15 px-2 py-0.5 shrink-0">
                             {category.questions.length} Qs
                           </span>
                         </div>
-                        <span className="text-[10px] sm:text-[11px] text-dark-charcoal/60 truncate font-sans">
+                        <span className="text-xs sm:text-sm text-dark-charcoal/70 truncate font-sans mt-0.5">
                           {category.tagline}
                         </span>
                       </div>
                     </div>
 
-                    <div className={`w-5 h-5 sm:w-6 sm:h-6 shrink-0 flex items-center justify-center text-soft-black/70 transition-transform duration-300 ${
-                      isCatOpen ? 'rotate-180 text-soft-black' : ''
+                    <div className={`w-6 h-6 shrink-0 flex items-center justify-center text-soft-black transition-transform duration-300 ${
+                      isCatOpen ? 'rotate-180 text-terracotta' : ''
                     }`}>
-                      <ChevronDown className="w-4 h-4" />
+                      <ChevronDown className="w-5 h-5" />
                     </div>
                   </button>
 
@@ -1112,9 +1112,9 @@ const RetailPage = () => {
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.25, ease: "easeInOut" }}
-                        className="overflow-hidden bg-[#FAF7F2]/40"
+                        className="overflow-hidden bg-[#FAF7F2]/60 border-t border-stone/10"
                       >
-                        <div className="divide-y divide-stone/10">
+                        <div className="divide-y divide-stone/15">
                           {category.questions.map((item, qIdx) => {
                             const isQOpen = activeQ === qIdx;
                             return (
@@ -1122,17 +1122,17 @@ const RetailPage = () => {
                                 {/* Question Button */}
                                 <button
                                   onClick={() => toggleQuestion(category.id, qIdx)}
-                                  className="w-full py-2.5 px-3 sm:px-5 flex items-center justify-between text-left gap-3 cursor-pointer select-none group"
+                                  className="w-full py-3.5 px-4 sm:px-6 flex items-center justify-between text-left gap-3 cursor-pointer select-none group"
                                 >
-                                  <span className={`text-xs sm:text-sm font-medium transition-colors ${
-                                    isQOpen ? 'text-terracotta font-semibold' : 'text-soft-black group-hover:text-terracotta'
+                                  <span className={`text-sm sm:text-base font-semibold leading-snug transition-colors ${
+                                    isQOpen ? 'text-terracotta' : 'text-soft-black group-hover:text-terracotta'
                                   }`}>
                                     {item.q}
                                   </span>
-                                  <div className={`w-4 h-4 shrink-0 flex items-center justify-center text-xs transition-colors ${
+                                  <div className={`w-5 h-5 shrink-0 flex items-center justify-center transition-colors ${
                                     isQOpen ? 'text-terracotta' : 'text-stone-400 group-hover:text-soft-black'
                                   }`}>
-                                    {isQOpen ? <Minus className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+                                    {isQOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                                   </div>
                                 </button>
 
@@ -1146,7 +1146,7 @@ const RetailPage = () => {
                                       transition={{ duration: 0.2, ease: "easeInOut" }}
                                       className="overflow-hidden"
                                     >
-                                      <div className="px-3 sm:px-5 pb-3 text-[11px] sm:text-xs md:text-sm text-dark-charcoal/80 leading-relaxed font-sans whitespace-pre-line">
+                                      <div className="px-4 sm:px-6 pb-4 pt-1 text-xs sm:text-sm md:text-[15px] text-dark-charcoal/85 leading-relaxed font-sans whitespace-pre-line">
                                         {item.a}
                                       </div>
                                     </motion.div>
@@ -1165,12 +1165,12 @@ const RetailPage = () => {
           </div>
 
           {/* Quick WhatsApp Support Prompt - Clean & Flat */}
-          <div className="mt-5 sm:mt-7 p-3.5 sm:p-4 bg-white flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3 text-center sm:text-left">
+          <div className="mt-6 sm:mt-8 p-4 sm:p-5 bg-white flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left shadow-sm">
             <div>
-              <h4 className="text-xs sm:text-sm font-serif font-bold text-soft-black">
+              <h4 className="text-sm sm:text-base font-serif font-bold text-soft-black">
                 Have a specific question?
               </h4>
-              <p className="text-[10.5px] sm:text-[11px] text-dark-charcoal/70">
+              <p className="text-xs sm:text-sm text-dark-charcoal/70 mt-0.5">
                 Our support team is live on WhatsApp for instant assistance.
               </p>
             </div>
