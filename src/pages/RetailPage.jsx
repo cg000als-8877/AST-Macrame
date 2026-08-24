@@ -235,14 +235,16 @@ const RetailPage = () => {
   const displayColor = selectedColor || 'Black';
   const images = colorImages[displayColor];
 
+  const scrollRef = React.useRef(null);
+  const scrollTimeoutRef = React.useRef(null);
+
   const handleColorChange = (colorName) => {
     setSelectedColor(colorName);
     const targetIdx = allColorGalleryItems.findIndex(item => item.color === colorName);
     if (targetIdx !== -1) {
       setActiveIndex(targetIdx);
       if (scrollRef.current) {
-        const firstChild = scrollRef.current.children[0];
-        const itemWidth = firstChild ? firstChild.offsetWidth : scrollRef.current.scrollWidth / allColorGalleryItems.length;
+        const itemWidth = scrollRef.current.clientWidth || scrollRef.current.offsetWidth;
         scrollRef.current.scrollTo({
           left: itemWidth * targetIdx,
           behavior: 'smooth'
@@ -255,19 +257,22 @@ const RetailPage = () => {
     setOpenAccordions(prev => ({ ...prev, [title]: !prev[title] }));
   };
 
-  const scrollRef = React.useRef(null);
-
   const handleScroll = (e) => {
-    const { scrollLeft, scrollWidth } = e.target;
-    if (scrollRef.current && allColorGalleryItems.length > 0) {
-      const firstChild = scrollRef.current.children[0];
-      const itemWidth = firstChild ? firstChild.offsetWidth : scrollWidth / allColorGalleryItems.length;
-      const newIndex = Math.round(scrollLeft / itemWidth);
-      if (newIndex >= 0 && newIndex < allColorGalleryItems.length && newIndex !== activeIndex) {
-        setActiveIndex(newIndex);
+    const container = e.target;
+    if (!container) return;
+    const { scrollLeft, clientWidth } = container;
+    if (clientWidth > 0 && allColorGalleryItems.length > 0) {
+      const newIndex = Math.round(scrollLeft / clientWidth);
+      if (newIndex >= 0 && newIndex < allColorGalleryItems.length) {
+        if (newIndex !== activeIndex) {
+          setActiveIndex(newIndex);
+        }
         const item = allColorGalleryItems[newIndex];
         if (item && item.color !== selectedColor) {
-          setSelectedColor(item.color);
+          if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+          scrollTimeoutRef.current = setTimeout(() => {
+            setSelectedColor(item.color);
+          }, 80);
         }
       }
     }
@@ -281,8 +286,7 @@ const RetailPage = () => {
     if (targetIdx !== -1) {
       setActiveIndex(targetIdx);
       if (scrollRef.current) {
-        const firstChild = scrollRef.current.children[0];
-        const itemWidth = firstChild ? firstChild.offsetWidth : scrollRef.current.scrollWidth / allColorGalleryItems.length;
+        const itemWidth = scrollRef.current.clientWidth || scrollRef.current.offsetWidth;
         scrollRef.current.scrollTo({
           left: itemWidth * targetIdx,
           behavior: 'smooth'
@@ -438,20 +442,25 @@ const RetailPage = () => {
                   <div 
                     ref={scrollRef}
                     onScroll={handleScroll}
-                    className="w-full flex overflow-x-auto snap-x snap-mandatory gap-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                    style={{ scrollSnapType: 'x mandatory' }}
+                    className="w-full flex overflow-x-auto snap-x snap-mandatory gap-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden overscroll-x-contain"
+                    style={{ 
+                      scrollSnapType: 'x mandatory',
+                      WebkitOverflowScrolling: 'touch'
+                    }}
                   >
                     {allColorGalleryItems.map((item, idx) => (
                       <div 
                         key={idx} 
-                        className="relative w-full shrink-0 aspect-[4/5] bg-stone/15 overflow-hidden snap-center snap-always rounded-none"
-                        style={{ scrollSnapStop: 'always', scrollSnapAlign: 'center' }}
+                        className="relative w-full min-w-full shrink-0 aspect-[4/5] bg-stone/15 overflow-hidden snap-start snap-always rounded-none select-none"
+                        style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
                       >
                         <img 
                           src={item.img} 
                           alt={`Macrame Belt ${item.color} view ${item.subIndex + 1}`} 
                           onClick={() => setLightboxImage(item.img)}
-                          className="absolute inset-0 w-full h-full object-cover object-center cursor-zoom-in"
+                          className="w-full h-full object-cover object-center cursor-zoom-in select-none pointer-events-auto"
+                          draggable="false"
+                          loading={idx < 4 ? "eager" : "lazy"}
                         />
                       </div>
                     ))}
