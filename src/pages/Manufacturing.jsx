@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, Ruler, CheckCircle2, Sparkles, PackageCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import qcImage from '../assets/QC.jpg';
 
 const Manufacturing = () => {
+  useEffect(() => {
+    document.title = "Manufacturing & Craftsmanship | Artisan Workshop - AST Macramé";
+  }, []);
   const processSteps = [
     { title: "Inquiry", desc: "Share your design, volume, and customization requirements." },
     { title: "Quotation", desc: "Receive a detailed breakdown of costs, MOQ, and lead times." },

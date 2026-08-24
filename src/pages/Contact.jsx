@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Clock, Users } from 'lucide-react';
 
 const Contact = () => {
+  useEffect(() => {
+    document.title = "Contact Us | Workshop Inquiries & WhatsApp Support - AST Macramé";
+  }, []);
   return (
     <div className="w-full bg-cream min-h-screen pt-28 md:pt-32 pb-16 md:pb-24">
       <div className="max-w-4xl mx-auto px-6 lg:px-12">

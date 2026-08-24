@@ -93,6 +93,10 @@ const RetailPage = () => {
   };
 
   useEffect(() => {
+    document.title = "Retail Store | Handcrafted Macramé Belts (Cash on Delivery) - AST Macramé";
+  }, []);
+
+  useEffect(() => {
     const checkLocation = async () => {
       try {
         const response = await fetch('https://api.country.is');
@@ -303,26 +307,41 @@ const RetailPage = () => {
     }
   };
 
-  let orderButtonText = "ORDER NOW";
+  let orderButtonContent = (
+    <span className="flex items-center justify-center gap-1.5 flex-wrap">
+      <span>ORDER NOW</span>
+      <span className="text-[#FDE047] font-black tracking-wider">(CASH ON DELIVERY)</span>
+    </span>
+  );
   let isOrderReady = false;
 
   if (orderType === 'single') {
     if (!selectedColor && !selectedSize) {
-      orderButtonText = "SELECT COLOR & SIZE";
+      orderButtonContent = "SELECT COLOR & SIZE";
     } else if (selectedColor && !selectedSize) {
-      orderButtonText = "SELECT SIZE";
+      orderButtonContent = "SELECT SIZE";
     } else if (!selectedColor && selectedSize) {
-      orderButtonText = "SELECT COLOR";
+      orderButtonContent = "SELECT COLOR";
     } else {
-      orderButtonText = "ORDER NOW";
+      orderButtonContent = (
+        <span className="flex items-center justify-center gap-1.5 flex-wrap">
+          <span>ORDER NOW</span>
+          <span className="text-[#FDE047] font-black tracking-wider">(CASH ON DELIVERY)</span>
+        </span>
+      );
       isOrderReady = true;
     }
   } else {
     // combo
     if (!comboColor1 || !comboColor2 || !comboSize1 || !comboSize2) {
-      orderButtonText = "SELECT COMBO OPTIONS";
+      orderButtonContent = "SELECT COMBO OPTIONS";
     } else {
-      orderButtonText = "ORDER NOW";
+      orderButtonContent = (
+        <span className="flex items-center justify-center gap-1.5 flex-wrap">
+          <span>ORDER NOW</span>
+          <span className="text-[#FDE047] font-black tracking-wider">(CASH ON DELIVERY)</span>
+        </span>
+      );
       isOrderReady = true;
     }
   }
@@ -661,7 +680,7 @@ const RetailPage = () => {
                   disabled={!isOrderReady}
                   className={`w-full flex items-center justify-center bg-terracotta text-cream px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-none transition-all shadow-md ${!isOrderReady ? 'opacity-50 cursor-not-allowed' : 'hover:bg-muted-burgundy active:scale-[0.99] cursor-pointer'}`}
                 >
-                  {orderButtonText}
+                  {orderButtonContent}
                 </button>
                 <a 
                   href="https://wa.me/8801940689061"

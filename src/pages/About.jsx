@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const About = () => {
+  useEffect(() => {
+    document.title = "About Us | Heritage & Ethical Artisan Mission - AST Macramé";
+  }, []);
   return (
     <div className="w-full bg-cream min-h-screen pt-24 pb-16 md:pb-24">
       <div className="max-w-4xl mx-auto px-6 lg:px-12">

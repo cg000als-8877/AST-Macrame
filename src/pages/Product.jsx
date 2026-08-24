@@ -80,6 +80,10 @@ const Product = () => {
   const [isLoadingLocalization, setIsLoadingLocalization] = useState(true);
 
   useEffect(() => {
+    document.title = "Wholesale & Export | Custom Private Label Macramé Belts - AST Macramé";
+  }, []);
+
+  useEffect(() => {
     let isMounted = true;
     const fetchLocalization = async () => {
       try {
