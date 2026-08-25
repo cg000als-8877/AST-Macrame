@@ -25,6 +25,8 @@ import k1 from '../assets/products/Khaki/1.jpg';
 import k2 from '../assets/products/Khaki/2.jpg';
 import k3 from '../assets/products/Khaki/3.jpg';
 import k4 from '../assets/products/Khaki/4.jpg';
+import k5 from '../assets/products/Khaki/5.jpg';
+import k6 from '../assets/products/Khaki/6.jpg';
 const Accordion = ({ title, isOpen, onClick, children }) => (
   <div className="border-b border-stone/30">
     <button 
@@ -153,7 +155,7 @@ const Product = () => {
     Navy: [n1, n2, n3, n4],
     Brown: [br1, br2, br3, br4],
     Maroon: [m1, m2, m3, m4],
-    Khaki: [k1, k2, k3, k4],
+    Khaki: [k1, k2, k3, k4, k5, k6],
   };
 
   const images = colorImages[selectedColors[0]];
@@ -348,9 +350,9 @@ const Product = () => {
               </div>
             </div>
 
-            {/* Desktop 2x2 Grid (Hidden on mobile) */}
+            {/* Desktop 2-Column Grid (Hidden on mobile) */}
             <div className="hidden lg:grid grid-cols-2 gap-4">
-              {images.slice(0, 4).map((img, idx) => (
+              {images.map((img, idx) => (
                 <div key={idx} className="relative w-full aspect-[4/5] bg-stone/10 overflow-hidden group rounded-none">
                   <motion.img 
                     key={selectedColor + idx}
