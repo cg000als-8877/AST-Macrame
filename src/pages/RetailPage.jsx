@@ -1299,7 +1299,7 @@ const RetailPage = () => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 80, opacity: 0 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed bottom-3.5 sm:bottom-5 inset-x-3 sm:inset-x-6 z-40 max-w-lg mx-auto bg-cotton-white/95 backdrop-blur-md border border-stone/25 px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.18)]"
+            className="fixed bottom-11 sm:bottom-12 inset-x-3.5 sm:inset-x-6 z-40 max-w-lg mx-auto bg-cotton-white/95 backdrop-blur-md border border-stone/25 px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.22)]"
           >
             <div className="flex items-center justify-between gap-2.5 sm:gap-4 w-full">
               <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">

@@ -49,12 +49,12 @@ const Navbar = () => {
         {isRetailPage ? (
           <>
             {/* Announcement Bar (Retail Only as requested) */}
-            <div className="sm:hidden w-full bg-soft-black text-white text-[10px] md:text-[11px] font-bold flex items-center justify-center gap-1.5 py-1 z-50 tracking-wider">
+            <div className="sm:hidden w-full bg-soft-black text-white text-[10px] md:text-[11px] font-bold flex items-center justify-center gap-1.5 py-1 z-50 tracking-wider uppercase">
               <svg className="w-3.5 h-3.5 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1" />
               </svg>
-              <span>Cash On Delivery all over Bangladesh</span>
+              <span>CASH ON DELIVERY ALL OVER BANGLADESH</span>
             </div>
             
             <div className="px-3 sm:px-6 h-12 md:h-14 grid grid-cols-3 items-center w-full relative">
