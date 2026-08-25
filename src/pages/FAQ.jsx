@@ -376,7 +376,7 @@ const FAQ = () => {
         <div className="mt-12 sm:mt-16 bg-soft-black text-cream p-6 sm:p-8 md:p-10 border border-stone/30 shadow-md">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
             <div className="max-w-xl">
-              <span className="text-[10px] sm:text-xs font-bold text-terracotta uppercase tracking-[0.2em] block mb-1.5">
+              <span className="text-[10px] sm:text-xs font-bold text-white uppercase tracking-[0.2em] block mb-1.5">
                 Direct Artisan Assistance
               </span>
               <h3 className="text-lg sm:text-xl md:text-2xl font-serif text-white font-normal mb-2">
