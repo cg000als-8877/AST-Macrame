@@ -27,6 +27,7 @@ const Footer = () => {
               <ul className="flex flex-col space-y-2 md:space-y-3 items-center lg:items-start">
                 <li><Link to="/about" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Our Story</Link></li>
                 <li><Link to="/product" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Products</Link></li>
+                <li><Link to="/faq" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">FAQs</Link></li>
                 <li><Link to="/contact" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Contact</Link></li>
               </ul>
             </div>

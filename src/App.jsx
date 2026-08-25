@@ -13,6 +13,7 @@ import RetailPage from './pages/RetailPage';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import Refund from './pages/Refund';
+import FAQ from './pages/FAQ';
 import ThemeSwitcher from './components/ThemeSwitcher';
 
 const ScrollToTop = () => {
@@ -47,6 +48,7 @@ const AnimatedRoutes = () => {
         <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
         <Route path="/sample-wholesale" element={<PageWrapper><SampleWholesale /></PageWrapper>} />
         <Route path="/retail" element={<PageWrapper><RetailPage /></PageWrapper>} />
+        <Route path="/faq" element={<PageWrapper><FAQ /></PageWrapper>} />
         <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
         <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
         <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
