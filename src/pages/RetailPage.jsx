@@ -14,6 +14,7 @@ import n1 from '../assets/products/Navy/1.webp';
 import n2 from '../assets/products/Navy/2.webp';
 import n3 from '../assets/products/Navy/3.webp';
 import n4 from '../assets/products/Navy/4.webp';
+import n5 from '../assets/products/Navy/5.webp';
 import br1 from '../assets/products/Brown/1.webp';
 import br2 from '../assets/products/Brown/2.webp';
 import br3 from '../assets/products/Brown/3.webp';
@@ -24,6 +25,7 @@ import m1 from '../assets/products/Maroon/1.webp';
 import m2 from '../assets/products/Maroon/2.webp';
 import m3 from '../assets/products/Maroon/3.webp';
 import m4 from '../assets/products/Maroon/4.webp';
+import m5 from '../assets/products/Maroon/5.webp';
 import k1 from '../assets/products/Khaki/1.webp';
 import k2 from '../assets/products/Khaki/2.webp';
 import k3 from '../assets/products/Khaki/3.webp';
@@ -149,9 +151,9 @@ const RetailPage = () => {
 
   const colorImages = {
     Black: [b1, b2, b3, b4, b5],
-    Navy: [n1, n2, n3, n4],
+    Navy: [n1, n2, n3, n4, n5],
     Brown: [br1, br2, br3, br4, br5, br6],
-    Maroon: [m1, m2, m3, m4],
+    Maroon: [m1, m2, m3, m4, m5],
     Khaki: [k1, k2, k3, k4, k5, k6],
   };
 
