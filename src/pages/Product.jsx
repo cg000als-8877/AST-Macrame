@@ -492,7 +492,7 @@ const Product = () => {
                           <button
                             key={size}
                             onClick={() => handleSizeChange(index, size)}
-                            className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 flex items-center justify-center text-[10px] sm:text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-full ${selectedSizes[index] === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                            className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 flex items-center justify-center text-[10px] sm:text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-full sm:rounded-none ${selectedSizes[index] === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
                           >
                             {size}
                           </button>
@@ -519,14 +519,14 @@ const Product = () => {
 
               <button 
                 onClick={() => setIsOrderFormOpen(true)}
-                className="w-full flex items-center justify-center bg-soft-black text-cream px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-dark-charcoal transition-colors border border-transparent"
+                className="w-full flex items-center justify-center bg-soft-black text-cream px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full sm:rounded-none hover:bg-dark-charcoal transition-colors border border-transparent"
               >
                 Order Sample
               </button>
               
               <Link 
                 to="/contact" 
-                className="w-full flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-soft-black/5 transition-colors"
+                className="w-full flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full sm:rounded-none hover:bg-soft-black/5 transition-colors"
               >
                 Wholesale Inquiry
               </Link>
