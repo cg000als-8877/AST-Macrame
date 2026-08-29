@@ -379,13 +379,13 @@ const RetailPage = () => {
                 </div>
               </div>
 
-              {/* Thumbnails Underneath Product Image - Fixed 6-column grid matching product image width */}
-              <div className="grid grid-cols-6 gap-1.5 sm:gap-2 mt-2 w-full">
+              {/* Thumbnails Underneath Product Image - 6 Visible Slots matching image width, smooth scroll if >6 */}
+              <div className="flex gap-1.5 sm:gap-2 mt-2 w-full overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 {images.map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => scrollToSubIndex(idx)}
-                    className={`relative aspect-square w-full overflow-hidden transition-all duration-300 rounded-[2px] cursor-pointer ${
+                    className={`relative aspect-square w-[calc((100%-5*0.375rem)/6)] shrink-0 overflow-hidden transition-all duration-300 rounded-[2px] cursor-pointer ${
                       currentSubIndex === idx
                         ? 'border border-terracotta/75 shadow-xs'
                         : 'border border-black/[0.08] hover:border-black/20'
