@@ -29,19 +29,31 @@ import k5 from '../assets/products/Khaki/5.webp';
 import k6 from '../assets/products/Khaki/6.webp';
 
 const Accordion = ({ title, isOpen, onClick, children }) => (
-  <div className="border-b border-stone/30">
+  <div className="border-b border-stone/15 last:border-b-0 sm:border-stone/30 sm:last:border-b">
     <button 
       onClick={onClick}
-      className="w-full py-3 flex justify-between items-center text-left"
+      className="w-full py-3.5 px-3.5 sm:px-0 flex justify-between items-center text-left cursor-pointer group select-none"
     >
-      <span className="font-serif text-base md:text-lg text-soft-black font-medium">{title}</span>
-      {isOpen ? <Minus className="w-4 h-4 text-soft-black/60" /> : <Plus className="w-4 h-4 text-soft-black/60" />}
-    </button>
-    {isOpen && (
-      <div className="overflow-hidden pb-4 text-dark-charcoal/90 text-sm">
-        {children}
+      <span className="font-serif text-sm sm:text-base md:text-lg text-soft-black font-medium group-hover:text-terracotta transition-colors">{title}</span>
+      <div className={`w-5 h-5 flex items-center justify-center transition-colors ${isOpen ? 'text-terracotta' : 'text-soft-black/60 group-hover:text-soft-black'}`}>
+        {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
       </div>
-    )}
+    </button>
+    <AnimatePresence initial={false}>
+      {isOpen && (
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.2, ease: "easeInOut" }}
+          className="overflow-hidden"
+        >
+          <div className="pb-4 px-3.5 sm:px-0 text-dark-charcoal/90 text-xs sm:text-sm leading-relaxed">
+            {children}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   </div>
 );
 
@@ -662,8 +674,8 @@ const RetailPage = () => {
               </p>
             </div>
 
-            {/* Expandable Accordions */}
-            <div className="border-t border-stone/30">
+            {/* Expandable Accordions - Card View on Mobile */}
+            <div className="bg-white sm:bg-transparent border border-stone/20 sm:border-t sm:border-x-0 sm:border-b-0 sm:border-stone/30 p-2 sm:p-0 rounded-[4px] sm:rounded-none shadow-xs sm:shadow-none mb-6 sm:mb-0">
               <Accordion 
                 title={
                   <div className="flex items-center gap-3">

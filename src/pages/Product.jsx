@@ -28,12 +28,12 @@ import k4 from '../assets/products/Khaki/4.webp';
 import k5 from '../assets/products/Khaki/5.webp';
 import k6 from '../assets/products/Khaki/6.webp';
 const Accordion = ({ title, isOpen, onClick, children }) => (
-  <div className="border-b border-stone/30">
+  <div className="border-b border-stone/15 last:border-b-0 sm:border-stone/30 sm:last:border-b">
     <button 
       onClick={onClick}
-      className="w-full py-4 md:py-5 flex justify-between items-center text-left"
+      className="w-full py-3.5 px-3.5 sm:px-0 flex justify-between items-center text-left cursor-pointer group select-none"
     >
-      <span className="font-serif text-lg md:text-xl text-soft-black">{title}</span>
+      <span className="font-serif text-sm sm:text-base md:text-xl text-soft-black font-medium group-hover:text-terracotta transition-colors">{title}</span>
       {isOpen ? <Minus className="w-4 h-4 md:w-5 md:h-5 text-soft-black/50" /> : <Plus className="w-4 h-4 md:w-5 md:h-5 text-soft-black/50" />}
     </button>
     <AnimatePresence>
@@ -527,8 +527,8 @@ const Product = () => {
               </Link>
             </div>
 
-            {/* Expandable Accordions */}
-            <div className="border-t border-stone/30">
+            {/* Expandable Accordions - Card View on Mobile */}
+            <div className="bg-white sm:bg-transparent border border-stone/20 sm:border-t sm:border-x-0 sm:border-b-0 sm:border-stone/30 p-2 sm:p-0 rounded-[4px] sm:rounded-none shadow-xs sm:shadow-none mb-6 sm:mb-0">
               <Accordion 
                 title="Description" 
                 isOpen={!!openAccordions['description']} 
