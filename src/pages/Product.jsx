@@ -331,7 +331,7 @@ const Product = () => {
                   <button
                     key={idx}
                     onClick={() => scrollToDot(idx)}
-                    className={`relative aspect-square w-[calc((100%-5*0.375rem)/6)] shrink-0 overflow-hidden transition-all duration-300 rounded-[2px] cursor-pointer ${
+                    className={`relative aspect-square w-[calc((100%-5*0.375rem)/6)] shrink-0 overflow-hidden transition-all duration-300 rounded-[4px] cursor-pointer ${
                       activeIndex === idx
                         ? 'border border-soft-black/80 shadow-xs'
                         : 'border border-black/[0.08] hover:border-black/20'
@@ -341,7 +341,7 @@ const Product = () => {
                     <img 
                       src={img} 
                       alt={`Thumbnail ${idx + 1}`} 
-                      className="w-full h-full object-cover object-center rounded-[2px]"
+                      className="w-full h-full object-cover object-center rounded-[4px]"
                     />
                   </button>
                 ))}
@@ -528,7 +528,7 @@ const Product = () => {
             </div>
 
             {/* Expandable Accordions - Card View on Mobile */}
-            <div className="bg-white sm:bg-transparent border border-stone/20 sm:border-t sm:border-x-0 sm:border-b-0 sm:border-stone/30 p-2 sm:p-0 rounded-[4px] sm:rounded-none shadow-xs sm:shadow-none mb-6 sm:mb-0">
+            <div className="bg-white sm:bg-transparent border border-stone/20 sm:border-t sm:border-x-0 sm:border-b-0 sm:border-stone/30 p-2 sm:p-0 rounded-2xl sm:rounded-none overflow-hidden shadow-xs sm:shadow-none mb-6 sm:mb-0">
               <Accordion 
                 title="Description" 
                 isOpen={!!openAccordions['description']} 
