@@ -339,7 +339,7 @@ const RetailPage = () => {
         </div>
       )}
 
-      <div className="w-full bg-cream min-h-screen pt-[73px] sm:pt-[76px] md:pt-[96px]">
+      <div className="w-full bg-cream min-h-screen pt-[77px] sm:pt-[76px] md:pt-[96px]">
       <div className="max-w-7xl mx-auto px-0 lg:px-12">
         
         {/* Product Hero & Details */}
