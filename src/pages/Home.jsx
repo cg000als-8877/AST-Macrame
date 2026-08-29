@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import mobileHeroImage from '../assets/mobile_hero.jpg';
-import hgBlack from '../assets/homepage-gallery/Black.jpg';
-import hgNavy from '../assets/homepage-gallery/Navy.jpg';
-import hgBrown from '../assets/homepage-gallery/Brown.jpg';
-import hgMaroon from '../assets/homepage-gallery/Maroon.jpg';
-import hgKhaki from '../assets/homepage-gallery/khaki2.jpg';
+import hgBlack from '../assets/homepage-gallery/Black.webp';
+import hgNavy from '../assets/homepage-gallery/Navy.webp';
+import hgBrown from '../assets/homepage-gallery/Brown.webp';
+import hgMaroon from '../assets/homepage-gallery/Maroon.webp';
+import hgKhaki from '../assets/homepage-gallery/khaki2.webp';
 
 const FeaturedProductSection = () => {
   const belts = [

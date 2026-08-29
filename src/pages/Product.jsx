@@ -5,28 +5,28 @@ import { ChevronLeft, ChevronRight, Plus, Minus, X, ZoomIn, ZoomOut, RotateCcw, 
 import SampleOrderDrawer from '../components/SampleOrderDrawer';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
-import b1 from '../assets/products/Black/1.jpg';
-import b2 from '../assets/products/Black/2.jpg';
-import b3 from '../assets/products/Black/3.jpg';
-import b4 from '../assets/products/Black/4.jpg';
-import n1 from '../assets/products/Navy/1.jpg';
-import n2 from '../assets/products/Navy/2.jpg';
-import n3 from '../assets/products/Navy/3.jpg';
-import n4 from '../assets/products/Navy/4.jpg';
-import br1 from '../assets/products/Brown/1.jpg';
-import br2 from '../assets/products/Brown/2.jpg';
-import br3 from '../assets/products/Brown/3.jpg';
-import br4 from '../assets/products/Brown/4.jpg';
-import m1 from '../assets/products/Maroon/1.jpg';
-import m2 from '../assets/products/Maroon/2.jpg';
-import m3 from '../assets/products/Maroon/3.jpg';
-import m4 from '../assets/products/Maroon/4.jpg';
-import k1 from '../assets/products/Khaki/1.jpg';
-import k2 from '../assets/products/Khaki/2.jpg';
-import k3 from '../assets/products/Khaki/3.jpg';
-import k4 from '../assets/products/Khaki/4.jpg';
-import k5 from '../assets/products/Khaki/5.jpg';
-import k6 from '../assets/products/Khaki/6.jpg';
+import b1 from '../assets/products/Black/1.webp';
+import b2 from '../assets/products/Black/2.webp';
+import b3 from '../assets/products/Black/3.webp';
+import b4 from '../assets/products/Black/4.webp';
+import n1 from '../assets/products/Navy/1.webp';
+import n2 from '../assets/products/Navy/2.webp';
+import n3 from '../assets/products/Navy/3.webp';
+import n4 from '../assets/products/Navy/4.webp';
+import br1 from '../assets/products/Brown/1.webp';
+import br2 from '../assets/products/Brown/2.webp';
+import br3 from '../assets/products/Brown/3.webp';
+import br4 from '../assets/products/Brown/4.webp';
+import m1 from '../assets/products/Maroon/1.webp';
+import m2 from '../assets/products/Maroon/2.webp';
+import m3 from '../assets/products/Maroon/3.webp';
+import m4 from '../assets/products/Maroon/4.webp';
+import k1 from '../assets/products/Khaki/1.webp';
+import k2 from '../assets/products/Khaki/2.webp';
+import k3 from '../assets/products/Khaki/3.webp';
+import k4 from '../assets/products/Khaki/4.webp';
+import k5 from '../assets/products/Khaki/5.webp';
+import k6 from '../assets/products/Khaki/6.webp';
 const Accordion = ({ title, isOpen, onClick, children }) => (
   <div className="border-b border-stone/30">
     <button 
@@ -292,68 +292,66 @@ const Product = () => {
             transition={{ duration: 0.8 }}
             className="relative px-0 lg:px-0 lg:col-span-7"
           >
-            {/* Mobile Product Gallery: Left Thumbnail Strip + Right Main Image (Hidden on lg) */}
-            <div className="lg:hidden w-full px-3 sm:px-4 mb-4">
-              <div className="flex gap-2.5 sm:gap-3 items-start">
-                {/* Left Vertical Thumbnails */}
-                <div className="flex flex-col gap-2 shrink-0 w-14 sm:w-16">
+            {/* Mobile Product Gallery: Main Image on top with 2px gap (top, left, right) + Thumbnails Underneath */}
+            <div className="lg:hidden w-full px-[2px] pt-[2px] mb-4">
+              {/* Main Featured Image with 2px gap */}
+              <div className="relative w-full overflow-hidden">
+                <div 
+                  ref={scrollRef}
+                  onScroll={handleScroll}
+                  className="w-full flex overflow-x-auto snap-x snap-mandatory gap-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                  style={{ scrollSnapType: 'x mandatory' }}
+                >
                   {images.map((img, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => scrollToDot(idx)}
-                      className={`relative aspect-[4/5] w-full overflow-hidden transition-all rounded-none ${
-                        activeIndex === idx
-                          ? 'border-2 border-soft-black ring-1 ring-soft-black shadow-sm'
-                          : 'border border-stone/30 hover:border-stone/60'
-                      }`}
-                      aria-label={`Select product image ${idx + 1}`}
+                    <div 
+                      key={idx} 
+                      className="relative w-full shrink-0 aspect-square bg-stone/15 overflow-hidden snap-center snap-always rounded-none"
+                      style={{ scrollSnapStop: 'always', scrollSnapAlign: 'center' }}
                     >
                       <img 
                         src={img} 
-                        alt={`Thumbnail ${idx + 1}`} 
-                        className="w-full h-full object-cover object-center"
+                        alt={`Macrame Belt ${selectedColor} view ${idx + 1}`} 
+                        onClick={() => setLightboxImage(img)}
+                        className="absolute inset-0 w-full h-full object-cover object-center cursor-zoom-in"
                       />
-                    </button>
+                    </div>
                   ))}
                 </div>
 
-                {/* Right Main Featured Image */}
-                <div className="relative flex-1 min-w-0">
-                  <div 
-                    ref={scrollRef}
-                    onScroll={handleScroll}
-                    className="w-full flex overflow-x-auto snap-x snap-mandatory gap-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                    style={{ scrollSnapType: 'x mandatory' }}
-                  >
-                    {images.map((img, idx) => (
-                      <div 
-                        key={idx} 
-                        className="relative w-full shrink-0 aspect-[4/5] bg-stone/15 overflow-hidden snap-center snap-always rounded-none"
-                        style={{ scrollSnapStop: 'always', scrollSnapAlign: 'center' }}
-                      >
-                        <img 
-                          src={img} 
-                          alt={`Macrame Belt ${selectedColor} view ${idx + 1}`} 
-                          onClick={() => setLightboxImage(img)}
-                          className="absolute inset-0 w-full h-full object-cover object-center cursor-zoom-in"
-                        />
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Zoom Icon (Mobile) */}
-                  <div className="absolute bottom-2.5 right-2.5 pointer-events-none flex items-center gap-1 bg-black/60 backdrop-blur-md text-white text-[9px] px-2 py-0.5 rounded-full font-medium tracking-wider shadow-sm z-10">
-                    <ZoomIn className="w-3 h-3 stroke-[2]" />
-                    <span>Tap to zoom</span>
-                  </div>
+                {/* Zoom Icon (Mobile) */}
+                <div className="absolute bottom-2.5 right-2.5 pointer-events-none flex items-center gap-1 bg-black/60 backdrop-blur-md text-white text-[9px] px-2 py-0.5 rounded-full font-medium tracking-wider shadow-sm z-10">
+                  <ZoomIn className="w-3 h-3 stroke-[2]" />
+                  <span>Tap to zoom</span>
                 </div>
+              </div>
+
+              {/* Thumbnails Underneath Product Image - Fixed 6-column grid matching product image width */}
+              <div className="grid grid-cols-6 gap-1.5 sm:gap-2 mt-2 w-full">
+                {images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => scrollToDot(idx)}
+                    className={`relative aspect-square w-full overflow-hidden transition-all duration-300 rounded-[2px] cursor-pointer ${
+                      activeIndex === idx
+                        ? 'border border-soft-black/80 shadow-xs'
+                        : 'border border-black/[0.08] hover:border-black/20'
+                    }`}
+                    aria-label={`Select product image ${idx + 1}`}
+                  >
+                    <img 
+                      src={img} 
+                      alt={`Thumbnail ${idx + 1}`} 
+                      className="w-full h-full object-cover object-center rounded-[2px]"
+                    />
+                  </button>
+                ))}
               </div>
             </div>
 
             {/* Desktop 2-Column Grid (Hidden on mobile) */}
             <div className="hidden lg:grid grid-cols-2 gap-4">
               {images.map((img, idx) => (
-                <div key={idx} className="relative w-full aspect-[4/5] bg-stone/10 overflow-hidden group rounded-none">
+                <div key={idx} className="relative w-full aspect-square bg-stone/10 overflow-hidden group rounded-none">
                   <motion.img 
                     key={selectedColor + idx}
                     initial={{ opacity: 0 }}
@@ -378,7 +376,7 @@ const Product = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-col px-6 lg:px-0 lg:pt-0 lg:col-span-5"
+            className="flex flex-col px-2.5 sm:px-4 lg:px-0 lg:pt-0 lg:col-span-5"
           >
             <h1 className="text-2xl lg:text-3xl font-serif text-soft-black mb-1 md:mb-2 mt-2 lg:mt-0">AST Handmade Macramé Belt</h1>
             <p className="text-xs md:text-sm font-light italic text-dark-charcoal/80 mb-2 md:mb-3 leading-relaxed">
@@ -785,7 +783,7 @@ const Product = () => {
                   <button 
                     key={idx}
                     onClick={() => { setLightboxImage(img); setZoomLevel(1); }}
-                    className={`w-12 h-14 sm:w-14 sm:h-16 shrink-0 rounded-none overflow-hidden border-2 transition-all cursor-pointer ${
+                    className={`w-12 h-12 sm:w-14 sm:h-14 aspect-square shrink-0 rounded-none overflow-hidden border-2 transition-all cursor-pointer ${
                       lightboxImage === img 
                         ? 'border-terracotta scale-105 shadow-md opacity-100' 
                         : 'border-transparent opacity-50 hover:opacity-80'

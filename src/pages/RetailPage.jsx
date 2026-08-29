@@ -5,28 +5,28 @@ import { ChevronLeft, ChevronRight, ChevronDown, Plus, Minus, X, Ruler, ZoomIn, 
 import RetailOrderModal from '../components/RetailOrderModal';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
-import b1 from '../assets/products/Black/1.jpg';
-import b2 from '../assets/products/Black/2.jpg';
-import b3 from '../assets/products/Black/3.jpg';
-import b4 from '../assets/products/Black/4.jpg';
-import n1 from '../assets/products/Navy/1.jpg';
-import n2 from '../assets/products/Navy/2.jpg';
-import n3 from '../assets/products/Navy/3.jpg';
-import n4 from '../assets/products/Navy/4.jpg';
-import br1 from '../assets/products/Brown/1.jpg';
-import br2 from '../assets/products/Brown/2.jpg';
-import br3 from '../assets/products/Brown/3.jpg';
-import br4 from '../assets/products/Brown/4.jpg';
-import m1 from '../assets/products/Maroon/1.jpg';
-import m2 from '../assets/products/Maroon/2.jpg';
-import m3 from '../assets/products/Maroon/3.jpg';
-import m4 from '../assets/products/Maroon/4.jpg';
-import k1 from '../assets/products/Khaki/1.jpg';
-import k2 from '../assets/products/Khaki/2.jpg';
-import k3 from '../assets/products/Khaki/3.jpg';
-import k4 from '../assets/products/Khaki/4.jpg';
-import k5 from '../assets/products/Khaki/5.jpg';
-import k6 from '../assets/products/Khaki/6.jpg';
+import b1 from '../assets/products/Black/1.webp';
+import b2 from '../assets/products/Black/2.webp';
+import b3 from '../assets/products/Black/3.webp';
+import b4 from '../assets/products/Black/4.webp';
+import n1 from '../assets/products/Navy/1.webp';
+import n2 from '../assets/products/Navy/2.webp';
+import n3 from '../assets/products/Navy/3.webp';
+import n4 from '../assets/products/Navy/4.webp';
+import br1 from '../assets/products/Brown/1.webp';
+import br2 from '../assets/products/Brown/2.webp';
+import br3 from '../assets/products/Brown/3.webp';
+import br4 from '../assets/products/Brown/4.webp';
+import m1 from '../assets/products/Maroon/1.webp';
+import m2 from '../assets/products/Maroon/2.webp';
+import m3 from '../assets/products/Maroon/3.webp';
+import m4 from '../assets/products/Maroon/4.webp';
+import k1 from '../assets/products/Khaki/1.webp';
+import k2 from '../assets/products/Khaki/2.webp';
+import k3 from '../assets/products/Khaki/3.webp';
+import k4 from '../assets/products/Khaki/4.webp';
+import k5 from '../assets/products/Khaki/5.webp';
+import k6 from '../assets/products/Khaki/6.webp';
 
 const Accordion = ({ title, isOpen, onClick, children }) => (
   <div className="border-b border-stone/30">
@@ -329,81 +329,63 @@ const RetailPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-1.5 lg:gap-y-0 lg:gap-x-10 items-start mb-24">
           
           <div className="relative px-0 lg:px-0 lg:col-span-7">
-            {/* Mobile Product Gallery: Left Thumbnail Strip + Right Main Image (Hidden on lg) */}
-            <div className="lg:hidden w-full px-0 mb-1.5">
-              <div className="flex gap-1 items-start w-full">
-                {/* Left Vertical Thumbnails */}
-                <div className="flex flex-col gap-1.5 shrink-0 w-[54px] sm:w-16 pl-1 sm:pl-2">
-                  {images.map((img, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => scrollToSubIndex(idx)}
-                      className={`relative aspect-[4/5] w-full overflow-hidden transition-all duration-300 rounded-none cursor-pointer ${
-                        currentSubIndex === idx
-                          ? 'border-[1.5px] border-terracotta shadow-sm scale-[1.03]'
-                          : 'border border-stone/25 hover:border-stone/50'
-                      }`}
-                      aria-label={`Select product view ${idx + 1}`}
+            {/* Mobile Product Gallery: Main Image on top with 2px gap (top, left, right) + Thumbnails Underneath */}
+            <div className="lg:hidden w-full px-[2px] pt-[2px] mb-2">
+              {/* Main Featured Image with 2px gap */}
+              <div className="relative w-full overflow-hidden">
+                <div 
+                  ref={scrollRef}
+                  onScroll={handleScroll}
+                  className="w-full flex overflow-x-auto snap-x snap-mandatory gap-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden overscroll-x-contain"
+                  style={{ 
+                    scrollSnapType: 'x mandatory',
+                    WebkitOverflowScrolling: 'touch'
+                  }}
+                >
+                  {allColorGalleryItems.map((item, idx) => (
+                    <div 
+                      key={idx} 
+                      className="relative w-full min-w-full shrink-0 aspect-square bg-stone/15 overflow-hidden snap-start snap-always rounded-none select-none"
+                      style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
                     >
                       <img 
-                        src={img} 
-                        alt={`Thumbnail ${idx + 1}`} 
-                        className="w-full h-full object-cover object-center"
+                        src={item.img} 
+                        alt={`Macrame Belt ${item.color} view ${item.subIndex + 1}`} 
+                        onClick={() => setLightboxImage(item.img)}
+                        className="w-full h-full object-cover object-center cursor-zoom-in select-none pointer-events-auto"
+                        draggable="false"
+                        loading={idx < 4 ? "eager" : "lazy"}
                       />
-                    </button>
+                    </div>
                   ))}
                 </div>
 
-                {/* Right Main Featured Image */}
-                <div className="relative flex-1 min-w-0 pr-0">
-                  <div 
-                    ref={scrollRef}
-                    onScroll={handleScroll}
-                    className="w-full flex overflow-x-auto snap-x snap-mandatory gap-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden overscroll-x-contain"
-                    style={{ 
-                      scrollSnapType: 'x mandatory',
-                      WebkitOverflowScrolling: 'touch'
-                    }}
-                  >
-                    {allColorGalleryItems.map((item, idx) => (
-                      <div 
-                        key={idx} 
-                        className="relative w-full min-w-full shrink-0 aspect-[4/5] bg-stone/15 overflow-hidden snap-start snap-always rounded-none select-none"
-                        style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
-                      >
-                        <img 
-                          src={item.img} 
-                          alt={`Macrame Belt ${item.color} view ${item.subIndex + 1}`} 
-                          onClick={() => setLightboxImage(item.img)}
-                          className="w-full h-full object-cover object-center cursor-zoom-in select-none pointer-events-auto"
-                          draggable="false"
-                          loading={idx < 4 ? "eager" : "lazy"}
-                        />
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Zoom Indicator (Mobile) */}
-                  <div className="absolute bottom-2.5 right-2.5 pointer-events-none flex items-center gap-1 bg-black/60 backdrop-blur-md text-white text-[9px] px-2 py-0.5 rounded-full font-medium tracking-wider shadow-sm z-10">
-                    <ZoomIn className="w-3 h-3 stroke-[2]" />
-                    <span>Tap to zoom</span>
-                  </div>
+                {/* Zoom Indicator (Mobile) */}
+                <div className="absolute bottom-2.5 right-2.5 pointer-events-none flex items-center gap-1 bg-black/60 backdrop-blur-md text-white text-[9px] px-2 py-0.5 rounded-full font-medium tracking-wider shadow-sm z-10">
+                  <ZoomIn className="w-3 h-3 stroke-[2]" />
+                  <span>Tap to zoom</span>
                 </div>
               </div>
 
-              {/* Scroll Dots / Dash Indicator Under Image (Center Aligned with 0.5px - 1.5px gap) */}
-              <div className="flex justify-center items-center gap-[2px] mt-2 w-full">
-                {images.map((_, idx) => (
+              {/* Thumbnails Underneath Product Image - Fixed 6-column grid matching product image width */}
+              <div className="grid grid-cols-6 gap-1.5 sm:gap-2 mt-2 w-full">
+                {images.map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => scrollToSubIndex(idx)}
-                    className={`h-[3px] transition-all duration-300 rounded-full cursor-pointer ${
-                      currentSubIndex === idx 
-                        ? 'w-5 bg-terracotta' 
-                        : 'w-1.5 bg-stone/30 hover:bg-stone/60'
+                    className={`relative aspect-square w-full overflow-hidden transition-all duration-300 rounded-[2px] cursor-pointer ${
+                      currentSubIndex === idx
+                        ? 'border border-terracotta/75 shadow-xs'
+                        : 'border border-black/[0.08] hover:border-black/20'
                     }`}
-                    aria-label={`View angle ${idx + 1}`}
-                  />
+                    aria-label={`Select product view ${idx + 1}`}
+                  >
+                    <img 
+                      src={img} 
+                      alt={`Thumbnail ${idx + 1}`} 
+                      className="w-full h-full object-cover object-center rounded-[2px]"
+                    />
+                  </button>
                 ))}
               </div>
             </div>
@@ -411,7 +393,7 @@ const RetailPage = () => {
             {/* Desktop 2-Column Grid (Hidden on mobile) */}
             <div className="hidden lg:grid grid-cols-2 gap-4">
               {images.map((img, idx) => (
-                <div key={idx} className="relative w-full aspect-[4/5] bg-stone/10 overflow-hidden group rounded-none">
+                <div key={idx} className="relative w-full aspect-square bg-stone/10 overflow-hidden group rounded-none">
                   <img 
                     key={selectedColor + idx}
                     src={img} 
@@ -430,7 +412,7 @@ const RetailPage = () => {
             </div>
           </div>
           
-          <div className="flex flex-col px-6 lg:px-0 lg:pt-0 lg:col-span-5">
+          <div className="flex flex-col px-2.5 sm:px-4 lg:px-0 lg:pt-0 lg:col-span-5">
             <h1 className="text-2xl lg:text-3xl font-serif text-soft-black mb-1 md:mb-2 mt-0 lg:mt-0">AST Handmade Macramé Belt</h1>
             <p className="text-xs md:text-sm font-light italic text-dark-charcoal/80 mb-2 md:mb-3 leading-relaxed">
               Handcrafted with high-density cotton weave for superior flexibility, lasting strength, and effortless daily style.
@@ -985,11 +967,11 @@ const RetailPage = () => {
 
           {/* Picture Thumbnails (Visible on Both Desktop & Mobile) */}
           <div className="w-full h-16 sm:h-20 flex items-center justify-center gap-2 sm:gap-3 px-4 z-[110]">
-             {images.map((img, idx) => (
+              {images.map((img, idx) => (
                 <button 
                   key={idx}
                   onClick={() => { setLightboxImage(img); setZoomLevel(1); }}
-                  className={`w-12 h-14 sm:w-14 sm:h-16 shrink-0 rounded-none overflow-hidden border-2 transition-all cursor-pointer ${
+                  className={`w-12 h-12 sm:w-14 sm:h-14 aspect-square shrink-0 rounded-none overflow-hidden border-2 transition-all cursor-pointer ${
                     lightboxImage === img 
                       ? 'border-terracotta scale-105 shadow-md opacity-100' 
                       : 'border-transparent opacity-50 hover:opacity-80'

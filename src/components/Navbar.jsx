@@ -31,11 +31,11 @@ const Navbar = () => {
     { name: 'Contact', path: '/contact' }
   ];
 
-  // Fixed position on desktop (no expanding to full width on scroll)
-  const navClass = `fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-300 top-0 sm:top-4 md:top-6 w-full sm:w-[94%] md:w-[92%] max-w-6xl bg-cream sm:bg-cream/90 sm:backdrop-blur-md border-b sm:border border-stone/20 sm:border-white/20 rounded-none sm:rounded-full ${
+  // Fixed position on desktop, 100% solid opaque background on mobile
+  const navClass = `fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-300 top-0 sm:top-4 md:top-6 w-full sm:w-[94%] md:w-[92%] max-w-6xl bg-cream border-b sm:border border-stone/20 sm:border-white/20 rounded-none sm:rounded-full ${
     isScrolled 
-      ? 'shadow-md sm:shadow-lg bg-cream/95' 
-      : 'shadow-sm sm:shadow-md bg-cream/85'
+      ? 'shadow-md sm:shadow-lg bg-cream sm:bg-cream/95 sm:backdrop-blur-md' 
+      : 'shadow-sm sm:shadow-md bg-cream sm:bg-cream/90 sm:backdrop-blur-md'
   }`;
 
   return (

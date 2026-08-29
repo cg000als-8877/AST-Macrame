@@ -5,11 +5,11 @@ import { ArrowLeft, ChevronDown, Download, Check } from 'lucide-react';
 import * as htmlToImage from 'html-to-image';
 import bd from '../utils/bd-location';
 
-import b1 from '../assets/products/Black/1.jpg';
-import n1 from '../assets/products/Navy/1.jpg';
-import br1 from '../assets/products/Brown/1.jpg';
-import m1 from '../assets/products/Maroon/1.jpg';
-import k1 from '../assets/products/Khaki/1.jpg';
+import b1 from '../assets/products/Black/1.webp';
+import n1 from '../assets/products/Navy/1.webp';
+import br1 from '../assets/products/Brown/1.webp';
+import m1 from '../assets/products/Maroon/1.webp';
+import k1 from '../assets/products/Khaki/1.webp';
 
 const colorImages = {
   Black: b1,
