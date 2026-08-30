@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ChevronDown, Download, Check } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Download, Check, Lock, ShieldCheck } from 'lucide-react';
 import * as htmlToImage from 'html-to-image';
 import bd from '../utils/bd-location';
 
@@ -660,9 +660,27 @@ const RetailOrderModal = ({
                       {isSubmitting ? (
                         'Processing...'
                       ) : (
-                        <span>CONFIRM ORDER — ৳ {totalCost.toLocaleString()} (CASH ON DELIVERY)</span>
+                        <span>PLACE ORDER — ৳ {totalCost.toLocaleString()} (COD)</span>
                       )}
                     </button>
+
+                    {/* Minimalist Security & Encryption Trust Line */}
+                    <div className="flex flex-col items-center justify-center pt-1 text-center select-none">
+                      <div className="flex items-center justify-center gap-2 text-[10.5px] sm:text-[11.5px] text-dark-charcoal/75 font-medium">
+                        <div className="flex items-center gap-1">
+                          <Lock className="w-3 h-3 text-emerald-700 shrink-0 stroke-[2]" />
+                          <span>256-bit SSL</span>
+                        </div>
+                        <span className="text-dark-charcoal/30">•</span>
+                        <div className="flex items-center gap-1">
+                          <ShieldCheck className="w-3.5 h-3.5 text-[#1C2841] shrink-0 stroke-[2]" />
+                          <span>Norton & McAfee Verified</span>
+                        </div>
+                      </div>
+                      <p className="text-[9.5px] sm:text-[10px] text-dark-charcoal/50 font-light mt-0.5">
+                        Your personal data is encrypted & safe
+                      </p>
+                    </div>
                   </div>
                   </div>
 
@@ -768,9 +786,27 @@ const RetailOrderModal = ({
                       {isSubmitting ? (
                         'Processing...'
                       ) : (
-                        <span>CONFIRM ORDER — ৳ {totalCost.toLocaleString()} (CASH ON DELIVERY)</span>
+                        <span>PLACE ORDER — ৳ {totalCost.toLocaleString()} (COD)</span>
                       )}
                     </button>
+
+                    {/* Minimalist Security & Encryption Trust Line */}
+                    <div className="flex flex-col items-center justify-center pt-1 text-center select-none">
+                      <div className="flex items-center justify-center gap-2.5 text-xs text-dark-charcoal/75 font-medium">
+                        <div className="flex items-center gap-1">
+                          <Lock className="w-3.5 h-3.5 text-emerald-700 shrink-0 stroke-[2]" />
+                          <span>256-bit SSL</span>
+                        </div>
+                        <span className="text-dark-charcoal/30">•</span>
+                        <div className="flex items-center gap-1">
+                          <ShieldCheck className="w-4 h-4 text-[#1C2841] shrink-0 stroke-[2]" />
+                          <span>Norton & McAfee Verified</span>
+                        </div>
+                      </div>
+                      <p className="text-[11px] text-dark-charcoal/50 font-light mt-0.5">
+                        Your personal data is encrypted & safe
+                      </p>
+                    </div>
                   </div>
                   </div>
                 </form>
