@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ChevronDown, Download, Check, Lock, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Download, Check, Lock, ShieldCheck, X } from 'lucide-react';
 import * as htmlToImage from 'html-to-image';
 import bd from '../utils/bd-location';
 
@@ -49,6 +49,30 @@ const RetailOrderModal = ({
   
   // 'outside' (100 Tk) or 'inside' (50 Tk)
   const [deliveryType, setDeliveryType] = useState('outside');
+
+  // Lock body scroll on mobile and desktop while order form modal is open
+  useEffect(() => {
+    if (isOpen) {
+      const scrollY = window.scrollY;
+      const originalOverflow = document.body.style.overflow;
+      const originalPosition = document.body.style.position;
+      const originalTop = document.body.style.top;
+      const originalWidth = document.body.style.width;
+
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        document.body.style.position = originalPosition;
+        document.body.style.top = originalTop;
+        document.body.style.width = originalWidth;
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
@@ -346,22 +370,29 @@ const RetailOrderModal = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-6 lg:p-12">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-6 lg:p-12 overflow-hidden overscroll-contain">
           {/* Blurred Background Backdrop */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={!isSubmitting ? onClose : undefined}
-            className="absolute inset-0 bg-black/75 backdrop-blur-md"
+            className={`absolute inset-0 transition-all duration-500 ${
+              isSuccess 
+                ? 'bg-black/80 backdrop-blur-2xl' 
+                : 'bg-black/75 backdrop-blur-md'
+            }`}
           />
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="bg-cream w-full h-full md:h-auto md:max-h-full max-w-5xl p-4 sm:p-5 md:p-8 rounded-2xl md:rounded-3xl shadow-2xl overflow-y-auto relative flex flex-col md:block"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 16 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className={`w-full h-[100dvh] md:h-auto md:max-h-[95vh] max-w-5xl p-4 sm:p-6 md:p-8 rounded-none overflow-y-auto overscroll-contain relative flex flex-col ${
+              isSuccess ? 'bg-transparent shadow-none items-center justify-start md:justify-center' : 'bg-cream shadow-2xl md:block'
+            }`}
           >
-            {!isSubmitting && (
+            {!isSubmitting && !isSuccess && (
               <button 
                 onClick={onClose}
                 className="absolute top-4 left-4 md:top-6 md:left-6 flex items-center gap-1.5 text-soft-black/70 hover:text-soft-black transition-colors z-20 group cursor-pointer"
@@ -371,8 +402,18 @@ const RetailOrderModal = ({
                 <span className="text-[11px] md:text-xs font-bold uppercase tracking-wider">Back</span>
               </button>
             )}
+
+            {isSuccess && (
+              <button 
+                onClick={onClose}
+                className="fixed top-4 right-4 md:top-6 md:right-6 w-9 h-9 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center backdrop-blur-md transition-all z-30 cursor-pointer border border-white/20 shadow-lg"
+                aria-label="Close receipt"
+              >
+                <X size={18} />
+              </button>
+            )}
             
-            <div className="relative z-10">
+            <div className="relative z-10 w-full flex flex-col items-center">
             {isSubmitting ? (
               /* 3-Second Realistic Loading Animation */
               <div className="py-16 md:py-24 flex flex-col items-center justify-center text-center">
@@ -491,12 +532,22 @@ const RetailOrderModal = ({
 
                 </div>
 
+                {/* "YOUR ORDER IS CONFIRMED" with green tick mark above download button */}
+                <div className="flex items-center justify-center gap-2 mt-5 mb-2.5 select-none">
+                  <div className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center shrink-0">
+                    <Check className="w-3.5 h-3.5 text-emerald-400 stroke-[3]" />
+                  </div>
+                  <span className="text-xs sm:text-sm font-bold tracking-widest text-emerald-400 uppercase drop-shadow-sm">
+                    YOUR ORDER IS CONFIRMED
+                  </span>
+                </div>
+
                 {/* Modal action - Save Receipt Image */}
-                <div className="flex items-center justify-center mt-6 w-full max-w-md mx-auto">
+                <div className="flex flex-col items-center justify-center w-full max-w-md mx-auto">
                   <button 
                     onClick={handleDownloadReceipt}
                     disabled={isDownloading}
-                    className="w-full sm:w-auto bg-[#1C2841] text-white hover:bg-[#131E33] px-8 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-full transition-all shadow-lg cursor-pointer font-mono flex items-center justify-center gap-2.5 active:scale-95 disabled:opacity-75"
+                    className="w-full sm:w-auto bg-[#1C2841] text-white hover:bg-[#131E33] px-8 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-full transition-all shadow-xl cursor-pointer font-mono flex items-center justify-center gap-2.5 active:scale-95 disabled:opacity-75 border border-white/10"
                   >
                     {downloadSuccess ? (
                       <>
@@ -509,6 +560,12 @@ const RetailOrderModal = ({
                         <span>{isDownloading ? 'Saving Image to Gallery...' : 'Save Receipt to Gallery (JPG)'}</span>
                       </>
                     )}
+                  </button>
+                  <button
+                    onClick={onClose}
+                    className="mt-3 text-[11px] text-white/70 hover:text-white uppercase tracking-widest transition-colors cursor-pointer"
+                  >
+                    Return to Store
                   </button>
                 </div>
               </div>

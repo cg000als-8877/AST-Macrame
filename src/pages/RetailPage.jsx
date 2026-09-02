@@ -134,15 +134,12 @@ const RetailPage = () => {
   }, []);
 
   useEffect(() => {
-    if (lightboxImage) {
+    if (lightboxImage || isSizeGuideOpen || isCareGuideOpen) {
       document.body.style.overflow = 'hidden';
-    } else {
+    } else if (!isOrderFormOpen) {
       document.body.style.overflow = 'auto';
     }
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [lightboxImage]);
+  }, [lightboxImage, isSizeGuideOpen, isCareGuideOpen, isOrderFormOpen]);
 
   const colors = [
     { name: 'Black', hex: '#1a1a1a' },
