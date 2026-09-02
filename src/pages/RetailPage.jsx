@@ -77,8 +77,8 @@ const RetailPage = () => {
   const [openAccordions, setOpenAccordions] = useState({
     description: true,
     materials: true,
-    shipping: false,
-    disclaimer: false
+    shipping: true,
+    disclaimer: true
   });
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isCareGuideOpen, setIsCareGuideOpen] = useState(false);
