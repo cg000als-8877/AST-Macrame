@@ -370,7 +370,7 @@ const RetailOrderModal = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-6 lg:p-12 overflow-hidden overscroll-contain">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-3 lg:p-4 overflow-hidden overscroll-contain">
           {/* Blurred Background Backdrop */}
           <motion.div 
             initial={{ opacity: 0 }}
@@ -388,7 +388,7 @@ const RetailOrderModal = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 16 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className={`w-full h-[100dvh] md:h-auto md:max-h-[95vh] max-w-5xl p-4 sm:p-6 md:p-8 rounded-none overflow-y-auto overscroll-contain relative flex flex-col ${
+            className={`w-full h-[100dvh] md:h-auto md:max-h-[96vh] max-w-6xl px-2.5 py-4 sm:px-5 sm:py-6 md:px-8 lg:px-12 md:py-8 rounded-none overflow-y-auto overscroll-contain relative flex flex-col ${
               isSuccess ? 'bg-transparent shadow-none items-center justify-start md:justify-center' : 'bg-cream shadow-2xl md:block'
             }`}
           >
@@ -413,7 +413,7 @@ const RetailOrderModal = ({
               </button>
             )}
             
-            <div className="relative z-10 w-full flex flex-col items-center">
+            <div className={`relative z-10 w-full ${isSuccess || isSubmitting ? 'flex flex-col items-center justify-center' : ''}`}>
             {isSubmitting ? (
               /* 3-Second Realistic Loading Animation */
               <div className="py-16 md:py-24 flex flex-col items-center justify-center text-center">
@@ -576,7 +576,7 @@ const RetailOrderModal = ({
                 </div>
                 
                 <form 
-                  className="flex flex-col md:grid md:grid-cols-2 md:gap-8 lg:gap-12 md:items-start"
+                  className="w-full flex flex-col md:grid md:grid-cols-2 md:gap-8 lg:gap-12 md:items-start"
                   onSubmit={handleSubmit}
                   onChange={handleFormChange}
                 >
