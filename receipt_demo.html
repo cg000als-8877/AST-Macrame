@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AST Macramé Receipt Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; }
+    body { background: #EFECE6; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 30px 16px; }
+    .wrapper { width: 100%; max-width: 440px; display: flex; flex-direction: column; align-items: center; }
+    
+    .confirmed-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0;
+      padding: 6px 16px; border-radius: 9999px; font-size: 13px; font-weight: 700;
+      letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px;
+    }
+    .confirmed-pill .check-dot {
+      width: 20px; height: 20px; border-radius: 50%; background: #059669;
+      color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;
+    }
+
+    .receipt-card {
+      width: 100%; background: #FFFFFF; border: 1px solid #DCD7CE;
+      border-radius: 16px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+      display: flex; flex-direction: column; gap: 16px;
+    }
+
+    /* Header */
+    .brand-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      border-bottom: 1px solid #EAE5DB; padding-bottom: 14px;
+    }
+    .brand-title { font-size: 16px; font-weight: 800; color: #1C2841; letter-spacing: -0.3px; }
+    .brand-sub { font-size: 10.5px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+    .meta-right { text-align: right; }
+    .cod-badge {
+      display: inline-block; background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0;
+      font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 9999px;
+      margin-bottom: 4px;
+    }
+    .order-id { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #1C2841; }
+    .order-date { font-size: 10px; color: #777; }
+
+    /* Info Box */
+    .info-box {
+      background: #FAF8F5; border: 1px solid #EBE6DC; border-radius: 10px; padding: 12px 14px;
+    }
+    .box-label {
+      font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;
+      color: #C25E3E; margin-bottom: 6px; display: flex; align-items: center; gap: 4px;
+    }
+    .customer-name { font-size: 14px; font-weight: 700; color: #1C2841; }
+    .customer-phone { font-size: 12.5px; font-weight: 600; color: #065F46; margin: 2px 0 4px; }
+    .customer-address { font-size: 12px; color: #444; line-height: 1.4; }
+
+    /* Items */
+    .section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #666; margin-bottom: 8px; }
+    .item-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 12px; border: 1px solid #EBE6DC; border-radius: 10px; background: #FFFFFF;
+    }
+    .item-left { display: flex; align-items: center; gap: 10px; }
+    .item-thumb {
+      width: 40px; height: 40px; border-radius: 8px; background: #F4EFEA;
+      display: flex; align-items: center; justify-content: center; font-size: 18px;
+    }
+    .item-name { font-size: 13px; font-weight: 700; color: #1C2841; line-height: 1.2; }
+    .item-specs { font-size: 11px; color: #666; margin-top: 2px; }
+    .item-price { font-size: 13px; font-weight: 700; color: #1C2841; }
+
+    /* Breakdown */
+    .breakdown-row { display: flex; justify-content: space-between; font-size: 12px; color: #555; margin-bottom: 4px; }
+    .breakdown-val { font-weight: 600; color: #1C2841; }
+    .total-card {
+      display: flex; justify-content: space-between; align-items: center;
+      background: #FAF8F5; border: 1px solid #EBE6DC; border-radius: 10px; padding: 12px 14px; margin-top: 8px;
+    }
+    .total-title { font-size: 10.5px; font-weight: 700; text-transform: uppercase; color: #444; }
+    .total-subtitle { font-size: 10px; color: #065F46; font-weight: 600; }
+    .total-amount { font-size: 20px; font-weight: 800; color: #C25E3E; }
+
+    /* Trust badges */
+    .badges-grid { display: grid; grid-cols: 2; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .badge-card {
+      padding: 8px; border-radius: 8px; font-size: 10.5px; font-weight: 600;
+      text-align: center; display: flex; align-items: center; justify-content: center; gap: 4px;
+    }
+    .badge-green { background: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46; }
+    .badge-neutral { background: #F8F6F0; border: 1px solid #E6E1D6; color: #333; }
+
+    /* WhatsApp button */
+    .whatsapp-btn {
+      width: 100%; background: #059669; color: white; border: none; border-radius: 8px;
+      padding: 10px; font-size: 11.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.5px; text-align: center; text-decoration: none; display: flex;
+      align-items: center; justify-content: center; gap: 6px;
+    }
+    .footer-note { font-size: 10px; color: #777; text-align: center; margin-top: 6px; }
+
+    /* Action buttons below */
+    .action-save {
+      width: 100%; background: #1C2841; color: white; border: none; border-radius: 9999px;
+      padding: 14px; font-size: 13px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.8px; margin-top: 16px; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    
+    <div class="confirmed-pill">
+      <div class="check-dot">✓</div>
+      <span>Your Order Is Confirmed</span>
+    </div>
+
+    <div class="receipt-card">
+      
+      <!-- 1. Header -->
+      <div class="brand-header">
+        <div>
+          <div class="brand-title">AST MACRAMÉ</div>
+          <div class="brand-sub">Handcrafted Artisan Cotton Belts</div>
+        </div>
+        <div class="meta-right">
+          <div class="cod-badge">COD Confirmed ✓</div>
+          <div class="order-id">#AST-849201</div>
+          <div class="order-date">03 Sep 2026 • 03:45 PM</div>
+        </div>
+      </div>
+
+      <!-- 2. Delivery info -->
+      <div class="info-box">
+        <div class="box-label">📍 Delivery Information</div>
+        <div class="customer-name">Arif Chowdhury</div>
+        <div class="customer-phone">📞 +8801712345678</div>
+        <div class="customer-address">House 24, Road 7, Sector 3, Uttara, Dhaka</div>
+      </div>
+
+      <!-- 3. Items -->
+      <div>
+        <div class="section-label">Order Summary</div>
+        <div class="item-row">
+          <div class="item-left">
+            <div class="item-thumb">🧵</div>
+            <div>
+              <div class="item-name">AST Handmade Macramé Belt</div>
+              <div class="item-specs">Color: <strong>Black</strong> &bull; Size: <strong>M (30-34)</strong></div>
+            </div>
+          </div>
+          <div class="item-price">৳ 850</div>
+        </div>
+      </div>
+
+      <!-- 4. Breakdown & Total -->
+      <div>
+        <div class="breakdown-row">
+          <span>Items Subtotal:</span>
+          <span class="breakdown-val">৳ 850</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Delivery Fee (All over Bangladesh):</span>
+          <span class="breakdown-val">৳ 100</span>
+        </div>
+        
+        <div class="total-card">
+          <div>
+            <div class="total-title">Total Payable (COD)</div>
+            <div class="total-subtitle">Pay cash upon delivery</div>
+          </div>
+          <div class="total-amount">৳ 950</div>
+        </div>
+      </div>
+
+      <!-- 5. Trust Badges -->
+      <div class="badges-grid">
+        <div class="badge-card badge-green">
+          📦 Open-Box Checking Allowed
+        </div>
+        <div class="badge-card badge-neutral">
+          🛡️ 100% Handcrafted in BD
+        </div>
+      </div>
+
+      <!-- 6. WhatsApp Hotline -->
+      <div>
+        <div class="whatsapp-btn">
+          💬 Need Urgent Support? Chat on WhatsApp
+        </div>
+        <div class="footer-note">
+          Our workshop is preparing your parcel. Rider will call before delivery.
+        </div>
+      </div>
+
+    </div>
+
+    <button class="action-save">
+      📥 Save Receipt to Gallery (JPG)
+    </button>
+
+  </div>
+</body>
+</html>
