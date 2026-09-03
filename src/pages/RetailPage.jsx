@@ -439,14 +439,14 @@ const RetailPage = () => {
             {/* Added Price */}
             <div className="mb-4 md:mb-5 flex items-center gap-3 md:gap-4 mt-2 flex-wrap">
               <span className="text-2xl md:text-3xl font-serif text-soft-black leading-none">
-                {orderType === 'single' ? '990 BDT' : '1,790 BDT'}
+                {orderType === 'single' ? '850 BDT' : '1,490 BDT'}
               </span>
               <div className="flex items-center gap-2">
                 <span className="text-sm md:text-base text-red-500/80 line-through font-bold whitespace-nowrap leading-none">
-                  {orderType === 'single' ? '1,150 BDT' : '2,300 BDT'}
+                  {orderType === 'single' ? '1,050 BDT' : '2,100 BDT'}
                 </span>
                 <span className="inline-flex items-center justify-center bg-red-500 text-white text-[10px] md:text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded-[15px] shadow-sm whitespace-nowrap leading-none">
-                  {orderType === 'single' ? 'SAVE 160 TK' : 'SAVE 510 TK'}
+                  {orderType === 'single' ? 'SAVE 200 TK' : 'SAVE 610 TK'}
                 </span>
               </div>
             </div>
@@ -752,15 +752,11 @@ const RetailPage = () => {
                   <ul className="space-y-2">
                     <li className="flex items-start">
                       <span className="w-1.5 h-1.5 rounded-none bg-terracotta mt-[0.45rem] mr-2.5 flex-shrink-0"></span>
-                      <span><strong className="font-semibold text-soft-black">Chittagong City:</strong> 24 to 48 Hours (Home Delivery)</span>
+                      <span><strong className="font-semibold text-soft-black">Express Delivery:</strong> 2 to 4 Working Days (Home Delivery Nationwide)</span>
                     </li>
                     <li className="flex items-start">
                       <span className="w-1.5 h-1.5 rounded-none bg-terracotta mt-[0.45rem] mr-2.5 flex-shrink-0"></span>
-                      <span><strong className="font-semibold text-soft-black">Dhaka & Nationwide:</strong> 2 to 4 Working Days (Home Delivery)</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="w-1.5 h-1.5 rounded-none bg-terracotta mt-[0.45rem] mr-2.5 flex-shrink-0"></span>
-                      <span><strong className="font-semibold text-soft-black">Delivery Charge:</strong> ৳ 50 (Inside CTG City) | ৳100 (Outside CTG)</span>
+                      <span><strong className="font-semibold text-soft-black">Standard Delivery Charge:</strong> ৳ 100 (All over Bangladesh)</span>
                     </li>
                   </ul>
                   <p className="text-xs text-dark-charcoal/70 italic pt-1">
@@ -1041,7 +1037,7 @@ const RetailPage = () => {
                   </span>
                   <div className="flex items-center gap-1.5 text-[10px] sm:text-xs">
                     <span className="text-terracotta font-bold">
-                      {orderType === 'single' ? '৳ 990' : '৳ 1,790'}
+                      {orderType === 'single' ? '৳ 850' : '৳ 1,490'}
                     </span>
                     <span className="text-dark-charcoal/60 truncate">
                       {orderType === 'single' ? `• ${selectedColor} (${selectedSize})` : `• Combo`}

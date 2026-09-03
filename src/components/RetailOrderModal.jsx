@@ -47,8 +47,8 @@ const RetailOrderModal = ({
   const [selectedUpazilaName, setSelectedUpazilaName] = useState('');
   const [formError, setFormError] = useState(null);
   
-  // 'outside' (100 Tk) or 'inside' (50 Tk)
-  const [deliveryType, setDeliveryType] = useState('outside');
+  // Standard Nationwide Delivery Charge (100 Tk)
+  const deliveryCost = 100;
 
   // Lock body scroll on mobile and desktop while order form modal is open
   useEffect(() => {
@@ -86,7 +86,7 @@ const RetailOrderModal = ({
         fbq('track', 'InitiateCheckout', {
           content_name: orderType === 'single' ? 'Single Belt' : 'Combo Belt Set',
           currency: 'BDT',
-          value: orderType === 'single' ? 990 : 1790,
+          value: orderType === 'single' ? 850 : 1490,
         });
       }
     } else {
@@ -95,7 +95,6 @@ const RetailOrderModal = ({
       setDistricts([]);
       setUpazilas([]);
       setFormError(null);
-      setDeliveryType('outside'); // Reset to default
     }
   }, [isOpen]);
 
@@ -205,19 +204,17 @@ const RetailOrderModal = ({
     
     formData.append('formType', 'Retail Order');
     if (orderType === 'combo') {
-      formData.append('orderType', 'Combo (1790 BDT)');
+      formData.append('orderType', 'Combo (1490 BDT)');
       if (!formData.get('color')) formData.append('color', `${comboColor1} + ${comboColor2}`);
       if (!formData.get('size')) formData.append('size', `${comboSize1} + ${comboSize2}`);
     } else {
-      formData.append('orderType', 'Single (990 BDT)');
+      formData.append('orderType', 'Single (850 BDT)');
       if (!formData.get('color')) formData.append('color', selectedColor);
       if (!formData.get('size')) formData.append('size', selectedSize);
     }
     
     // Add Delivery Charge label for Google Sheet
-    const deliveryText = deliveryType === 'inside' 
-      ? 'Chittagong City Delivery Charge 50 Tk' 
-      : 'Outside Chittagong Delivery Charge 100 Tk';
+    const deliveryText = 'Standard Delivery Charge 100 Tk (All over Bangladesh)';
     formData.append('deliveryCharge', deliveryText);
 
     // Add Date, Time, and Total Amount
@@ -225,8 +222,8 @@ const RetailOrderModal = ({
     const dateStr = now.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
     const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
     
-    const deliveryCostAmount = deliveryType === 'inside' ? 50 : 100;
-    const productCostAmount = orderType === 'single' ? 990 : 1790;
+    const deliveryCostAmount = 100;
+    const productCostAmount = orderType === 'single' ? 850 : 1490;
     const totalCostAmount = productCostAmount + deliveryCostAmount;
     
     formData.append('date', dateStr);
@@ -259,7 +256,7 @@ const RetailOrderModal = ({
       ],
       productCost: productCostAmount,
       deliveryCost: deliveryCostAmount,
-      deliveryLocation: deliveryType === 'inside' ? 'Chittagong City' : 'Outside Chittagong',
+      deliveryLocation: 'All over Bangladesh',
       totalCost: totalCostAmount,
       paymentMethod: 'Cash on Delivery (COD)'
     };
@@ -278,19 +275,23 @@ const RetailOrderModal = ({
     const scriptUrl = import.meta.env.VITE_APPS_SCRIPT_URL;
 
     try {
-      // 3-second realistic processing delay
-      const delay = new Promise(resolve => setTimeout(resolve, 3000));
+      // Fire Google Sheets background submission
+      const submitPromise = scriptUrl ? fetch(scriptUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: urlEncodedData,
+      }).catch(err => console.error("Sheet submit error:", err)) : Promise.resolve();
+
+      // Snappy 1.2s realistic spinner, capped at 2.0s maximum so it never hangs
+      const minDelay = new Promise(resolve => setTimeout(resolve, 1200));
+      const maxTimeout = new Promise(resolve => setTimeout(resolve, 2000));
       
       await Promise.all([
-        fetch(scriptUrl, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: urlEncodedData,
-        }),
-        delay
+        Promise.race([submitPromise, maxTimeout]),
+        minDelay
       ]);
       
       setIsSuccess(true);
@@ -363,8 +364,7 @@ const RetailOrderModal = ({
     };
   }, [isSuccess, orderReceipt]);
 
-  const deliveryCost = deliveryType === 'inside' ? 50 : 100;
-  const productCost = orderType === 'single' ? 990 : 1790;
+  const productCost = orderType === 'single' ? 850 : 1490;
   const totalCost = productCost + deliveryCost;
 
   return (
@@ -379,7 +379,7 @@ const RetailOrderModal = ({
             onClick={!isSubmitting ? onClose : undefined}
             className={`absolute inset-0 transition-all duration-500 ${
               isSuccess 
-                ? 'bg-black/80 backdrop-blur-2xl' 
+                ? 'bg-white/80 backdrop-blur-2xl' 
                 : 'bg-black/75 backdrop-blur-md'
             }`}
           />
@@ -406,7 +406,7 @@ const RetailOrderModal = ({
             {isSuccess && (
               <button 
                 onClick={onClose}
-                className="fixed top-4 right-4 md:top-6 md:right-6 w-9 h-9 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center backdrop-blur-md transition-all z-30 cursor-pointer border border-white/20 shadow-lg"
+                className="fixed top-4 right-4 md:top-6 md:right-6 w-9 h-9 rounded-full bg-black/10 hover:bg-black/20 text-soft-black flex items-center justify-center backdrop-blur-md transition-all z-30 cursor-pointer border border-black/10 shadow-sm"
                 aria-label="Close receipt"
               >
                 <X size={18} />
@@ -415,7 +415,7 @@ const RetailOrderModal = ({
             
             <div className={`relative z-10 w-full ${isSuccess || isSubmitting ? 'flex flex-col items-center justify-center' : ''}`}>
             {isSubmitting ? (
-              /* 3-Second Realistic Loading Animation */
+              /* Realistic Loading Animation */
               <div className="py-16 md:py-24 flex flex-col items-center justify-center text-center">
                 <div className="relative w-16 h-16 mb-5 flex items-center justify-center">
                   <div className="w-14 h-14 rounded-full border-3 border-stone/20 border-t-[#1C2841] animate-spin" />
@@ -429,125 +429,126 @@ const RetailOrderModal = ({
                 </p>
               </div>
             ) : isSuccess && orderReceipt ? (
-              <div className="py-4 md:py-6 flex flex-col items-center justify-center">
+              <div className="py-2 md:py-4 flex flex-col items-center justify-center w-full">
                 
-                {/* Simplified, Clean Minimalist Monospace Receipt */}
+                {/* 1. "YOUR ORDER IS CONFIRMED" Banner ABOVE the receipt */}
+                <div className="flex items-center justify-center gap-2 mb-3 select-none">
+                  <div className="w-5 h-5 rounded-full bg-emerald-600 flex items-center justify-center shadow-sm shrink-0">
+                    <Check className="w-3.5 h-3.5 text-white stroke-[3]" />
+                  </div>
+                  <span className="text-xs sm:text-sm font-bold tracking-widest text-emerald-800 uppercase font-sans">
+                    YOUR ORDER IS CONFIRMED
+                  </span>
+                </div>
+
+                {/* 2. Redesigned Sharp 3:4 Receipt Card (Compact & Highlighted) */}
                 <div 
                   ref={receiptRef}
-                  className="w-full max-w-md bg-white border border-[#E5E0D6] p-6 sm:p-7 rounded-2xl shadow-xl font-mono text-soft-black text-left select-text relative"
+                  className="w-full max-w-[370px] sm:max-w-[390px] aspect-[3/4] bg-white border border-[#DDD8CE] p-4 sm:p-5 rounded-none shadow-2xl font-mono text-soft-black text-left select-text relative flex flex-col justify-between"
+                  style={{ minHeight: '490px' }}
                 >
-                  
-                  {/* Top brand & Logo */}
-                  <div className="text-center pb-4 border-b border-[#E5E0D6]">
+                  {/* Top Brand Header */}
+                  <div className="text-center pb-2 border-b border-[#E8E4DB]">
                     <img 
                       src="/logo_black.png" 
                       alt="AST Logo" 
-                      className="h-7 w-auto mx-auto mb-2 object-contain" 
+                      className="h-6 w-auto mx-auto mb-1 object-contain" 
                     />
-                    <h2 className="text-sm sm:text-base font-bold tracking-widest uppercase text-soft-black">
+                    <h2 className="text-xs sm:text-sm font-bold tracking-widest uppercase text-soft-black leading-tight">
                       AST MACRAMÉ
                     </h2>
-                    <p className="text-[10px] text-dark-charcoal/60 uppercase tracking-widest mt-0.5">
-                      Order Confirmation Receipt
+                    <p className="text-[9px] text-dark-charcoal/60 uppercase tracking-widest mt-0.5">
+                      Official Order Receipt
                     </p>
                   </div>
 
-                  {/* Order Meta Info */}
-                  <div className="py-3 border-b border-[#E5E0D6] text-xs space-y-1.5 text-dark-charcoal/80">
-                    <div className="flex justify-between">
-                      <span className="text-dark-charcoal/60">ORDER ID:</span>
-                      <span className="font-bold text-soft-black">{orderReceipt.orderId}</span>
+                  {/* Order Meta Bar - Highlighted */}
+                  <div className="grid grid-cols-2 gap-2 py-1.5 px-2.5 bg-[#FAF8F5] border border-[#E8E4DB] text-[10px] sm:text-[10.5px]">
+                    <div>
+                      <span className="text-dark-charcoal/60 block text-[8.5px] uppercase">ORDER ID</span>
+                      <strong className="font-bold text-soft-black">{orderReceipt.orderId}</strong>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-dark-charcoal/60">DATE:</span>
-                      <span>{orderReceipt.date}, {orderReceipt.time}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-dark-charcoal/60">PAYMENT:</span>
-                      <span className="font-semibold text-emerald-800">{orderReceipt.paymentMethod}</span>
+                    <div className="text-right">
+                      <span className="text-dark-charcoal/60 block text-[8.5px] uppercase">DATE & TIME</span>
+                      <span className="text-dark-charcoal/90">{orderReceipt.date}</span>
                     </div>
                   </div>
 
-                  {/* Customer Information */}
-                  <div className="py-3 border-b border-[#E5E0D6] text-xs space-y-1">
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-dark-charcoal/60 mb-1">
-                      DELIVERY DETAILS
+                  {/* Customer Delivery Details */}
+                  <div className="py-2 border-b border-[#E8E4DB] text-[10.5px] space-y-0.5">
+                    <div className="text-[9px] font-bold uppercase tracking-wider text-dark-charcoal/60">
+                      DELIVER TO
                     </div>
-                    <div className="font-bold text-soft-black">{orderReceipt.name} ({orderReceipt.phone})</div>
-                    <div className="text-dark-charcoal/80 text-[11px] leading-relaxed font-sans mt-0.5">{orderReceipt.address}</div>
+                    <div className="font-bold text-soft-black leading-tight">{orderReceipt.name} • {orderReceipt.phone}</div>
+                    <div className="text-dark-charcoal/75 text-[10px] leading-snug font-sans line-clamp-2">{orderReceipt.address}</div>
                     {orderReceipt.note && (
-                      <div className="text-[10.5px] text-dark-charcoal/70 italic pt-0.5 font-sans">
+                      <div className="text-[9.5px] text-dark-charcoal/65 italic font-sans">
                         Note: {orderReceipt.note}
                       </div>
                     )}
                   </div>
 
-                  {/* Order Items */}
-                  <div className="py-3 border-b border-[#E5E0D6] text-xs">
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-dark-charcoal/60 mb-2">
-                      ITEMS ORDERED
+                  {/* Order Items & Breakdown */}
+                  <div className="py-2 space-y-1.5 text-[10.5px]">
+                    <div className="text-[9px] font-bold uppercase tracking-wider text-dark-charcoal/60">
+                      ORDER SUMMARY
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-1">
                       {orderReceipt.items.map((item, idx) => (
-                        <div key={idx} className="flex justify-between items-center text-xs">
+                        <div key={idx} className="flex justify-between items-center text-[10.5px] leading-tight">
                           <div>
                             <span className="font-bold text-soft-black">{item.name}</span>
-                            <div className="text-[10.5px] text-dark-charcoal/70">
-                              {item.color} • Size {item.size}
-                            </div>
+                            <span className="text-[9.5px] text-dark-charcoal/65 ml-1.5 font-sans">
+                              ({item.color}, {item.size})
+                            </span>
                           </div>
                         </div>
                       ))}
                     </div>
-                  </div>
 
-                  {/* Pricing Breakdown */}
-                  <div className="py-3 border-b border-[#E5E0D6] text-xs space-y-1.5 text-dark-charcoal/80">
-                    <div className="flex justify-between">
-                      <span>Product Subtotal:</span>
-                      <span>৳ {orderReceipt.productCost.toLocaleString()}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Delivery Fee ({orderReceipt.deliveryLocation}):</span>
-                      <span>৳ {orderReceipt.deliveryCost.toLocaleString()}</span>
-                    </div>
-                    <div className="flex justify-between text-sm font-bold pt-2 border-t border-[#E5E0D6] text-soft-black">
-                      <span>TOTAL PAYABLE (COD):</span>
-                      <span className="text-base text-[#1C2841]">৳ {orderReceipt.totalCost.toLocaleString()}</span>
+                    <div className="pt-1.5 border-t border-dashed border-[#E0DCD3] space-y-0.5 text-[10px] text-dark-charcoal/80">
+                      <div className="flex justify-between">
+                        <span>Items Subtotal:</span>
+                        <span>৳ {orderReceipt.productCost.toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Delivery Fee ({orderReceipt.deliveryLocation}):</span>
+                        <span>৳ {orderReceipt.deliveryCost.toLocaleString()}</span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Thank you note */}
-                  <div className="pt-4 text-center text-xs">
-                    <p className="font-bold tracking-wider uppercase text-soft-black mb-0.5">
-                      THANK YOU FOR YOUR ORDER!
-                    </p>
-                    <p className="text-[10.5px] text-dark-charcoal/60 font-sans mb-1">
-                      We will carefully prepare and dispatch your parcel shortly.
-                    </p>
-                    <p className="text-[10.5px] text-dark-charcoal/60 font-sans">
-                      WhatsApp Support: +8801940689061
-                    </p>
+                  {/* Total Payable Box - Highlighted */}
+                  <div className="py-2 px-3 bg-[#FAF8F5] border border-[#E0DCD3] flex justify-between items-center text-xs">
+                    <span className="font-bold tracking-wider uppercase text-soft-black text-[10.5px]">TOTAL PAYABLE (COD):</span>
+                    <span className="text-base font-bold text-terracotta">৳ {orderReceipt.totalCost.toLocaleString()}</span>
                   </div>
 
+                  {/* Highlighted WhatsApp Support Box & Thank You Note */}
+                  <div className="pt-2 text-center border-t border-[#E8E4DB]">
+                    <a 
+                      href="https://wa.me/8801940689061" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-1.5 py-1 px-2.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-800 text-[10px] font-bold rounded-none transition-colors w-full"
+                    >
+                      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-[#25D366]">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                      </svg>
+                      <span>WhatsApp Support: <strong>+8801940689061</strong></span>
+                    </a>
+                    <p className="text-[9px] text-dark-charcoal/60 font-sans mt-1">
+                      Thank you for your order! Parcel preparation in progress.
+                    </p>
+                  </div>
                 </div>
 
-                {/* "YOUR ORDER IS CONFIRMED" with green tick mark above download button */}
-                <div className="flex items-center justify-center gap-2 mt-5 mb-2.5 select-none">
-                  <div className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center shrink-0">
-                    <Check className="w-3.5 h-3.5 text-emerald-400 stroke-[3]" />
-                  </div>
-                  <span className="text-xs sm:text-sm font-bold tracking-widest text-emerald-400 uppercase drop-shadow-sm">
-                    YOUR ORDER IS CONFIRMED
-                  </span>
-                </div>
-
-                {/* Modal action - Save Receipt Image */}
-                <div className="flex flex-col items-center justify-center w-full max-w-md mx-auto">
+                {/* 3. Action Buttons (Below Receipt) */}
+                <div className="flex flex-col items-center justify-center w-full max-w-md mx-auto mt-4">
                   <button 
                     onClick={handleDownloadReceipt}
                     disabled={isDownloading}
-                    className="w-full sm:w-auto bg-[#1C2841] text-white hover:bg-[#131E33] px-8 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-full transition-all shadow-xl cursor-pointer font-mono flex items-center justify-center gap-2.5 active:scale-95 disabled:opacity-75 border border-white/10"
+                    className="w-full sm:w-auto bg-[#1C2841] text-white hover:bg-black px-8 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-full transition-all shadow-xl cursor-pointer font-mono flex items-center justify-center gap-2.5 active:scale-95 disabled:opacity-75"
                   >
                     {downloadSuccess ? (
                       <>
@@ -563,7 +564,7 @@ const RetailOrderModal = ({
                   </button>
                   <button
                     onClick={onClose}
-                    className="mt-3 text-[11px] text-white/70 hover:text-white uppercase tracking-widest transition-colors cursor-pointer"
+                    className="mt-2.5 text-xs text-dark-charcoal/75 hover:text-soft-black uppercase tracking-widest font-semibold transition-colors cursor-pointer underline"
                   >
                     Return to Store
                   </button>
@@ -780,38 +781,9 @@ const RetailOrderModal = ({
                         <span className="font-medium">{productCost} BDT</span>
                       </div>
                       
-                      <div className="flex flex-col gap-1.5 md:gap-2 mt-3 pt-3 border-t border-[#E5E0D6]">
-                        <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-dark-charcoal mb-1">Delivery Area</span>
-                        
-                        <label className="flex items-center justify-between cursor-pointer group p-2.5 rounded-xl transition-all bg-[#FAF8F5] hover:bg-[#F3EFEA] border border-[#E5E0D6]">
-                          <div className="flex items-center gap-2.5 md:gap-3">
-                            <input 
-                              type="radio" 
-                              name="delivery_area" 
-                              value="inside" 
-                              checked={deliveryType === 'inside'} 
-                              onChange={() => setDeliveryType('inside')}
-                              className="accent-terracotta w-3.5 h-3.5 md:w-4 md:h-4 cursor-pointer" 
-                            />
-                            <span className="text-[11px] md:text-xs text-dark-charcoal group-hover:text-soft-black transition-colors">Chittagong City</span>
-                          </div>
-                          <span className="text-[11px] md:text-xs font-medium text-terracotta">+ 50 BDT</span>
-                        </label>
-                        
-                        <label className="flex items-center justify-between cursor-pointer group p-2.5 rounded-xl transition-all bg-[#FAF8F5] hover:bg-[#F3EFEA] border border-[#E5E0D6]">
-                          <div className="flex items-center gap-2.5 md:gap-3">
-                            <input 
-                              type="radio" 
-                              name="delivery_area" 
-                              value="outside" 
-                              checked={deliveryType === 'outside'} 
-                              onChange={() => setDeliveryType('outside')}
-                              className="accent-terracotta w-3.5 h-3.5 md:w-4 md:h-4 cursor-pointer" 
-                            />
-                            <span className="text-[11px] md:text-xs text-dark-charcoal group-hover:text-soft-black transition-colors">Outside Chittagong</span>
-                          </div>
-                          <span className="text-[11px] md:text-xs font-medium text-terracotta">+ 100 BDT</span>
-                        </label>
+                      <div className="flex justify-between items-center text-[11px] md:text-xs text-dark-charcoal/80">
+                        <span>Delivery Charge (All over Bangladesh)</span>
+                        <span className="font-semibold text-soft-black">100 BDT</span>
                       </div>
 
                       <div className="flex justify-between items-center mt-3 md:mt-4 pt-3 md:pt-4 border-t border-[#E5E0D6]">
