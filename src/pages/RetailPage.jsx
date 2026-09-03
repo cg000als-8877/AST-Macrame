@@ -685,7 +685,7 @@ const RetailPage = () => {
             </div>
 
             {/* Expandable Accordions - Card View on Mobile */}
-            <div className="bg-white sm:bg-transparent border-0 sm:border-t sm:border-x-0 sm:border-b-0 sm:border-stone/30 p-2 sm:p-0 rounded-2xl sm:rounded-none overflow-hidden shadow-none mb-6 sm:mb-0">
+            <div className="bg-white sm:bg-transparent border-0 sm:border-t sm:border-x-0 sm:border-b-0 sm:border-stone/30 p-2 sm:p-0 rounded-2xl sm:rounded-none overflow-hidden shadow-none mb-0">
               <Accordion 
                 title={
                   <div className="flex items-center gap-3">
@@ -797,9 +797,9 @@ const RetailPage = () => {
               </Accordion>
             </div>
 
-            {/* Compact Artisan Craftsmanship Note */}
-            <div className="mt-4 p-3.5 sm:p-4 bg-white border-0 sm:border sm:border-[#E5E0D6] rounded-2xl sm:rounded-none shadow-none">
-              <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2 mb-2.5">
+            {/* Compact Artisan Craftsmanship Note - 10px Top/Bottom Gap */}
+            <div className="mt-2.5 px-3.5 py-2.5 sm:px-4 sm:py-2.5 bg-white border-0 rounded-2xl sm:rounded-none shadow-none">
+              <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-1.5 mb-2">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-terracotta flex items-center gap-1">
                   <Sparkles className="w-3 h-3" /> Artisan Craftsmanship
                 </span>
@@ -848,7 +848,7 @@ const RetailPage = () => {
             
             {/* Image: Stays above on mobile, on the left on desktop */}
             <div className="lg:col-span-5 relative group">
-              <div className="relative overflow-hidden rounded-2xl sm:rounded-none border-0 sm:border sm:border-[#E0DCD3] bg-white aspect-[4/3] sm:aspect-[4/3] lg:aspect-auto lg:h-[440px] shadow-none">
+              <div className="relative overflow-hidden rounded-2xl sm:rounded-none border-0 bg-white aspect-[4/3] sm:aspect-[4/3] lg:aspect-auto lg:h-[440px] shadow-none">
                 <img 
                   src={comparisonImg} 
                   alt="Traditional Belt vs AST Macramé Comparison" 
@@ -869,7 +869,7 @@ const RetailPage = () => {
               {/* MOBILE VIEW ONLY: Side-by-side tabs to switch between the 3 comparison points */}
               <div className="block lg:hidden">
                 {/* 3 Mobile Tabs */}
-                <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#EAE5DA] rounded-xl sm:rounded-none mb-3 border-0 sm:border sm:border-[#DDD8CE] shadow-none">
+                <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#EAE5DA] rounded-xl sm:rounded-none mb-3 border-0 shadow-none">
                   <button
                     type="button"
                     onClick={() => setComparisonTab(0)}
@@ -879,7 +879,7 @@ const RetailPage = () => {
                         : 'bg-transparent text-dark-charcoal hover:bg-white/40'
                     }`}
                   >
-                    1. Comfort
+                    Comfort
                   </button>
 
                   <button
@@ -891,7 +891,7 @@ const RetailPage = () => {
                         : 'bg-transparent text-dark-charcoal hover:bg-white/40'
                     }`}
                   >
-                    2. Fit & Holes
+                    Fit & Holes
                   </button>
 
                   <button
@@ -903,7 +903,7 @@ const RetailPage = () => {
                         : 'bg-transparent text-dark-charcoal hover:bg-white/40'
                     }`}
                   >
-                    3. Climate
+                    Climate
                   </button>
                 </div>
 
@@ -916,17 +916,17 @@ const RetailPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -6 }}
                       transition={{ duration: 0.15 }}
-                      className="bg-white p-4 rounded-2xl sm:rounded-none border-0 sm:border sm:border-[#E0DCD3] shadow-none"
+                      className="bg-white p-4 rounded-2xl sm:rounded-none border-0 shadow-none"
                     >
                       <h3 className="text-xs font-bold uppercase tracking-wider text-soft-black mb-2.5 pb-1.5 border-b border-[#EAE6DF]">
                         Dynamic Waist Comfort vs Rigid Pinching
                       </h3>
                       <div className="space-y-2 text-[11px]">
-                        <div className="p-2.5 bg-red-50/70 border-0 sm:border sm:border-red-100 rounded-xl sm:rounded-none shadow-none">
+                        <div className="p-2.5 bg-red-50/70 border-0 rounded-xl sm:rounded-none shadow-none">
                           <span className="font-bold block text-red-700 uppercase text-[9.5px] mb-0.5">❌ Traditional Leather / Faux</span>
                           Stiff & unyielding structure pinches your abdomen when sitting or after heavy meals.
                         </div>
-                        <div className="p-2.5 bg-emerald-50/90 border-0 sm:border sm:border-emerald-200 rounded-xl sm:rounded-none shadow-none">
+                        <div className="p-2.5 bg-emerald-50/90 border-0 rounded-xl sm:rounded-none shadow-none">
                           <span className="font-bold block text-emerald-800 uppercase text-[9.5px] mb-0.5">✅ AST Hand-Knotted Macramé</span>
                           Natural knot matrix breathes and flexes dynamically with your waist's natural movement.
                         </div>
@@ -941,17 +941,17 @@ const RetailPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -6 }}
                       transition={{ duration: 0.15 }}
-                      className="bg-white p-4 rounded-2xl sm:rounded-none border-0 sm:border sm:border-[#E0DCD3] shadow-none"
+                      className="bg-white p-4 rounded-2xl sm:rounded-none border-0 shadow-none"
                     >
                       <h3 className="text-xs font-bold uppercase tracking-wider text-soft-black mb-2.5 pb-1.5 border-b border-[#EAE6DF]">
                         Millimeter Precision vs 5 Fixed Holes
                       </h3>
                       <div className="space-y-2 text-[11px]">
-                        <div className="p-2.5 bg-red-50/70 border-0 sm:border sm:border-red-100 rounded-xl sm:rounded-none shadow-none">
+                        <div className="p-2.5 bg-red-50/70 border-0 rounded-xl sm:rounded-none shadow-none">
                           <span className="font-bold block text-red-700 uppercase text-[9.5px] mb-0.5">❌ Traditional Punch Holes</span>
                           Only 5 fixed holes spaced 1 inch apart — always either 1 inch too tight or 1 inch too loose.
                         </div>
-                        <div className="p-2.5 bg-emerald-50/90 border-0 sm:border sm:border-emerald-200 rounded-xl sm:rounded-none shadow-none">
+                        <div className="p-2.5 bg-emerald-50/90 border-0 rounded-xl sm:rounded-none shadow-none">
                           <span className="font-bold block text-emerald-800 uppercase text-[9.5px] mb-0.5">✅ AST Infinite Adjustment</span>
                           Insert prong through any knot anywhere along the belt for 100% millimeter-precise fit.
                         </div>
@@ -966,17 +966,17 @@ const RetailPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -6 }}
                       transition={{ duration: 0.15 }}
-                      className="bg-white p-4 rounded-2xl sm:rounded-none border-0 sm:border sm:border-[#E0DCD3] shadow-none"
+                      className="bg-white p-4 rounded-2xl sm:rounded-none border-0 shadow-none"
                     >
                       <h3 className="text-xs font-bold uppercase tracking-wider text-soft-black mb-2.5 pb-1.5 border-b border-[#EAE6DF]">
                         Bangladesh Monsoon & Climate Durability
                       </h3>
                       <div className="space-y-2 text-[11px]">
-                        <div className="p-2.5 bg-red-50/70 border-0 sm:border sm:border-red-100 rounded-xl sm:rounded-none shadow-none">
+                        <div className="p-2.5 bg-red-50/70 border-0 rounded-xl sm:rounded-none shadow-none">
                           <span className="font-bold block text-red-700 uppercase text-[9.5px] mb-0.5">❌ Faux Leather Peeling</span>
                           Traps body sweat & heat, cracking and peeling into messy flakes in BD monsoon humidity.
                         </div>
-                        <div className="p-2.5 bg-emerald-50/90 border-0 sm:border sm:border-emerald-200 rounded-xl sm:rounded-none shadow-none">
+                        <div className="p-2.5 bg-emerald-50/90 border-0 rounded-xl sm:rounded-none shadow-none">
                           <span className="font-bold block text-emerald-800 uppercase text-[9.5px] mb-0.5">✅ 100% Combed Cotton</span>
                           Naturally breathable organic cotton cord and rust-proof zinc alloy hardware built for years of wear.
                         </div>
@@ -988,57 +988,57 @@ const RetailPage = () => {
 
               {/* DESKTOP VIEW: All 3 Comparison Cards */}
               <div className="hidden lg:block space-y-3.5">
-                <div className="bg-white p-5 rounded-none border border-[#E0DCD3]">
+                <div className="bg-white p-5 rounded-none border-0 shadow-none">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="w-2 h-2 rounded-none bg-emerald-500"></span>
                     <h3 className="text-sm font-bold uppercase tracking-wider text-soft-black">
-                      1. Dynamic Waist Comfort vs Rigid Pinching
+                      Dynamic Waist Comfort vs Rigid Pinching
                     </h3>
                   </div>
                   <div className="grid grid-cols-2 gap-3 text-xs mt-2.5">
-                    <div className="p-3 bg-red-50/70 border border-red-100 rounded-none">
+                    <div className="p-3 bg-red-50/70 border-0 rounded-none shadow-none">
                       <span className="font-bold block text-red-700 uppercase text-[10px] mb-1">❌ Traditional Leather</span>
                       Stiff structure pinches your waist and abdomen when sitting or after meals.
                     </div>
-                    <div className="p-3 bg-emerald-50/90 border border-emerald-200 rounded-none">
+                    <div className="p-3 bg-emerald-50/90 border-0 rounded-none shadow-none">
                       <span className="font-bold block text-emerald-800 uppercase text-[10px] mb-1">✅ AST Hand-Knotted</span>
                       Natural interlocking knot matrix breathes and flexes dynamically with your waist.
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-white p-5 rounded-none border border-[#E0DCD3]">
+                <div className="bg-white p-5 rounded-none border-0 shadow-none">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="w-2 h-2 rounded-none bg-emerald-500"></span>
                     <h3 className="text-sm font-bold uppercase tracking-wider text-soft-black">
-                      2. Millimeter Fit Precision (No Hole Constraints)
+                      Millimeter Fit Precision (No Hole Constraints)
                     </h3>
                   </div>
                   <div className="grid grid-cols-2 gap-3 text-xs mt-2.5">
-                    <div className="p-3 bg-red-50/70 border border-red-100 rounded-none">
+                    <div className="p-3 bg-red-50/70 border-0 rounded-none shadow-none">
                       <span className="font-bold block text-red-700 uppercase text-[10px] mb-1">❌ Traditional Holes</span>
                       Limited to 5 fixed punch holes spaced 1 inch apart — always either too tight or too loose.
                     </div>
-                    <div className="p-3 bg-emerald-50/90 border border-emerald-200 rounded-none">
+                    <div className="p-3 bg-emerald-50/90 border-0 rounded-none shadow-none">
                       <span className="font-bold block text-emerald-800 uppercase text-[10px] mb-1">✅ Infinite Adjustment</span>
                       Insert the buckle prong through any knot anywhere along the belt for millimeter-precise fit.
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-white p-5 rounded-none border border-[#E0DCD3]">
+                <div className="bg-white p-5 rounded-none border-0 shadow-none">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="w-2 h-2 rounded-none bg-emerald-500"></span>
                     <h3 className="text-sm font-bold uppercase tracking-wider text-soft-black">
-                      3. Built for Bangladesh Humidity & Monsoon
+                      Built for Bangladesh Humidity & Monsoon
                     </h3>
                   </div>
                   <div className="grid grid-cols-2 gap-3 text-xs mt-2.5">
-                    <div className="p-3 bg-red-50/70 border border-red-100 rounded-none">
+                    <div className="p-3 bg-red-50/70 border-0 rounded-none shadow-none">
                       <span className="font-bold block text-red-700 uppercase text-[10px] mb-1">❌ Faux Leather Cracking</span>
                       Traps sweat and heat, peeling apart into messy flakes within months in tropical humidity.
                     </div>
-                    <div className="p-3 bg-emerald-50/90 border border-emerald-200 rounded-none">
+                    <div className="p-3 bg-emerald-50/90 border-0 rounded-none shadow-none">
                       <span className="font-bold block text-emerald-800 uppercase text-[10px] mb-1">✅ 100% Combed Cotton</span>
                       Naturally breathable organic cotton cord and rust-proof zinc alloy hardware that lasts for years.
                     </div>
@@ -1073,7 +1073,7 @@ const RetailPage = () => {
             
             {/* Left: Unboxing Image */}
             <div className="lg:col-span-5 relative group">
-              <div className="relative overflow-hidden rounded-2xl sm:rounded-none border-0 sm:border sm:border-[#E0DCD3] bg-white aspect-[4/3] sm:aspect-[4/3] lg:aspect-auto lg:h-[380px] shadow-none">
+              <div className="relative overflow-hidden rounded-2xl sm:rounded-none border-0 bg-white aspect-[4/3] sm:aspect-[4/3] lg:aspect-auto lg:h-[380px] shadow-none">
                 <img 
                   src={unboxingImg} 
                   alt="AST Macramé Premium Unboxing & Quality Guarantee" 
@@ -1087,13 +1087,13 @@ const RetailPage = () => {
 
             {/* Right: 2 Big Trust Guarantee Pillars */}
             <div className="lg:col-span-7 space-y-4">
-              <div className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-none border-0 sm:border sm:border-[#E0DCD3] shadow-none flex items-start gap-4">
+              <div className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-none border-0 shadow-none flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl sm:rounded-none bg-emerald-100 flex items-center justify-center shrink-0 text-emerald-700 mt-0.5">
                   <PackageCheck className="w-5 h-5" />
                 </div>
                 <div>
                   <h3 className="text-sm sm:text-base font-bold text-soft-black uppercase tracking-wider mb-1">
-                    1. Open-Box Inspection in Front of Rider
+                    Open-Box Inspection in Front of Rider
                   </h3>
                   <p className="text-xs sm:text-[13px] text-dark-charcoal/80 leading-relaxed font-normal">
                     You are welcome to unbox and check the belt weave, buckle finish, and size in front of the courier before handing over payment. Zero risk, total transparency.
@@ -1101,13 +1101,13 @@ const RetailPage = () => {
                 </div>
               </div>
 
-              <div className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-none border-0 sm:border sm:border-[#E0DCD3] shadow-none flex items-start gap-4">
+              <div className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-none border-0 shadow-none flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl sm:rounded-none bg-amber-100 flex items-center justify-center shrink-0 text-amber-700 mt-0.5">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <div>
                   <h3 className="text-sm sm:text-base font-bold text-soft-black uppercase tracking-wider mb-1">
-                    2. Solid Anti-Rust Alloy Hardware
+                    Solid Anti-Rust Alloy Hardware
                   </h3>
                   <p className="text-xs sm:text-[13px] text-dark-charcoal/80 leading-relaxed font-normal">
                     Every buckle is cast in high-density zinc alloy with a protective matte finish, guaranteed against rust or tarnishing in Bangladesh's monsoon climate.
