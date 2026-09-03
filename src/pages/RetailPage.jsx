@@ -1337,7 +1337,7 @@ const RetailPage = () => {
 
 
 
-      {/* Sticky Floating Order Bar - Elevated for easy thumb reach */}
+      {/* Sticky Floating Order Bar - Wide on Desktop, Easy Reach on Mobile */}
       <AnimatePresence>
         {showStickyBar && (
           <motion.div
@@ -1345,11 +1345,11 @@ const RetailPage = () => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 80, opacity: 0 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed bottom-11 sm:bottom-12 inset-x-3.5 sm:inset-x-6 z-40 max-w-lg mx-auto bg-cotton-white/95 backdrop-blur-md border border-stone/25 px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.22)]"
+            className="fixed bottom-6 sm:bottom-8 inset-x-3.5 sm:inset-x-8 z-40 max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto bg-cotton-white/95 backdrop-blur-md border border-stone/25 px-4 sm:px-8 py-2.5 sm:py-3.5 rounded-xl sm:rounded-none shadow-[0_12px_40px_rgba(0,0,0,0.22)] font-sans"
           >
-            <div className="flex items-center justify-between gap-2.5 sm:gap-4 w-full">
-              <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                <div className="w-10 h-10 sm:w-11 sm:h-11 bg-stone/10 rounded-lg overflow-hidden shrink-0 border border-stone/20">
+            <div className="flex items-center justify-between gap-3 sm:gap-6 w-full">
+              <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-stone/10 rounded-lg sm:rounded-none overflow-hidden shrink-0 border border-stone/20">
                   <img 
                     src={colorImages[selectedColor][0]} 
                     alt="AST Macrame Belt" 
@@ -1357,22 +1357,25 @@ const RetailPage = () => {
                   />
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="text-[11px] sm:text-xs md:text-sm font-serif font-bold text-soft-black truncate">
-                    AST Handmade Belt
+                  <span className="text-xs sm:text-sm md:text-base font-bold text-soft-black truncate">
+                    AST Handmade Macramé Belt
                   </span>
-                  <div className="flex items-center gap-1.5 text-[10px] sm:text-xs">
-                    <span className="text-terracotta font-bold">
+                  <div className="flex items-center gap-2 text-[10px] sm:text-xs md:text-sm">
+                    <span className="text-terracotta font-bold text-sm sm:text-base">
                       {orderType === 'single' ? '৳ 850' : '৳ 1,490'}
                     </span>
-                    <span className="text-dark-charcoal/60 truncate">
-                      {orderType === 'single' ? `• ${selectedColor} (${selectedSize})` : `• Combo`}
+                    <span className="text-red-500 line-through text-[10px] sm:text-xs hidden sm:inline">
+                      {orderType === 'single' ? '৳ 1,050' : '৳ 2,100'}
+                    </span>
+                    <span className="text-dark-charcoal/60 truncate font-medium">
+                      {orderType === 'single' ? `• ${selectedColor} (${selectedSize})` : `• Combo Pack (2 Belts)`}
                     </span>
                   </div>
                 </div>
               </div>
 
               {/* Circling Stroke Light Beam Border */}
-              <div className="relative p-[1.5px] overflow-hidden rounded-full shadow-md shrink-0 group">
+              <div className="relative p-[1.5px] overflow-hidden rounded-full sm:rounded-none shadow-md shrink-0 group">
                 <div 
                   className="absolute -top-[100%] -left-[100%] w-[300%] h-[300%] animate-border-beam pointer-events-none"
                   style={{
@@ -1381,10 +1384,10 @@ const RetailPage = () => {
                 />
                 <button
                   onClick={handleStickyOrderClick}
-                  className="relative z-10 bg-[#1C2841] hover:bg-[#131E33] text-white px-4 sm:px-6 py-2.5 sm:py-3 text-[10.5px] sm:text-xs font-bold uppercase tracking-widest rounded-full transition-all active:scale-[0.98] flex items-center gap-1.5 cursor-pointer"
+                  className="relative z-10 bg-[#1C2841] hover:bg-[#131E33] text-white px-5 sm:px-8 py-2.5 sm:py-3.5 text-[11px] sm:text-xs md:text-sm font-bold uppercase tracking-[0.15em] rounded-full sm:rounded-none transition-all active:scale-[0.98] flex items-center gap-2 cursor-pointer"
                 >
                   <span className="font-bold tracking-widest">ORDER NOW</span>
-                  <ArrowUp className="w-3.5 h-3.5 animate-arrow-up" />
+                  <ArrowUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-arrow-up" />
                 </button>
               </div>
             </div>
