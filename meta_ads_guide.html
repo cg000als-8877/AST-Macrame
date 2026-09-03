@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meta (Facebook) Ads Master Guide - AST Macramé</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1C2841;
+      --accent: #C25E3E;
+      --accent-light: #FDF4EC;
+      --bg: #FAF8F5;
+      --card-bg: #FFFFFF;
+      --text: #1E1E1E;
+      --text-muted: #5A5A5A;
+      --border: #E8E2D9;
+      --success: #166534;
+      --success-bg: #F0FDF4;
+      --warning: #B45309;
+      --warning-bg: #FFFBEB;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 48px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 24px;
+      margin-bottom: 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-content h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .header-content p {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .badge-live {
+      background: var(--accent);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    /* Print Button */
+    .no-print {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background: #111a2c;
+    }
+
+    .btn-secondary {
+      background: #EAE5DA;
+      color: var(--primary);
+    }
+
+    .btn-secondary:hover {
+      background: #DDD8CE;
+    }
+
+    /* Section Styles */
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 36px 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-left: 4px solid var(--accent);
+      padding-left: 12px;
+    }
+
+    .step-card {
+      background: #FAF8F5;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .step-number {
+      background: var(--primary);
+      color: white;
+      font-size: 12px;
+      font-weight: 800;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .step-body {
+      font-size: 13.5px;
+      color: var(--text);
+      padding-left: 38px;
+    }
+
+    .step-body p {
+      margin-bottom: 10px;
+    }
+
+    .step-body ul {
+      margin: 8px 0 12px 18px;
+    }
+
+    .step-body li {
+      margin-bottom: 6px;
+    }
+
+    /* Code Snippet Box */
+    .code-box {
+      background: #1E293B;
+      color: #E2E8F0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      padding: 14px 16px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 10px 0;
+      border: 1px solid #334155;
+    }
+
+    /* Info Callouts */
+    .callout {
+      border-radius: 6px;
+      padding: 14px 16px;
+      margin: 14px 0;
+      font-size: 13px;
+    }
+
+    .callout-success {
+      background: var(--success-bg);
+      border: 1px solid #BBF7D0;
+      color: var(--success);
+    }
+
+    .callout-warning {
+      background: var(--warning-bg);
+      border: 1px solid #FDE68A;
+      color: var(--warning);
+    }
+
+    .callout-tip {
+      background: var(--accent-light);
+      border: 1px solid #FCD9BD;
+      color: var(--accent);
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    th {
+      background: #F1ECE4;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* Checklist */
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0;
+    }
+
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13.5px;
+    }
+
+    .checklist li:last-child {
+      border-bottom: none;
+    }
+
+    .checkbox-icon {
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+
+      .container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+      }
+
+      .no-print {
+        display: none;
+      }
+
+      .step-card {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Action Buttons (Hidden when printing) -->
+    <div class="no-print">
+      <button onclick="window.print()" class="btn">
+        🖨️ Print / Save as PDF
+      </button>
+      <a href="http://localhost:5173/retail" target="_blank" class="btn btn-secondary">
+        🌐 Open Retail Page
+      </a>
+    </div>
+
+    <!-- Document Header -->
+    <div class="header">
+      <div class="header-content">
+        <h1>Meta (Facebook) Ads Master Blueprint</h1>
+        <p>Complete Step-by-Step Guide for AST Handmade Macramé Belt Retail Campaign</p>
+      </div>
+      <div>
+        <span class="badge-live">E-Commerce Playbook</span>
+      </div>
+    </div>
+
+    <!-- Quick Overview Summary -->
+    <div class="callout callout-tip">
+      <strong>🎯 Campaign Objective:</strong> Drive high-converting website sales directly to your AST Macramé Retail page using your existing Facebook Video post with an interactive <strong>"Order Now"</strong> button and Pixel purchase tracking.
+    </div>
+
+    <!-- SECTION 1: CAMPAIGN ARCHITECTURE -->
+    <h2 class="section-title">1. Campaign Specs & Target Parameters</h2>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Recommended Setting</th>
+          <th>Why / Strategy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Campaign Goal</strong></td>
+          <td><strong>Sales (Conversions)</strong></td>
+          <td>Meta algorithms will find people most likely to complete COD checkout.</td>
+        </tr>
+        <tr>
+          <td><strong>Conversion Location</strong></td>
+          <td>Website</td>
+          <td>Directs customer to <code>https://yourdomain.com/retail</code></td>
+        </tr>
+        <tr>
+          <td><strong>Performance Goal</strong></td>
+          <td>Maximize Number of Conversions</td>
+          <td>Optimizes for Meta Pixel <code>Purchase</code> event.</td>
+        </tr>
+        <tr>
+          <td><strong>Starting Budget</strong></td>
+          <td>$5 - $10 / day (৳ 600 - ৳ 1,200)</td>
+          <td>Allows algorithm to learn without wasting budget.</td>
+        </tr>
+        <tr>
+          <td><strong>Target Location</strong></td>
+          <td>Bangladesh (All 64 Districts)</td>
+          <td>Since you have nationwide flat ৳100 COD delivery.</td>
+        </tr>
+        <tr>
+          <td><strong>Target Age & Gender</strong></td>
+          <td>20 – 45 | All (Men & Women)</td>
+          <td>Unisex product + perfect for men or gifting.</td>
+        </tr>
+        <tr>
+          <td><strong>Placements</strong></td>
+          <td>Advantage+ Placements</td>
+          <td>Delivers video on Facebook Feed, Video Feeds, Reels & Instagram.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- SECTION 2: STEP-BY-STEP ADS MANAGER EXECUTION -->
+    <h2 class="section-title">2. Step-by-Step Meta Ads Manager Setup</h2>
+
+    <!-- Step 1 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-number">1</div>
+        <div class="step-title">Open Meta Ads Manager & Create Campaign</div>
+      </div>
+      <div class="step-body">
+        <p>1. Go to <a href="https://adsmanager.facebook.com/" target="_blank" style="color: var(--accent); font-weight: 600;">adsmanager.facebook.com</a> on your computer.</p>
+        <p>2. Click the green <strong>+ Create</strong> button.</p>
+        <p>3. Choose <strong>Sales</strong> as the campaign objective (Do NOT choose Traffic or Engagement, as Sales gives real buying customers).</p>
+        <p>4. Choose <strong>Manual Sales campaign</strong> and click <strong>Continue</strong>.</p>
+        <p>5. Name your campaign: <code>AST Macrame - Video Retail Campaign - [Month]</code>.</p>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-number">2</div>
+        <div class="step-title">Ad Set Level Setup (Pixel & Audience)</div>
+      </div>
+      <div class="step-body">
+        <p><strong>A. Conversion Settings:</strong></p>
+        <ul>
+          <li><strong>Conversion Location:</strong> Select <strong>Website</strong>.</li>
+          <li><strong>Pixel:</strong> Select your <strong>AST Macrame Pixel</strong>.</li>
+          <li><strong>Conversion Event:</strong> Select <strong>Purchase</strong>.</li>
+        </ul>
+
+        <div class="callout callout-success">
+          <strong>💡 Pro Tip on Pixel:</strong> Since we already integrated the Pixel into your code, the <code>Purchase</code> event automatically triggers when a customer submits an order on your Retail page!
+        </div>
+
+        <p><strong>B. Budget & Schedule:</strong></p>
+        <ul>
+          <li>Set Daily Budget to <strong>$5.00 to $10.00</strong> (or <strong>৳ 600 to ৳ 1,200</strong>).</li>
+          <li>Set Start Time to <strong>12:01 AM (Midnight)</strong> so Meta spends budget evenly throughout the day.</li>
+        </ul>
+
+        <p><strong>C. Audience Targeting:</strong></p>
+        <ul>
+          <li><strong>Location:</strong> Bangladesh (Include all).</li>
+          <li><strong>Age:</strong> 20 – 45.</li>
+          <li><strong>Detailed Targeting (Interests):</strong> Keep it <em>Broad</em> OR test keywords: <code>Online shopping</code>, <code>Fashion accessories</code>, <code>Denim</code>, <code>Casual wear</code>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-number">3</div>
+        <div class="step-title">Ad Level (Connecting Your Posted Video & Order Now Button)</div>
+      </div>
+      <div class="step-body">
+        <p>This is where you connect your published Facebook video post with the website link:</p>
+        
+        <p>1. <strong>Identity:</strong> Select your official <strong>Facebook Page</strong> and connected <strong>Instagram Account</strong>.</p>
+        
+        <p>2. <strong>Ad Setup:</strong></p>
+        <ul>
+          <li>Option A (Recommended for Social Proof): Select <strong>"Use Existing Post"</strong> &rarr; Click <strong>"Select Post"</strong> &rarr; Choose your uploaded Video post.</li>
+          <li>Option B: Select <strong>"Create Ad"</strong> &rarr; Upload your video file fresh.</li>
+        </ul>
+
+        <p>3. <strong>Call to Action Button:</strong></p>
+        <ul>
+          <li>Select <strong>"Order Now"</strong> or <strong>"Shop Now"</strong>.</li>
+        </ul>
+
+        <p>4. <strong>Website URL:</strong></p>
+        <p>Enter your website landing page URL. Add tracking UTM tags to track sales sources accurately:</p>
+        <div class="code-box">
+https://yourwebsite.com/retail?utm_source=facebook&utm_medium=video_ad&utm_campaign=macrame_belt
+        </div>
+
+        <p>5. <strong>Tracking:</strong> Ensure <strong>Website Events (Meta Pixel)</strong> is checked and active with a green indicator.</p>
+        
+        <p>6. Click <strong>Publish</strong>!</p>
+      </div>
+    </div>
+
+    <!-- SECTION 3: WINNING AD COPY TEMPLATES -->
+    <h2 class="section-title">3. High-Converting Ad Copy Templates for Bangladesh</h2>
+
+    <div class="step-card">
+      <div class="step-title" style="margin-bottom: 10px;">📋 Copywriting Template 1: Problem & Solution (High CTR)</div>
+      <div class="code-box" style="white-space: pre-wrap; font-family: 'Outfit', sans-serif; font-size: 13px; line-height: 1.6; color: #F1F5F9; background: #0F172A;">
+আর নয় কয়েক মাস পর পর বেল্ট নষ্ট হওয়ার ঝামেলা! ❌
+
+সাধারণ চামড়া বা রেক্সিনের বেল্ট গরমে ফেটে যায় আর পেটে চেপে বসে। 
+আমাদের 100% হ্যান্ডমেড কটন ম্যাক্রামে বেল্ট যেমন আরামদায়ক, তেমনই দীর্ঘস্থায়ী।
+
+🌟 কেন AST Macramé বেল্ট সেরা?
+✅ ১,৪০০+ হাতে বাঁধা নট — সর্বোচ্চ ফ্লেক্সিবল ও টেকসই
+✅ কোনো ফিক্সড ছিদ্র নেই — যেকোনো মাপে পারফেক্ট ফিট
+✅ প্রিমিয়াম অ্যান্টি-রাস্ট মেটাল বাকল
+✅ জিন্স, গ্যাবার্ডিন ও ক্যাজুয়াল সব আউটিফিটে ক্লাসি লুক
+
+🔥 বিশেষ অফার:
+• Single Belt: মাত্র ৳ ৮৫০ (রেগুলার ৳ ১,০৫০)
+• Combo Pack (২টি বেল্ট): মাত্র ৳ ১,৪৯০ (রেগুলার ৳ ২,১০০)
+
+🚚 ক্যাশ অন ডেলিভারি সারা বাংলাদেশে মাত্র ৳ ১০০!
+📦 রাইডারের সামনে খুলে চেক করে নেওয়ার ১০০% গ্যারান্টি!
+
+👇 এখনই অর্ডার করতে নিচের "Order Now" বাটনে ক্লিক করুন!
+      </div>
+    </div>
+
+    <!-- SECTION 4: PIXEL VERIFICATION CHECKLIST -->
+    <h2 class="section-title">4. Pre-Launch Verification Checklist</h2>
+
+    <ul class="checklist">
+      <li>
+        <span class="checkbox-icon">☑️</span>
+        <div>
+          <strong>Install Meta Pixel Helper Extension:</strong> Install Google Chrome's official <em>Meta Pixel Helper</em> extension to verify your pixel fires on page visits.
+        </div>
+      </li>
+      <li>
+        <span class="checkbox-icon">☑️</span>
+        <div>
+          <strong>Test Live Checkout:</strong> Open your retail page, click "Order Now", fill the form and submit a test order. Check that the <code>Purchase</code> event fires in Pixel Helper.
+        </div>
+      </li>
+      <li>
+        <span class="checkbox-icon">☑️</span>
+        <div>
+          <strong>Mobile Responsiveness Check:</strong> Ensure your retail page loads under 2 seconds on 4G mobile connections.
+        </div>
+      </li>
+      <li>
+        <span class="checkbox-icon">☑️</span>
+        <div>
+          <strong>WhatsApp Quick Support Ready:</strong> Keep WhatsApp active to answer custom size queries promptly.
+        </div>
+      </li>
+    </ul>
+
+    <!-- SECTION 5: HOW TO SCALE & PROFIT -->
+    <h2 class="section-title">5. Post-Launch Optimization Rules</h2>
+
+    <div class="step-card">
+      <div class="step-body" style="padding-left: 0;">
+        <p><strong>Rule 1: Don't Touch the Ad for First 48 Hours</strong><br>
+        Meta's AI needs 48 hours to learn and find the cheapest buyers. Don't pause or edit budget during this learning phase.</p>
+
+        <p><strong>Rule 2: How to Scale Budget</strong><br>
+        If your Cost Per Purchase is below ৳ 150 - ৳ 200 and you are getting steady orders, increase the daily budget by <strong>20% every 3 days</strong> (never double it instantly as it resets learning).</p>
+
+        <p><strong>Rule 3: Courier Call Verification</strong><br>
+        Call every COD customer within 2 hours of order submission to confirm their address and size before shipping to keep return rate below 5%.</p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>AST Macramé Bangladesh • E-Commerce Advertising Strategy Guide</p>
+      <p style="margin-top: 4px; color: #888;">Generated automatically for AST Macramé Retail Store</p>
+    </div>
+
+  </div>
+
+</body>
+</html>
