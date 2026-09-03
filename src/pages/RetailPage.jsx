@@ -348,7 +348,7 @@ const RetailPage = () => {
       <div className="max-w-7xl mx-auto px-0 lg:px-12">
         
         {/* Product Hero & Details */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-1.5 lg:gap-y-0 lg:gap-x-10 items-start mb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-1.5 lg:gap-y-0 lg:gap-x-10 items-start mb-4 sm:mb-8 lg:mb-16">
           
           <div className="relative px-0 lg:px-0 lg:col-span-7">
             {/* Mobile Product Gallery: Main Image on top with 2px gap (top, left, right) + Thumbnails Underneath */}
@@ -831,7 +831,7 @@ const RetailPage = () => {
       {/* ========================================================================= */}
       {/* 1. COMPARISON SECTION (ABOVE) */}
       {/* ========================================================================= */}
-      <section className="w-full bg-[#F5F1E8] border-t border-b border-[#E5E0D6] py-10 md:py-16 mt-12 md:mt-20 font-sans">
+      <section className="w-full bg-[#F5F1E8] border-t border-b border-[#E5E0D6] py-8 sm:py-10 md:py-16 mt-2 sm:mt-6 md:mt-12 font-sans">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           
           {/* Section Header */}
