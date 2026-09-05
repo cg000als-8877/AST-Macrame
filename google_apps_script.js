@@ -4,15 +4,15 @@
  * =========================================================================
  * Features:
  * 1. Appends new retail orders into the "Retail" sheet with "Note" right after "Address".
- * 2. Sends formatted HTML email alerts to your inbox instantly.
+ * 2. Sends formatted HTML email alerts to all 3 specified admin emails instantly.
  * 3. Includes 1-Click WhatsApp & Phone call links for quick customer fulfillment.
  * =========================================================================
  */
 
-// 1. SET YOUR NOTIFICATION EMAIL HERE:
-const NOTIFICATION_EMAIL = Session.getActiveUser().getEmail() || "your-email@gmail.com";
+// 1. RECIPIENT EMAILS (All 3 will receive instant order notifications):
+const NOTIFICATION_EMAILS = "astmacrame@gmail.com, risvearfat@gmail.com, cg000als@gmail.com";
 
-// 2. SET YOUR SECURITY TOKEN (Optional, matching VITE_FORM_TOKEN if used):
+// 2. SECURITY TOKEN (Optional, matching VITE_FORM_TOKEN if used):
 const SECRET_TOKEN = ""; 
 
 function doPost(e) {
@@ -38,7 +38,7 @@ function doPost(e) {
         "Name",
         "Phone",
         "Address",
-        "Note",             // <-- Dedicated column right after Address!
+        "Note",             // <-- Dedicated column right after Address (Column F)
         "Order Type",
         "Color",
         "Size",
@@ -59,7 +59,7 @@ function doPost(e) {
     const orderType = params.orderType || "Single";
     const color = params.color || "N/A";
     const size = params.size || "N/A";
-    const deliveryCharge = params.deliveryCharge || "Standard Delivery Charge 100 Tk (All over Bangladesh)";
+    const deliveryCharge = params.deliveryCharge || "Standard (100 Tk)";
     const totalAmount = params.totalAmount || "N/A";
     const orderId = params.orderId || "AST-" + Math.floor(100000 + Math.random() * 900000);
 
@@ -79,7 +79,7 @@ function doPost(e) {
       orderId
     ]);
 
-    // Send Email Notification
+    // Send Email Notification to all 3 recipients
     sendOrderEmail({
       orderId: orderId,
       date: date,
@@ -105,13 +105,13 @@ function doPost(e) {
 }
 
 /**
- * Sends HTML Email to Store Owner
+ * Sends HTML Email to all 3 Admin Emails
  */
 function sendOrderEmail(data) {
-  const recipient = NOTIFICATION_EMAIL;
+  const recipient = NOTIFICATION_EMAILS;
   const subject = `🛍️ New Order: ${data.name} - ${data.totalAmount} (${data.orderId})`;
   
-  // Format clean phone for WhatsApp
+  // Format clean phone for WhatsApp & Direct Dialing
   const cleanPhone = data.phone.replace(/[^0-9]/g, '');
   const waUrl = "https://wa.me/" + cleanPhone;
   const callUrl = "tel:" + data.phone;
@@ -129,12 +129,10 @@ function sendOrderEmail(data) {
         </td>
       </tr>
 
-      <!-- Order Content -->
+      <!-- Order Details Table -->
       <tr>
         <td style="padding: 26px 24px;">
           <table style="width: 100%; border-collapse: collapse; font-size: 14px; color: #333; line-height: 1.6;">
-            
-            <!-- Date & Time -->
             <tr><td style="width: 105px; color: #666; font-size: 13px;">Date</td><td style="width: 15px; color: #999;">:</td><td style="font-weight: 700; color: #1C2841;">${data.date}</td></tr>
             <tr><td style="color: #666; font-size: 13px;">Time</td><td style="color: #999;">:</td><td style="font-weight: 700; color: #1C2841;">${data.time}</td></tr>
             <tr><td style="color: #666; font-size: 13px;">Order ID</td><td style="color: #999;">:</td><td style="font-weight: 700; font-family: monospace; color: #1C2841;">${data.orderId}</td></tr>
@@ -149,7 +147,7 @@ function sendOrderEmail(data) {
               <td style="font-weight: 700; color: #065F46;">
                 <a href="${callUrl}" style="color: #065F46; text-decoration: none;">${data.phone}</a>
                 &nbsp;•&nbsp;
-                <a href="${waUrl}" style="color: #25D366; font-weight: 700; text-decoration: none; font-size: 12px; background: #e8f8ed; padding: 2px 8px; border-radius: 12px; border: 1px solid #c5edd1;">Chat WhatsApp</a>
+                <a href="${waUrl}" style="color: #25D366; font-weight: 700; text-decoration: none; font-size: 12px; background: #e8f8ed; padding: 3px 8px; border-radius: 12px; border: 1px solid #c5edd1;">Chat WhatsApp</a>
               </td>
             </tr>
             <tr><td style="color: #666; font-size: 13px; vertical-align: top;">Address</td><td style="color: #999; vertical-align: top;">:</td><td style="font-weight: 600; color: #333;">${data.address}</td></tr>
@@ -158,19 +156,18 @@ function sendOrderEmail(data) {
             
             <!-- Order Breakdown -->
             <tr><td style="color: #666; font-size: 13px;">Order</td><td style="color: #999;">:</td><td style="font-weight: 700; color: #1C2841;">${data.orderType}</td></tr>
-            <tr><td style="color: #666; font-size: 13px;">Specifications</td><td style="color: #999;">:</td><td style="font-weight: 600; color: #444;">Color: <strong>${data.color}</strong> | Size: <strong>${data.size}</strong></td></tr>
+            <tr><td style="color: #666; font-size: 13px;">Specs</td><td style="color: #999;">:</td><td style="font-weight: 600; color: #444;">Color: <strong>${data.color}</strong> | Size: <strong>${data.size}</strong></td></tr>
             <tr><td style="color: #666; font-size: 13px; vertical-align: top;">Delivery</td><td style="color: #999; vertical-align: top;">:</td><td style="font-weight: 600; color: #444;">${data.deliveryCharge}</td></tr>
             
-            <!-- Total -->
             <tr>
-              <td style="padding-top: 14px; color: #1C2841; font-size: 14px;"><strong>TOTAL PAYABLE</strong></td>
+              <td style="padding-top: 14px; color: #1C2841; font-size: 14px;"><strong>TOTAL</strong></td>
               <td style="padding-top: 14px; color: #1C2841;"><strong>:</strong></td>
               <td style="padding-top: 14px; color: #C25E3E; font-size: 19px; font-weight: 800;">${data.totalAmount} (COD)</td>
             </tr>
             
             <tr><td colspan="3"><hr style="border: none; border-top: 1px solid #e5dfd6; margin: 16px 0;"></td></tr>
             
-            <!-- Note Section (Dedicated) -->
+            <!-- Dedicated Note Section -->
             <tr>
               <td style="color: #666; font-size: 13px; vertical-align: top;">Customer Note</td>
               <td style="color: #999; vertical-align: top;">:</td>
@@ -178,15 +175,14 @@ function sendOrderEmail(data) {
                 ${data.note}
               </td>
             </tr>
-
           </table>
         </td>
       </tr>
 
       <!-- Footer -->
       <tr>
-        <td style="background-color: #f1ede6; padding: 14px; text-align: center; font-size: 11px; color: #777; border-top: 1px solid #e2ded7;">
-          AST Macramé Automated E-Commerce Fulfillment System
+        <td style="background-color: #f1ede6; padding: 12px; text-align: center; font-size: 11px; color: #777; border-top: 1px solid #e2ded7;">
+          AST Macramé Automated Store Alert System
         </td>
       </tr>
 
