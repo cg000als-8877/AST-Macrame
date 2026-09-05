@@ -68,8 +68,8 @@ const Product = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [openAccordions, setOpenAccordions] = useState({
     description: true,
-    materials: true,
-    custom: true
+    materials: false,
+    custom: false
   });
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isSamplePolicyOpen, setIsSamplePolicyOpen] = useState(false);

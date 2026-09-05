@@ -80,9 +80,9 @@ const RetailPage = () => {
   const [comboSize2, setComboSize2] = useState('M');
   const [openAccordions, setOpenAccordions] = useState({
     description: true,
-    materials: true,
-    shipping: true,
-    disclaimer: true
+    materials: false,
+    shipping: false,
+    disclaimer: false
   });
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isCareGuideOpen, setIsCareGuideOpen] = useState(false);
