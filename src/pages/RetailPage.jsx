@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, ChevronDown, Plus, Minus, X, Ruler, ZoomIn, ZoomOut, RotateCcw, AlignLeft, Layers, Truck, AlertCircle, Droplets, Sparkles, Leaf, Banknote, ArrowUp, Check, ShieldCheck, RefreshCw, MessageCircle, Zap, PackageCheck } from 'lucide-react';
 import RetailOrderModal from '../components/RetailOrderModal';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { useStoreConfig } from '../context/StoreConfigContext';
+import { recordTrafficVisit } from '../services/storeService';
 
 import b1 from '../assets/products/Black/1.webp';
 import b2 from '../assets/products/Black/2.webp';
@@ -97,6 +99,12 @@ const RetailPage = () => {
   const [showStickyBar, setShowStickyBar] = useState(false);
   const optionsRef = useRef(null);
   const ctaRef = useRef(null);
+
+  const { storeConfig } = useStoreConfig();
+
+  useEffect(() => {
+    recordTrafficVisit('retail');
+  }, []);
 
   useEffect(() => {
     const handleScrollVisibility = () => {
@@ -444,14 +452,16 @@ const RetailPage = () => {
             {/* Added Price */}
             <div className="mb-4 md:mb-5 flex items-center gap-3 md:gap-4 mt-2 flex-wrap">
               <span className="text-2xl md:text-3xl font-serif text-soft-black leading-none">
-                {orderType === 'single' ? '850 BDT' : '1,490 BDT'}
+                {orderType === 'single' ? `${(storeConfig?.singlePrice ?? 850).toLocaleString()} BDT` : `${(storeConfig?.comboPrice ?? 1490).toLocaleString()} BDT`}
               </span>
               <div className="flex items-center gap-2">
                 <span className="text-sm md:text-base text-red-500/80 line-through font-bold whitespace-nowrap leading-none">
-                  {orderType === 'single' ? '1,050 BDT' : '2,100 BDT'}
+                  {orderType === 'single' ? `${(storeConfig?.singleRegularPrice ?? 1050).toLocaleString()} BDT` : `${(storeConfig?.comboRegularPrice ?? 2100).toLocaleString()} BDT`}
                 </span>
                 <span className="inline-flex items-center justify-center bg-red-500 text-white text-[10px] md:text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded-[15px] shadow-sm whitespace-nowrap leading-none">
-                  {orderType === 'single' ? 'SAVE 200 TK' : 'SAVE 610 TK'}
+                  {orderType === 'single' 
+                    ? `SAVE ${((storeConfig?.singleRegularPrice ?? 1050) - (storeConfig?.singlePrice ?? 850)).toLocaleString()} TK` 
+                    : `SAVE ${((storeConfig?.comboRegularPrice ?? 2100) - (storeConfig?.comboPrice ?? 1490)).toLocaleString()} TK`}
                 </span>
               </div>
             </div>
@@ -1362,10 +1372,10 @@ const RetailPage = () => {
                   </span>
                   <div className="flex items-center gap-2 text-[10px] sm:text-xs md:text-sm">
                     <span className="text-terracotta font-bold text-sm sm:text-base">
-                      {orderType === 'single' ? '৳ 850' : '৳ 1,490'}
+                      {orderType === 'single' ? `৳ ${(storeConfig?.singlePrice ?? 850).toLocaleString()}` : `৳ ${(storeConfig?.comboPrice ?? 1490).toLocaleString()}`}
                     </span>
                     <span className="text-red-500 line-through text-[10px] sm:text-xs hidden sm:inline">
-                      {orderType === 'single' ? '৳ 1,050' : '৳ 2,100'}
+                      {orderType === 'single' ? `৳ ${(storeConfig?.singleRegularPrice ?? 1050).toLocaleString()}` : `৳ ${(storeConfig?.comboRegularPrice ?? 2100).toLocaleString()}`}
                     </span>
                     <span className="text-dark-charcoal/60 truncate font-medium">
                       {orderType === 'single' ? `• ${selectedColor} (${selectedSize})` : `• Combo Pack (2 Belts)`}

@@ -5,6 +5,8 @@ import { ArrowLeft, ChevronDown, Download, Check, Lock, ShieldCheck, X, MapPin, 
 import * as htmlToImage from 'html-to-image';
 import bd from '../utils/bd-location';
 import { trackMetaEvent } from '../utils/metaTracking';
+import { useStoreConfig } from '../context/StoreConfigContext';
+import { saveOrderToFirestore } from '../services/storeService';
 
 import b1 from '../assets/products/Black/1.webp';
 import n1 from '../assets/products/Navy/1.webp';
@@ -48,8 +50,10 @@ const RetailOrderModal = ({
   const [selectedUpazilaName, setSelectedUpazilaName] = useState('');
   const [formError, setFormError] = useState(null);
   
-  // Standard Nationwide Delivery Charge (100 Tk)
-  const deliveryCost = 100;
+  const { storeConfig } = useStoreConfig();
+  
+  // Standard Nationwide Delivery Charge (from Firebase with fallback)
+  const deliveryCost = storeConfig?.deliveryCharge ?? 100;
 
   // Intercept mobile browser/system back gesture (Android back swipe/button & iOS edge swipe)
   useEffect(() => {
@@ -141,10 +145,11 @@ const RetailOrderModal = ({
       setFormError(null);
 
       // Meta Tracking: track when someone opens the order form (Pixel + CAPI)
+      const currentVal = orderType === 'single' ? (storeConfig?.singlePrice ?? 850) : (storeConfig?.comboPrice ?? 1490);
       trackMetaEvent('InitiateCheckout', {
         content_name: orderType === 'single' ? 'Single Belt' : 'Combo Belt Set',
         currency: 'BDT',
-        value: orderType === 'single' ? 850 : 1490,
+        value: currentVal,
       });
     } else {
       setSelectedDistrictId('');
@@ -260,28 +265,30 @@ const RetailOrderModal = ({
     formData.set('address', fullAddress);
     
     formData.append('formType', 'Retail Order');
+    const singleUnitPrice = storeConfig?.singlePrice ?? 850;
+    const comboUnitPrice = storeConfig?.comboPrice ?? 1490;
+    const deliveryCostAmount = deliveryCost;
+    const productCostAmount = orderType === 'single' ? singleUnitPrice : comboUnitPrice;
+    const totalCostAmount = productCostAmount + deliveryCostAmount;
+
     if (orderType === 'combo') {
-      formData.append('orderType', 'Combo (1490 BDT)');
+      formData.append('orderType', `Combo (${comboUnitPrice} BDT)`);
       if (!formData.get('color')) formData.append('color', `${comboColor1} + ${comboColor2}`);
       if (!formData.get('size')) formData.append('size', `${comboSize1} + ${comboSize2}`);
     } else {
-      formData.append('orderType', 'Single (850 BDT)');
+      formData.append('orderType', `Single (${singleUnitPrice} BDT)`);
       if (!formData.get('color')) formData.append('color', selectedColor);
       if (!formData.get('size')) formData.append('size', selectedSize);
     }
     
     // Add Delivery Charge label for Google Sheet
-    const deliveryText = 'Standard Delivery Charge 100 Tk (All over Bangladesh)';
+    const deliveryText = `Standard Delivery Charge ${deliveryCostAmount} Tk (All over Bangladesh)`;
     formData.append('deliveryCharge', deliveryText);
 
     // Add Date, Time, and Total Amount
     const now = new Date();
     const dateStr = now.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
     const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-    
-    const deliveryCostAmount = 100;
-    const productCostAmount = orderType === 'single' ? 850 : 1490;
-    const totalCostAmount = productCostAmount + deliveryCostAmount;
     
     formData.append('date', dateStr);
     formData.append('time', timeStr);
@@ -336,7 +343,7 @@ const RetailOrderModal = ({
     const scriptUrl = import.meta.env.VITE_APPS_SCRIPT_URL;
 
     try {
-      // Fire Google Sheets background submission
+      // 1. Fire Google Sheets background submission (and Apps Script email trigger)
       const submitPromise = scriptUrl ? fetch(scriptUrl, {
         method: 'POST',
         mode: 'no-cors',
@@ -346,12 +353,17 @@ const RetailOrderModal = ({
         body: urlEncodedData,
       }).catch(err => console.error("Sheet submit error:", err)) : Promise.resolve();
 
+      // 2. Fire Firestore live order backup (instant real-time Admin Portal feed)
+      const firestorePromise = saveOrderToFirestore(receiptPayload).catch(err => {
+        console.warn("Firestore order sync caught:", err);
+      });
+
       // Snappy 1.2s realistic spinner, capped at 2.0s maximum so it never hangs
       const minDelay = new Promise(resolve => setTimeout(resolve, 1200));
       const maxTimeout = new Promise(resolve => setTimeout(resolve, 2000));
       
       await Promise.all([
-        Promise.race([submitPromise, maxTimeout]),
+        Promise.race([Promise.all([submitPromise, firestorePromise]), maxTimeout]),
         minDelay
       ]);
       
@@ -424,7 +436,7 @@ const RetailOrderModal = ({
     };
   }, [isSuccess, orderReceipt]);
 
-  const productCost = orderType === 'single' ? 850 : 1490;
+  const productCost = orderType === 'single' ? (storeConfig?.singlePrice ?? 850) : (storeConfig?.comboPrice ?? 1490);
   const totalCost = productCost + deliveryCost;
 
   return (

@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { AuthProvider } from './context/AuthContext';
+import { StoreConfigProvider } from './context/StoreConfigContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -14,6 +16,9 @@ import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import Refund from './pages/Refund';
 import FAQ from './pages/FAQ';
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 import ThemeSwitcher from './components/ThemeSwitcher';
 
 const ScrollToTop = () => {
@@ -53,26 +58,48 @@ const AnimatedRoutes = () => {
         <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
         <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
         <Route path="/refund" element={<PageWrapper><Refund /></PageWrapper>} />
+        
+        {/* Secure Admin Portal Routes */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route 
+          path="/admin" 
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          } 
+        />
       </Routes>
     </AnimatePresence>
   );
 };
 
+const AppLayout = () => {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith('/admin');
+
+  return (
+    <div className="flex flex-col bg-cream text-soft-black font-sans selection:bg-terracotta selection:text-cream">
+      {!isAdmin && <Navbar />}
+      <main>
+        <AnimatedRoutes />
+      </main>
+      {!isAdmin && <Footer />}
+      {!isAdmin && <ThemeSwitcher />}
+    </div>
+  );
+};
+
 function App() {
   return (
-    <Router>
-      <ScrollToTop />
-      <div className="flex flex-col bg-cream text-soft-black font-sans selection:bg-terracotta selection:text-cream">
-        <Navbar />
-        
-        <main>
-          <AnimatedRoutes />
-        </main>
-        
-        <Footer />
-        <ThemeSwitcher />
-      </div>
-    </Router>
+    <AuthProvider>
+      <StoreConfigProvider>
+        <Router>
+          <ScrollToTop />
+          <AppLayout />
+        </Router>
+      </StoreConfigProvider>
+    </AuthProvider>
   );
 }
 
