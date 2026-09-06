@@ -27,7 +27,7 @@ const Navbar = () => {
   const isRetailPage = location.pathname === '/retail';
 
   const navLinks = [
-    { name: 'Request a Sample', path: '/product' },
+    { name: 'Request a Sample', path: '/sample-order' },
     { name: 'Wholesale', path: '/sample-wholesale' },
     { name: 'Retail', path: '/retail' },
     { name: 'Contact', path: '/contact' }

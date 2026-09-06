@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AuthProvider } from './context/AuthContext';
 import { StoreConfigProvider } from './context/StoreConfigContext';
@@ -10,6 +10,7 @@ import WishlistDrawer from './components/WishlistDrawer';
 import CartDrawer from './components/CartDrawer';
 import Home from './pages/Home';
 import Product from './pages/Product';
+import SampleOrder from './pages/SampleOrder';
 import About from './pages/About';
 import SampleWholesale from './pages/SampleWholesale';
 import Contact from './pages/Contact';
@@ -68,15 +69,30 @@ const AnimatedRoutes = () => {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-        <Route path="/product" element={<PageWrapper><Product /></PageWrapper>} />
-        <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
+        
+        {/* Dedicated Sample Order Page (Supports all aliases) */}
+        <Route path="/sample-order" element={<PageWrapper><SampleOrder /></PageWrapper>} />
+        <Route path="/sample" element={<PageWrapper><SampleOrder /></PageWrapper>} />
+        <Route path="/samples" element={<PageWrapper><SampleOrder /></PageWrapper>} />
+        <Route path="/sample-production" element={<PageWrapper><SampleOrder /></PageWrapper>} />
+        <Route path="/product" element={<PageWrapper><SampleOrder /></PageWrapper>} />
+
+        {/* Dedicated Wholesale & B2B Portal */}
         <Route path="/sample-wholesale" element={<PageWrapper><SampleWholesale /></PageWrapper>} />
+        <Route path="/wholesale" element={<PageWrapper><SampleWholesale /></PageWrapper>} />
+        <Route path="/production" element={<PageWrapper><SampleWholesale /></PageWrapper>} />
+        <Route path="/b2b" element={<PageWrapper><SampleWholesale /></PageWrapper>} />
+
+        <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
         <Route path="/retail" element={<PageWrapper><RetailPage /></PageWrapper>} />
         <Route path="/faq" element={<PageWrapper><FAQ /></PageWrapper>} />
         <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
         <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
         <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
         <Route path="/refund" element={<PageWrapper><Refund /></PageWrapper>} />
+        
+        {/* Wildcard 404 Fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
         
         {/* Secure Admin Portal Routes */}
         <Route path="/admin/login" element={<AdminLogin />} />

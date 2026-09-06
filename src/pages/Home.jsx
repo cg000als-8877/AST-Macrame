@@ -158,7 +158,7 @@ const Home = () => {
               className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center md:justify-start items-center md:items-start w-full"
             >
               <Link 
-                to="/product" 
+                to="/sample-order" 
                 className="bg-cream text-soft-black px-8 py-3.5 md:px-9 md:py-4 text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-warm-sand transition-all shadow-md hover:shadow-xl inline-block"
               >
                 REQUEST A SAMPLE
@@ -347,7 +347,7 @@ const Home = () => {
               </div>
 
               <Link 
-                to="/product" 
+                to="/sample-order" 
                 className="bg-soft-black text-cream px-8 py-4 sm:py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-dark-charcoal transition-all text-center inline-flex items-center justify-center gap-2 group"
               >
                 <span>VIEW PRODUCT DETAILS</span>
@@ -793,7 +793,7 @@ const Home = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link 
-              to="/product" 
+              to="/sample-order" 
               className="w-full sm:w-auto bg-cream text-soft-black px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-warm-sand transition-all shadow-xl hover:shadow-2xl text-center"
             >
               REQUEST A SAMPLE

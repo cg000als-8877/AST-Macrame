@@ -83,7 +83,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
     const formData = new FormData(e.target);
     
     // Prepend dial code to phone
-    const dialCode = popularCountries[selectedCountryCode].dialCode;
+    const dialCode = popularCountries[selectedCountryCode]?.dialCode || '+880';
     const phoneVal = formData.get('phone') || '';
     formData.set('phone', `${dialCode} ${phoneVal}`);
     

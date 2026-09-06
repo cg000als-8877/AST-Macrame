@@ -64,7 +64,7 @@ const Accordion = ({ title, isOpen, onClick, children }) => (
   </div>
 );
 
-const Product = () => {
+const SampleOrder = () => {
   const { 
     addToCart, 
     toggleWishlist, 
@@ -97,12 +97,11 @@ const Product = () => {
   const [isSamplePolicyOpen, setIsSamplePolicyOpen] = useState(false);
   const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState(null);
-  const [zoomLevel, setZoomLevel] = useState(1);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
 
   useEffect(() => {
-    document.title = "AST Handmade Macramé Belt | Sample & Wholesale Order - AST Macramé";
+    document.title = "Sample Order | AST Handmade Macramé Belt - AST Macramé";
   }, []);
 
   useEffect(() => {
@@ -140,7 +139,6 @@ const Product = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({ left: 0, behavior: 'auto' });
     }
-    // Also update piece 1 or all uniform pieces if not customized
     if (!isCustomizingMultiPieces) {
       setCustomizedPieces(Array.from({ length: quantity }, () => ({ color: colorName, size: selectedSize })));
     }
@@ -164,7 +162,6 @@ const Product = () => {
         if (prev[i]) {
           next.push(prev[i]);
         } else {
-          // Default to distinct colors if available
           next.push({
             color: colors[i % colors.length].name,
             size: selectedSize
@@ -219,7 +216,6 @@ const Product = () => {
         size: selectedSize
       }, quantity);
     } else {
-      // Add each customized piece to cart
       customizedPieces.forEach(p => {
         addToCart({
           title: 'AST Handmade Macramé Belt',
@@ -307,7 +303,6 @@ const Product = () => {
     const currentIdx = images.indexOf(lightboxImage);
     if (currentIdx !== -1) {
       setLightboxImage(images[(currentIdx + 1) % images.length]);
-      setZoomLevel(1);
     }
   };
 
@@ -316,7 +311,6 @@ const Product = () => {
     const currentIdx = images.indexOf(lightboxImage);
     if (currentIdx !== -1) {
       setLightboxImage(images[(currentIdx - 1 + images.length) % images.length]);
-      setZoomLevel(1);
     }
   };
 
@@ -333,9 +327,8 @@ const Product = () => {
             transition={{ duration: 0.8 }}
             className="relative px-0 lg:px-0 lg:col-span-7"
           >
-            {/* Mobile Product Gallery: Main Image on top with 2px gap (top, left, right) + Thumbnails Underneath */}
+            {/* Mobile Product Gallery */}
             <div className="lg:hidden w-full px-[2px] pt-[2px] mb-4">
-              {/* Main Featured Image with 2px gap */}
               <div className="relative w-full overflow-hidden">
                 <div 
                   ref={scrollRef}
@@ -366,7 +359,7 @@ const Product = () => {
                 </div>
               </div>
 
-              {/* Thumbnails Underneath Product Image - 6 Visible Slots matching image width, smooth scroll if >6 */}
+              {/* Thumbnails Underneath Product Image */}
               <div className="flex gap-1.5 sm:gap-2 mt-2 w-full overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 {images.map((img, idx) => (
                   <button
@@ -389,7 +382,7 @@ const Product = () => {
               </div>
             </div>
 
-            {/* Desktop 2-Column Grid (Hidden on mobile) */}
+            {/* Desktop 2-Column Grid */}
             <div className="hidden lg:grid grid-cols-2 gap-4">
               {images.map((img, idx) => (
                 <div key={idx} className="relative w-full aspect-square bg-stone/10 overflow-hidden group rounded-none">
@@ -463,7 +456,7 @@ const Product = () => {
               <div className="flex justify-start">
                 <button 
                   onClick={() => setIsSamplePolicyOpen(true)}
-                  className="text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black/80 hover:text-soft-black transition-colors flex items-center gap-1.5"
+                  className="text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black/80 hover:text-soft-black transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
                   <Info className="w-3.5 h-3.5 stroke-[2.2]" />
                   <span className="underline underline-offset-4">Sample Order Policy</span>
@@ -504,7 +497,7 @@ const Product = () => {
               </div>
             </div>
 
-            {/* Size & Quantity Selectors - Side by Side on Mobile & Desktop */}
+            {/* Size & Quantity Selectors (Side by Side on Mobile & Desktop) */}
             <div className="grid grid-cols-2 gap-2.5 sm:gap-4 mb-4">
               {/* Size Selector */}
               <div>
@@ -585,7 +578,7 @@ const Product = () => {
               </div>
             </div>
 
-            {/* Quick Volume Pricing Tier Shortcuts */}
+            {/* Volume Pricing Tier Shortcuts */}
             <div className="mb-4 p-3 bg-stone/5 border border-stone/15 rounded-2xl">
               <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-dark-charcoal/80 mb-2">
                 <span>Volume Discount Pricing</span>
@@ -620,7 +613,7 @@ const Product = () => {
               </div>
             </div>
 
-            {/* Multi-Piece Customizer when quantity > 1 (Allows choosing all 5 colors + 3 M / 2 L) */}
+            {/* Multi-Piece Customizer */}
             {quantity > 1 && (
               <div className="mb-5 bg-white border border-stone/20 rounded-2xl p-3.5 md:p-4 shadow-2xs">
                 <div className="flex items-center justify-between flex-wrap gap-2 mb-3 pb-2.5 border-b border-stone/10">
@@ -651,7 +644,7 @@ const Product = () => {
                         Piece #{idx + 1}:
                       </span>
 
-                      {/* Color swatches for this piece */}
+                      {/* Color swatches */}
                       <div className="flex items-center gap-1.5 shrink-0">
                         {colors.map((c) => (
                           <button
@@ -667,7 +660,7 @@ const Product = () => {
                         ))}
                       </div>
 
-                      {/* Size buttons for this piece */}
+                      {/* Size buttons */}
                       <div className="flex items-center gap-1 shrink-0">
                         {['M', 'L'].map((sz) => (
                           <button
@@ -723,7 +716,7 @@ const Product = () => {
                   <span className="hidden sm:inline">Add to Cart</span>
                 </button>
 
-                {/* Wishlist Button with Heart Icon */}
+                {/* Wishlist Button */}
                 <button
                   type="button"
                   onClick={handleToggleWishlistClick}
@@ -744,14 +737,14 @@ const Product = () => {
               </div>
               
               <Link 
-                to="/contact" 
-                className="w-full flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 py-3.5 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-2xl hover:bg-soft-black/5 transition-colors"
+                to="/sample-wholesale" 
+                className="w-full flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 py-3.5 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-2xl hover:bg-soft-black/5 transition-colors text-center"
               >
                 Wholesale Inquiry
               </Link>
             </div>
 
-            {/* Expandable Accordions - Card View on Mobile */}
+            {/* Expandable Accordions */}
             <div className="bg-white sm:bg-transparent border border-stone/20 sm:border-t sm:border-x-0 sm:border-b-0 sm:border-stone/30 p-2 sm:p-0 rounded-2xl sm:rounded-none overflow-hidden shadow-xs sm:shadow-none mb-6 sm:mb-0">
               <Accordion 
                 title="Description" 
@@ -936,7 +929,7 @@ const Product = () => {
                 {images.indexOf(lightboxImage) + 1} / {images.length}
               </div>
               <button 
-                onClick={() => { setLightboxImage(null); setZoomLevel(1); }}
+                onClick={() => setLightboxImage(null)}
                 className="text-white/80 hover:text-white transition-all hover:scale-110 p-2 cursor-pointer bg-white/10 hover:bg-white/20 rounded-full"
                 aria-label="Close Preview"
               >
@@ -974,7 +967,7 @@ const Product = () => {
                         />
                       </TransformComponent>
                       
-                      {/* Zoom Controls (Desktop & Mobile) */}
+                      {/* Zoom Controls */}
                       <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-3 sm:gap-5 z-[110] bg-black/75 backdrop-blur-md px-4 sm:px-6 py-2 rounded-full border border-white/20 shadow-2xl">
                         <button onClick={() => zoomOut()} className="text-white/80 hover:text-white hover:scale-110 transition-all p-1 cursor-pointer" title="Zoom Out">
                           <ZoomOut className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -1001,12 +994,12 @@ const Product = () => {
               </button>
             </div>
 
-            {/* Thumbnails (Desktop & Mobile) */}
+            {/* Thumbnails */}
             <div className="w-full h-16 sm:h-20 flex items-center justify-center gap-2 sm:gap-3 px-4 z-[110]">
                {images.map((img, idx) => (
                   <button 
-                    key={idx}
-                    onClick={() => { setLightboxImage(img); setZoomLevel(1); }}
+                    key={idx} 
+                    onClick={() => setLightboxImage(img)}
                     className={`w-12 h-12 sm:w-14 sm:h-14 aspect-square shrink-0 rounded-none overflow-hidden border-2 transition-all cursor-pointer ${
                       lightboxImage === img 
                         ? 'border-terracotta scale-105 shadow-md opacity-100' 
@@ -1021,42 +1014,6 @@ const Product = () => {
           </div>
         )}
       </AnimatePresence>
-
-      {/* Wishlist Toast Notification */}
-      <AnimatePresence>
-        {wishlistToast && (
-          <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-6 right-6 z-[200] bg-soft-black text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs font-medium border border-white/10 backdrop-blur-md"
-          >
-            <Heart className="w-4 h-4 fill-rose-500 text-rose-500" />
-            <span>{wishlistToast}</span>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <SampleOrderDrawer 
-        isOpen={isOrderFormOpen} 
-        onClose={() => setIsOrderFormOpen(false)} 
-        orderDetails={{
-          quantity,
-          selectedColor: customizedPieces[0]?.color || selectedColor,
-          selectedSize: customizedPieces[0]?.size || selectedSize,
-          selectedColors: customizedPieces.slice(0, quantity).map(p => p.color),
-          selectedSizes: customizedPieces.slice(0, quantity).map(p => p.size),
-          unitPriceLocal,
-          shippingCostLocal,
-          totalPriceLocal,
-          savingsLocal,
-          currencySymbol,
-          localCurrency,
-          userCountry,
-          userCountryCode,
-          userCallingCode
-        }}
-      />
 
       {/* Features Grid */}
       <section className="pt-12 md:pt-20 pb-8 md:pb-12 bg-cotton-white px-6">
@@ -1173,5 +1130,4 @@ const Product = () => {
   );
 };
 
-export default Product;
-
+export default SampleOrder;
