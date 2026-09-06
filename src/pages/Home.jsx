@@ -118,7 +118,7 @@ const Home = () => {
               transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
               className="text-sm md:text-base lg:text-lg text-cream/90 font-light mb-8 md:mb-10 max-w-[95%] md:max-w-xl mx-auto md:mx-0"
             >
-              Premium handmade macramé belts engineered for boutique labels, private brands, and independent designers worldwide.
+              A specialized macramé belt supplier for fashion brands, retailers and wholesale buyers.
             </motion.p>
             
             <motion.div
@@ -131,7 +131,7 @@ const Home = () => {
                 to="/product" 
                 className="bg-cream text-soft-black px-8 py-3.5 md:px-8 md:py-3.5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-warm-sand transition-colors inline-block"
               >
-                Explore Products
+                REQUEST A SAMPLE
               </Link>
             </motion.div>
           </div>

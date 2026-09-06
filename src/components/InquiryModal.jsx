@@ -262,7 +262,7 @@ const InquiryModal = ({ isOpen, onClose, formType, orderDetails }) => {
                   
                   <div className="pt-2 md:pt-4 text-center">
                     <button type="submit" disabled={isSubmitting} className="bg-terracotta text-cream px-10 md:px-12 py-3 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-muted-burgundy transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
-                      {isSubmitting ? 'Sending...' : (formType === 'sample' ? 'Order Sample' : 'Request Quote')}
+                      {isSubmitting ? 'Sending...' : (formType === 'sample' ? 'Request a Sample' : 'Request Quote')}
                     </button>
                   </div>
                 </form>

@@ -524,7 +524,7 @@ const Product = () => {
                 onClick={() => setIsOrderFormOpen(true)}
                 className="w-full flex items-center justify-center bg-soft-black text-cream px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full sm:rounded-none hover:bg-dark-charcoal transition-colors border border-transparent"
               >
-                Order Sample
+                Request a Sample
               </button>
               
               <Link 

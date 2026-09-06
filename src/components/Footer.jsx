@@ -36,7 +36,7 @@ const Footer = () => {
               <h4 className="font-sans text-[10px] md:text-xs font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Services</h4>
               <ul className="flex flex-col space-y-2 md:space-y-3 items-center lg:items-start">
                 <li><Link to="/retail" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Retail</Link></li>
-                <li><Link to="/product" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate"><span className="hidden lg:inline">Order a </span>Sample</Link></li>
+                <li><Link to="/product" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate"><span className="hidden lg:inline">Request a </span>Sample</Link></li>
                 <li><Link to="/sample-wholesale" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Wholesale<span className="hidden lg:inline"> Inquiry</span></Link></li>
                 <li><Link to="/manufacturing" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">OEM<span className="hidden lg:inline"> & Private Label</span></Link></li>
               </ul>
