@@ -7,7 +7,6 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Product from './pages/Product';
-import Manufacturing from './pages/Manufacturing';
 import About from './pages/About';
 import SampleWholesale from './pages/SampleWholesale';
 import Contact from './pages/Contact';
@@ -49,7 +48,6 @@ const AnimatedRoutes = () => {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
         <Route path="/product" element={<PageWrapper><Product /></PageWrapper>} />
-        <Route path="/manufacturing" element={<PageWrapper><Manufacturing /></PageWrapper>} />
         <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
         <Route path="/sample-wholesale" element={<PageWrapper><SampleWholesale /></PageWrapper>} />
         <Route path="/retail" element={<PageWrapper><RetailPage /></PageWrapper>} />

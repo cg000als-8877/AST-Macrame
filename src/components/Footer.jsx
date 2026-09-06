@@ -38,7 +38,7 @@ const Footer = () => {
                 <li><Link to="/retail" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Retail</Link></li>
                 <li><Link to="/product" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate"><span className="hidden lg:inline">Request a </span>Sample</Link></li>
                 <li><Link to="/sample-wholesale" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Wholesale<span className="hidden lg:inline"> Inquiry</span></Link></li>
-                <li><Link to="/manufacturing" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">OEM<span className="hidden lg:inline"> & Private Label</span></Link></li>
+                <li><Link to="/sample-wholesale" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">OEM<span className="hidden lg:inline"> & Private Label</span></Link></li>
               </ul>
             </div>
 
