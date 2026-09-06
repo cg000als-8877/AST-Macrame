@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft } from 'lucide-react';
+import { saveOrderToFirestore } from '../services/storeService';
 
 import b1 from '../assets/products/Black/1.webp';
 import n1 from '../assets/products/Navy/1.webp';
@@ -102,6 +103,36 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
     try {
       const delay = new Promise(resolve => setTimeout(resolve, 1500));
       
+      const orderId = 'SAM-' + Date.now().toString().slice(-6);
+      const now = new Date();
+      const firestorePayload = {
+        orderId: orderId,
+        channel: 'Sample Order',
+        formType: 'Sample',
+        name: formDataObj.name || '',
+        phone: `${dialCode} ${phoneVal}`,
+        email: formDataObj.email || '',
+        company: formDataObj.company || '',
+        country: popularCountries[selectedCountryCode]?.name || selectedCountryCode,
+        city: formDataObj.city || '',
+        address: formDataObj.address || '',
+        postalCode: formDataObj.postalCode || '',
+        note: formDataObj.note || 'Sample Request',
+        paymentMethod: formDataObj.paymentMethod || 'Invoice / Direct Contact',
+        totalCost: orderDetails?.totalPriceBDT || orderDetails?.totalPrice || 850,
+        currency: 'BDT',
+        orderType: `Sample Order (${orderDetails?.quantity || 1} Pcs)`,
+        items: orderDetails?.items || [{
+          name: 'AST Handmade Macramé Belt',
+          color: orderDetails?.color || 'Black',
+          size: orderDetails?.size || 'M',
+          quantity: orderDetails?.quantity || 1
+        }],
+        date: now.toISOString().split('T')[0],
+        time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        status: 'Pending'
+      };
+
       await Promise.all([
         fetch('https://script.google.com/macros/s/AKfycby-t_SgCbjwZUNz40wgSBINlPOyvbqWcQWW3E5Kdvk5J5WCIhUmcrj3vXc8SgGdWMFY/exec', {
           method: 'POST',
@@ -111,6 +142,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
           },
           body: urlEncodedData,
         }),
+        saveOrderToFirestore(firestorePayload),
         delay
       ]);
       

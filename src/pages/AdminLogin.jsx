@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Lock, Mail, Eye, EyeOff, ShieldCheck, ArrowLeft, AlertCircle } from "lucide-react";
@@ -94,7 +94,7 @@ const AdminLogin = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="astmacrame@gmail.com"
+                placeholder="admin@astmacrame.com"
                 className="w-full bg-[#FAF8F5] border border-[#DDD8CE] rounded-xl px-3.5 py-3 pl-10 text-sm focus:outline-none focus:border-soft-black focus:ring-1 focus:ring-soft-black/10 transition-all text-soft-black"
               />
               <Mail className="w-4 h-4 text-dark-charcoal/40 absolute left-3.5 top-3.5" />
