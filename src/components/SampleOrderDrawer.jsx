@@ -215,34 +215,80 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
               ) : step === 'summary' && orderDetails ? (
                 <div className="flex flex-col h-full">
                   <div className="bg-white rounded-2xl p-4 md:p-5 shadow-sm border border-stone/5 mb-4 md:mb-6 flex-1">
-                    {orderDetails.quantity === 5 ? (
-                      <div className="flex items-center gap-3 md:gap-4">
-                        <div className="flex-1">
-                          <p className="text-base md:text-lg font-serif text-soft-black mb-1">Pack of 5 Samples</p>
-                          <p className="text-[10px] md:text-sm text-dark-charcoal/70">Includes all 5 signature colors (2 Medium, 3 Large)</p>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="space-y-3 md:space-y-4">
-                        {Array.from({ length: orderDetails.quantity }).map((_, idx) => (
-                          <div key={idx} className="flex items-center gap-3 md:gap-4 py-2 border-b border-stone/5 last:border-0 last:pb-0">
-                            <div className="w-10 h-10 md:w-14 md:h-14 rounded-lg shadow-sm border border-stone/10 overflow-hidden shrink-0 bg-stone/5">
+                    {/* Item list: Single consolidated or distinct piece breakdown */}
+                    {(() => {
+                      const colorsList = orderDetails.selectedColors || [orderDetails.selectedColor || 'Black'];
+                      const sizesList = orderDetails.selectedSizes || [orderDetails.selectedSize || 'M'];
+                      const allSame = colorsList.every(c => c === colorsList[0]) && sizesList.every(s => s === sizesList[0]);
+
+                      if (allSame) {
+                        return (
+                          <div className="flex items-start gap-3 md:gap-4 py-2">
+                            <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl shadow-xs border border-stone/10 overflow-hidden shrink-0 bg-stone/5">
                               <img 
-                                src={colorImages[orderDetails.selectedColors[idx] || 'Black']} 
-                                alt={orderDetails.selectedColors[idx]} 
+                                src={colorImages[colorsList[0] || 'Black']} 
+                                alt={colorsList[0] || 'Belt'} 
                                 className="w-full h-full object-cover mix-blend-multiply" 
                               />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-xs md:text-sm font-bold text-soft-black mb-0.5 md:mb-1 truncate">
-                                {orderDetails.selectedColors[idx] || 'Black'}
+                              <p className="text-sm md:text-base font-serif font-bold text-soft-black mb-1 truncate">
+                                AST Handmade Macramé Belt
                               </p>
-                              <p className="text-[9px] md:text-xs text-dark-charcoal/60 uppercase tracking-widest">
-                                Size {orderDetails.selectedSizes[idx] || 'M'}
-                              </p>
+                              <div className="flex flex-wrap items-center gap-1.5 text-xs text-dark-charcoal/80 mb-2">
+                                <span className="font-medium">Color: <strong>{colorsList[0]}</strong></span>
+                                <span>•</span>
+                                <span className="font-medium">Size: <strong>{sizesList[0]}</strong></span>
+                                <span>•</span>
+                                <span className="font-medium">Qty: <strong>{orderDetails.quantity}</strong></span>
+                              </div>
+                              <div className="flex items-baseline gap-2">
+                                <span className="text-sm md:text-base font-bold text-soft-black">
+                                  {orderDetails.currencySymbol}{Math.round(orderDetails.totalPriceLocal).toLocaleString()}
+                                </span>
+                                {orderDetails.quantity > 1 && (
+                                  <span className="text-[11px] text-emerald-700 bg-emerald-50 font-semibold px-2 py-0.5 rounded-md border border-emerald-200/50">
+                                    {orderDetails.currencySymbol}{Math.round(orderDetails.unitPriceLocal).toLocaleString()}/pc
+                                  </span>
+                                )}
+                              </div>
                             </div>
                           </div>
-                        ))}
+                        );
+                      } else {
+                        return (
+                          <div className="space-y-2.5 max-h-[220px] overflow-y-auto pr-1">
+                            <div className="text-[11px] font-bold uppercase tracking-wider text-dark-charcoal mb-1">
+                              Selected Sample Mix ({orderDetails.quantity} Belts):
+                            </div>
+                            {colorsList.map((color, idx) => (
+                              <div key={idx} className="flex items-center gap-3 p-2 bg-stone/5 border border-stone/10 rounded-xl">
+                                <div className="w-10 h-10 rounded-lg overflow-hidden bg-white border border-stone/10 shrink-0">
+                                  <img 
+                                    src={colorImages[color] || colorImages.Black} 
+                                    alt={color} 
+                                    className="w-full h-full object-cover mix-blend-multiply" 
+                                  />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-xs font-bold text-soft-black">Sample #{idx + 1}: {color}</span>
+                                    <span className="text-[10px] font-semibold bg-white border border-stone/20 px-2 py-0.5 rounded-full text-soft-black">
+                                      Size {sizesList[idx] || 'M'}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        );
+                      }
+                    })()}
+
+                    {orderDetails.savingsLocal > 0 && (
+                      <div className="mt-3 pt-3 border-t border-stone/10 flex items-center justify-between text-xs text-emerald-800 bg-emerald-50/60 p-2.5 rounded-xl">
+                        <span className="font-medium">🔥 Volume Discount Savings:</span>
+                        <span className="font-bold">-{orderDetails.currencySymbol}{Math.round(orderDetails.savingsLocal).toLocaleString()}</span>
                       </div>
                     )}
                   </div>
@@ -250,16 +296,16 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                   <div className="bg-white rounded-2xl p-4 md:p-5 shadow-sm border border-stone/5 mt-auto">
                     <div className="space-y-2 md:space-y-3 mb-4 md:mb-6">
                       <div className="flex justify-between text-xs md:text-sm text-dark-charcoal/80">
-                        <span>Subtotal</span>
-                        <span className="font-medium">{orderDetails.currencySymbol}{orderDetails.totalPriceLocal.toLocaleString()}</span>
+                        <span>Subtotal ({orderDetails.quantity} {orderDetails.quantity === 1 ? 'item' : 'items'})</span>
+                        <span className="font-medium">{orderDetails.currencySymbol}{Math.round(orderDetails.totalPriceLocal).toLocaleString()}</span>
                       </div>
                       <div className="flex justify-between text-xs md:text-sm text-dark-charcoal/80">
-                        <span>Est. Shipping</span>
-                        <span className="font-medium">{orderDetails.currencySymbol}{orderDetails.shippingCostLocal.toLocaleString()}</span>
+                        <span>Est. Shipping ({orderDetails.userCountry || 'Standard'})</span>
+                        <span className="font-medium">{orderDetails.currencySymbol}{Math.round(orderDetails.shippingCostLocal).toLocaleString()}</span>
                       </div>
                       <div className="flex justify-between text-base md:text-lg text-soft-black font-bold pt-3 md:pt-4 border-t border-stone/10 mt-2">
-                        <span>Total</span>
-                        <span>{orderDetails.currencySymbol}{(orderDetails.totalPriceLocal + orderDetails.shippingCostLocal).toLocaleString()}</span>
+                        <span>Total to pay</span>
+                        <span className="text-terracotta">{orderDetails.currencySymbol}{Math.round(orderDetails.totalPriceLocal + orderDetails.shippingCostLocal).toLocaleString()}</span>
                       </div>
                     </div>
 

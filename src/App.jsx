@@ -3,8 +3,11 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { motion, AnimatePresence } from 'framer-motion';
 import { AuthProvider } from './context/AuthContext';
 import { StoreConfigProvider } from './context/StoreConfigContext';
+import { CartWishlistProvider, useCartWishlist } from './context/CartWishlistContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import WishlistDrawer from './components/WishlistDrawer';
+import CartDrawer from './components/CartDrawer';
 import Home from './pages/Home';
 import Product from './pages/Product';
 import About from './pages/About';
@@ -38,6 +41,24 @@ const PageWrapper = ({ children }) => {
     >
       {children}
     </motion.div>
+  );
+};
+
+const GlobalToast = () => {
+  const { toastMessage } = useCartWishlist();
+  return (
+    <AnimatePresence>
+      {toastMessage && (
+        <motion.div
+          initial={{ opacity: 0, y: 30, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 20, scale: 0.95 }}
+          className="fixed bottom-6 right-6 z-[250] bg-soft-black text-cream px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold border border-white/10 backdrop-blur-md"
+        >
+          <span>{toastMessage}</span>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
@@ -75,6 +96,7 @@ const AnimatedRoutes = () => {
 const AppLayout = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
+  const isRetail = location.pathname === '/retail';
 
   return (
     <div className="flex flex-col bg-cream text-soft-black font-sans selection:bg-terracotta selection:text-cream">
@@ -84,6 +106,15 @@ const AppLayout = () => {
       </main>
       {!isAdmin && <Footer />}
       {!isAdmin && <ThemeSwitcher />}
+      
+      {/* Sample Cart and Wishlist Drawers (Excluded on Retail & Admin) */}
+      {!isAdmin && !isRetail && (
+        <>
+          <WishlistDrawer />
+          <CartDrawer />
+          <GlobalToast />
+        </>
+      )}
     </div>
   );
 };
@@ -92,13 +123,16 @@ function App() {
   return (
     <AuthProvider>
       <StoreConfigProvider>
-        <Router>
-          <ScrollToTop />
-          <AppLayout />
-        </Router>
+        <CartWishlistProvider>
+          <Router>
+            <ScrollToTop />
+            <AppLayout />
+          </Router>
+        </CartWishlistProvider>
       </StoreConfigProvider>
     </AuthProvider>
   );
 }
 
 export default App;
+

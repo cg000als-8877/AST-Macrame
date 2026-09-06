@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Heart, ShoppingBag } from 'lucide-react';
+import { useCartWishlist } from '../context/CartWishlistContext';
 
 const Navbar = () => {
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { totalWishlistCount, totalCartQuantity, setIsWishlistOpen, setIsCartOpen } = useCartWishlist();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -161,16 +164,36 @@ const Navbar = () => {
                 <span className="font-serif font-bold text-soft-black text-[13px] tracking-wide mt-0.5">AST Macramé</span>
               </Link>
 
-              <div className="flex gap-1.5">
-                <a href="mailto:astmacrame@gmail.com" className="w-6 h-6 bg-soft-black text-white rounded-full flex items-center justify-center hover:bg-[#EA4335] active:scale-95 transition-all shadow-sm" aria-label="Mail">
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                </a>
-                <a href="https://wa.me/8801940689061" target="_blank" rel="noreferrer" className="w-6 h-6 bg-soft-black text-white rounded-full flex items-center justify-center hover:bg-[#25D366] active:scale-95 transition-all shadow-sm" aria-label="WhatsApp">
-                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                </a>
-                <a href="https://www.facebook.com/share/191oCoXxWV/" target="_blank" rel="noreferrer" className="w-6 h-6 bg-soft-black text-white rounded-full flex items-center justify-center hover:bg-[#1877F2] active:scale-95 transition-all shadow-sm" aria-label="Facebook">
-                  <svg className="w-3.5 h-3.5 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                </a>
+              {/* Mobile Right: Wishlist & Cart Buttons */}
+              <div className="flex items-center gap-2">
+                <button 
+                  type="button"
+                  onClick={() => setIsWishlistOpen(true)}
+                  className="relative w-8 h-8 rounded-full bg-white border border-stone/20 text-soft-black flex items-center justify-center hover:text-rose-600 active:scale-90 transition-all shadow-2xs cursor-pointer" 
+                  aria-label="Wishlist"
+                  title="Wishlist"
+                >
+                  <Heart className="w-4 h-4" />
+                  {totalWishlistCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-xs">
+                      {totalWishlistCount}
+                    </span>
+                  )}
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => setIsCartOpen(true)}
+                  className="relative w-8 h-8 rounded-full bg-soft-black text-cream flex items-center justify-center hover:bg-dark-charcoal active:scale-90 transition-all shadow-2xs cursor-pointer" 
+                  aria-label="Cart"
+                  title="Cart"
+                >
+                  <ShoppingBag className="w-3.5 h-3.5" />
+                  {totalCartQuantity > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-terracotta text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-xs">
+                      {totalCartQuantity}
+                    </span>
+                  )}
+                </button>
               </div>
             </div>
 
@@ -194,7 +217,7 @@ const Navbar = () => {
                   <React.Fragment key={link.name}>
                     <Link 
                       to={link.path}
-                      className={`relative py-1 sm:py-0.5 text-[clamp(10px,2.2vw,13px)] font-bold md:font-semibold tracking-tight sm:tracking-widest uppercase active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap ${isActive ? 'text-terracotta' : 'hover:text-terracotta text-soft-black'} ${link.name === 'Contact' ? 'hidden sm:block' : ''}`}
+                      className={`relative py-1 sm:py-0.5 text-[clamp(9.5px,2.2vw,13px)] font-bold md:font-semibold tracking-tight sm:tracking-widest uppercase active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap ${isActive ? 'text-terracotta' : 'hover:text-terracotta text-soft-black'}`}
                     >
                       {link.name}
                       {isActive && (
@@ -202,21 +225,44 @@ const Navbar = () => {
                       )}
                     </Link>
                     {index < navLinks.length - 1 && (
-                      <div className={`w-[1px] h-2.5 sm:h-3 md:h-4 bg-soft-black/20 shrink-0 ${index === navLinks.length - 2 ? 'hidden sm:block' : ''}`}></div>
+                      <div className="w-[1px] h-2.5 sm:h-3 md:h-4 bg-soft-black/20 shrink-0"></div>
                     )}
                   </React.Fragment>
                 )})}
               </nav>
             </div>
 
-            {/* Right side: Contact Icons (Desktop) */}
-            <div className="hidden sm:flex shrink-0 lg:flex-1 justify-end items-center gap-1.5 sm:gap-2">
-              <a href="https://wa.me/8801940689061" target="_blank" rel="noreferrer" className="w-7 h-7 md:w-9 md:h-9 bg-soft-black text-white rounded-full flex items-center justify-center hover:bg-[#25D366] active:scale-95 transition-all shadow-md" aria-label="WhatsApp">
-                <svg className="w-3.5 h-3.5 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-              </a>
-              <a href="https://www.facebook.com/share/191oCoXxWV/" target="_blank" rel="noreferrer" className="w-7 h-7 md:w-9 md:h-9 bg-soft-black text-white rounded-full flex items-center justify-center hover:bg-[#1877F2] active:scale-95 transition-all shadow-md" aria-label="Facebook">
-                <svg className="w-3.5 h-3.5 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-              </a>
+            {/* Right side: Wishlist & Cart Buttons (Desktop) */}
+            <div className="hidden sm:flex shrink-0 lg:flex-1 justify-end items-center gap-2 md:gap-3">
+              <button 
+                type="button"
+                onClick={() => setIsWishlistOpen(true)}
+                className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-stone/20 text-soft-black hover:border-rose-300 hover:text-rose-600 active:scale-95 transition-all shadow-2xs cursor-pointer group"
+                title="Wishlist"
+              >
+                <Heart className="w-3.5 h-3.5 md:w-4 md:h-4 transition-transform group-hover:scale-110" />
+                <span className="text-[11px] font-bold uppercase tracking-wider hidden xl:inline">Wishlist</span>
+                {totalWishlistCount > 0 && (
+                  <span className="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full leading-tight min-w-[16px] text-center shadow-xs">
+                    {totalWishlistCount}
+                  </span>
+                )}
+              </button>
+
+              <button 
+                type="button"
+                onClick={() => setIsCartOpen(true)}
+                className="relative flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-soft-black text-cream hover:bg-dark-charcoal active:scale-95 transition-all shadow-sm cursor-pointer group"
+                title="Cart"
+              >
+                <ShoppingBag className="w-3.5 h-3.5 md:w-4 md:h-4 transition-transform group-hover:scale-110" />
+                <span className="text-[11px] font-bold uppercase tracking-wider hidden xl:inline">Cart</span>
+                {totalCartQuantity > 0 && (
+                  <span className="bg-terracotta text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full leading-tight min-w-[16px] text-center shadow-xs">
+                    {totalCartQuantity}
+                  </span>
+                )}
+              </button>
             </div>
           </div>
         )}

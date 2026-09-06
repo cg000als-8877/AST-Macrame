@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Plus, Minus, X, ZoomIn, ZoomOut, RotateCcw, Info } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Minus, X, ZoomIn, ZoomOut, RotateCcw, Info, Heart, ShoppingBag } from 'lucide-react';
 import SampleOrderDrawer from '../components/SampleOrderDrawer';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
@@ -35,6 +35,9 @@ import k3 from '../assets/products/Khaki/3.webp';
 import k4 from '../assets/products/Khaki/4.webp';
 import k5 from '../assets/products/Khaki/5.webp';
 import k6 from '../assets/products/Khaki/6.webp';
+
+import { useCartWishlist } from '../context/CartWishlistContext';
+
 const Accordion = ({ title, isOpen, onClick, children }) => (
   <div className="border-b border-stone/15 last:border-b-0 sm:border-stone/30 sm:last:border-b">
     <button 
@@ -62,9 +65,16 @@ const Accordion = ({ title, isOpen, onClick, children }) => (
 );
 
 const Product = () => {
-  const [selectedColors, setSelectedColors] = useState(['Black']);
-  const [selectedSizes, setSelectedSizes] = useState(['M']);
+  const { addToCart, toggleWishlist, isInWishlist, setIsCartOpen } = useCartWishlist();
+  
+  const [selectedColor, setSelectedColor] = useState('Black');
+  const [selectedSize, setSelectedSize] = useState('M');
   const [quantity, setQuantity] = useState(1);
+  const [isCustomizingMultiPieces, setIsCustomizingMultiPieces] = useState(false);
+  const [customizedPieces, setCustomizedPieces] = useState([
+    { color: 'Black', size: 'M' }
+  ]);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [openAccordions, setOpenAccordions] = useState({
     description: true,
@@ -90,7 +100,7 @@ const Product = () => {
   const [isLoadingLocalization, setIsLoadingLocalization] = useState(true);
 
   useEffect(() => {
-    document.title = "Wholesale & Export | Custom Private Label Macramé Belts - AST Macramé";
+    document.title = "AST Handmade Macramé Belt | Sample & Wholesale Order - AST Macramé";
   }, []);
 
   useEffect(() => {
@@ -166,55 +176,122 @@ const Product = () => {
     Khaki: [k1, k2, k3, k4, k5, k6],
   };
 
-  const images = colorImages[selectedColors[0]];
-  const selectedColor = selectedColors[0]; // For backwards compatibility in rendering
+  const images = colorImages[selectedColor] || colorImages.Black;
 
-  const handleColorChange = (index, colorName) => {
-    const newColors = [...selectedColors];
-    newColors[index] = colorName;
-    setSelectedColors(newColors);
-    if (index === 0) {
-      setActiveIndex(0); // Reset gallery when primary color changes
-      if (scrollRef.current) {
-        scrollRef.current.scrollTo({ left: 0, behavior: 'auto' });
-      }
+  const handleColorChange = (colorName) => {
+    setSelectedColor(colorName);
+    setActiveIndex(0);
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ left: 0, behavior: 'auto' });
+    }
+    // Also update piece 1 or all uniform pieces if not customized
+    if (!isCustomizingMultiPieces) {
+      setCustomizedPieces(Array.from({ length: quantity }, () => ({ color: colorName, size: selectedSize })));
     }
   };
 
-  const handleQuantityChange = (qty) => {
-    setQuantity(qty);
-    if (qty > selectedColors.length) {
-      const newColors = [...selectedColors];
-      for (let i = selectedColors.length; i < qty; i++) {
-        newColors.push(colors[i % colors.length].name);
-      }
-      setSelectedColors(newColors);
-      const addedSizes = Array(qty - selectedSizes.length).fill(selectedSizes[0]);
-      setSelectedSizes([...selectedSizes, ...addedSizes]);
-    } else if (qty < selectedColors.length) {
-      setSelectedColors(selectedColors.slice(0, qty));
-      setSelectedSizes(selectedSizes.slice(0, qty));
+  const handleSizeChange = (newSize) => {
+    setSelectedSize(newSize);
+    if (!isCustomizingMultiPieces) {
+      setCustomizedPieces(Array.from({ length: quantity }, (_, i) => ({
+        color: customizedPieces[i]?.color || selectedColor,
+        size: newSize
+      })));
     }
   };
 
-  const handleSizeChange = (index, size) => {
-    const newSizes = [...selectedSizes];
-    newSizes[index] = size;
-    setSelectedSizes(newSizes);
+  const handleQuantityUpdate = (newQty) => {
+    setQuantity(newQty);
+    setCustomizedPieces(prev => {
+      const next = [];
+      for (let i = 0; i < newQty; i++) {
+        if (prev[i]) {
+          next.push(prev[i]);
+        } else {
+          // Default to distinct colors if available
+          next.push({
+            color: colors[i % colors.length].name,
+            size: selectedSize
+          });
+        }
+      }
+      return next;
+    });
   };
 
+  const handleIndividualPieceColorChange = (index, colorName) => {
+    setCustomizedPieces(prev => {
+      const copy = [...prev];
+      copy[index] = { ...copy[index], color: colorName };
+      return copy;
+    });
+  };
+
+  const handleIndividualPieceSizeChange = (index, sizeVal) => {
+    setCustomizedPieces(prev => {
+      const copy = [...prev];
+      copy[index] = { ...copy[index], size: sizeVal };
+      return copy;
+    });
+  };
+
+  const handleSetAllColorsMixPreset = () => {
+    setCustomizedPieces(prev => {
+      return prev.map((piece, idx) => ({
+        ...piece,
+        color: colors[idx % colors.length].name
+      }));
+    });
+  };
+
+  const isWishlisted = isInWishlist(selectedColor, selectedSize);
+
+  const handleToggleWishlistClick = () => {
+    toggleWishlist({
+      title: 'AST Handmade Macramé Belt',
+      color: selectedColor,
+      size: selectedSize,
+      priceBDT: 850
+    });
+  };
+
+  const handleAddToCartClick = () => {
+    if (quantity === 1 || !isCustomizingMultiPieces) {
+      addToCart({
+        title: 'AST Handmade Macramé Belt',
+        color: selectedColor,
+        size: selectedSize
+      }, quantity);
+    } else {
+      // Add each customized piece to cart
+      customizedPieces.forEach(p => {
+        addToCart({
+          title: 'AST Handmade Macramé Belt',
+          color: p.color,
+          size: p.size
+        }, 1);
+      });
+    }
+    setIsCartOpen(true);
+  };
+
+  // 850 BDT base price with strategic volume discounts
   const getBasePriceBDT = (qty) => {
-    switch(qty) {
-      case 1: return 1090;
-      case 2: return 1990;
-      case 3: return 2890;
-      case 4: return 3690;
-      case 5: return 3990;
-      default: return 1090 * qty;
-    }
+    if (qty === 1) return 850;
+    if (qty === 2) return 1600; // 800/pc (Save 100)
+    if (qty === 3) return 2250; // 750/pc (Save 300)
+    if (qty === 4) return 2880; // 720/pc (Save 520)
+    return qty * 690;           // 690/pc (Save 800+ on 5)
   };
 
-  const totalPriceLocal = getBasePriceBDT(quantity) * exchangeRate;
+  const baseSinglePriceBDT = 850;
+  const totalPriceBDT = getBasePriceBDT(quantity);
+  const regularPriceBDT = baseSinglePriceBDT * quantity;
+  const savingsBDT = Math.max(0, regularPriceBDT - totalPriceBDT);
+
+  const totalPriceLocal = totalPriceBDT * exchangeRate;
+  const regularPriceLocal = regularPriceBDT * exchangeRate;
+  const savingsLocal = savingsBDT * exchangeRate;
   const unitPriceLocal = totalPriceLocal / quantity;
 
   const toggleAccordion = (title) => {
@@ -393,124 +470,278 @@ const Product = () => {
             <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-2 md:mb-3">Unisex Design • 100% Cotton</p>
             
             {/* Price Display & Policy */}
-            <div className="mb-6">
+            <div className="mb-5">
               {isLoadingLocalization ? (
                 <div className="h-8 w-24 bg-stone/20 animate-pulse rounded mb-2"></div>
               ) : (
-                <div className="flex items-baseline gap-2 mb-2">
-                  <span className="text-2xl md:text-3xl font-serif text-soft-black">
-                    {currencySymbol}{totalPriceLocal.toFixed(2)}
-                  </span>
-                  <span className="text-xs md:text-sm font-light text-dark-charcoal/60">
-                    {quantity > 1 ? `(${currencySymbol}${unitPriceLocal.toFixed(2)} per sample)` : ''}
-                  </span>
+                <div>
+                  <div className="flex items-baseline gap-2.5 flex-wrap mb-1">
+                    <span className="text-2xl md:text-3xl font-serif text-soft-black font-semibold">
+                      {currencySymbol}{Math.round(totalPriceLocal).toLocaleString()}
+                    </span>
+                    {quantity > 1 && (
+                      <>
+                        <span className="text-sm md:text-base line-through text-dark-charcoal/40 font-sans">
+                          {currencySymbol}{Math.round(regularPriceLocal).toLocaleString()}
+                        </span>
+                        <span className="text-xs md:text-sm font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60">
+                          {currencySymbol}{Math.round(unitPriceLocal).toLocaleString()}/pc
+                        </span>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Dynamic Tier Savings Badge / Note */}
+                  {quantity > 1 ? (
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50/90 border border-emerald-200/80 rounded-full text-emerald-800 text-[11px] md:text-xs font-semibold tracking-wide mt-1">
+                      <span>🔥</span>
+                      <span>Buy {quantity} & Save {currencySymbol}{Math.round(savingsLocal).toLocaleString()} ({Math.round((savingsBDT / regularPriceBDT) * 100)}% OFF applied)</span>
+                    </div>
+                  ) : (
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-terracotta/10 border border-terracotta/20 rounded-full text-terracotta text-[11px] font-medium tracking-wide mt-1">
+                      <span>💡</span>
+                      <span>Buy 2 or more to get bulk tier discount (Save up to ৳160/pc)</span>
+                    </div>
+                  )}
                 </div>
               )}
               
-              <hr className="border-t border-stone/30 mb-2 w-full" />
+              <hr className="border-t border-stone/20 my-3.5 w-full" />
               
               <div className="flex justify-start">
                 <button 
                   onClick={() => setIsSamplePolicyOpen(true)}
-                  className="text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors flex items-center gap-1.5"
+                  className="text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black/80 hover:text-soft-black transition-colors flex items-center gap-1.5"
                 >
-                  <Info className="w-3.5 h-3.5 md:w-4 md:h-4 stroke-[2.5]" />
+                  <Info className="w-3.5 h-3.5 stroke-[2.2]" />
                   <span className="underline underline-offset-4">Sample Order Policy</span>
                 </button>
               </div>
             </div>
 
-            {/* Quantity Selection */}
-            <div className="mb-6">
-              <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black mb-3 md:mb-4">
-                Quantity
-              </span>
-              <div className="flex flex-wrap gap-2 md:gap-3">
-                {[1, 2, 3, 4, 5].map(q => (
-                  <button
-                    key={q}
-                    onClick={() => handleQuantityChange(q)}
-                    className={`h-10 px-4 md:px-5 flex items-center justify-center text-[10px] md:text-xs font-bold uppercase tracking-widest border transition-colors duration-300 rounded-full ${quantity === q ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+            {/* Color Selection (Primary / Global) */}
+            <div className="mb-5">
+              <div className="flex items-center justify-between mb-2.5">
+                <span className="text-xs font-bold uppercase tracking-widest text-soft-black">
+                  Primary Color: <span className="font-serif font-semibold text-terracotta ml-1">{selectedColor}</span>
+                </span>
+                <span className="text-[11px] text-dark-charcoal/60 font-medium">5 Signature Colors</span>
+              </div>
+              <div className="flex items-center gap-3">
+                {colors.map((color) => {
+                  const isSelected = selectedColor === color.name;
+                  return (
+                    <button
+                      key={color.name}
+                      onClick={() => handleColorChange(color.name)}
+                      className={`group relative p-0.5 rounded-full transition-all duration-200 cursor-pointer ${
+                        isSelected
+                          ? 'ring-2 ring-soft-black ring-offset-2 scale-105'
+                          : 'ring-1 ring-black/10 hover:ring-black/30 hover:scale-105'
+                      }`}
+                      title={color.name}
+                      aria-label={`Select color ${color.name}`}
+                    >
+                      <span
+                        className="block w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-black/10 shadow-inner"
+                        style={{ backgroundColor: color.hex }}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Size & Quantity Selectors - Side by Side */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 mb-4">
+              {/* Size Selector */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold uppercase tracking-widest text-soft-black">
+                    Size
+                  </span>
+                  <button 
+                    onClick={() => setIsSizeGuideOpen(true)}
+                    className="text-[10px] sm:text-[11px] font-semibold text-terracotta hover:text-dark-charcoal transition-colors underline underline-offset-4 flex items-center gap-1"
                   >
-                    {q === 1 ? 'SINGLE' : `PACK OF ${q}`}
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/>
+                      <path d="m14.5 12.5 2-2"/>
+                      <path d="m11.5 9.5 2-2"/>
+                      <path d="m8.5 6.5 2-2"/>
+                      <path d="m17.5 15.5 2-2"/>
+                    </svg>
+                    Size Guide
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { label: 'M', waist: '32–35"' },
+                    { label: 'L', waist: '35–38"' }
+                  ].map((s) => (
+                    <button
+                      key={s.label}
+                      type="button"
+                      onClick={() => handleSizeChange(s.label)}
+                      className={`h-[46px] px-3 rounded-xl border text-center transition-all duration-200 cursor-pointer flex flex-col items-center justify-center ${
+                        selectedSize === s.label
+                          ? 'bg-soft-black text-cream border-soft-black shadow-sm font-bold'
+                          : 'bg-white text-soft-black border-stone/20 hover:border-soft-black/40 font-medium'
+                      }`}
+                    >
+                      <span className="text-xs font-bold leading-none mb-0.5">{s.label}</span>
+                      <span className={`text-[10px] leading-none ${selectedSize === s.label ? 'text-cream/70' : 'text-dark-charcoal/50'}`}>{s.waist}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Quantity Selector */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold uppercase tracking-widest text-soft-black">
+                    Quantity
+                  </span>
+                  {quantity > 1 && (
+                    <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/50">
+                      Tier Discount
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center h-[46px] bg-white border border-stone/20 rounded-xl p-1 shadow-2xs">
+                  <button
+                    type="button"
+                    onClick={() => handleQuantityUpdate(Math.max(1, quantity - 1))}
+                    disabled={quantity <= 1}
+                    className="w-10 h-full flex items-center justify-center text-soft-black hover:bg-stone/10 disabled:opacity-25 disabled:hover:bg-transparent rounded-lg transition-colors cursor-pointer"
+                    aria-label="Decrease quantity"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <div className="flex-1 text-center font-serif text-base font-semibold text-soft-black select-none">
+                    {quantity}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleQuantityUpdate(Math.min(20, quantity + 1))}
+                    className="w-10 h-full flex items-center justify-center text-soft-black hover:bg-stone/10 rounded-lg transition-colors cursor-pointer"
+                    aria-label="Increase quantity"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Volume Pricing Tier Shortcuts */}
+            <div className="mb-4 p-3 bg-stone/5 border border-stone/15 rounded-2xl">
+              <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-dark-charcoal/80 mb-2">
+                <span>Volume Discount Pricing</span>
+                <span className="text-terracotta font-semibold">Tier Rate Applied</span>
+              </div>
+              <div className="grid grid-cols-4 gap-1.5">
+                {[
+                  { q: 1, price: '৳850', label: '1 Pc', save: '' },
+                  { q: 2, price: '৳800/pc', label: '2 Pcs', save: 'Save ৳100' },
+                  { q: 3, price: '৳750/pc', label: '3 Pcs', save: 'Save ৳300' },
+                  { q: 5, price: '৳690/pc', label: '5+ Pcs', save: 'Save ৳800' }
+                ].map((tier) => (
+                  <button
+                    key={tier.q}
+                    type="button"
+                    onClick={() => handleQuantityUpdate(tier.q)}
+                    className={`py-1.5 px-1 rounded-xl border text-center transition-all cursor-pointer ${
+                      quantity === tier.q
+                        ? 'bg-soft-black text-cream border-soft-black shadow-xs ring-1 ring-soft-black'
+                        : 'bg-white text-soft-black border-stone/15 hover:border-stone/40'
+                    }`}
+                  >
+                    <div className="text-[10px] font-bold">{tier.label}</div>
+                    <div className={`text-[9px] ${quantity === tier.q ? 'text-cream/80' : 'text-dark-charcoal/70'}`}>{tier.price}</div>
+                    {tier.save ? (
+                      <div className={`text-[8px] font-semibold ${quantity === tier.q ? 'text-amber-300' : 'text-emerald-600'}`}>{tier.save}</div>
+                    ) : (
+                      <div className="text-[8px] opacity-0">Base</div>
+                    )}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Color & Size Selection */}
-            <div className="mb-8 md:mb-12">
-              <div className="flex justify-between items-center mb-3 md:mb-4">
-                <span className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black">
-                  {quantity === 5 ? 'Pack Details' : 'Colors & Sizes'}
-                </span>
-                <button 
-                  onClick={() => setIsSizeGuideOpen(true)}
-                  className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-soft-black hover:text-dark-charcoal transition-colors underline underline-offset-4 flex items-center gap-1.5"
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/>
-                    <path d="m14.5 12.5 2-2"/>
-                    <path d="m11.5 9.5 2-2"/>
-                    <path d="m8.5 6.5 2-2"/>
-                    <path d="m17.5 15.5 2-2"/>
-                  </svg>
-                  Size Guide
-                </button>
-              </div>
+            {/* Multi-Piece Customizer when quantity > 1 (Allows choosing all 5 colors + 3 M / 2 L) */}
+            {quantity > 1 && (
+              <div className="mb-5 bg-white border border-stone/20 rounded-2xl p-3.5 md:p-4 shadow-2xs">
+                <div className="flex items-center justify-between flex-wrap gap-2 mb-3 pb-2.5 border-b border-stone/10">
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-wider text-soft-black block">
+                      Customize Sample Pieces ({quantity} Belts)
+                    </span>
+                    <span className="text-[10px] text-dark-charcoal/60">
+                      Pick distinct color and size for each piece
+                    </span>
+                  </div>
 
-              {quantity === 5 ? (
-                <div className="mb-6 p-4 md:p-5 border border-stone/30 bg-stone/5 relative rounded-2xl md:rounded-3xl">
-                  <p className="text-xs md:text-sm text-dark-charcoal/80 font-light italic leading-relaxed">
-                    <span className="font-semibold text-terracotta not-italic uppercase tracking-wider text-[10px] md:text-xs mr-2">Note:</span>
-                    The Pack of 5 includes all 5 signature colors (Black, Navy, Brown, Maroon, Khaki) in a curated mix of sizes (2 Medium and 3 Large).
-                  </p>
+                  {quantity >= 5 && (
+                    <button
+                      type="button"
+                      onClick={handleSetAllColorsMixPreset}
+                      className="px-2.5 py-1 rounded-full bg-terracotta/10 hover:bg-terracotta/20 text-terracotta border border-terracotta/30 text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                    >
+                      🌈 1 of Each Color Mix
+                    </button>
+                  )}
                 </div>
-              ) : (
-                <div className="flex flex-col gap-2 md:gap-4 w-full">
-                  {Array.from({ length: quantity }).map((_, index) => (
-                    <div key={index} className="flex items-center justify-between sm:justify-start gap-1 sm:gap-3 bg-stone/5 border border-stone/10 p-2 sm:p-2.5 md:p-3 rounded-2xl md:rounded-3xl shadow-sm overflow-x-auto [&::-webkit-scrollbar]:hidden">
-                      {quantity > 1 && (
-                        <span className="text-[9px] sm:text-[10px] font-bold text-dark-charcoal uppercase shrink-0 sm:w-10 md:w-12">Belt {index + 1}:</span>
-                      )}
-                      
-                      <div className="flex gap-1 sm:gap-1.5 md:gap-2 items-center shrink-0">
-                        {colors.map((color) => (
+
+                <div className="space-y-2 max-h-[240px] overflow-y-auto pr-1">
+                  {customizedPieces.slice(0, quantity).map((piece, idx) => (
+                    <div key={idx} className="flex items-center justify-between gap-2 p-2 bg-stone/5 border border-stone/10 rounded-xl">
+                      <span className="text-[11px] font-bold text-soft-black shrink-0 w-16">
+                        Piece #{idx + 1}:
+                      </span>
+
+                      {/* Color swatches for this piece */}
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        {colors.map((c) => (
                           <button
-                            key={color.name}
-                            onClick={() => handleColorChange(index, color.name)}
-                            className={`w-[22px] h-[22px] sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full border transition-all duration-300 ${selectedColors[index] === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
-                            title={color.name}
-                          >
-                            <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
-                          </button>
+                            key={c.name}
+                            type="button"
+                            onClick={() => handleIndividualPieceColorChange(idx, c.name)}
+                            className={`w-5 h-5 rounded-full border transition-all cursor-pointer ${
+                              piece.color === c.name ? 'ring-2 ring-soft-black ring-offset-1 scale-110' : 'border-black/10 opacity-70 hover:opacity-100'
+                            }`}
+                            style={{ backgroundColor: c.hex }}
+                            title={c.name}
+                          />
                         ))}
                       </div>
-                      
-                      <div className="w-[1px] h-5 sm:h-6 md:h-7 bg-stone/20 mx-0.5 sm:mx-2 shrink-0"></div>
-                      
-                      <div className="flex gap-1 sm:gap-2 shrink-0 items-center">
-                        <span className="text-[7px] sm:text-[8px] font-bold text-dark-charcoal/60 uppercase mr-0.5 tracking-wider">Size</span>
-                        {['M', 'L'].map((size) => (
+
+                      {/* Size buttons for this piece */}
+                      <div className="flex items-center gap-1 shrink-0">
+                        {['M', 'L'].map((sz) => (
                           <button
-                            key={size}
-                            onClick={() => handleSizeChange(index, size)}
-                            className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 flex items-center justify-center text-[10px] sm:text-[11px] md:text-xs font-bold border transition-colors duration-300 rounded-full sm:rounded-none ${selectedSizes[index] === size ? 'bg-soft-black text-cream border-soft-black' : 'bg-transparent text-soft-black border-soft-black/20 hover:border-soft-black/50'}`}
+                            key={sz}
+                            type="button"
+                            onClick={() => handleIndividualPieceSizeChange(idx, sz)}
+                            className={`w-6 h-6 rounded-md text-[10px] font-bold border transition-all cursor-pointer ${
+                              piece.size === sz
+                                ? 'bg-soft-black text-cream border-soft-black'
+                                : 'bg-white text-soft-black border-stone/20 hover:border-soft-black/40'
+                            }`}
                           >
-                            {size}
+                            {sz}
                           </button>
                         ))}
                       </div>
                     </div>
                   ))}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
             
-            {/* CTA Buttons */}
-            <div className="flex flex-col gap-3 md:gap-4 mb-10 md:mb-12">
+            {/* CTA & Wishlist Buttons */}
+            <div className="flex flex-col gap-3 md:gap-3.5 mb-8 md:mb-10">
               {/* Shipping Status */}
-              <div className="mb-1 text-center">
+              <div className="text-center">
                 {isLoadingLocalization ? (
                   <div className="h-4 w-48 bg-stone/20 animate-pulse rounded mx-auto"></div>
                 ) : (
@@ -520,16 +751,53 @@ const Product = () => {
                 )}
               </div>
 
-              <button 
-                onClick={() => setIsOrderFormOpen(true)}
-                className="w-full flex items-center justify-center bg-soft-black text-cream px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full sm:rounded-none hover:bg-dark-charcoal transition-colors border border-transparent"
-              >
-                Request a Sample
-              </button>
+              {/* Main CTA + Add to Cart + Wishlist Button Row */}
+              <div className="flex items-center gap-2 sm:gap-2.5">
+                {/* Request Sample (Direct Checkout) */}
+                <button 
+                  type="button"
+                  onClick={() => setIsOrderFormOpen(true)}
+                  className="flex-1 flex items-center justify-center gap-2 bg-soft-black text-cream px-4 py-4 md:py-4.5 text-[11px] md:text-xs font-bold uppercase tracking-[0.16em] rounded-2xl hover:bg-dark-charcoal transition-all shadow-md active:scale-[0.99] cursor-pointer"
+                >
+                  <span>Request Sample</span>
+                  <span className="text-cream/40">•</span>
+                  <span>{currencySymbol}{Math.round(totalPriceLocal).toLocaleString()}</span>
+                </button>
+
+                {/* Add to Cart */}
+                <button
+                  type="button"
+                  onClick={handleAddToCartClick}
+                  className="px-4 py-4 md:py-4.5 bg-white border border-stone/30 text-soft-black hover:border-soft-black hover:bg-stone/5 text-[11px] md:text-xs font-bold uppercase tracking-wider rounded-2xl transition-all shadow-2xs cursor-pointer flex items-center gap-1.5"
+                  title="Add to Cart"
+                >
+                  <ShoppingBag className="w-4 h-4" />
+                  <span className="hidden sm:inline">Add to Cart</span>
+                </button>
+
+                {/* Wishlist Button with Heart Icon */}
+                <button
+                  type="button"
+                  onClick={handleToggleWishlistClick}
+                  className={`h-[52px] w-[52px] md:h-[54px] md:w-[54px] flex items-center justify-center rounded-2xl border transition-all duration-300 cursor-pointer shrink-0 ${
+                    isWishlisted
+                      ? 'bg-rose-50 border-rose-300 text-rose-600 shadow-sm'
+                      : 'bg-white border-stone/20 text-soft-black hover:border-soft-black/40 hover:text-rose-600 shadow-2xs'
+                  }`}
+                  title={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
+                  aria-label={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
+                >
+                  <Heart 
+                    className={`w-5 h-5 md:w-6 md:h-6 transition-transform duration-300 ${
+                      isWishlisted ? 'fill-rose-500 text-rose-500 scale-110' : 'stroke-[1.75]'
+                    }`} 
+                  />
+                </button>
+              </div>
               
               <Link 
                 to="/contact" 
-                className="w-full flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 py-4 md:py-5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full sm:rounded-none hover:bg-soft-black/5 transition-colors"
+                className="w-full flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 py-3.5 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-2xl hover:bg-soft-black/5 transition-colors"
               >
                 Wholesale Inquiry
               </Link>
@@ -806,16 +1074,34 @@ const Product = () => {
         )}
       </AnimatePresence>
 
+      {/* Wishlist Toast Notification */}
+      <AnimatePresence>
+        {wishlistToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            className="fixed bottom-6 right-6 z-[200] bg-soft-black text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs font-medium border border-white/10 backdrop-blur-md"
+          >
+            <Heart className="w-4 h-4 fill-rose-500 text-rose-500" />
+            <span>{wishlistToast}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <SampleOrderDrawer 
         isOpen={isOrderFormOpen} 
         onClose={() => setIsOrderFormOpen(false)} 
         orderDetails={{
           quantity,
-          selectedColors,
-          selectedSizes,
+          selectedColor: customizedPieces[0]?.color || selectedColor,
+          selectedSize: customizedPieces[0]?.size || selectedSize,
+          selectedColors: customizedPieces.slice(0, quantity).map(p => p.color),
+          selectedSizes: customizedPieces.slice(0, quantity).map(p => p.size),
           unitPriceLocal,
           shippingCostLocal,
           totalPriceLocal,
+          savingsLocal,
           currencySymbol,
           localCurrency,
           userCountry,
