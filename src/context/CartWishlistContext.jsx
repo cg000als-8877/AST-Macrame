@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { calculateShippingQuote, BELT_WEIGHT_GRAMS, PACKAGING_WEIGHT_GRAMS } from '../utils/shippingCalculator';
 
 import b1 from '../assets/products/Black/1.webp';
 import n1 from '../assets/products/Navy/1.webp';
@@ -24,14 +25,15 @@ export const useCartWishlist = () => {
   return context;
 };
 
-// Strategic volume pricing formula (850 base price)
+// Strategic volume pricing formula (850 base price, 2 for 1490)
 export const calculateTierPriceBDT = (totalQty) => {
   if (totalQty <= 0) return 0;
   if (totalQty === 1) return 850;
-  if (totalQty === 2) return 1600; // 800/pc (Save 100)
-  if (totalQty === 3) return 2250; // 750/pc (Save 300)
-  if (totalQty === 4) return 2880; // 720/pc (Save 520)
-  return totalQty * 690;           // 690/pc (Save 800+ for 5)
+  if (totalQty === 2) return 1490; // 745/pc (Save 210)
+  if (totalQty === 3) return 2090; // 697/pc (Save 460)
+  if (totalQty === 4) return 2650; // 662.5/pc (Save 750)
+  if (totalQty === 5) return 3150; // 630/pc (Save 1100)
+  return totalQty * 630;           // 630/pc for 6+
 };
 
 export const CartWishlistProvider = ({ children }) => {
@@ -63,8 +65,8 @@ export const CartWishlistProvider = ({ children }) => {
   const [exchangeRate, setExchangeRate] = useState(1);
   const [userCountry, setUserCountry] = useState('Bangladesh');
   const [userCountryCode, setUserCountryCode] = useState('BD');
+  const [userContinentCode, setUserContinentCode] = useState('AS');
   const [userCallingCode, setUserCallingCode] = useState('+880');
-  const [shippingCostLocal, setShippingCostLocal] = useState(120);
 
   useEffect(() => {
     try {
@@ -93,6 +95,7 @@ export const CartWishlistProvider = ({ children }) => {
         const currencyCode = ipData.currency || 'USD';
         const country = ipData.country_name || 'United States';
         const countryCode = ipData.country_code || 'US';
+        const continentCode = ipData.continent_code || 'NA';
         const callingCode = ipData.country_calling_code || '+1';
         
         const symbolMap = { 'USD': '$', 'EUR': '€', 'GBP': '£', 'BDT': '৳', 'CAD': 'C$', 'AUD': 'A$' };
@@ -101,6 +104,7 @@ export const CartWishlistProvider = ({ children }) => {
         if (!isMounted) return;
         setUserCountry(country);
         setUserCountryCode(countryCode);
+        setUserContinentCode(continentCode);
         setUserCallingCode(callingCode);
         setLocalCurrency(currencyCode);
         setCurrencySymbol(symbol);
@@ -111,13 +115,6 @@ export const CartWishlistProvider = ({ children }) => {
         
         if (!isMounted) return;
         setExchangeRate(rate);
-
-        let baseShippingBDT = 2500;
-        if (ipData.country_code === 'US') baseShippingBDT = 1500;
-        else if (ipData.continent_code === 'EU') baseShippingBDT = 2000;
-        else if (ipData.country_code === 'BD') baseShippingBDT = 130;
-        
-        setShippingCostLocal(baseShippingBDT * rate);
       } catch (err) {
         console.error("Failed to load localization data", err);
       }
@@ -226,6 +223,11 @@ export const CartWishlistProvider = ({ children }) => {
     setIsCartOpen(true);
   };
 
+  // Dynamic shipping calculation helper
+  const getShippingQuote = useCallback((qty = 1) => {
+    return calculateShippingQuote(qty, userCountryCode, userContinentCode, exchangeRate);
+  }, [userCountryCode, userContinentCode, exchangeRate]);
+
   // Aggregated calculations
   const totalCartQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
   const totalWishlistCount = wishlist.length;
@@ -238,6 +240,10 @@ export const CartWishlistProvider = ({ children }) => {
   const regularPriceLocal = regularPriceBDT * exchangeRate;
   const savingsLocal = savingsBDT * exchangeRate;
   const unitPriceLocal = totalCartQuantity > 0 ? totalPriceLocal / totalCartQuantity : 850 * exchangeRate;
+
+  // Dynamic Shipping for Cart
+  const cartShippingQuote = getShippingQuote(totalCartQuantity || 1);
+  const shippingCostLocal = cartShippingQuote.costLocal;
 
   return (
     <CartWishlistContext.Provider
@@ -272,7 +278,10 @@ export const CartWishlistProvider = ({ children }) => {
         exchangeRate,
         userCountry,
         userCountryCode,
+        userContinentCode,
         userCallingCode,
+        getShippingQuote,
+        cartShippingQuote,
         shippingCostLocal,
         showToast
       }}
@@ -281,3 +290,4 @@ export const CartWishlistProvider = ({ children }) => {
     </CartWishlistContext.Provider>
   );
 };
+

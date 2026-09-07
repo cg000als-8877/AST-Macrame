@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Plus, Minus, X, ZoomIn, ZoomOut, RotateCcw, Info, Heart, ShoppingBag } from 'lucide-react';
-import SampleOrderDrawer from '../components/SampleOrderDrawer';
+import { ChevronLeft, ChevronRight, Plus, Minus, X, ZoomIn, ZoomOut, RotateCcw, Info, Heart, ShoppingBag, AlignLeft, Layers, SlidersHorizontal, Ruler, Tag, Zap, Truck, ShieldCheck } from 'lucide-react';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import b1 from '../assets/products/Black/1.webp';
@@ -36,7 +35,7 @@ import k4 from '../assets/products/Khaki/4.webp';
 import k5 from '../assets/products/Khaki/5.webp';
 import k6 from '../assets/products/Khaki/6.webp';
 
-import { useCartWishlist } from '../context/CartWishlistContext';
+import { useCartWishlist, calculateTierPriceBDT } from '../context/CartWishlistContext';
 
 const Accordion = ({ title, isOpen, onClick, children }) => (
   <div className="border-b border-stone/15 last:border-b-0 sm:border-stone/30 sm:last:border-b">
@@ -70,22 +69,15 @@ const SampleOrder = () => {
     toggleWishlist, 
     isInWishlist, 
     setIsCartOpen,
-    localCurrency,
     currencySymbol,
     exchangeRate,
     userCountry,
-    userCountryCode,
-    userCallingCode,
-    shippingCostLocal
+    getShippingQuote
   } = useCartWishlist();
   
   const [selectedColor, setSelectedColor] = useState('Black');
   const [selectedSize, setSelectedSize] = useState('M');
   const [quantity, setQuantity] = useState(1);
-  const [isCustomizingMultiPieces, setIsCustomizingMultiPieces] = useState(false);
-  const [customizedPieces, setCustomizedPieces] = useState([
-    { color: 'Black', size: 'M' }
-  ]);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [openAccordions, setOpenAccordions] = useState({
@@ -95,7 +87,6 @@ const SampleOrder = () => {
   });
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isSamplePolicyOpen, setIsSamplePolicyOpen] = useState(false);
-  const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState(null);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
@@ -139,62 +130,35 @@ const SampleOrder = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({ left: 0, behavior: 'auto' });
     }
-    if (!isCustomizingMultiPieces) {
-      setCustomizedPieces(Array.from({ length: quantity }, () => ({ color: colorName, size: selectedSize })));
-    }
   };
 
   const handleSizeChange = (newSize) => {
     setSelectedSize(newSize);
-    if (!isCustomizingMultiPieces) {
-      setCustomizedPieces(Array.from({ length: quantity }, (_, i) => ({
-        color: customizedPieces[i]?.color || selectedColor,
-        size: newSize
-      })));
-    }
   };
 
   const handleQuantityUpdate = (newQty) => {
-    setQuantity(newQty);
-    setCustomizedPieces(prev => {
-      const next = [];
-      for (let i = 0; i < newQty; i++) {
-        if (prev[i]) {
-          next.push(prev[i]);
-        } else {
-          next.push({
-            color: colors[i % colors.length].name,
-            size: selectedSize
-          });
-        }
-      }
-      return next;
-    });
+    setQuantity(Math.max(1, Math.min(20, newQty)));
   };
 
-  const handleIndividualPieceColorChange = (index, colorName) => {
-    setCustomizedPieces(prev => {
-      const copy = [...prev];
-      copy[index] = { ...copy[index], color: colorName };
-      return copy;
-    });
-  };
+  const singlePriceBDT = 850;
+  const regularPriceBDT = singlePriceBDT * quantity;
+  const totalPriceBDT = calculateTierPriceBDT(quantity);
+  const savingsBDT = Math.max(0, regularPriceBDT - totalPriceBDT);
 
-  const handleIndividualPieceSizeChange = (index, sizeVal) => {
-    setCustomizedPieces(prev => {
-      const copy = [...prev];
-      copy[index] = { ...copy[index], size: sizeVal };
-      return copy;
-    });
-  };
+  const unitPriceLocal = quantity > 0 ? (totalPriceBDT / quantity) * exchangeRate : singlePriceBDT * exchangeRate;
+  const totalPriceLocal = totalPriceBDT * exchangeRate;
+  const regularPriceLocal = regularPriceBDT * exchangeRate;
+  const savingsLocal = savingsBDT * exchangeRate;
+  const currentShipping = getShippingQuote(quantity);
 
-  const handleSetAllColorsMixPreset = () => {
-    setCustomizedPieces(prev => {
-      return prev.map((piece, idx) => ({
-        ...piece,
-        color: colors[idx % colors.length].name
-      }));
-    });
+  const handleAddToCart = () => {
+    addToCart({
+      title: 'AST Handmade Macramé Belt',
+      color: selectedColor,
+      size: selectedSize,
+      priceBDT: singlePriceBDT
+    }, quantity);
+    setIsCartOpen(true);
   };
 
   const isWishlisted = isInWishlist(selectedColor, selectedSize);
@@ -204,47 +168,9 @@ const SampleOrder = () => {
       title: 'AST Handmade Macramé Belt',
       color: selectedColor,
       size: selectedSize,
-      priceBDT: 850
+      priceBDT: singlePriceBDT
     });
   };
-
-  const handleAddToCartClick = () => {
-    if (quantity === 1 || !isCustomizingMultiPieces) {
-      addToCart({
-        title: 'AST Handmade Macramé Belt',
-        color: selectedColor,
-        size: selectedSize
-      }, quantity);
-    } else {
-      customizedPieces.forEach(p => {
-        addToCart({
-          title: 'AST Handmade Macramé Belt',
-          color: p.color,
-          size: p.size
-        }, 1);
-      });
-    }
-    setIsCartOpen(true);
-  };
-
-  // 850 BDT base price with strategic volume discounts
-  const getBasePriceBDT = (qty) => {
-    if (qty === 1) return 850;
-    if (qty === 2) return 1600; // 800/pc (Save 100)
-    if (qty === 3) return 2250; // 750/pc (Save 300)
-    if (qty === 4) return 2880; // 720/pc (Save 520)
-    return qty * 690;           // 690/pc (Save 800+ on 5)
-  };
-
-  const baseSinglePriceBDT = 850;
-  const totalPriceBDT = getBasePriceBDT(quantity);
-  const regularPriceBDT = baseSinglePriceBDT * quantity;
-  const savingsBDT = Math.max(0, regularPriceBDT - totalPriceBDT);
-
-  const totalPriceLocal = totalPriceBDT * exchangeRate;
-  const regularPriceLocal = regularPriceBDT * exchangeRate;
-  const savingsLocal = savingsBDT * exchangeRate;
-  const unitPriceLocal = totalPriceLocal / quantity;
 
   const toggleAccordion = (title) => {
     setOpenAccordions(prev => ({ ...prev, [title]: !prev[title] }));
@@ -315,7 +241,7 @@ const SampleOrder = () => {
   };
 
   return (
-    <div className="w-full bg-cream min-h-screen pt-[102px] sm:pt-[76px] md:pt-[96px]">
+    <div className="w-full bg-cream min-h-screen pt-[50px] sm:pt-[76px] md:pt-[96px]">
       <div className="max-w-7xl mx-auto px-0 lg:px-12">
         
         {/* Product Hero & Details */}
@@ -410,310 +336,193 @@ const SampleOrder = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-col px-2.5 sm:px-4 lg:px-0 lg:pt-0 lg:col-span-5"
+            className="flex flex-col px-4 sm:px-6 lg:px-0 lg:pt-0 lg:col-span-5"
           >
-            <h1 className="text-2xl lg:text-3xl font-serif text-soft-black mb-1 md:mb-2 mt-2 lg:mt-0">AST Handmade Macramé Belt</h1>
+            {/* Header / Title */}
+            <h1 className="text-2xl lg:text-3xl font-serif text-soft-black mb-1 md:mb-2 mt-2 lg:mt-0 font-medium">AST Handmade Macramé Belt</h1>
             <p className="text-xs md:text-sm font-light italic text-dark-charcoal/80 mb-2 md:mb-3 leading-relaxed">
-              Fully handmade, very strong, and comfortable to wear. A belt made to last for years, even for the next generation!
+              Export-grade artisanal macramé with retail-ready finishing. Exceptional craftsmanship built to elevate your brand’s collection.
             </p>
-            <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-2 md:mb-3">Unisex Design • 100% Cotton</p>
+            <p className="text-[10px] md:text-xs font-sans tracking-widest uppercase text-terracotta font-medium mb-3 md:mb-4">Unisex Design • 100% Cotton</p>
             
-            {/* Price Display & Policy */}
-            <div className="mb-5">
-              <div>
-                <div className="flex items-baseline gap-2.5 flex-wrap mb-1">
-                  <span className="text-2xl md:text-3xl font-serif text-soft-black font-semibold">
-                    {currencySymbol}{Math.round(totalPriceLocal).toLocaleString()}
-                  </span>
-                  {quantity > 1 && (
-                    <>
-                      <span className="text-sm md:text-base line-through text-dark-charcoal/40 font-sans">
-                        {currencySymbol}{Math.round(regularPriceLocal).toLocaleString()}
-                      </span>
-                      <span className="text-xs md:text-sm font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60">
-                        {currencySymbol}{Math.round(unitPriceLocal).toLocaleString()}/pc
-                      </span>
-                    </>
-                  )}
-                </div>
-
-                {/* Dynamic Tier Savings Badge / Note */}
-                {quantity > 1 ? (
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50/90 border border-emerald-200/80 rounded-full text-emerald-800 text-[11px] md:text-xs font-semibold tracking-wide mt-1">
-                    <span>🔥</span>
-                    <span>Buy {quantity} & Save {currencySymbol}{Math.round(savingsLocal).toLocaleString()} ({Math.round((savingsBDT / regularPriceBDT) * 100)}% OFF applied)</span>
-                  </div>
+            {/* Price Display */}
+            <div className="mb-6">
+              <div className="flex items-center gap-2.5 flex-wrap">
+                <span className="text-2xl md:text-3xl font-serif text-soft-black font-semibold">
+                  {currencySymbol}{Math.round(totalPriceLocal).toLocaleString()}
+                </span>
+                {quantity === 1 ? (
+                  <button
+                    type="button"
+                    onClick={() => setQuantity(2)}
+                    className="inline-flex items-center gap-1.5 bg-terracotta/10 hover:bg-terracotta/20 border border-terracotta/30 text-terracotta px-2.5 py-1 rounded-lg text-[11px] md:text-xs font-semibold tracking-tight transition-all cursor-pointer group shadow-2xs"
+                    title="Click to select 2 belts & save"
+                  >
+                    <Tag className="w-3.5 h-3.5 text-terracotta group-hover:scale-110 transition-transform shrink-0" />
+                    <span>Buy 2 for {currencySymbol}{Math.round(1490 * exchangeRate).toLocaleString()} <span className="font-normal opacity-90">(Save {currencySymbol}{Math.round(210 * exchangeRate).toLocaleString()})</span> &rarr;</span>
+                  </button>
                 ) : (
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-terracotta/10 border border-terracotta/20 rounded-full text-terracotta text-[11px] font-medium tracking-wide mt-1">
-                    <span>💡</span>
-                    <span>Buy 2 or more to get bulk tier discount (Save up to ৳160/pc)</span>
-                  </div>
+                  <>
+                    <span className="text-sm md:text-base line-through text-dark-charcoal/40 font-sans">
+                      {currencySymbol}{Math.round(regularPriceLocal).toLocaleString()}
+                    </span>
+                    <span className="text-xs md:text-sm font-semibold text-white bg-red-600 px-2.5 py-0.5 rounded-md shadow-xs">
+                      {currencySymbol}{Math.round(unitPriceLocal).toLocaleString()}/pc
+                    </span>
+                    {savingsBDT > 0 && (
+                      <span className="text-[11px] font-bold text-white bg-red-600 px-2.5 py-0.5 rounded-full shadow-xs">
+                        Save {currencySymbol}{Math.round(savingsLocal).toLocaleString()}
+                      </span>
+                    )}
+                  </>
                 )}
               </div>
-              
-              <hr className="border-t border-stone/20 my-3.5 w-full" />
-              
-              <div className="flex justify-start">
-                <button 
-                  onClick={() => setIsSamplePolicyOpen(true)}
-                  className="text-[10px] md:text-[11px] font-bold tracking-widest uppercase text-soft-black/80 hover:text-soft-black transition-colors flex items-center gap-1.5 cursor-pointer"
-                >
-                  <Info className="w-3.5 h-3.5 stroke-[2.2]" />
-                  <span className="underline underline-offset-4">Sample Order Policy</span>
-                </button>
-              </div>
             </div>
 
-            {/* Color Selection (Primary / Global) */}
-            <div className="mb-5">
-              <div className="flex items-center justify-between mb-2.5">
-                <span className="text-xs font-bold uppercase tracking-widest text-soft-black">
-                  Primary Color: <span className="font-serif font-semibold text-terracotta ml-1">{selectedColor}</span>
-                </span>
-                <span className="text-[11px] text-dark-charcoal/60 font-medium">5 Signature Colors</span>
-              </div>
-              <div className="flex items-center gap-3">
-                {colors.map((color) => {
-                  const isSelected = selectedColor === color.name;
-                  return (
-                    <button
-                      key={color.name}
-                      onClick={() => handleColorChange(color.name)}
-                      className={`group relative p-0.5 rounded-full transition-all duration-200 cursor-pointer ${
-                        isSelected
-                          ? 'ring-2 ring-soft-black ring-offset-2 scale-105'
-                          : 'ring-1 ring-black/10 hover:ring-black/30 hover:scale-105'
-                      }`}
-                      title={color.name}
-                      aria-label={`Select color ${color.name}`}
-                    >
-                      <span
-                        className="block w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-black/10 shadow-inner"
-                        style={{ backgroundColor: color.hex }}
-                      />
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Size & Quantity Selectors (Side by Side on Mobile & Desktop) */}
-            <div className="grid grid-cols-2 gap-2.5 sm:gap-4 mb-4">
-              {/* Size Selector */}
+            {/* Standard Product Configurator: Color Swatch + Size + Quantity */}
+            <div className="space-y-5 mb-6">
+              
+              {/* 1. Color Swatches */}
               <div>
-                <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-                  <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider sm:tracking-widest text-soft-black">
-                    Size
+                <div className="flex items-center justify-between mb-2.5">
+                  <span className="text-xs font-bold uppercase tracking-wider text-soft-black">
+                    Color: <span className="font-semibold text-terracotta">{selectedColor}</span>
                   </span>
+
+                  {/* Policy Link */}
                   <button 
-                    onClick={() => setIsSizeGuideOpen(true)}
-                    className="text-[9px] sm:text-[11px] font-semibold text-terracotta hover:text-dark-charcoal transition-colors underline underline-offset-2 sm:underline-offset-4 flex items-center gap-0.5 sm:gap-1 cursor-pointer"
+                    type="button"
+                    onClick={() => setIsSamplePolicyOpen(true)}
+                    className="text-[10px] md:text-[11px] font-bold tracking-wider uppercase text-soft-black/80 hover:text-soft-black transition-colors flex items-center gap-1.5 cursor-pointer"
                   >
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
-                      <path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/>
-                      <path d="m14.5 12.5 2-2"/>
-                      <path d="m11.5 9.5 2-2"/>
-                      <path d="m8.5 6.5 2-2"/>
-                      <path d="m17.5 15.5 2-2"/>
-                    </svg>
-                    <span>Guide</span>
+                    <Info className="w-3.5 h-3.5 stroke-[2.2]" />
+                    <span className="underline underline-offset-4">Sample Order Policy</span>
                   </button>
                 </div>
-                <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
-                  {[
-                    { label: 'M', waist: '32–35"' },
-                    { label: 'L', waist: '35–38"' }
-                  ].map((s) => (
-                    <button
-                      key={s.label}
+                <div className="flex items-center gap-3">
+                  {colors.map(c => {
+                    const isSelected = selectedColor === c.name;
+                    return (
+                      <button
+                        key={c.name}
+                        type="button"
+                        onClick={() => handleColorChange(c.name)}
+                        title={c.name}
+                        aria-label={`Select color ${c.name}`}
+                        className={`relative p-0.5 rounded-full transition-all cursor-pointer ${
+                          isSelected
+                            ? 'ring-2 ring-soft-black ring-offset-2 ring-offset-cream scale-105'
+                            : 'hover:scale-105 opacity-80 hover:opacity-100'
+                        }`}
+                      >
+                        <span 
+                          className="block w-8 h-8 rounded-full border border-black/15 shadow-xs"
+                          style={{ backgroundColor: c.hex }}
+                        />
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* 2. Size Selector & Quantity Row */}
+              {/* 2. Size Selector & Quantity Row (Side by side on all screen sizes) */}
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-1">
+                
+                {/* Size Selector */}
+                <div>
+                  <div className="flex items-center gap-1.5 sm:gap-2 mb-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-soft-black shrink-0">
+                      Size: <span className="font-semibold text-terracotta">{selectedSize}</span>
+                    </label>
+                    <span className="text-stone-300 text-xs shrink-0">•</span>
+                    <button 
                       type="button"
-                      onClick={() => handleSizeChange(s.label)}
-                      className={`h-[44px] sm:h-[46px] px-1 sm:px-3 rounded-xl border text-center transition-all duration-200 cursor-pointer flex flex-col items-center justify-center ${
-                        selectedSize === s.label
-                          ? 'bg-soft-black text-cream border-soft-black shadow-sm font-bold'
-                          : 'bg-white text-soft-black border-stone/20 hover:border-soft-black/40 font-medium'
-                      }`}
+                      onClick={() => setIsSizeGuideOpen(true)}
+                      className="text-[10px] md:text-[11px] font-bold tracking-wider uppercase text-soft-black/80 hover:text-soft-black transition-colors flex items-center gap-0.5 sm:gap-1 cursor-pointer shrink-0"
                     >
-                      <span className="text-xs font-bold leading-none mb-0.5">{s.label}</span>
-                      <span className={`text-[9px] sm:text-[10px] leading-none whitespace-nowrap ${selectedSize === s.label ? 'text-cream/70' : 'text-dark-charcoal/50'}`}>{s.waist}</span>
+                      <Ruler className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-terracotta shrink-0" />
+                      <span className="underline underline-offset-4">Size Guide</span>
                     </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Quantity Selector */}
-              <div>
-                <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-                  <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider sm:tracking-widest text-soft-black">
-                    Quantity
-                  </span>
-                  {quantity > 1 && (
-                    <span className="text-[9px] sm:text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 sm:px-2 py-0.5 rounded-full border border-emerald-200/50 truncate max-w-[70px] sm:max-w-none text-right">
-                      Tier Rate
-                    </span>
-                  )}
-                </div>
-                <div className="flex items-center h-[44px] sm:h-[46px] bg-white border border-stone/20 rounded-xl p-0.5 sm:p-1 shadow-2xs">
-                  <button
-                    type="button"
-                    onClick={() => handleQuantityUpdate(Math.max(1, quantity - 1))}
-                    disabled={quantity <= 1}
-                    className="w-8 sm:w-10 h-full flex items-center justify-center text-soft-black hover:bg-stone/10 disabled:opacity-25 disabled:hover:bg-transparent rounded-lg transition-colors cursor-pointer shrink-0"
-                    aria-label="Decrease quantity"
-                  >
-                    <Minus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  </button>
-                  <div className="flex-1 text-center font-serif text-sm sm:text-base font-semibold text-soft-black select-none">
-                    {quantity}
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => handleQuantityUpdate(Math.min(20, quantity + 1))}
-                    className="w-8 sm:w-10 h-full flex items-center justify-center text-soft-black hover:bg-stone/10 rounded-lg transition-colors cursor-pointer shrink-0"
-                    aria-label="Increase quantity"
-                  >
-                    <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Volume Pricing Tier Shortcuts */}
-            <div className="mb-4 p-3 bg-stone/5 border border-stone/15 rounded-2xl">
-              <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-dark-charcoal/80 mb-2">
-                <span>Volume Discount Pricing</span>
-                <span className="text-terracotta font-semibold">Tier Rate Applied</span>
-              </div>
-              <div className="grid grid-cols-4 gap-1.5">
-                {[
-                  { q: 1, price: '৳850', label: '1 Pc', save: '' },
-                  { q: 2, price: '৳800/pc', label: '2 Pcs', save: 'Save ৳100' },
-                  { q: 3, price: '৳750/pc', label: '3 Pcs', save: 'Save ৳300' },
-                  { q: 5, price: '৳690/pc', label: '5+ Pcs', save: 'Save ৳800' }
-                ].map((tier) => (
-                  <button
-                    key={tier.q}
-                    type="button"
-                    onClick={() => handleQuantityUpdate(tier.q)}
-                    className={`py-1.5 px-1 rounded-xl border text-center transition-all cursor-pointer ${
-                      quantity === tier.q
-                        ? 'bg-soft-black text-cream border-soft-black shadow-xs ring-1 ring-soft-black'
-                        : 'bg-white text-soft-black border-stone/15 hover:border-stone/40'
-                    }`}
-                  >
-                    <div className="text-[10px] font-bold">{tier.label}</div>
-                    <div className={`text-[9px] ${quantity === tier.q ? 'text-cream/80' : 'text-dark-charcoal/70'}`}>{tier.price}</div>
-                    {tier.save ? (
-                      <div className={`text-[8px] font-semibold ${quantity === tier.q ? 'text-amber-300' : 'text-emerald-600'}`}>{tier.save}</div>
-                    ) : (
-                      <div className="text-[8px] opacity-0">Base</div>
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Multi-Piece Customizer */}
-            {quantity > 1 && (
-              <div className="mb-5 bg-white border border-stone/20 rounded-2xl p-3.5 md:p-4 shadow-2xs">
-                <div className="flex items-center justify-between flex-wrap gap-2 mb-3 pb-2.5 border-b border-stone/10">
-                  <div>
-                    <span className="text-xs font-bold uppercase tracking-wider text-soft-black block">
-                      Customize Sample Pieces ({quantity} Belts)
-                    </span>
-                    <span className="text-[10px] text-dark-charcoal/60">
-                      Pick distinct color and size for each piece
-                    </span>
+                  <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
+                    {['M', 'L'].map(s => {
+                      const isSelected = selectedSize === s;
+                      return (
+                        <button
+                          key={s}
+                          type="button"
+                          onClick={() => handleSizeChange(s)}
+                          className={`h-[52px] rounded-xl border text-center font-bold text-sm transition-all cursor-pointer flex items-center justify-center ${
+                            isSelected
+                              ? 'bg-soft-black text-cream border-soft-black shadow-xs'
+                              : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
+                          }`}
+                        >
+                          {s}
+                        </button>
+                      );
+                    })}
                   </div>
+                </div>
 
-                  {quantity >= 5 && (
+                {/* Quantity Stepper */}
+                <div>
+                  <div className="flex items-center mb-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-soft-black">
+                      Quantity
+                    </label>
+                  </div>
+                  <div className="flex items-center h-[52px] bg-white border border-stone/20 rounded-xl p-1 sm:p-1.5">
                     <button
                       type="button"
-                      onClick={handleSetAllColorsMixPreset}
-                      className="px-2.5 py-1 rounded-full bg-terracotta/10 hover:bg-terracotta/20 text-terracotta border border-terracotta/30 text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                      onClick={() => handleQuantityUpdate(quantity - 1)}
+                      disabled={quantity <= 1}
+                      className="w-8 sm:w-10 h-full rounded-lg bg-stone/10 hover:bg-stone/20 text-soft-black font-bold flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0"
+                      aria-label="Decrease quantity"
                     >
-                      🌈 1 of Each Color Mix
+                      <Minus className="w-3.5 h-3.5" />
                     </button>
-                  )}
-                </div>
-
-                <div className="space-y-2 max-h-[240px] overflow-y-auto pr-1">
-                  {customizedPieces.slice(0, quantity).map((piece, idx) => (
-                    <div key={idx} className="flex items-center justify-between gap-2 p-2 bg-stone/5 border border-stone/10 rounded-xl">
-                      <span className="text-[11px] font-bold text-soft-black shrink-0 w-16">
-                        Piece #{idx + 1}:
-                      </span>
-
-                      {/* Color swatches */}
-                      <div className="flex items-center gap-1.5 shrink-0">
-                        {colors.map((c) => (
-                          <button
-                            key={c.name}
-                            type="button"
-                            onClick={() => handleIndividualPieceColorChange(idx, c.name)}
-                            className={`w-5 h-5 rounded-full border transition-all cursor-pointer ${
-                              piece.color === c.name ? 'ring-2 ring-soft-black ring-offset-1 scale-110' : 'border-black/10 opacity-70 hover:opacity-100'
-                            }`}
-                            style={{ backgroundColor: c.hex }}
-                            title={c.name}
-                          />
-                        ))}
-                      </div>
-
-                      {/* Size buttons */}
-                      <div className="flex items-center gap-1 shrink-0">
-                        {['M', 'L'].map((sz) => (
-                          <button
-                            key={sz}
-                            type="button"
-                            onClick={() => handleIndividualPieceSizeChange(idx, sz)}
-                            className={`w-6 h-6 rounded-md text-[10px] font-bold border transition-all cursor-pointer ${
-                              piece.size === sz
-                                ? 'bg-soft-black text-cream border-soft-black'
-                                : 'bg-white text-soft-black border-stone/20 hover:border-soft-black/40'
-                            }`}
-                          >
-                            {sz}
-                          </button>
-                        ))}
-                      </div>
+                    <div className="flex-1 text-center font-bold text-sm text-soft-black select-none">
+                      {quantity}
                     </div>
-                  ))}
+                    <button
+                      type="button"
+                      onClick={() => handleQuantityUpdate(quantity + 1)}
+                      disabled={quantity >= 20}
+                      className="w-8 sm:w-10 h-full rounded-lg bg-stone/10 hover:bg-stone/20 text-soft-black font-bold flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0"
+                      aria-label="Increase quantity"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
+
               </div>
-            )}
-            
+
+            </div>
+
             {/* CTA & Wishlist Buttons */}
             <div className="flex flex-col gap-3 md:gap-3.5 mb-8 md:mb-10">
               {/* Shipping Status */}
               <div className="text-center">
                 <p className="text-[10px] md:text-xs font-semibold text-soft-black/80 tracking-wide">
-                  ✈️ Estimated Shipping to {userCountry}: {currencySymbol}{shippingCostLocal.toFixed(2)}
+                  ✈️ {currentShipping.carrier} to {userCountry} ({currentShipping.transit}): {currencySymbol}{currentShipping.costLocal.toFixed(2)}
                 </p>
               </div>
 
-              {/* Main CTA + Add to Cart + Wishlist Button Row */}
+              {/* Main Primary Add to Cart + Wishlist Button Row */}
               <div className="flex items-center gap-2 sm:gap-2.5">
-                {/* Request Sample (Direct Checkout) */}
+                {/* Primary Add to Cart CTA */}
                 <button 
                   type="button"
-                  onClick={() => setIsOrderFormOpen(true)}
-                  className="flex-1 flex items-center justify-center gap-2 bg-soft-black text-cream px-4 py-4 md:py-4.5 text-[11px] md:text-xs font-bold uppercase tracking-[0.16em] rounded-2xl hover:bg-dark-charcoal transition-all shadow-md active:scale-[0.99] cursor-pointer"
+                  onClick={handleAddToCart}
+                  className="flex-1 flex items-center justify-center gap-2.5 bg-soft-black text-cream px-6 py-4 md:py-4.5 text-xs font-bold uppercase tracking-[0.18em] rounded-2xl hover:bg-dark-charcoal transition-all shadow-md active:scale-[0.99] cursor-pointer group"
                 >
-                  <span>Request Sample</span>
+                  <ShoppingBag className="w-4 h-4 text-cream transition-transform group-hover:scale-110" />
+                  <span>ADD TO CART</span>
                   <span className="text-cream/40">•</span>
                   <span>{currencySymbol}{Math.round(totalPriceLocal).toLocaleString()}</span>
-                </button>
-
-                {/* Add to Cart */}
-                <button
-                  type="button"
-                  onClick={handleAddToCartClick}
-                  className="px-4 py-4 md:py-4.5 bg-white border border-stone/30 text-soft-black hover:border-soft-black hover:bg-stone/5 text-[11px] md:text-xs font-bold uppercase tracking-wider rounded-2xl transition-all shadow-2xs cursor-pointer flex items-center gap-1.5"
-                  title="Add to Cart"
-                >
-                  <ShoppingBag className="w-4 h-4" />
-                  <span className="hidden sm:inline">Add to Cart</span>
                 </button>
 
                 {/* Wishlist Button */}
@@ -747,55 +556,92 @@ const SampleOrder = () => {
             {/* Expandable Accordions */}
             <div className="bg-white sm:bg-transparent border border-stone/20 sm:border-t sm:border-x-0 sm:border-b-0 sm:border-stone/30 p-2 sm:p-0 rounded-2xl sm:rounded-none overflow-hidden shadow-xs sm:shadow-none mb-6 sm:mb-0">
               <Accordion 
-                title="Description" 
+                title={
+                  <div className="flex items-center gap-2.5">
+                    <AlignLeft className="w-4 h-4 text-terracotta shrink-0" />
+                    <span>Description</span>
+                  </div>
+                } 
                 isOpen={!!openAccordions['description']} 
                 onClick={() => toggleAccordion('description')}
               >
-                <p className="text-sm md:text-base text-dark-charcoal/80 leading-relaxed font-light">
-                  Carefully woven by skilled artisans in Bangladesh. Made from high-quality soft cotton macramé cord and finished with a durable, rust-resistant metal buckle for everyday wear. Lightweight, flexible, and exceptionally comfortable.
-                </p>
+                <div className="space-y-2.5 text-sm md:text-base text-dark-charcoal/85 leading-relaxed font-light">
+                  <p>
+                    Expertly hand-knotted by skilled Bangladeshi artisans using 100% premium cotton cord. Designed to adapt naturally to your waist without the stiff discomfort of traditional belts, finished with a heavy-duty, anti-rust zinc-alloy buckle.
+                  </p>
+                  <p>
+                    Whether paired with denim, chinos, or casual ethnic wear, it adds a textured, minimalist statement to your everyday wardrobe.
+                  </p>
+                </div>
               </Accordion>
 
               <Accordion 
-                title="Materials & Construction" 
+                title={
+                  <div className="flex items-center gap-2.5">
+                    <Layers className="w-4 h-4 text-terracotta shrink-0" />
+                    <span>Materials & Specifications</span>
+                  </div>
+                } 
                 isOpen={!!openAccordions['materials']} 
                 onClick={() => toggleAccordion('materials')}
               >
-                <ul className="space-y-1.5 pt-2 text-sm md:text-base text-dark-charcoal/80 font-light">
+                <ul className="space-y-2 pt-1 text-sm md:text-base text-dark-charcoal/85 font-light">
                   <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-full bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
-                    <span>Premium High-Quality Cotton Macramé Cord</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
+                    <span><strong className="font-semibold text-soft-black">Cord:</strong> 100% natural, eco-friendly high-grade braided cotton</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-full bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
-                    <span>Rust-Resistant Metal Buckle with Modern Finish</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
+                    <span><strong className="font-semibold text-soft-black">Hardware:</strong> Rust-resistant metal pin buckle with matte brushed finish</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-full bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
-                    <span>Soft, Flexible & Comfortable against the waist</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
+                    <span><strong className="font-semibold text-soft-black">Width:</strong> 4 cm (1.6 in) perfectly fits standard pant & denim loops</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
+                    <span><strong className="font-semibold text-soft-black">Flexibility:</strong> Micro-adjustable weave — fasten the buckle prong at any point along the belt for a custom fit</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
+                    <span><strong className="font-semibold text-soft-black">Origin:</strong> Proudly handcrafted in Bangladesh</span>
                   </li>
                 </ul>
               </Accordion>
 
               <Accordion 
-                title="Customization Options" 
+                title={
+                  <div className="flex items-center gap-2.5">
+                    <SlidersHorizontal className="w-4 h-4 text-terracotta shrink-0" />
+                    <span>Customization & OEM Capabilities</span>
+                  </div>
+                } 
                 isOpen={!!openAccordions['custom']} 
                 onClick={() => toggleAccordion('custom')}
               >
-                <ul className="space-y-1.5 pt-2 text-sm md:text-base text-dark-charcoal/80 font-light">
-                  <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-full bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
-                    <span>Custom Belt Colors to match your brand palette</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-full bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
-                    <span>Custom Buckle finishes (Matte, Brass, Silver, Gunmetal)</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-1 h-1 rounded-full bg-terracotta mt-[0.6rem] mr-2.5 flex-shrink-0"></span>
-                    <span>Custom Logo, Hangtags, and Premium Packaging</span>
-                  </li>
-                </ul>
+                <div className="space-y-3 pt-1 text-sm md:text-base text-dark-charcoal/85 font-light">
+                  <p className="leading-relaxed">
+                    Our workshop provides complete OEM/ODM manufacturing and private-label customization for brands, boutiques, and corporate buyers:
+                  </p>
+                  <ul className="space-y-2">
+                    <li className="flex items-start">
+                      <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
+                      <span><strong className="font-semibold text-soft-black">Bespoke Colorways:</strong> Pantone-accurate color dyeing, multi-tone weave patterns, and seasonal palette runs.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
+                      <span><strong className="font-semibold text-soft-black">Hardware & Logo Engraving:</strong> Custom buckle finishes (Matte Black, Antique Brass, Brushed Nickel, Gunmetal) with laser-engraved brand logos.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
+                      <span><strong className="font-semibold text-soft-black">Custom Dimensions:</strong> Tailored widths (3.0 cm to 5.0 cm) and extended waist size gradings tailored to your demographic.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
+                      <span><strong className="font-semibold text-soft-black">Private Label & Packaging:</strong> Custom woven brand tags, embossed kraft gift boxes, organic cotton dust pouches, and retail-ready barcode hangtags.</span>
+                    </li>
+                  </ul>
+                </div>
               </Accordion>
             </div>
           </motion.div>
@@ -862,7 +708,7 @@ const SampleOrder = () => {
         )}
       </AnimatePresence>
 
-      {/* Sample Policy Modal */}
+      {/* Sample Policy Modal - Monochromatic Design */}
       <AnimatePresence>
         {isSamplePolicyOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
@@ -877,37 +723,80 @@ const SampleOrder = () => {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-white border border-stone/20 w-full max-w-md p-6 relative z-10 shadow-2xl rounded-xl"
+              className="bg-white border border-stone/20 w-full max-w-md p-6 sm:p-7 relative z-10 shadow-2xl rounded-xl text-center max-h-[90vh] overflow-y-auto"
             >
               <button 
                 onClick={() => setIsSamplePolicyOpen(false)}
-                className="absolute top-4 right-4 text-soft-black/40 hover:text-soft-black transition-colors"
+                className="absolute top-4 right-4 text-soft-black/40 hover:text-soft-black transition-colors cursor-pointer p-1"
+                aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="text-center">
-                <img src="/logo_black.png" alt="AST Logo" className="h-5 w-auto mx-auto mb-4 object-contain opacity-80" />
-                <h2 className="text-xl font-serif text-soft-black mb-5">Sample Order Policy</h2>
-              </div>
+              <img src="/logo_black.png" alt="AST Logo" className="h-5 w-auto mx-auto mb-4 object-contain opacity-80" />
               
-              <p className="text-sm text-dark-charcoal mb-4 px-2 text-center">
-                Evaluate our craftsmanship before placing a wholesale order.
+              <h2 className="text-xl font-serif text-soft-black mb-1 font-medium">Sample Order Policy</h2>
+              <p className="text-xs text-dark-charcoal/70 mb-5">
+                Commercial evaluation guidelines for brand buyers & partners.
               </p>
-              
-              <div className="bg-stone/5 rounded-lg border border-stone/10 p-5 mb-4 shadow-sm">
-                <ul className="space-y-4 text-sm text-dark-charcoal list-disc list-outside ml-4 leading-relaxed">
-                  <li>Order up to 5 samples per design with discounted tiered pricing.</li>
-                  <li>Customize colors and sizes individually for each sample in a multi-pack.</li>
-                  <li><strong>Bangladesh:</strong> Cash on Delivery (COD) available.</li>
-                  <li><strong>International:</strong> Full advance payment required prior to shipping.</li>
-                  <li><strong>Reimbursement:</strong> Full sample cost is deducted from your subsequent confirmed bulk order invoice.</li>
-                  <li>Shipping charges are strictly non-refundable.</li>
-                </ul>
+
+              {/* Monochromatic Policy Sections */}
+              <div className="w-full bg-stone/5 rounded-lg border border-stone/10 p-4 sm:p-4.5 text-left space-y-3.5 mb-4">
+                
+                {/* 1. 100% Rebate */}
+                <div className="flex items-start gap-3">
+                  <Tag className="w-4 h-4 text-soft-black shrink-0 mt-0.5" />
+                  <div>
+                    <span className="text-xs font-bold text-soft-black uppercase tracking-wider block">100% Sample Rebate</span>
+                    <p className="text-xs text-dark-charcoal/80 leading-relaxed mt-0.5">
+                      The full sample purchase cost is credited back towards your first wholesale bulk order invoice.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="w-full h-px bg-stone/15"></div>
+
+                {/* 2. Strategic Tiered Pricing */}
+                <div className="flex items-start gap-3">
+                  <Zap className="w-4 h-4 text-soft-black shrink-0 mt-0.5" />
+                  <div>
+                    <span className="text-xs font-bold text-soft-black uppercase tracking-wider block">Tiered Sample Pricing</span>
+                    <p className="text-xs text-dark-charcoal/80 leading-relaxed mt-0.5">
+                      1 pc ৳850 • 2 pcs ৳1,490 (Save ৳210) • 3 pcs ৳2,090 • 5 pcs ৳3,150. Volume savings apply automatically.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="w-full h-px bg-stone/15"></div>
+
+                {/* 3. Dispatch & Payment */}
+                <div className="flex items-start gap-3">
+                  <Truck className="w-4 h-4 text-soft-black shrink-0 mt-0.5" />
+                  <div>
+                    <span className="text-xs font-bold text-soft-black uppercase tracking-wider block">Delivery & Payment</span>
+                    <p className="text-xs text-dark-charcoal/80 leading-relaxed mt-0.5">
+                      Cash on Delivery (COD) nationwide in Bangladesh. Express courier dispatch for international destinations.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="w-full h-px bg-stone/15"></div>
+
+                {/* 4. Quality Evaluation Terms */}
+                <div className="flex items-start gap-3">
+                  <ShieldCheck className="w-4 h-4 text-soft-black shrink-0 mt-0.5" />
+                  <div>
+                    <span className="text-xs font-bold text-soft-black uppercase tracking-wider block">Evaluation Terms</span>
+                    <p className="text-xs text-dark-charcoal/80 leading-relaxed mt-0.5">
+                      Samples are provided for physical quality inspection prior to volume manufacturing. Freight charges cover direct transit.
+                    </p>
+                  </div>
+                </div>
+
               </div>
               
-              <p className="text-xs font-medium text-dark-charcoal/80 leading-relaxed text-center px-2">
-                Assess product quality with confidence, knowing your investment is credited toward future purchases.
+              <p className="italic font-light text-dark-charcoal/70 text-[11px] leading-relaxed px-2">
+                * Evaluate craftsmanship with complete confidence, knowing sample expenses are credited upon bulk PO confirmation.
               </p>
             </motion.div>
           </div>
@@ -1100,32 +989,6 @@ const SampleOrder = () => {
           </div>
         </div>
       </section>
-
-      {/* Sample Order Checkout Drawer */}
-      <SampleOrderDrawer
-        isOpen={isOrderFormOpen}
-        onClose={() => setIsOrderFormOpen(false)}
-        orderDetails={{
-          quantity,
-          selectedColor,
-          selectedSize,
-          selectedColors: !isCustomizingMultiPieces || quantity === 1
-            ? Array(quantity).fill(selectedColor)
-            : customizedPieces.slice(0, quantity).map(p => p.color),
-          selectedSizes: !isCustomizingMultiPieces || quantity === 1
-            ? Array(quantity).fill(selectedSize)
-            : customizedPieces.slice(0, quantity).map(p => p.size),
-          unitPriceLocal,
-          shippingCostLocal,
-          totalPriceLocal,
-          savingsLocal,
-          currencySymbol,
-          localCurrency,
-          userCountry,
-          userCountryCode,
-          userCallingCode
-        }}
-      />
     </div>
   );
 };

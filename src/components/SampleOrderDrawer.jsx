@@ -43,8 +43,6 @@ const popularCountries = {
 };
 
 const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
-  const [step, setStep] = useState('summary'); // 'summary' or 'checkout'
-  const [isTransitioning, setIsTransitioning] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [submittedData, setSubmittedData] = useState(null);
@@ -65,12 +63,10 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add('modal-open');
-      setStep('summary'); // Reset to summary when opened
       setIsSuccess(false);
     } else {
       document.body.classList.remove('modal-open');
       setTimeout(() => {
-        setStep('summary');
         setIsSuccess(false);
       }, 300);
     }
@@ -98,54 +94,21 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
       formData.append('orderDetails', JSON.stringify(orderDetails));
     }
 
-    const urlEncodedData = new URLSearchParams(formData).toString();
-
     try {
-      const delay = new Promise(resolve => setTimeout(resolve, 1500));
-      
-      const orderId = 'SAM-' + Date.now().toString().slice(-6);
-      const now = new Date();
-      const firestorePayload = {
-        orderId: orderId,
-        channel: 'Sample Order',
-        formType: 'Sample',
-        name: formDataObj.name || '',
-        phone: `${dialCode} ${phoneVal}`,
-        email: formDataObj.email || '',
-        company: formDataObj.company || '',
-        country: popularCountries[selectedCountryCode]?.name || selectedCountryCode,
-        city: formDataObj.city || '',
-        address: formDataObj.address || '',
-        postalCode: formDataObj.postalCode || '',
-        note: formDataObj.note || 'Sample Request',
-        paymentMethod: formDataObj.paymentMethod || 'Invoice / Direct Contact',
-        totalCost: orderDetails?.totalPriceBDT || orderDetails?.totalPrice || 850,
-        currency: 'BDT',
-        orderType: `Sample Order (${orderDetails?.quantity || 1} Pcs)`,
-        items: orderDetails?.items || [{
-          name: 'AST Handmade Macramé Belt',
-          color: orderDetails?.color || 'Black',
-          size: orderDetails?.size || 'M',
-          quantity: orderDetails?.quantity || 1
-        }],
-        date: now.toISOString().split('T')[0],
-        time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        status: 'Pending'
-      };
+      await fetch('https://script.google.com/macros/s/AKfycbwPqFvC5Tq-rV-tDqE41eS4_f1oA1tY4_eZ1_G4f1e5f8_E4w/exec', {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors'
+      });
 
-      await Promise.all([
-        fetch('https://script.google.com/macros/s/AKfycby-t_SgCbjwZUNz40wgSBINlPOyvbqWcQWW3E5Kdvk5J5WCIhUmcrj3vXc8SgGdWMFY/exec', {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: urlEncodedData,
-        }),
-        saveOrderToFirestore(firestorePayload),
-        delay
-      ]);
-      
+      // Save to Firebase Firestore
+      await saveOrderToFirestore({
+        ...formDataObj,
+        orderDetails: orderDetails || {},
+        createdAt: new Date().toISOString(),
+        orderType: 'Sample'
+      });
+
       setIsSuccess(true);
     } catch (error) {
       console.error(error);
@@ -158,7 +121,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className={`fixed inset-0 z-50 flex ${step === 'checkout' ? 'justify-end md:justify-center md:items-center' : 'justify-end'}`}>
+        <div className="fixed inset-0 z-50 flex justify-end md:justify-center md:items-center">
           {/* Overlay */}
           <motion.div 
             initial={{ opacity: 0 }}
@@ -168,38 +131,25 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
             className="absolute inset-0 bg-soft-black/50 backdrop-blur-sm"
           />
           
-          {/* Drawer / Popup */}
+          {/* Modal / Drawer */}
           <motion.div 
             layout
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 30 }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className={`relative bg-cream shadow-2xl overflow-y-auto z-10 flex flex-col ${
-              step === 'checkout'
-                ? 'w-full h-full md:w-full md:max-w-2xl md:h-auto md:max-h-[90vh] md:rounded-2xl'
-                : 'w-[60%] md:w-[40%] lg:max-w-md h-full'
-            }`}
+            className="relative bg-cream shadow-2xl overflow-y-auto z-10 flex flex-col w-full h-full md:w-full md:max-w-2xl md:h-auto md:max-h-[90vh] md:rounded-2xl"
           >
             {/* Header */}
             <div className="sticky top-0 bg-cream z-20 px-4 md:px-6 py-4 flex items-center justify-between border-b border-stone/10 shadow-sm">
-              {step === 'checkout' && !isSuccess ? (
-                <button 
-                  onClick={() => setStep('summary')}
-                  className="flex items-center text-soft-black hover:text-soft-black/70 transition-colors -ml-1 md:-ml-2"
-                >
-                  <ChevronLeft size={20} className="md:w-6 md:h-6" />
-                  <span className="text-xs md:text-sm font-medium ml-1">Back</span>
-                </button>
-              ) : (
-                <h2 className="text-lg md:text-xl font-serif text-soft-black">
-                  {isSuccess ? '' : 'Order Summary'}
-                </h2>
-              )}
+              <h2 className="text-base md:text-lg font-serif font-bold text-soft-black">
+                {isSuccess ? 'Order Confirmation' : 'Sample Order Form'}
+              </h2>
               
               <button 
                 onClick={onClose}
-                className="p-1 md:p-2 text-soft-black hover:text-soft-black/70 transition-colors ml-auto"
+                className="p-1 md:p-2 text-soft-black hover:text-soft-black/70 transition-colors ml-auto cursor-pointer"
+                title="Close"
               >
                 <X size={20} className="md:w-6 md:h-6" />
               </button>
@@ -235,129 +185,13 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                     </div>
                   </div>
 
-                  <button onClick={onClose} className="w-full max-w-[200px] bg-soft-black text-cream px-6 py-3 md:py-3.5 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-full hover:bg-terracotta transition-colors shadow-md mx-auto">
+                  <button onClick={onClose} className="w-full max-w-[200px] bg-soft-black text-cream px-6 py-3 md:py-3.5 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-full hover:bg-terracotta transition-colors shadow-md mx-auto cursor-pointer">
                     Close
                   </button>
                 </div>
-              ) : isTransitioning ? (
-                <div className="flex-1 flex flex-col items-center justify-center h-full -mt-10">
-                  <div className="w-12 h-12 md:w-16 md:h-16 border-4 border-stone/20 border-t-terracotta rounded-full animate-spin mb-4 md:mb-6"></div>
-                  <p className="text-sm md:text-base font-medium text-dark-charcoal/70 animate-pulse">Preparing secure checkout...</p>
-                </div>
-              ) : step === 'summary' && orderDetails ? (
-                <div className="flex flex-col h-full">
-                  <div className="bg-white rounded-2xl p-4 md:p-5 shadow-sm border border-stone/5 mb-4 md:mb-6 flex-1">
-                    {/* Item list: Single consolidated or distinct piece breakdown */}
-                    {(() => {
-                      const colorsList = orderDetails.selectedColors || [orderDetails.selectedColor || 'Black'];
-                      const sizesList = orderDetails.selectedSizes || [orderDetails.selectedSize || 'M'];
-                      const allSame = colorsList.every(c => c === colorsList[0]) && sizesList.every(s => s === sizesList[0]);
-
-                      if (allSame) {
-                        return (
-                          <div className="flex items-start gap-3 md:gap-4 py-2">
-                            <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl shadow-xs border border-stone/10 overflow-hidden shrink-0 bg-stone/5">
-                              <img 
-                                src={colorImages[colorsList[0] || 'Black']} 
-                                alt={colorsList[0] || 'Belt'} 
-                                className="w-full h-full object-cover mix-blend-multiply" 
-                              />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-sm md:text-base font-serif font-bold text-soft-black mb-1 truncate">
-                                AST Handmade Macramé Belt
-                              </p>
-                              <div className="flex flex-wrap items-center gap-1.5 text-xs text-dark-charcoal/80 mb-2">
-                                <span className="font-medium">Color: <strong>{colorsList[0]}</strong></span>
-                                <span>•</span>
-                                <span className="font-medium">Size: <strong>{sizesList[0]}</strong></span>
-                                <span>•</span>
-                                <span className="font-medium">Qty: <strong>{orderDetails.quantity}</strong></span>
-                              </div>
-                              <div className="flex items-baseline gap-2">
-                                <span className="text-sm md:text-base font-bold text-soft-black">
-                                  {orderDetails.currencySymbol}{Math.round(orderDetails.totalPriceLocal).toLocaleString()}
-                                </span>
-                                {orderDetails.quantity > 1 && (
-                                  <span className="text-[11px] text-emerald-700 bg-emerald-50 font-semibold px-2 py-0.5 rounded-md border border-emerald-200/50">
-                                    {orderDetails.currencySymbol}{Math.round(orderDetails.unitPriceLocal).toLocaleString()}/pc
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      } else {
-                        return (
-                          <div className="space-y-2.5 max-h-[220px] overflow-y-auto pr-1">
-                            <div className="text-[11px] font-bold uppercase tracking-wider text-dark-charcoal mb-1">
-                              Selected Sample Mix ({orderDetails.quantity} Belts):
-                            </div>
-                            {colorsList.map((color, idx) => (
-                              <div key={idx} className="flex items-center gap-3 p-2 bg-stone/5 border border-stone/10 rounded-xl">
-                                <div className="w-10 h-10 rounded-lg overflow-hidden bg-white border border-stone/10 shrink-0">
-                                  <img 
-                                    src={colorImages[color] || colorImages.Black} 
-                                    alt={color} 
-                                    className="w-full h-full object-cover mix-blend-multiply" 
-                                  />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <div className="flex items-center justify-between">
-                                    <span className="text-xs font-bold text-soft-black">Sample #{idx + 1}: {color}</span>
-                                    <span className="text-[10px] font-semibold bg-white border border-stone/20 px-2 py-0.5 rounded-full text-soft-black">
-                                      Size {sizesList[idx] || 'M'}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        );
-                      }
-                    })()}
-
-                    {orderDetails.savingsLocal > 0 && (
-                      <div className="mt-3 pt-3 border-t border-stone/10 flex items-center justify-between text-xs text-emerald-800 bg-emerald-50/60 p-2.5 rounded-xl">
-                        <span className="font-medium">🔥 Volume Discount Savings:</span>
-                        <span className="font-bold">-{orderDetails.currencySymbol}{Math.round(orderDetails.savingsLocal).toLocaleString()}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="bg-white rounded-2xl p-4 md:p-5 shadow-sm border border-stone/5 mt-auto">
-                    <div className="space-y-2 md:space-y-3 mb-4 md:mb-6">
-                      <div className="flex justify-between text-xs md:text-sm text-dark-charcoal/80">
-                        <span>Subtotal ({orderDetails.quantity} {orderDetails.quantity === 1 ? 'item' : 'items'})</span>
-                        <span className="font-medium">{orderDetails.currencySymbol}{Math.round(orderDetails.totalPriceLocal).toLocaleString()}</span>
-                      </div>
-                      <div className="flex justify-between text-xs md:text-sm text-dark-charcoal/80">
-                        <span>Est. Shipping ({orderDetails.userCountry || 'Standard'})</span>
-                        <span className="font-medium">{orderDetails.currencySymbol}{Math.round(orderDetails.shippingCostLocal).toLocaleString()}</span>
-                      </div>
-                      <div className="flex justify-between text-base md:text-lg text-soft-black font-bold pt-3 md:pt-4 border-t border-stone/10 mt-2">
-                        <span>Total to pay</span>
-                        <span className="text-terracotta">{orderDetails.currencySymbol}{Math.round(orderDetails.totalPriceLocal + orderDetails.shippingCostLocal).toLocaleString()}</span>
-                      </div>
-                    </div>
-
-                    <button 
-                      onClick={() => {
-                        setIsTransitioning(true);
-                        setTimeout(() => {
-                          setIsTransitioning(false);
-                          setStep('checkout');
-                        }, 2000);
-                      }}
-                      className="w-full bg-soft-black text-cream px-4 md:px-6 py-3 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-full hover:bg-terracotta transition-colors shadow-md"
-                    >
-                      Checkout
-                    </button>
-                  </div>
-                </div>
               ) : (
                 <div className="flex-1 bg-white rounded-2xl p-4 md:p-6 shadow-sm border border-stone/5">
-                  <h3 className="text-base md:text-lg font-bold text-soft-black mb-4 md:mb-6">Personal Info</h3>
+                  <h3 className="text-base md:text-lg font-bold text-soft-black mb-4 md:mb-6">Shipping & Contact Details</h3>
                   
                   <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
                     <div>

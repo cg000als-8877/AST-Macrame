@@ -24,6 +24,7 @@ const CartDrawer = () => {
     userCountry,
     userCountryCode,
     userCallingCode,
+    cartShippingQuote,
     shippingCostLocal
   } = useCartWishlist();
 
@@ -98,19 +99,7 @@ const CartDrawer = () => {
                 </button>
               </div>
 
-              {/* Volume Discount Progress / Reward Banner */}
-              {totalCartQuantity > 0 && (
-                <div className="px-4 py-2.5 bg-emerald-50 border-b border-emerald-100/80 flex items-center gap-2 text-emerald-800 text-[11px] md:text-xs">
-                  <Sparkles className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span className="font-medium leading-tight">
-                    {totalCartQuantity === 1 && "💡 Add 1 more belt to save ৳100 automatically!"}
-                    {totalCartQuantity === 2 && "🔥 Buy 2 Tier active: You save ৳100! Add 1 more to save ৳300."}
-                    {totalCartQuantity === 3 && "🔥 Buy 3 Tier active: You save ৳300! Add 1 more to save ৳520."}
-                    {totalCartQuantity === 4 && "🔥 Buy 4 Tier active: You save ৳520! Add 1 more to get ৳690/pc rate."}
-                    {totalCartQuantity >= 5 && `🎉 Max volume tier unlocked: ${currencySymbol}${Math.round(unitPriceLocal).toLocaleString()}/pc rate applied!`}
-                  </span>
-                </div>
-              )}
+
 
               {/* Content / Items */}
               <div className="flex-1 overflow-y-auto p-4 md:p-5 space-y-3">
@@ -210,7 +199,52 @@ const CartDrawer = () => {
 
               {/* Order Summary Footer */}
               {cart.length > 0 && (
-                <div className="p-4 md:p-5 bg-white border-t border-stone/15 space-y-3 shadow-lg">
+                <div className="p-4 md:p-5 bg-white border-t border-stone/15 space-y-3.5 shadow-lg">
+                  
+                  {/* Volume Tier Incentive Card */}
+                  {(() => {
+                    let text = '';
+                    let percent = 50;
+                    let isMax = false;
+
+                    if (totalCartQuantity === 1) {
+                      text = `Add 1 more belt to unlock Tier 2 (${currencySymbol}${Math.round(745 * exchangeRate)}/pc • Save ${currencySymbol}${Math.round(210 * exchangeRate)})!`;
+                      percent = 50;
+                    } else if (totalCartQuantity === 2) {
+                      text = `Add 1 more belt to drop price to ${currencySymbol}${Math.round(697 * exchangeRate)}/pc (Save ${currencySymbol}${Math.round(460 * exchangeRate)} total)!`;
+                      percent = 66;
+                    } else if (totalCartQuantity === 3) {
+                      text = `Add 1 more belt to drop price to ${currencySymbol}${Math.round(662.5 * exchangeRate)}/pc (Save ${currencySymbol}${Math.round(750 * exchangeRate)})!`;
+                      percent = 80;
+                    } else if (totalCartQuantity === 4) {
+                      text = `Add 1 more belt to unlock MAX tier rate (${currencySymbol}${Math.round(630 * exchangeRate)}/pc • Save ${currencySymbol}${Math.round(1100 * exchangeRate)})!`;
+                      percent = 90;
+                    } else {
+                      text = `🎉 Maximum Sample Discount Unlocked (${currencySymbol}${Math.round(630 * exchangeRate)}/pc • Save ${currencySymbol}${Math.round(savingsLocal)})!`;
+                      percent = 100;
+                      isMax = true;
+                    }
+
+                    return (
+                      <div className={`p-3 sm:p-3.5 rounded-xl border transition-all ${
+                        isMax 
+                          ? 'bg-emerald-50/90 border-emerald-200/90 text-emerald-950'
+                          : 'bg-amber-50/90 border-amber-200/90 text-amber-950'
+                      }`}>
+                        <div className="flex items-center gap-2 text-xs sm:text-sm font-bold mb-2 leading-snug">
+                          <Sparkles className={`w-4 h-4 shrink-0 ${isMax ? 'text-emerald-600' : 'text-amber-600'}`} />
+                          <span>{text}</span>
+                        </div>
+                        <div className="w-full bg-black/10 rounded-full h-2 sm:h-2.5 overflow-hidden">
+                          <div 
+                            className={`h-full rounded-full transition-all duration-500 ${isMax ? 'bg-emerald-600' : 'bg-terracotta'}`}
+                            style={{ width: `${percent}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })()}
+
                   <div className="space-y-1.5 text-xs text-dark-charcoal/80">
                     <div className="flex justify-between">
                       <span>Subtotal ({totalCartQuantity} items):</span>
@@ -226,8 +260,8 @@ const CartDrawer = () => {
                       </div>
                     )}
 
-                    <div className="flex justify-between">
-                      <span>Est. Shipping ({userCountry}):</span>
+                    <div className="flex justify-between text-xs text-dark-charcoal/80">
+                      <span>Est. Shipping ({cartShippingQuote?.carrier || 'Express'} • {userCountry}):</span>
                       <span className="font-semibold text-soft-black">
                         {currencySymbol}{Math.round(shippingCostLocal).toLocaleString()}
                       </span>
@@ -250,9 +284,15 @@ const CartDrawer = () => {
                     <ArrowRight className="w-4 h-4" />
                   </button>
 
-                  <div className="flex items-center justify-center gap-1.5 text-[10px] text-dark-charcoal/60 font-medium">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Sample costs reimbursed on subsequent wholesale bulk orders</span>
+                  {/* B2B Motivation & Risk-Free Reimbursement Box */}
+                  <div className="bg-stone-50 border border-stone-200/60 rounded-xl p-2.5 space-y-1 text-left">
+                    <div className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-semibold text-emerald-800">
+                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                      <span>100% Sample Rebate Guarantee</span>
+                    </div>
+                    <p className="text-[10px] text-dark-charcoal/70 leading-normal pl-5">
+                      Full sample cost is credited directly back onto your first wholesale bulk order invoice.
+                    </p>
                   </div>
                 </div>
               )}
@@ -273,6 +313,8 @@ const CartDrawer = () => {
           selectedSizes: selectedSizes.length > 0 ? selectedSizes : ['M'],
           unitPriceLocal,
           shippingCostLocal,
+          shippingCarrier: cartShippingQuote?.carrier || 'DHL Express',
+          shippingTransit: cartShippingQuote?.transit,
           totalPriceLocal,
           savingsLocal,
           currencySymbol,

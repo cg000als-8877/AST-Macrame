@@ -76,7 +76,7 @@ const Product = () => {
     userCountry,
     userCountryCode,
     userCallingCode,
-    shippingCostLocal
+    getShippingQuote
   } = useCartWishlist();
   
   const [selectedColor, setSelectedColor] = useState('Black');
@@ -249,6 +249,7 @@ const Product = () => {
   const regularPriceLocal = regularPriceBDT * exchangeRate;
   const savingsLocal = savingsBDT * exchangeRate;
   const unitPriceLocal = totalPriceLocal / quantity;
+  const currentShipping = getShippingQuote(quantity);
 
   const toggleAccordion = (title) => {
     setOpenAccordions(prev => ({ ...prev, [title]: !prev[title] }));
@@ -437,7 +438,7 @@ const Product = () => {
                       <span className="text-sm md:text-base line-through text-dark-charcoal/40 font-sans">
                         {currencySymbol}{Math.round(regularPriceLocal).toLocaleString()}
                       </span>
-                      <span className="text-xs md:text-sm font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60">
+                      <span className="text-xs md:text-sm font-semibold text-white bg-red-600 px-2.5 py-0.5 rounded-md shadow-xs">
                         {currencySymbol}{Math.round(unitPriceLocal).toLocaleString()}/pc
                       </span>
                     </>
@@ -695,7 +696,7 @@ const Product = () => {
               {/* Shipping Status */}
               <div className="text-center">
                 <p className="text-[10px] md:text-xs font-semibold text-soft-black/80 tracking-wide">
-                  ✈️ Estimated Shipping to {userCountry}: {currencySymbol}{shippingCostLocal.toFixed(2)}
+                  ✈️ {currentShipping.carrier} to {userCountry} ({currentShipping.transit}): {currencySymbol}{currentShipping.costLocal.toFixed(2)}
                 </p>
               </div>
 
@@ -1047,7 +1048,9 @@ const Product = () => {
           selectedColors: customizedPieces.slice(0, quantity).map(p => p.color),
           selectedSizes: customizedPieces.slice(0, quantity).map(p => p.size),
           unitPriceLocal,
-          shippingCostLocal,
+          shippingCostLocal: currentShipping.costLocal,
+          shippingCarrier: currentShipping.carrier,
+          shippingTransit: currentShipping.transit,
           totalPriceLocal,
           savingsLocal,
           currencySymbol,
