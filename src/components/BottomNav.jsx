@@ -29,17 +29,17 @@ const BottomNav = () => {
         </svg>
 
         {/* Elevated Khaki Cart Button (Floating higher with gap above scoop) */}
-        <div className="absolute -top-6 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center">
+        <div className="absolute -top-[22px] left-1/2 -translate-x-1/2 z-30 flex flex-col items-center">
           <button
             type="button"
             onClick={() => setIsCartOpen(true)}
-            className="relative w-12 h-12 rounded-full bg-[#c3b091] hover:bg-[#b59e7a] active:scale-95 transition-all shadow-[0_8px_20px_rgba(195,176,145,0.4)] flex items-center justify-center cursor-pointer group border-2 border-white/20"
+            className="relative w-10 h-10 rounded-full bg-[#c3b091] hover:bg-[#b59e7a] active:scale-95 transition-all shadow-[0_6px_16px_rgba(195,176,145,0.4)] flex items-center justify-center cursor-pointer group border-2 border-white/20"
             aria-label="Open Sample Cart"
           >
-            <ShoppingCart className="w-5 h-5 text-soft-black stroke-[2.4] group-hover:scale-105 transition-transform" />
+            <ShoppingCart className="w-4 h-4 text-soft-black stroke-[2.3] group-hover:scale-105 transition-transform" />
             
             {/* Dynamic Cart Badge */}
-            <span className="absolute -top-1 -right-1 bg-soft-black text-white text-[9px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center border-2 border-[#c3b091] shadow-sm">
+            <span className="absolute -top-1 -right-1 bg-soft-black text-white text-[8px] font-black w-4 h-4 rounded-full flex items-center justify-center border border-[#c3b091] shadow-sm">
               {totalCartQuantity || 0}
             </span>
           </button>
