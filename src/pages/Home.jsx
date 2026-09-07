@@ -459,9 +459,9 @@ const Home = () => {
                     <button
                       key={color.id}
                       onClick={() => setSelectedColorIdx(idx)}
-                      className={`flex flex-col items-center p-2 rounded-xl border transition-all duration-200 ${
+                      className={`flex flex-col items-center p-2 rounded-xl border transition-all duration-200 cursor-pointer ${
                         selectedColorIdx === idx 
-                          ? 'border-soft-black bg-white ring-1 ring-soft-black' 
+                          ? 'border-soft-black bg-white shadow-xs' 
                           : 'border-stone/25 bg-white/40 hover:bg-white hover:border-stone/40'
                       }`}
                     >
