@@ -122,13 +122,31 @@ const SampleOrder = () => {
     Khaki: [k1, k2, k3, k4, k5, k6],
   };
 
+  const allColorGalleryItems = [
+    ...colorImages.Black.map((img, idx) => ({ color: 'Black', img, subIndex: idx })),
+    ...colorImages.Navy.map((img, idx) => ({ color: 'Navy', img, subIndex: idx })),
+    ...colorImages.Brown.map((img, idx) => ({ color: 'Brown', img, subIndex: idx })),
+    ...colorImages.Maroon.map((img, idx) => ({ color: 'Maroon', img, subIndex: idx })),
+    ...colorImages.Khaki.map((img, idx) => ({ color: 'Khaki', img, subIndex: idx })),
+  ];
+
   const images = colorImages[selectedColor] || colorImages.Black;
+
+  const scrollRef = React.useRef(null);
+  const scrollTimeoutRef = React.useRef(null);
 
   const handleColorChange = (colorName) => {
     setSelectedColor(colorName);
-    setActiveIndex(0);
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({ left: 0, behavior: 'auto' });
+    const targetIdx = allColorGalleryItems.findIndex(item => item.color === colorName);
+    if (targetIdx !== -1) {
+      setActiveIndex(targetIdx);
+      if (scrollRef.current) {
+        const itemWidth = scrollRef.current.clientWidth || scrollRef.current.offsetWidth;
+        scrollRef.current.scrollTo({
+          left: itemWidth * targetIdx,
+          behavior: 'smooth'
+        });
+      }
     }
   };
 
@@ -176,29 +194,45 @@ const SampleOrder = () => {
     setOpenAccordions(prev => ({ ...prev, [title]: !prev[title] }));
   };
 
-  const scrollRef = React.useRef(null);
-
   const handleScroll = (e) => {
-    const { scrollLeft, scrollWidth } = e.target;
-    if (scrollWidth > 0 && images.length > 0) {
-      const itemWidth = scrollWidth / images.length;
-      const newIndex = Math.round(scrollLeft / itemWidth);
-      if (newIndex !== activeIndex) {
-        setActiveIndex(newIndex);
+    const container = e.target;
+    if (!container) return;
+    const { scrollLeft, clientWidth } = container;
+    if (clientWidth > 0 && allColorGalleryItems.length > 0) {
+      const newIndex = Math.round(scrollLeft / clientWidth);
+      if (newIndex >= 0 && newIndex < allColorGalleryItems.length) {
+        if (newIndex !== activeIndex) {
+          setActiveIndex(newIndex);
+        }
+        const item = allColorGalleryItems[newIndex];
+        if (item && item.color !== selectedColor) {
+          if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+          scrollTimeoutRef.current = setTimeout(() => {
+            setSelectedColor(item.color);
+          }, 80);
+        }
       }
     }
   };
 
-  const scrollToDot = (idx) => {
-    setActiveIndex(idx);
-    if (scrollRef.current) {
-      const itemWidth = scrollRef.current.scrollWidth / images.length;
-      scrollRef.current.scrollTo({
-        left: itemWidth * idx,
-        behavior: 'smooth'
-      });
+  const scrollToSubIndex = (subIdx) => {
+    const currentColor = selectedColor || 'Black';
+    const targetIdx = allColorGalleryItems.findIndex(
+      item => item.color === currentColor && item.subIndex === subIdx
+    );
+    if (targetIdx !== -1) {
+      setActiveIndex(targetIdx);
+      if (scrollRef.current) {
+        const itemWidth = scrollRef.current.clientWidth || scrollRef.current.offsetWidth;
+        scrollRef.current.scrollTo({
+          left: itemWidth * targetIdx,
+          behavior: 'smooth'
+        });
+      }
     }
   };
+
+  const currentSubIndex = allColorGalleryItems[activeIndex]?.subIndex ?? 0;
 
   const minSwipeDistance = 50;
 
@@ -226,17 +260,17 @@ const SampleOrder = () => {
 
   const handleNextImage = (e) => {
     if (e) e.stopPropagation();
-    const currentIdx = images.indexOf(lightboxImage);
+    const currentIdx = allColorGalleryItems.findIndex(item => item.img === lightboxImage);
     if (currentIdx !== -1) {
-      setLightboxImage(images[(currentIdx + 1) % images.length]);
+      setLightboxImage(allColorGalleryItems[(currentIdx + 1) % allColorGalleryItems.length].img);
     }
   };
 
   const handlePrevImage = (e) => {
     if (e) e.stopPropagation();
-    const currentIdx = images.indexOf(lightboxImage);
+    const currentIdx = allColorGalleryItems.findIndex(item => item.img === lightboxImage);
     if (currentIdx !== -1) {
-      setLightboxImage(images[(currentIdx - 1 + images.length) % images.length]);
+      setLightboxImage(allColorGalleryItems[(currentIdx - 1 + allColorGalleryItems.length) % allColorGalleryItems.length].img);
     }
   };
 
@@ -259,20 +293,25 @@ const SampleOrder = () => {
                 <div 
                   ref={scrollRef}
                   onScroll={handleScroll}
-                  className="w-full flex overflow-x-auto snap-x snap-mandatory gap-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                  style={{ scrollSnapType: 'x mandatory' }}
+                  className="w-full flex overflow-x-auto snap-x snap-mandatory gap-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden overscroll-x-contain"
+                  style={{ 
+                    scrollSnapType: 'x mandatory',
+                    WebkitOverflowScrolling: 'touch'
+                  }}
                 >
-                  {images.map((img, idx) => (
+                  {allColorGalleryItems.map((item, idx) => (
                     <div 
                       key={idx} 
-                      className="relative w-full shrink-0 aspect-square bg-stone/15 overflow-hidden snap-center snap-always rounded-none"
-                      style={{ scrollSnapStop: 'always', scrollSnapAlign: 'center' }}
+                      className="relative w-full min-w-full shrink-0 aspect-square bg-stone/15 overflow-hidden snap-start snap-always rounded-none select-none"
+                      style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
                     >
                       <img 
-                        src={img} 
-                        alt={`Macrame Belt ${selectedColor} view ${idx + 1}`} 
-                        onClick={() => setLightboxImage(img)}
-                        className="absolute inset-0 w-full h-full object-cover object-center cursor-zoom-in"
+                        src={item.img} 
+                        alt={`Macrame Belt ${item.color} view ${item.subIndex + 1}`} 
+                        onClick={() => setLightboxImage(item.img)}
+                        className="w-full h-full object-cover object-center cursor-zoom-in select-none pointer-events-auto"
+                        draggable="false"
+                        loading={idx < 4 ? "eager" : "lazy"}
                       />
                     </div>
                   ))}
@@ -290,10 +329,10 @@ const SampleOrder = () => {
                 {images.map((img, idx) => (
                   <button
                     key={idx}
-                    onClick={() => scrollToDot(idx)}
+                    onClick={() => scrollToSubIndex(idx)}
                     className={`relative aspect-square w-[calc((100%-5*0.375rem)/6)] shrink-0 overflow-hidden transition-all duration-300 rounded-[4px] cursor-pointer ${
-                      activeIndex === idx
-                        ? 'border border-soft-black/80 shadow-xs'
+                      currentSubIndex === idx
+                        ? 'border border-terracotta/75 shadow-xs'
                         : 'border border-black/[0.08] hover:border-black/20'
                     }`}
                     aria-label={`Select product image ${idx + 1}`}
@@ -399,29 +438,18 @@ const SampleOrder = () => {
                     <span className="underline underline-offset-4">Sample Order Policy</span>
                   </button>
                 </div>
-                <div className="flex items-center gap-3">
-                  {colors.map(c => {
-                    const isSelected = selectedColor === c.name;
-                    return (
-                      <button
-                        key={c.name}
-                        type="button"
-                        onClick={() => handleColorChange(c.name)}
-                        title={c.name}
-                        aria-label={`Select color ${c.name}`}
-                        className={`relative p-0.5 rounded-full transition-all cursor-pointer ${
-                          isSelected
-                            ? 'ring-2 ring-soft-black ring-offset-2 ring-offset-cream scale-105'
-                            : 'hover:scale-105 opacity-80 hover:opacity-100'
-                        }`}
-                      >
-                        <span 
-                          className="block w-8 h-8 rounded-full border border-black/15 shadow-xs"
-                          style={{ backgroundColor: c.hex }}
-                        />
-                      </button>
-                    );
-                  })}
+                <div className="flex flex-nowrap gap-1.5 sm:gap-2 md:gap-2.5">
+                  {colors.map((color) => (
+                    <button
+                      key={color.name}
+                      type="button"
+                      onClick={() => handleColorChange(color.name)}
+                      className={`w-9 h-9 md:w-10 md:h-10 rounded-full border-2 transition-all duration-300 shrink-0 cursor-pointer ${selectedColor === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
+                      aria-label={`Select ${color.name}`}
+                    >
+                      <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
+                    </button>
+                  ))}
                 </div>
               </div>
 
@@ -439,9 +467,9 @@ const SampleOrder = () => {
                     <button 
                       type="button"
                       onClick={() => setIsSizeGuideOpen(true)}
-                      className="text-[10px] md:text-[11px] font-bold tracking-wider uppercase text-soft-black/80 hover:text-soft-black transition-colors flex items-center gap-0.5 sm:gap-1 cursor-pointer shrink-0"
+                      className="text-xs font-bold uppercase tracking-wider text-soft-black hover:text-dark-charcoal transition-colors flex items-center gap-1 cursor-pointer shrink-0"
                     >
-                      <Ruler className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-terracotta shrink-0" />
+                      <Ruler className="w-3.5 h-3.5 text-terracotta shrink-0" />
                       <span className="underline underline-offset-4">Size Guide</span>
                     </button>
                   </div>
