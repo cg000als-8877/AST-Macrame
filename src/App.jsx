@@ -118,7 +118,7 @@ const AppLayout = () => {
   return (
     <div className="flex flex-col bg-cream text-soft-black font-sans selection:bg-terracotta selection:text-cream">
       {!isAdmin && <Navbar />}
-      <main className={!isRetail && !isAdmin ? "pb-24 sm:pb-0" : ""}>
+      <main>
         <AnimatedRoutes />
       </main>
       {!isAdmin && !isRetail && <BottomNav />}

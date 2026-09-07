@@ -368,12 +368,12 @@ const SampleWholesale = () => {
           <div className="max-w-4xl mx-auto">
             
             {/* Tab Buttons */}
-            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8">
+            <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:justify-center gap-2 sm:gap-3 mb-8">
               {[
-                { id: 'cord', label: '1. Yarn & Weave', icon: Layers },
-                { id: 'hardware', label: '2. Buckles & Alloy', icon: Sliders },
-                { id: 'branding', label: '3. Labels & Packaging', icon: Tag },
-                { id: 'dyeing', label: '4. Pantone Dyeing', icon: Palette }
+                { id: 'cord', label: 'Yarn & Weave', icon: Layers },
+                { id: 'hardware', label: 'Buckles & Alloy', icon: Sliders },
+                { id: 'branding', label: 'Labels & Packaging', icon: Tag },
+                { id: 'dyeing', label: 'Pantone Dyeing', icon: Palette }
               ].map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
@@ -381,14 +381,14 @@ const SampleWholesale = () => {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`inline-flex items-center gap-2 px-4 sm:px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                    className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2.5 sm:py-3 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                       isActive 
                         ? 'bg-soft-black text-cream shadow-md' 
                         : 'bg-white border border-stone/20 text-dark-charcoal/80 hover:border-soft-black/40'
                     }`}
                   >
-                    <Icon className="w-3.5 h-3.5" />
-                    <span>{tab.label}</span>
+                    <Icon className="w-3.5 h-3.5 shrink-0" />
+                    <span className="truncate">{tab.label}</span>
                   </button>
                 );
               })}
