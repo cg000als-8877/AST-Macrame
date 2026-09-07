@@ -26,7 +26,6 @@ const Footer = () => {
               <h4 className="font-sans text-[10px] md:text-xs font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Company</h4>
               <ul className="flex flex-col space-y-2 md:space-y-3 items-center lg:items-start">
                 <li><Link to="/about" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Our Story</Link></li>
-                <li><Link to="/sample-order" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Sample Order</Link></li>
                 <li><Link to="/faq" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">FAQs</Link></li>
                 <li><Link to="/contact" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Contact</Link></li>
               </ul>
@@ -38,7 +37,6 @@ const Footer = () => {
                 <li><Link to="/retail" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Retail</Link></li>
                 <li><Link to="/sample-order" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Sample Order</Link></li>
                 <li><Link to="/sample-wholesale" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Wholesale<span className="hidden lg:inline"> Inquiry</span></Link></li>
-                <li><Link to="/sample-wholesale" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">OEM<span className="hidden lg:inline"> & Private Label</span></Link></li>
               </ul>
             </div>
 
