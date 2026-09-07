@@ -193,17 +193,17 @@ const Home = () => {
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="text-4xl md:text-5xl lg:text-6xl text-cream font-serif leading-tight mb-3 md:mb-4"
+              className="text-3xl sm:text-5xl lg:text-6xl font-serif font-bold uppercase text-cream tracking-tight leading-tight mb-3 md:mb-4"
             >
-              Crafted for <br className="hidden md:block"/>
-              the Extraordinary.
+              CRAFTED FOR <br className="hidden md:block"/>
+              THE EXTRAORDINARY
             </motion.h1>
             
             <motion.p 
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-              className="text-sm md:text-base lg:text-lg text-cream/90 font-light mb-8 md:mb-10 max-w-[95%] md:max-w-xl mx-auto md:mx-0"
+              className="text-xs sm:text-base md:text-lg text-cream/90 font-light leading-relaxed mb-8 md:mb-10 max-w-[95%] md:max-w-xl mx-auto md:mx-0"
             >
               A specialized macramé belt supplier for fashion brands, retailers and wholesale buyers.
             </motion.p>
