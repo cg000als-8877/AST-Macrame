@@ -169,11 +169,11 @@ const Navbar = () => {
                 <button 
                   type="button"
                   onClick={() => setIsWishlistOpen(true)}
-                  className="relative w-8 h-8 rounded-full bg-white border border-stone/20 text-soft-black flex items-center justify-center hover:text-rose-600 active:scale-90 transition-all shadow-2xs cursor-pointer" 
+                  className="relative p-1 text-soft-black hover:text-rose-600 active:scale-90 transition-all cursor-pointer" 
                   aria-label="Wishlist"
                   title="Wishlist"
                 >
-                  <Heart className="w-4 h-4" />
+                  <Heart className="w-5 h-5 stroke-[1.75]" />
                   {totalWishlistCount > 0 && (
                     <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-xs">
                       {totalWishlistCount}
@@ -183,11 +183,11 @@ const Navbar = () => {
                 <button 
                   type="button"
                   onClick={() => setIsCartOpen(true)}
-                  className="relative w-8 h-8 rounded-full bg-soft-black text-cream flex items-center justify-center hover:bg-dark-charcoal active:scale-90 transition-all shadow-2xs cursor-pointer" 
+                  className="relative p-1 text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer" 
                   aria-label="Cart"
                   title="Cart"
                 >
-                  <ShoppingBag className="w-3.5 h-3.5" />
+                  <ShoppingBag className="w-5 h-5 stroke-[1.75]" />
                   {totalCartQuantity > 0 && (
                     <span className="absolute -top-1 -right-1 bg-terracotta text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-xs">
                       {totalCartQuantity}
@@ -232,18 +232,18 @@ const Navbar = () => {
               </nav>
             </div>
 
-            {/* Right side: Wishlist & Cart Buttons (Desktop) */}
-            <div className="hidden sm:flex shrink-0 lg:flex-1 justify-end items-center gap-2 md:gap-3">
+            {/* Right side: Wishlist & Cart Buttons (Desktop - Clean icons, no shape) */}
+            <div className="hidden sm:flex shrink-0 lg:flex-1 justify-end items-center gap-3 md:gap-4">
               <button 
                 type="button"
                 onClick={() => setIsWishlistOpen(true)}
-                className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-stone/20 text-soft-black hover:border-rose-300 hover:text-rose-600 active:scale-95 transition-all shadow-2xs cursor-pointer group"
+                className="relative p-1.5 text-soft-black hover:text-rose-600 active:scale-90 transition-all cursor-pointer group"
                 title="Wishlist"
+                aria-label="Wishlist"
               >
-                <Heart className="w-3.5 h-3.5 md:w-4 md:h-4 transition-transform group-hover:scale-110" />
-                <span className="text-[11px] font-bold uppercase tracking-wider hidden xl:inline">Wishlist</span>
+                <Heart className="w-5 h-5 stroke-[1.75] transition-transform group-hover:scale-110" />
                 {totalWishlistCount > 0 && (
-                  <span className="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full leading-tight min-w-[16px] text-center shadow-xs">
+                  <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-xs">
                     {totalWishlistCount}
                   </span>
                 )}
@@ -252,18 +252,19 @@ const Navbar = () => {
               <button 
                 type="button"
                 onClick={() => setIsCartOpen(true)}
-                className="relative flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-soft-black text-cream hover:bg-dark-charcoal active:scale-95 transition-all shadow-sm cursor-pointer group"
+                className="relative p-1.5 text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer group"
                 title="Cart"
+                aria-label="Cart"
               >
-                <ShoppingBag className="w-3.5 h-3.5 md:w-4 md:h-4 transition-transform group-hover:scale-110" />
-                <span className="text-[11px] font-bold uppercase tracking-wider hidden xl:inline">Cart</span>
+                <ShoppingBag className="w-5 h-5 stroke-[1.75] transition-transform group-hover:scale-110" />
                 {totalCartQuantity > 0 && (
-                  <span className="bg-terracotta text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full leading-tight min-w-[16px] text-center shadow-xs">
+                  <span className="absolute -top-1 -right-1 bg-terracotta text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-xs">
                     {totalCartQuantity}
                   </span>
                 )}
               </button>
             </div>
+
           </div>
         )}
       </motion.header>

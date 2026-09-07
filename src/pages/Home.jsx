@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { 
@@ -33,9 +33,66 @@ import b2bPrivateLabelImg from '../assets/b2b/private_label.jpg';
 import b2bCustomColoursImg from '../assets/b2b/custom_colours.jpg';
 import b2bRepeatOrdersImg from '../assets/b2b/repeat_orders.jpg';
 
+const wholesaleFeatures = [
+  {
+    id: 'moq',
+    title: 'LOW MOQ',
+    metric: '100',
+    metricLabel: 'Base MOQ',
+    desc: 'Start your first production run with accessible minimums.',
+    tag: 'Flexible MOQ',
+    icon: Package,
+    bg: 'bg-[#FAF7F2]',
+    border: 'border-[#E8E0D2]',
+    iconBg: 'bg-soft-black text-cream',
+    metricColor: 'text-soft-black',
+    metricLabelColor: 'text-dark-charcoal/50',
+    tagDot: 'bg-emerald-600',
+  },
+  {
+    id: 'sample',
+    title: 'SAMPLE FIRST',
+    metric: '5–7d',
+    metricLabel: 'Sample Time',
+    desc: 'Approve product & weave quality before bulk production.',
+    tag: 'Sample Dispatch',
+    icon: ShieldCheck,
+    bg: 'bg-[#FAF2EE]',
+    border: 'border-[#ECDAD0]',
+    iconBg: 'bg-terracotta text-cream',
+    metricColor: 'text-terracotta',
+    metricLabelColor: 'text-terracotta/70',
+    tagDot: 'bg-emerald-600',
+  },
+  {
+    id: 'custom',
+    title: 'CUSTOM READY',
+    metric: '25–35d',
+    metricLabel: 'Production',
+    desc: 'Bespoke colours, branding & packaging available.',
+    tag: 'Private Label',
+    icon: Palette,
+    bg: 'bg-[#F1F5F2]',
+    border: 'border-[#D7E2D8]',
+    iconBg: 'bg-[#2D3A30] text-cream',
+    metricColor: 'text-[#2D3A30]',
+    metricLabelColor: 'text-[#2D3A30]/70',
+    tagDot: 'bg-emerald-600',
+  }
+];
+
 const Home = () => {
   const [selectedColorIdx, setSelectedColorIdx] = useState(0);
+  const [activeWholesaleIdx, setActiveWholesaleIdx] = useState(0);
   const [openFaqIdx, setOpenFaqIdx] = useState(null);
+
+  // Auto-slide front card to back every 5 seconds on mobile
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveWholesaleIdx((prev) => (prev + 1) % wholesaleFeatures.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   const toggleFaq = (idx) => {
     setOpenFaqIdx(prev => prev === idx ? null : idx);
@@ -169,8 +226,8 @@ const Home = () => {
       </section>
 
       {/* HOME — SECTION 2: MADE FOR WHOLESALE */}
-      <section className="py-16 md:py-24 bg-white border-b border-stone/15">
-        <div className="max-w-7xl mx-auto px-3 sm:px-8 lg:px-12">
+      <section className="py-16 md:py-24 bg-white border-b border-stone/15 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12 md:mb-16">
             <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
@@ -181,96 +238,170 @@ const Home = () => {
             </h2>
           </div>
 
-          <div className="grid grid-cols-3 gap-2 sm:gap-5 md:gap-8">
-            
-            {/* Block 1: LOW MOQ */}
-            <div className="bg-[#FAF7F2] border border-[#E8E0D2] rounded-xl sm:rounded-2xl p-2.5 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-between hover:border-soft-black/40 transition-colors duration-300">
-              <div>
-                <div className="flex items-center justify-between mb-2 sm:mb-4 md:mb-6">
-                  <div className="w-6 h-6 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-md sm:rounded-xl bg-soft-black text-cream flex items-center justify-center">
-                    <Package className="w-3.5 h-3.5 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+          {/* DESKTOP VIEW (3-Column Grid) */}
+          <div className="hidden sm:grid sm:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+            {wholesaleFeatures.map((feat) => {
+              const IconComponent = feat.icon;
+              return (
+                <div 
+                  key={feat.id}
+                  className={`${feat.bg} ${feat.border} border rounded-2xl p-6 md:p-8 lg:p-10 flex flex-col justify-between hover:border-soft-black/40 hover:shadow-lg transition-all duration-300`}
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4 md:mb-6">
+                      <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl ${feat.iconBg} flex items-center justify-center shadow-sm`}>
+                        <IconComponent className="w-5 h-5 md:w-6 md:h-6" />
+                      </div>
+                      <div className="text-right">
+                        <span className={`text-lg md:text-2xl font-serif font-bold ${feat.metricColor} block leading-none`}>
+                          {feat.metric}
+                        </span>
+                        <span className={`text-[10px] uppercase tracking-wider font-semibold ${feat.metricLabelColor} block mt-0.5`}>
+                          {feat.metricLabel}
+                        </span>
+                      </div>
+                    </div>
+                    <h3 className="text-base lg:text-lg font-serif font-bold text-soft-black uppercase tracking-wide mb-2 leading-tight">
+                      {feat.title}
+                    </h3>
+                    <p className="text-xs md:text-sm text-dark-charcoal/80 font-light leading-relaxed">
+                      {feat.desc}
+                    </p>
                   </div>
-                  <div className="text-right">
-                    <span className="text-xs sm:text-lg md:text-2xl font-serif font-bold text-soft-black block leading-none">
-                      100
-                    </span>
-                    <span className="text-[7.5px] sm:text-[10px] uppercase tracking-wider font-semibold text-dark-charcoal/50 block mt-0.5">
-                      Base MOQ
-                    </span>
-                  </div>
-                </div>
-                <h3 className="text-xs sm:text-base lg:text-lg font-serif font-bold text-soft-black uppercase tracking-wide mb-1 sm:mb-2 leading-tight">
-                  LOW MOQ
-                </h3>
-                <p className="text-[10px] sm:text-xs md:text-sm text-dark-charcoal/80 font-light leading-snug sm:leading-relaxed">
-                  Start your first production run with accessible minimums.
-                </p>
-              </div>
-              <div className="mt-2 pt-1.5 sm:pt-4 border-t border-stone/15 flex items-center gap-1 sm:gap-1.5 text-[8px] sm:text-xs font-medium sm:font-semibold text-soft-black">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 flex-shrink-0"></span>
-                <span className="truncate">Flexible MOQ</span>
-              </div>
-            </div>
-
-            {/* Block 2: SAMPLE FIRST */}
-            <div className="bg-[#FAF2EE] border border-[#ECDAD0] rounded-xl sm:rounded-2xl p-2.5 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-between hover:border-soft-black/40 transition-colors duration-300">
-              <div>
-                <div className="flex items-center justify-between mb-2 sm:mb-4 md:mb-6">
-                  <div className="w-6 h-6 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-md sm:rounded-xl bg-terracotta text-cream flex items-center justify-center">
-                    <ShieldCheck className="w-3.5 h-3.5 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-                  </div>
-                  <div className="text-right">
-                    <span className="text-xs sm:text-lg md:text-2xl font-serif font-bold text-terracotta block leading-none">
-                      5–7d
-                    </span>
-                    <span className="text-[7.5px] sm:text-[10px] uppercase tracking-wider font-semibold text-terracotta/70 block mt-0.5">
-                      Sample Time
-                    </span>
+                  <div className="mt-5 pt-4 border-t border-stone/15 flex items-center gap-2 text-xs font-semibold text-soft-black">
+                    <span className={`w-1.5 h-1.5 rounded-full ${feat.tagDot} flex-shrink-0`}></span>
+                    <span className="truncate">{feat.tag}</span>
                   </div>
                 </div>
-                <h3 className="text-xs sm:text-base lg:text-lg font-serif font-bold text-soft-black uppercase tracking-wide mb-1 sm:mb-2 leading-tight">
-                  SAMPLE FIRST
-                </h3>
-                <p className="text-[10px] sm:text-xs md:text-sm text-dark-charcoal/80 font-light leading-snug sm:leading-relaxed">
-                  Approve product & weave quality before bulk production.
-                </p>
-              </div>
-              <div className="mt-2 pt-1.5 sm:pt-4 border-t border-stone/15 flex items-center gap-1 sm:gap-1.5 text-[8px] sm:text-xs font-medium sm:font-semibold text-soft-black">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 flex-shrink-0"></span>
-                <span className="truncate">Sample Dispatch</span>
-              </div>
-            </div>
-
-            {/* Block 3: CUSTOM READY */}
-            <div className="bg-[#F1F5F2] border border-[#D7E2D8] rounded-xl sm:rounded-2xl p-2.5 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-between hover:border-soft-black/40 transition-colors duration-300">
-              <div>
-                <div className="flex items-center justify-between mb-2 sm:mb-4 md:mb-6">
-                  <div className="w-6 h-6 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-md sm:rounded-xl bg-[#2D3A30] text-cream flex items-center justify-center">
-                    <Palette className="w-3.5 h-3.5 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-                  </div>
-                  <div className="text-right">
-                    <span className="text-xs sm:text-lg md:text-2xl font-serif font-bold text-[#2D3A30] block leading-none">
-                      25–35d
-                    </span>
-                    <span className="text-[7.5px] sm:text-[10px] uppercase tracking-wider font-semibold text-[#2D3A30]/70 block mt-0.5">
-                      Production
-                    </span>
-                  </div>
-                </div>
-                <h3 className="text-xs sm:text-base lg:text-lg font-serif font-bold text-soft-black uppercase tracking-wide mb-1 sm:mb-2 leading-tight">
-                  CUSTOM READY
-                </h3>
-                <p className="text-[10px] sm:text-xs md:text-sm text-dark-charcoal/80 font-light leading-snug sm:leading-relaxed">
-                  Bespoke colours, branding & packaging available.
-                </p>
-              </div>
-              <div className="mt-2 pt-1.5 sm:pt-4 border-t border-stone/15 flex items-center gap-1 sm:gap-1.5 text-[8px] sm:text-xs font-medium sm:font-semibold text-soft-black">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 flex-shrink-0"></span>
-                <span className="truncate">Private Label</span>
-              </div>
-            </div>
-
+              );
+            })}
           </div>
+
+          {/* MOBILE VIEW (3D Stacked Card Deck Carousel) */}
+          <div className="block sm:hidden relative px-2 pt-8 pb-4">
+            {/* Stack Container */}
+            <div className="relative w-full h-[230px] max-w-[340px] mx-auto flex items-center justify-center">
+              {wholesaleFeatures.map((feat, index) => {
+                // Calculate position relative to active card
+                // 0 = front/active, 1 = 1st card behind, 2 = 2nd card behind
+                const relIdx = (index - activeWholesaleIdx + wholesaleFeatures.length) % wholesaleFeatures.length;
+                const IconComponent = feat.icon;
+
+                // Depth styling for 3D card stack
+                const stackVariants = {
+                  0: {
+                    scale: 1,
+                    y: 12,
+                    zIndex: 30,
+                    opacity: 1,
+                    filter: 'brightness(1)',
+                    boxShadow: '0 20px 30px -10px rgba(0,0,0,0.12), 0 6px 14px -3px rgba(0,0,0,0.06)'
+                  },
+                  1: {
+                    scale: 0.93,
+                    y: -4,
+                    zIndex: 20,
+                    opacity: 0.85,
+                    filter: 'brightness(0.96)',
+                    boxShadow: '0 10px 20px -8px rgba(0,0,0,0.08)'
+                  },
+                  2: {
+                    scale: 0.86,
+                    y: -20,
+                    zIndex: 10,
+                    opacity: 0.6,
+                    filter: 'brightness(0.92)',
+                    boxShadow: '0 4px 10px -5px rgba(0,0,0,0.05)'
+                  }
+                };
+
+                const isFront = relIdx === 0;
+
+                return (
+                  <motion.div
+                    key={feat.id}
+                    animate={stackVariants[relIdx]}
+                    transition={{ type: 'spring', stiffness: 280, damping: 26 }}
+                    drag={isFront ? "x" : false}
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.7}
+                    onDragEnd={(e, { offset, velocity }) => {
+                      if (offset.x < -40 || velocity.x < -300) {
+                        // Swiped left -> next card
+                        setActiveWholesaleIdx((prev) => (prev + 1) % wholesaleFeatures.length);
+                      } else if (offset.x > 40 || velocity.x > 300) {
+                        // Swiped right -> prev card
+                        setActiveWholesaleIdx((prev) => (prev - 1 + wholesaleFeatures.length) % wholesaleFeatures.length);
+                      }
+                    }}
+                    className={`absolute inset-x-0 top-0 w-full ${feat.bg} ${feat.border} border rounded-2xl p-5 flex flex-col justify-between select-none cursor-grab active:cursor-grabbing`}
+                    style={{
+                      transformOrigin: 'top center',
+                      touchAction: 'pan-y'
+                    }}
+                    onClick={() => {
+                      if (!isFront) {
+                        setActiveWholesaleIdx(index);
+                      }
+                    }}
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <div className={`w-9 h-9 rounded-xl ${feat.iconBg} flex items-center justify-center shadow-sm`}>
+                          <IconComponent className="w-4.5 h-4.5" />
+                        </div>
+                        <div className="text-right">
+                          <span className={`text-xl font-serif font-bold ${feat.metricColor} block leading-none`}>
+                            {feat.metric}
+                          </span>
+                          <span className={`text-[9px] uppercase tracking-wider font-semibold ${feat.metricLabelColor} block mt-0.5`}>
+                            {feat.metricLabel}
+                          </span>
+                        </div>
+                      </div>
+                      <h3 className="text-sm font-serif font-bold text-soft-black uppercase tracking-wide mb-1 leading-tight">
+                        {feat.title}
+                      </h3>
+                      <p className="text-[11.5px] text-dark-charcoal/80 font-light leading-relaxed">
+                        {feat.desc}
+                      </p>
+                    </div>
+                    <div className="mt-3 pt-2.5 border-t border-stone/15 flex items-center justify-between text-[10px] font-semibold text-soft-black">
+                      <div className="flex items-center gap-1.5">
+                        <span className={`w-1.5 h-1.5 rounded-full ${feat.tagDot} flex-shrink-0`}></span>
+                        <span className="truncate">{feat.tag}</span>
+                      </div>
+                      <span className="text-[9px] font-sans font-medium text-dark-charcoal/40 uppercase tracking-wider">
+                        {index + 1} / {wholesaleFeatures.length}
+                      </span>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            {/* Carousel Navigation & Indicators */}
+            <div className="mt-6 flex flex-col items-center gap-2">
+              <div className="flex items-center justify-center gap-2">
+                {wholesaleFeatures.map((_, dotIdx) => (
+                  <button
+                    key={dotIdx}
+                    onClick={() => setActiveWholesaleIdx(dotIdx)}
+                    aria-label={`Go to slide ${dotIdx + 1}`}
+                    className={`transition-all duration-300 rounded-full ${
+                      activeWholesaleIdx === dotIdx
+                        ? 'w-6 h-1.5 bg-terracotta'
+                        : 'w-1.5 h-1.5 bg-stone/40 hover:bg-stone/60'
+                    }`}
+                  />
+                ))}
+              </div>
+              <p className="text-[10px] text-dark-charcoal/50 font-sans tracking-wide">
+                Swipe or tap to explore
+              </p>
+            </div>
+          </div>
+
         </div>
       </section>
       {/* HOME — SECTION 3: THE PRODUCT */}
