@@ -113,7 +113,6 @@ const AnimatedRoutes = () => {
 const AppLayout = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
-  const isRetail = location.pathname === '/retail';
 
   return (
     <div className="flex flex-col bg-cream text-soft-black font-sans selection:bg-terracotta selection:text-cream">
@@ -121,12 +120,12 @@ const AppLayout = () => {
       <main>
         <AnimatedRoutes />
       </main>
-      {!isAdmin && !isRetail && <BottomNav />}
+      {!isAdmin && <BottomNav />}
       {!isAdmin && <Footer />}
       {!isAdmin && <ThemeSwitcher />}
       
-      {/* Sample Cart and Wishlist Drawers (Excluded on Retail & Admin) */}
-      {!isAdmin && !isRetail && (
+      {/* Sample Cart and Wishlist Drawers (Excluded on Admin) */}
+      {!isAdmin && (
         <>
           <WishlistDrawer />
           <CartDrawer />

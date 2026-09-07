@@ -355,11 +355,11 @@ const SampleOrder = () => {
                   <button
                     type="button"
                     onClick={() => setQuantity(2)}
-                    className="inline-flex items-center gap-1.5 bg-terracotta/10 hover:bg-terracotta/20 border border-terracotta/30 text-terracotta px-2.5 py-1 rounded-lg text-[11px] md:text-xs font-semibold tracking-tight transition-all cursor-pointer group shadow-2xs"
+                    className="inline-flex items-center gap-1.5 bg-red-100 hover:bg-red-200/90 text-red-800 px-2.5 py-1 rounded-lg text-[11px] md:text-xs font-bold tracking-tight transition-all cursor-pointer group"
                     title="Click to select 2 belts & save"
                   >
-                    <Tag className="w-3.5 h-3.5 text-terracotta group-hover:scale-110 transition-transform shrink-0" />
-                    <span>Buy 2 for {currencySymbol}{Math.round(1490 * exchangeRate).toLocaleString()} <span className="font-normal opacity-90">(Save {currencySymbol}{Math.round(210 * exchangeRate).toLocaleString()})</span> &rarr;</span>
+                    <Tag className="w-3.5 h-3.5 text-red-700 group-hover:scale-110 transition-transform shrink-0" />
+                    <span>Buy 2 for {currencySymbol}{Math.round(1490 * exchangeRate).toLocaleString()} <span className="font-semibold text-red-700/90">(Save {currencySymbol}{Math.round(210 * exchangeRate).toLocaleString()})</span> &rarr;</span>
                   </button>
                 ) : (
                   <>
