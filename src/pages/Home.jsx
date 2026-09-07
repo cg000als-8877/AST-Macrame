@@ -86,13 +86,13 @@ const Home = () => {
   const [activeWholesaleIdx, setActiveWholesaleIdx] = useState(0);
   const [openFaqIdx, setOpenFaqIdx] = useState(null);
 
-  // Auto-slide front card to back every 5 seconds on mobile
+  // Auto-slide cards every 3 seconds on mobile
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveWholesaleIdx((prev) => (prev + 1) % wholesaleFeatures.length);
-    }, 5000);
+    }, 3000);
     return () => clearInterval(timer);
-  }, []);
+  }, [activeWholesaleIdx]);
 
   const toggleFaq = (idx) => {
     setOpenFaqIdx(prev => prev === idx ? null : idx);
@@ -277,70 +277,75 @@ const Home = () => {
             })}
           </div>
 
-          {/* MOBILE VIEW (3D Stacked Card Deck Carousel) */}
-          <div className="block sm:hidden relative px-2 pt-8 pb-4">
-            {/* Stack Container */}
-            <div className="relative w-full h-[230px] max-w-[340px] mx-auto flex items-center justify-center">
+          {/* MOBILE VIEW (Cover Flow: 1 Forward Center, 2 Backward on Left & Right Sides) */}
+          <div className="block sm:hidden relative px-1 py-4 overflow-hidden">
+            {/* Stage Container */}
+            <div className="relative w-full h-[225px] flex items-center justify-center">
               {wholesaleFeatures.map((feat, index) => {
                 // Calculate position relative to active card
-                // 0 = front/active, 1 = 1st card behind, 2 = 2nd card behind
-                const relIdx = (index - activeWholesaleIdx + wholesaleFeatures.length) % wholesaleFeatures.length;
+                // 0 = Center Forward, 1 = Right Side Backward, 2 = Left Side Backward
+                const diff = (index - activeWholesaleIdx + wholesaleFeatures.length) % wholesaleFeatures.length;
                 const IconComponent = feat.icon;
 
-                // Depth styling for 3D card stack
-                const stackVariants = {
+                // Cover Flow depth and position variants
+                const coverFlowVariants = {
                   0: {
+                    x: "0%",
+                    y: 0,
                     scale: 1,
-                    y: 12,
+                    rotate: 0,
                     zIndex: 30,
                     opacity: 1,
                     filter: 'brightness(1)',
-                    boxShadow: '0 20px 30px -10px rgba(0,0,0,0.12), 0 6px 14px -3px rgba(0,0,0,0.06)'
+                    boxShadow: '0 20px 35px -10px rgba(0,0,0,0.13), 0 8px 16px -4px rgba(0,0,0,0.06)'
                   },
                   1: {
-                    scale: 0.93,
-                    y: -4,
-                    zIndex: 20,
-                    opacity: 0.85,
-                    filter: 'brightness(0.96)',
-                    boxShadow: '0 10px 20px -8px rgba(0,0,0,0.08)'
-                  },
-                  2: {
-                    scale: 0.86,
-                    y: -20,
+                    x: "46%",
+                    y: 4,
+                    scale: 0.82,
+                    rotate: 3.5,
                     zIndex: 10,
                     opacity: 0.6,
-                    filter: 'brightness(0.92)',
-                    boxShadow: '0 4px 10px -5px rgba(0,0,0,0.05)'
+                    filter: 'brightness(0.95)',
+                    boxShadow: '0 8px 18px -6px rgba(0,0,0,0.08)'
+                  },
+                  2: {
+                    x: "-46%",
+                    y: 4,
+                    scale: 0.82,
+                    rotate: -3.5,
+                    zIndex: 10,
+                    opacity: 0.6,
+                    filter: 'brightness(0.95)',
+                    boxShadow: '0 8px 18px -6px rgba(0,0,0,0.08)'
                   }
                 };
 
-                const isFront = relIdx === 0;
+                const isCenter = diff === 0;
 
                 return (
                   <motion.div
                     key={feat.id}
-                    animate={stackVariants[relIdx]}
+                    animate={coverFlowVariants[diff]}
                     transition={{ type: 'spring', stiffness: 280, damping: 26 }}
-                    drag={isFront ? "x" : false}
+                    drag={isCenter ? "x" : false}
                     dragConstraints={{ left: 0, right: 0 }}
                     dragElastic={0.7}
                     onDragEnd={(e, { offset, velocity }) => {
-                      if (offset.x < -40 || velocity.x < -300) {
-                        // Swiped left -> next card
+                      if (offset.x < -35 || velocity.x < -250) {
+                        // Swiped left -> next card to center
                         setActiveWholesaleIdx((prev) => (prev + 1) % wholesaleFeatures.length);
-                      } else if (offset.x > 40 || velocity.x > 300) {
-                        // Swiped right -> prev card
+                      } else if (offset.x > 35 || velocity.x > 250) {
+                        // Swiped right -> prev card to center
                         setActiveWholesaleIdx((prev) => (prev - 1 + wholesaleFeatures.length) % wholesaleFeatures.length);
                       }
                     }}
-                    className={`absolute inset-x-0 top-0 w-full ${feat.bg} ${feat.border} border rounded-2xl p-5 flex flex-col justify-between select-none cursor-grab active:cursor-grabbing`}
+                    className={`absolute w-[76vw] max-w-[280px] h-full ${feat.bg} ${feat.border} border rounded-2xl p-5 flex flex-col justify-between select-none cursor-grab active:cursor-grabbing`}
                     style={{
-                      transformOrigin: 'top center',
                       touchAction: 'pan-y'
                     }}
                     onClick={() => {
-                      if (!isFront) {
+                      if (!isCenter) {
                         setActiveWholesaleIdx(index);
                       }
                     }}
@@ -380,25 +385,20 @@ const Home = () => {
               })}
             </div>
 
-            {/* Carousel Navigation & Indicators */}
-            <div className="mt-6 flex flex-col items-center gap-2">
-              <div className="flex items-center justify-center gap-2">
-                {wholesaleFeatures.map((_, dotIdx) => (
-                  <button
-                    key={dotIdx}
-                    onClick={() => setActiveWholesaleIdx(dotIdx)}
-                    aria-label={`Go to slide ${dotIdx + 1}`}
-                    className={`transition-all duration-300 rounded-full ${
-                      activeWholesaleIdx === dotIdx
-                        ? 'w-6 h-1.5 bg-terracotta'
-                        : 'w-1.5 h-1.5 bg-stone/40 hover:bg-stone/60'
-                    }`}
-                  />
-                ))}
-              </div>
-              <p className="text-[10px] text-dark-charcoal/50 font-sans tracking-wide">
-                Swipe or tap to explore
-              </p>
+            {/* Carousel Navigation Dots */}
+            <div className="mt-5 flex items-center justify-center gap-2">
+              {wholesaleFeatures.map((_, dotIdx) => (
+                <button
+                  key={dotIdx}
+                  onClick={() => setActiveWholesaleIdx(dotIdx)}
+                  aria-label={`Go to slide ${dotIdx + 1}`}
+                  className={`transition-all duration-300 rounded-full ${
+                    activeWholesaleIdx === dotIdx
+                      ? 'w-6 h-1.5 bg-terracotta'
+                      : 'w-1.5 h-1.5 bg-stone/40 hover:bg-stone/60'
+                  }`}
+                />
+              ))}
             </div>
           </div>
 
