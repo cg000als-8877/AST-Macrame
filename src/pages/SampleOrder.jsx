@@ -394,22 +394,22 @@ const SampleOrder = () => {
                   <button
                     type="button"
                     onClick={() => setQuantity(2)}
-                    className="inline-flex items-center gap-1.5 bg-red-100 hover:bg-red-200/90 text-red-800 px-2.5 py-1 rounded-lg text-[11px] md:text-xs font-bold tracking-tight transition-all cursor-pointer group"
+                    className="inline-flex items-center gap-1.5 bg-emerald-100 hover:bg-emerald-200/90 text-emerald-800 px-2.5 py-1 rounded-lg text-[11px] md:text-xs font-bold tracking-tight transition-all cursor-pointer group"
                     title="Click to select 2 belts & save"
                   >
-                    <Tag className="w-3.5 h-3.5 text-red-700 group-hover:scale-110 transition-transform shrink-0" />
-                    <span>Buy 2 for {currencySymbol}{Math.round(1490 * exchangeRate).toLocaleString()} <span className="font-semibold text-red-700/90">(Save {currencySymbol}{Math.round(210 * exchangeRate).toLocaleString()})</span> &rarr;</span>
+                    <Tag className="w-3.5 h-3.5 text-emerald-700 group-hover:scale-110 transition-transform shrink-0" />
+                    <span>Buy 2 for {currencySymbol}{Math.round(1490 * exchangeRate).toLocaleString()} <span className="font-semibold text-emerald-700/90">(Save {currencySymbol}{Math.round(210 * exchangeRate).toLocaleString()})</span> &rarr;</span>
                   </button>
                 ) : (
                   <>
                     <span className="text-sm md:text-base line-through text-dark-charcoal/40 font-sans">
                       {currencySymbol}{Math.round(regularPriceLocal).toLocaleString()}
                     </span>
-                    <span className="text-xs md:text-sm font-semibold text-white bg-red-600 px-2.5 py-0.5 rounded-md shadow-xs">
+                    <span className="text-xs md:text-sm font-semibold text-white bg-emerald-700 px-2.5 py-0.5 rounded-md shadow-xs">
                       {currencySymbol}{Math.round(unitPriceLocal).toLocaleString()}/pc
                     </span>
                     {savingsBDT > 0 && (
-                      <span className="text-[11px] font-bold text-white bg-red-600 px-2.5 py-0.5 rounded-full shadow-xs">
+                      <span className="text-[11px] font-bold text-white bg-emerald-700 px-2.5 py-0.5 rounded-full shadow-xs">
                         Save {currencySymbol}{Math.round(savingsLocal).toLocaleString()}
                       </span>
                     )}

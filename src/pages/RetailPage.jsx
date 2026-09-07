@@ -458,7 +458,7 @@ const RetailPage = () => {
                 <span className="text-sm md:text-base text-red-500/80 line-through font-bold whitespace-nowrap leading-none">
                   {orderType === 'single' ? `${(storeConfig?.singleRegularPrice ?? 1050).toLocaleString()} BDT` : `${(storeConfig?.comboRegularPrice ?? 2100).toLocaleString()} BDT`}
                 </span>
-                <span className="inline-flex items-center justify-center bg-red-500 text-white text-[10px] md:text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded-[15px] shadow-sm whitespace-nowrap leading-none">
+                <span className="inline-flex items-center justify-center bg-emerald-700 text-white text-[10px] md:text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded-[15px] shadow-sm whitespace-nowrap leading-none">
                   {orderType === 'single' 
                     ? `SAVE ${((storeConfig?.singleRegularPrice ?? 1050) - (storeConfig?.singlePrice ?? 850)).toLocaleString()} TK` 
                     : `SAVE ${((storeConfig?.comboRegularPrice ?? 2100) - (storeConfig?.comboPrice ?? 1490)).toLocaleString()} TK`}
