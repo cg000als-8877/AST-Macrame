@@ -5,6 +5,7 @@ import { AuthProvider } from './context/AuthContext';
 import { StoreConfigProvider } from './context/StoreConfigContext';
 import { CartWishlistProvider, useCartWishlist } from './context/CartWishlistContext';
 import Navbar from './components/Navbar';
+import BottomNav from './components/BottomNav';
 import Footer from './components/Footer';
 import WishlistDrawer from './components/WishlistDrawer';
 import CartDrawer from './components/CartDrawer';
@@ -117,9 +118,10 @@ const AppLayout = () => {
   return (
     <div className="flex flex-col bg-cream text-soft-black font-sans selection:bg-terracotta selection:text-cream">
       {!isAdmin && <Navbar />}
-      <main>
+      <main className={!isRetail && !isAdmin ? "pb-24 sm:pb-0" : ""}>
         <AnimatedRoutes />
       </main>
+      {!isAdmin && !isRetail && <BottomNav />}
       {!isAdmin && <Footer />}
       {!isAdmin && <ThemeSwitcher />}
       

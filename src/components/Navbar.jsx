@@ -151,21 +151,21 @@ const Navbar = () => {
             </div>
           </>
         ) : (
-          <div className="px-2 sm:px-6 lg:px-10 py-1 sm:py-0 sm:h-11 md:h-14 flex flex-col sm:flex-row items-center justify-center sm:justify-between w-full gap-1 sm:gap-0">
+          <div className="w-full">
             
-            {/* Mobile Top Row: Logo & Icons */}
-            <div className={`flex w-full justify-between items-center sm:hidden px-2 transition-all duration-300 overflow-hidden ${isScrolled ? 'max-h-0 opacity-0 pb-0 mb-0 border-transparent' : 'max-h-12 pb-1 mb-0 border-b border-stone/20'}`}>
+            {/* Mobile Top Row: Logo & Brand on Left, Wishlist & Cart on Right (Clean single row) */}
+            <div className="flex sm:hidden px-3.5 h-12 items-center justify-between w-full">
               <Link to="/" className="flex items-center gap-2 active:scale-95 transition-transform duration-200">
                 <img 
                   src="/logo_black.png" 
                   alt="AST Handmade Macramé Belts" 
-                  className="h-7 md:h-8 w-auto object-contain transition-all duration-300 drop-shadow-md mobile-navbar-logo"
+                  className="h-7 w-auto object-contain"
                 />
-                <span className="font-serif font-bold text-soft-black text-[13px] tracking-wide mt-0.5">AST Macramé</span>
+                <span className="font-serif font-bold text-soft-black text-[13.5px] tracking-wide mt-0.5">AST Macramé</span>
               </Link>
 
               {/* Mobile Right: Wishlist & Cart Buttons */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <button 
                   type="button"
                   onClick={() => setIsWishlistOpen(true)}
@@ -197,72 +197,75 @@ const Navbar = () => {
               </div>
             </div>
 
-            {/* Logo (Desktop Only) */}
-            <div className="hidden sm:flex shrink-0 lg:flex-1 justify-start items-center">
-              <Link to="/" className="flex items-center active:scale-95 transition-transform duration-200">
-                <img 
-                  src="/logo_black.png" 
-                  alt="AST Handmade Macramé Belts" 
-                  className="h-6 md:h-8 lg:h-10 w-auto object-contain"
-                />
-              </Link>
-            </div>
+            {/* Desktop View: Full Classic Navbar */}
+            <div className="hidden sm:flex px-6 lg:px-10 h-11 md:h-14 items-center justify-between w-full">
+              {/* Logo (Desktop Only) */}
+              <div className="shrink-0 lg:flex-1 justify-start items-center">
+                <Link to="/" className="flex items-center active:scale-95 transition-transform duration-200">
+                  <img 
+                    src="/logo_black.png" 
+                    alt="AST Handmade Macramé Belts" 
+                    className="h-6 md:h-8 lg:h-10 w-auto object-contain"
+                  />
+                </Link>
+              </div>
 
-            {/* Navigation Links */}
-            <div className="flex w-full px-2 sm:px-1 sm:w-auto justify-between items-center sm:justify-center shrink-0">
-              <nav className="flex items-center justify-between w-full sm:w-auto sm:space-x-4 md:space-x-6 lg:space-x-8 text-soft-black">
-                {navLinks.map((link, index) => {
-                  const isActive = location.pathname === link.path;
-                  return (
-                  <React.Fragment key={link.name}>
-                    <Link 
-                      to={link.path}
-                      className={`relative py-1 sm:py-0.5 text-[clamp(9.5px,2.2vw,13px)] font-bold md:font-semibold tracking-tight sm:tracking-widest uppercase active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap ${isActive ? 'text-terracotta' : 'hover:text-terracotta text-soft-black'}`}
-                    >
-                      {link.name}
-                      {isActive && (
-                        <span className="absolute -bottom-0.5 left-0 w-full h-[1.5px] bg-gradient-to-r from-transparent via-terracotta to-transparent"></span>
+              {/* Navigation Links */}
+              <div className="flex w-full px-2 sm:px-1 sm:w-auto justify-between items-center sm:justify-center shrink-0">
+                <nav className="flex items-center justify-between w-full sm:w-auto sm:space-x-4 md:space-x-6 lg:space-x-8 text-soft-black">
+                  {navLinks.map((link, index) => {
+                    const isActive = location.pathname === link.path;
+                    return (
+                    <React.Fragment key={link.name}>
+                      <Link 
+                        to={link.path}
+                        className={`relative py-1 sm:py-0.5 text-[clamp(9.5px,2.2vw,13px)] font-bold md:font-semibold tracking-tight sm:tracking-widest uppercase active:scale-90 active:opacity-70 transition-all duration-150 whitespace-nowrap ${isActive ? 'text-terracotta' : 'hover:text-terracotta text-soft-black'}`}
+                      >
+                        {link.name}
+                        {isActive && (
+                          <span className="absolute -bottom-0.5 left-0 w-full h-[1.5px] bg-gradient-to-r from-transparent via-terracotta to-transparent"></span>
+                        )}
+                      </Link>
+                      {index < navLinks.length - 1 && (
+                        <div className="w-[1px] h-2.5 sm:h-3 md:h-4 bg-soft-black/20 shrink-0"></div>
                       )}
-                    </Link>
-                    {index < navLinks.length - 1 && (
-                      <div className="w-[1px] h-2.5 sm:h-3 md:h-4 bg-soft-black/20 shrink-0"></div>
-                    )}
-                  </React.Fragment>
-                )})}
-              </nav>
-            </div>
+                    </React.Fragment>
+                  )})}
+                </nav>
+              </div>
 
-            {/* Right side: Wishlist & Cart Buttons (Desktop - Clean icons, no shape) */}
-            <div className="hidden sm:flex shrink-0 lg:flex-1 justify-end items-center gap-3 md:gap-4">
-              <button 
-                type="button"
-                onClick={() => setIsWishlistOpen(true)}
-                className="relative p-1.5 text-soft-black hover:text-rose-600 active:scale-90 transition-all cursor-pointer group"
-                title="Wishlist"
-                aria-label="Wishlist"
-              >
-                <Heart className="w-5 h-5 stroke-[1.75] transition-transform group-hover:scale-110" />
-                {totalWishlistCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-xs">
-                    {totalWishlistCount}
-                  </span>
-                )}
-              </button>
+              {/* Right side: Wishlist & Cart Buttons (Desktop - Clean icons, no shape) */}
+              <div className="shrink-0 lg:flex-1 flex justify-end items-center gap-3 md:gap-4">
+                <button 
+                  type="button"
+                  onClick={() => setIsWishlistOpen(true)}
+                  className="relative p-1.5 text-soft-black hover:text-rose-600 active:scale-90 transition-all cursor-pointer group"
+                  title="Wishlist"
+                  aria-label="Wishlist"
+                >
+                  <Heart className="w-5 h-5 stroke-[1.75] transition-transform group-hover:scale-110" />
+                  {totalWishlistCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-xs">
+                      {totalWishlistCount}
+                    </span>
+                  )}
+                </button>
 
-              <button 
-                type="button"
-                onClick={() => setIsCartOpen(true)}
-                className="relative p-1.5 text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer group"
-                title="Cart"
-                aria-label="Cart"
-              >
-                <ShoppingBag className="w-5 h-5 stroke-[1.75] transition-transform group-hover:scale-110" />
-                {totalCartQuantity > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-terracotta text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-xs">
-                    {totalCartQuantity}
-                  </span>
-                )}
-              </button>
+                <button 
+                  type="button"
+                  onClick={() => setIsCartOpen(true)}
+                  className="relative p-1.5 text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer group"
+                  title="Cart"
+                  aria-label="Cart"
+                >
+                  <ShoppingBag className="w-5 h-5 stroke-[1.75] transition-transform group-hover:scale-110" />
+                  {totalCartQuantity > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-terracotta text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-xs">
+                      {totalCartQuantity}
+                    </span>
+                  )}
+                </button>
+              </div>
             </div>
 
           </div>
