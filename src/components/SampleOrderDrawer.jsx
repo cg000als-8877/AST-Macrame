@@ -8,6 +8,7 @@ import n1 from '../assets/products/Navy/1.webp';
 import br1 from '../assets/products/Brown/1.webp';
 import m1 from '../assets/products/Maroon/1.webp';
 import k1 from '../assets/products/Khaki/1.webp';
+import paymentOptionsImg from '../assets/payment-options.png';
 
 const colorImages = {
   Black: b1,
@@ -324,9 +325,9 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                       {/* Accepted Payment Methods */}
                       <div className="mt-3.5 flex flex-col items-center justify-center">
                         <img 
-                          src="/Payment options.png" 
+                          src={paymentOptionsImg} 
                           alt="Accepted Payment Options" 
-                          className="h-auto max-h-7 max-w-[220px] object-contain opacity-90"
+                          className="h-auto max-h-12 w-full max-w-[320px] object-contain"
                         />
                       </div>
                     </div>

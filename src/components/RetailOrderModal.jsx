@@ -13,6 +13,7 @@ import n1 from '../assets/products/Navy/1.webp';
 import br1 from '../assets/products/Brown/1.webp';
 import m1 from '../assets/products/Maroon/1.webp';
 import k1 from '../assets/products/Khaki/1.webp';
+import paymentOptionsImg from '../assets/payment-options.png';
 
 const colorImages = {
   Black: b1,
@@ -59,6 +60,11 @@ const RetailOrderModal = ({
   // Standard Nationwide Delivery Charge (from Firebase with fallback)
   const deliveryCost = storeConfig?.deliveryCharge ?? 100;
 
+  const onCloseRef = useRef(onClose);
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
+
   // Intercept mobile browser/system back gesture (Android back swipe/button & iOS edge swipe)
   useEffect(() => {
     if (!isOpen) return;
@@ -69,7 +75,7 @@ const RetailOrderModal = ({
 
     const handlePopState = () => {
       // Intercept back gesture to close modal and stay on retail page
-      onClose();
+      onCloseRef.current?.();
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -81,7 +87,7 @@ const RetailOrderModal = ({
         window.history.back();
       }
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   // Touch gesture handling: Swipe Right from anywhere or left edge to dismiss
   const touchStartX = useRef(0);
@@ -512,8 +518,8 @@ const RetailOrderModal = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 16 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className={`w-full h-[100dvh] md:h-auto md:max-h-[96vh] max-w-6xl px-2.5 py-4 sm:px-5 sm:py-6 md:px-8 lg:px-12 md:py-8 rounded-none overflow-y-auto overscroll-contain relative flex flex-col ${
-              isSuccess ? 'bg-transparent shadow-none items-center justify-start md:justify-center' : 'bg-cream shadow-2xl md:block'
+            className={`w-full h-[100dvh] md:h-auto md:max-h-[96vh] max-w-6xl px-2.5 py-4 sm:px-5 sm:py-6 md:px-8 lg:px-12 md:py-8 rounded-none md:rounded-3xl overflow-y-auto overscroll-contain relative flex flex-col ${
+              isSuccess ? 'bg-transparent shadow-none items-center justify-start md:justify-center' : 'bg-[#FAF8F5] shadow-2xl md:block border border-stone/20'
             }`}
           >
             {!isSubmitting && !isSuccess && (
@@ -876,11 +882,11 @@ const RetailOrderModal = ({
                     </button>
 
                     {/* Payment Options Image */}
-                    <div className="flex flex-col items-center justify-center pt-0.5 select-none">
+                    <div className="flex flex-col items-center justify-center pt-1 select-none">
                       <img 
-                        src="/Payment options.png" 
+                        src={paymentOptionsImg} 
                         alt="Accepted Payment Options" 
-                        className="h-auto max-h-7 max-w-[220px] object-contain opacity-90"
+                        className="h-auto max-h-12 w-full max-w-[320px] object-contain"
                       />
                     </div>
 
@@ -1025,11 +1031,11 @@ const RetailOrderModal = ({
                     </button>
 
                     {/* Payment Options Image */}
-                    <div className="flex flex-col items-center justify-center pt-0.5 select-none">
+                    <div className="flex flex-col items-center justify-center pt-1 select-none">
                       <img 
-                        src="/Payment options.png" 
+                        src={paymentOptionsImg} 
                         alt="Accepted Payment Options" 
-                        className="h-auto max-h-8 max-w-[240px] object-contain opacity-90"
+                        className="h-auto max-h-14 w-full max-w-[360px] object-contain"
                       />
                     </div>
 

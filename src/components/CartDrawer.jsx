@@ -55,11 +55,13 @@ const CartDrawer = () => {
   }, [isCartOpen]);
 
   const handleOpenSampleCheckout = () => {
+    cancelCartAutoClose();
     setIsCartOpen(false);
     setIsSampleCheckoutOpen(true);
   };
 
   const handleOpenRetailCheckout = () => {
+    cancelCartAutoClose();
     setIsCartOpen(false);
     setIsRetailCheckoutOpen(true);
   };
@@ -110,15 +112,15 @@ const CartDrawer = () => {
               {/* Header */}
               <div className="px-5 py-4 bg-cream border-b border-stone/15 flex items-center justify-between shadow-2xs">
                 <div className="flex items-center gap-2.5">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isRetailCart ? 'bg-terracotta text-cream' : 'bg-soft-black text-cream'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${cart.length === 0 ? 'bg-soft-black text-cream' : isRetailCart ? 'bg-terracotta text-cream' : 'bg-soft-black text-cream'}`}>
                     <ShoppingBag className="w-4 h-4" />
                   </div>
                   <div>
                     <div className="flex items-center gap-1.5">
                       <h2 className="font-serif text-lg font-bold text-soft-black leading-none">
-                        {isRetailCart ? 'Retail Cart' : 'Sample Cart'}
+                        {cart.length === 0 ? 'Shopping Cart' : isRetailCart ? 'Retail Cart' : 'Sample Cart'}
                       </h2>
-                      {isRetailCart && (
+                      {cart.length > 0 && isRetailCart && (
                         <span className="bg-emerald-100 text-emerald-800 text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">
                           COD Bangladesh
                         </span>
@@ -621,23 +623,21 @@ const CartDrawer = () => {
       />
 
       {/* Direct Retail Cash on Delivery Checkout Modal */}
-      {isRetailCheckoutOpen && (
-        <RetailOrderModal
-          isOpen={isRetailCheckoutOpen}
-          onClose={() => setIsRetailCheckoutOpen(false)}
-          cartItems={cart.filter(item => item.isRetail)}
-          customProductCost={retailSellingTotalBDT}
-          customRegularCost={retailRegularTotalBDT}
-          customSavings={retailSavingsTotalBDT}
-          orderType={retailOrderType}
-          selectedColor={retailSelectedColor}
-          selectedSize={retailSelectedSize}
-          comboColor1={retailComboColor1}
-          comboSize1={retailComboSize1}
-          comboColor2={retailComboColor2}
-          comboSize2={retailComboSize2}
-        />
-      )}
+      <RetailOrderModal
+        isOpen={isRetailCheckoutOpen}
+        onClose={() => setIsRetailCheckoutOpen(false)}
+        cartItems={cart.filter(item => item.isRetail)}
+        customProductCost={retailSellingTotalBDT}
+        customRegularCost={retailRegularTotalBDT}
+        customSavings={retailSavingsTotalBDT}
+        orderType={retailOrderType}
+        selectedColor={retailSelectedColor}
+        selectedSize={retailSelectedSize}
+        comboColor1={retailComboColor1}
+        comboSize1={retailComboSize1}
+        comboColor2={retailComboColor2}
+        comboSize2={retailComboSize2}
+      />
     </>
   );
 };

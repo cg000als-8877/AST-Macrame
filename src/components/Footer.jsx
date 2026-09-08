@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import paymentOptionsImg from '../assets/payment-options.png';
 
 const Footer = () => {
   return (
@@ -77,9 +78,9 @@ const Footer = () => {
               <div className="mt-5 pt-1 w-full flex flex-col items-center lg:items-start">
                 <p className="text-[10px] text-cream/40 font-medium tracking-wider uppercase mb-2">Accepted Payments</p>
                 <img 
-                  src="/Payment options.png" 
+                  src={paymentOptionsImg} 
                   alt="Accepted Payment Methods" 
-                  className="h-auto max-h-8 max-w-[240px] object-contain rounded-md bg-white/95 p-1.5 shadow-sm"
+                  className="h-auto max-h-14 w-full max-w-[340px] object-contain"
                 />
               </div>
             </div>
