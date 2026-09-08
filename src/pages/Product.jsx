@@ -229,7 +229,7 @@ const Product = () => {
         }, 1);
       });
     }
-    openCartTemporarily(1000);
+    openCartTemporarily(2000);
   };
 
   // 850 BDT base price with strategic volume discounts

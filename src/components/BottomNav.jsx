@@ -13,8 +13,8 @@ const BottomNav = () => {
   const isRetailActive = ['/retail'].includes(location.pathname);
 
   return (
-    <div className="block sm:hidden fixed bottom-3 inset-x-0 mx-auto w-[92%] max-w-[370px] z-50 pointer-events-auto select-none">
-      <div className="relative w-full h-[54px] flex items-center justify-center">
+    <div className="block sm:hidden fixed bottom-3 inset-x-0 mx-auto w-[96%] max-w-[440px] z-50 pointer-events-auto select-none">
+      <div className="relative w-full h-[56px] flex items-center justify-center">
         
         {/* Deep Charcoal / Matte Black Pill Container with Smooth Curved Center Scoop SVG */}
         <svg

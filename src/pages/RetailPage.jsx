@@ -177,7 +177,7 @@ const RetailPage = () => {
     }
 
     setIsCartedAnimation(true);
-    openCartTemporarily(1000);
+    openCartTemporarily(2000);
 
     if (cartAnimationTimeoutRef.current) {
       clearTimeout(cartAnimationTimeoutRef.current);

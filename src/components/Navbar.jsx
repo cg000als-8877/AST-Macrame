@@ -59,7 +59,7 @@ const Navbar = () => {
               <span>CASH ON DELIVERY ALL OVER BANGLADESH</span>
             </div>
             
-            <div className="px-3 sm:px-6 h-12 md:h-14 grid grid-cols-3 items-center w-full relative">
+            <div className="px-4.5 sm:px-6 h-12 md:h-14 grid grid-cols-3 items-center w-full relative">
               
               <div className="flex justify-start items-center relative z-10">
                 {/* Desktop Wholesale Button */}
@@ -141,7 +141,7 @@ const Navbar = () => {
           <div className="w-full">
             
             {/* Mobile Top Row: Logo & Brand on Left, Wishlist & Cart on Right (Clean single row) */}
-            <div className="flex sm:hidden px-3.5 h-12 items-center justify-between w-full">
+            <div className="flex sm:hidden px-4.5 h-12 items-center justify-between w-full">
               <Link to="/" className="flex items-center gap-2 active:scale-95 transition-transform duration-200">
                 <img 
                   src="/logo_black.png" 
