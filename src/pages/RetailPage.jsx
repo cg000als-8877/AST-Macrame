@@ -512,15 +512,13 @@ const RetailPage = () => {
               </div>
             </div>
 
-            <div className="w-full h-px bg-stone/20 mb-5 md:mb-6"></div>
-
             {/* Order Type Selection */}
-            <div ref={optionsRef} className="mb-6 md:mb-8 scroll-mt-28">
+            <div ref={optionsRef} className="mb-4 md:mb-5 scroll-mt-28">
               <div className="flex gap-2.5 sm:gap-3 w-full max-w-md">
                 <button 
                   type="button"
                   onClick={() => setOrderType('single')}
-                  className={`flex-1 py-3.5 md:py-4 px-3 text-xs font-bold uppercase tracking-wider rounded-xl border transition-all duration-300 cursor-pointer ${
+                  className={`flex-1 py-2 md:py-2.5 px-3 text-xs font-bold uppercase tracking-wider rounded-xl border transition-all duration-300 cursor-pointer ${
                     orderType === 'single'
                       ? 'bg-soft-black text-cream border-soft-black shadow-xs'
                       : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
@@ -531,7 +529,7 @@ const RetailPage = () => {
                 <button 
                   type="button"
                   onClick={() => setOrderType('combo')}
-                  className={`flex-1 py-3.5 md:py-4 px-3 text-xs font-bold uppercase tracking-wider rounded-xl border transition-all duration-300 cursor-pointer ${
+                  className={`flex-1 py-2 md:py-2.5 px-3 text-xs font-bold uppercase tracking-wider rounded-xl border transition-all duration-300 cursor-pointer ${
                     orderType === 'combo'
                       ? 'bg-soft-black text-cream border-soft-black shadow-xs'
                       : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
