@@ -52,12 +52,13 @@ const GlobalToast = () => {
     <AnimatePresence>
       {toastMessage && (
         <motion.div
-          initial={{ opacity: 0, y: 30, scale: 0.95 }}
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 20, scale: 0.95 }}
-          className="fixed bottom-6 right-6 z-[250] bg-soft-black text-cream px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold border border-white/10 backdrop-blur-md"
+          exit={{ opacity: 0, y: 15, scale: 0.95 }}
+          className="fixed bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 z-[250] bg-soft-black/92 text-cream px-3.5 py-2 rounded-full shadow-xl flex items-center gap-2 text-xs font-medium border border-white/15 backdrop-blur-md max-w-[90vw]"
         >
-          <span>{toastMessage}</span>
+          <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+          <span className="truncate">{toastMessage}</span>
         </motion.div>
       )}
     </AnimatePresence>

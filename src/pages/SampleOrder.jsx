@@ -69,6 +69,7 @@ const SampleOrder = () => {
     toggleWishlist, 
     isInWishlist, 
     setIsCartOpen,
+    openCartTemporarily,
     currencySymbol,
     exchangeRate,
     userCountry,
@@ -176,7 +177,7 @@ const SampleOrder = () => {
       size: selectedSize,
       priceBDT: singlePriceBDT
     }, quantity);
-    setIsCartOpen(true);
+    openCartTemporarily(1000);
   };
 
   const isWishlisted = isInWishlist(selectedColor, selectedSize);

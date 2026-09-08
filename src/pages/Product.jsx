@@ -70,6 +70,7 @@ const Product = () => {
     toggleWishlist, 
     isInWishlist, 
     setIsCartOpen,
+    openCartTemporarily,
     localCurrency,
     currencySymbol,
     exchangeRate,
@@ -228,7 +229,7 @@ const Product = () => {
         }, 1);
       });
     }
-    setIsCartOpen(true);
+    openCartTemporarily(1000);
   };
 
   // 850 BDT base price with strategic volume discounts

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { calculateShippingQuote, BELT_WEIGHT_GRAMS, PACKAGING_WEIGHT_GRAMS } from '../utils/shippingCalculator';
 
 import b1 from '../assets/products/Black/1.webp';
@@ -58,6 +58,34 @@ export const CartWishlistProvider = ({ children }) => {
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
+
+  const autoCloseTimerRef = useRef(null);
+
+  const cancelCartAutoClose = useCallback(() => {
+    if (autoCloseTimerRef.current) {
+      clearTimeout(autoCloseTimerRef.current);
+      autoCloseTimerRef.current = null;
+    }
+  }, []);
+
+  const openCartTemporarily = useCallback((durationMs = 1000) => {
+    cancelCartAutoClose();
+    setIsCartOpen(true);
+    autoCloseTimerRef.current = setTimeout(() => {
+      setIsCartOpen(false);
+      autoCloseTimerRef.current = null;
+    }, durationMs);
+  }, [cancelCartAutoClose]);
+
+  const openCart = useCallback(() => {
+    cancelCartAutoClose();
+    setIsCartOpen(true);
+  }, [cancelCartAutoClose]);
+
+  const closeCart = useCallback(() => {
+    cancelCartAutoClose();
+    setIsCartOpen(false);
+  }, [cancelCartAutoClose]);
 
   // Localization state
   const [localCurrency, setLocalCurrency] = useState('BDT');
@@ -173,7 +201,7 @@ export const CartWishlistProvider = ({ children }) => {
 
   // Cart actions
   const addToCart = (item, qty = 1) => {
-    const id = `${item.color || 'Black'}-${item.size || 'M'}`;
+    const id = item.id || `${item.color || 'Black'}-${item.size || 'M'}`;
     setCart(prev => {
       const existingIndex = prev.findIndex(c => c.id === id);
       if (existingIndex > -1) {
@@ -190,13 +218,19 @@ export const CartWishlistProvider = ({ children }) => {
           color: item.color || 'Black',
           size: item.size || 'M',
           quantity: qty,
-          basePriceBDT: 850,
-          image: colorImageMap[item.color] || b1
+          basePriceBDT: item.priceBDT || item.basePriceBDT || 850,
+          regularPriceBDT: item.regularPriceBDT || 1050,
+          image: item.image || colorImageMap[item.color] || b1,
+          isRetail: !!item.isRetail,
+          orderType: item.orderType || 'single',
+          comboColor1: item.comboColor1,
+          comboSize1: item.comboSize1,
+          comboColor2: item.comboColor2,
+          comboSize2: item.comboSize2
         };
         return [...prev, newItem];
       }
     });
-    showToast(`Added ${qty} ${qty > 1 ? 'items' : 'item'} to Sample Cart 🛍️`);
   };
 
   const updateCartQuantity = (id, newQty) => {
@@ -232,6 +266,9 @@ export const CartWishlistProvider = ({ children }) => {
   const totalCartQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
   const totalWishlistCount = wishlist.length;
 
+  const isRetailCart = cart.some(item => item.isRetail);
+
+  // Sample Cart Calculations (Tiered)
   const totalPriceBDT = calculateTierPriceBDT(totalCartQuantity);
   const regularPriceBDT = totalCartQuantity * 850;
   const savingsBDT = Math.max(0, regularPriceBDT - totalPriceBDT);
@@ -240,6 +277,23 @@ export const CartWishlistProvider = ({ children }) => {
   const regularPriceLocal = regularPriceBDT * exchangeRate;
   const savingsLocal = savingsBDT * exchangeRate;
   const unitPriceLocal = totalCartQuantity > 0 ? totalPriceLocal / totalCartQuantity : 850 * exchangeRate;
+
+  // Retail Cart Calculations (Single: 850 vs 1050, Combo: 1490 vs 2100)
+  const retailRegularTotalBDT = cart.reduce((sum, item) => {
+    if (item.orderType === 'combo') {
+      return sum + (item.regularPriceBDT || 2100) * item.quantity;
+    }
+    return sum + (item.regularPriceBDT || 1050) * item.quantity;
+  }, 0);
+
+  const retailSellingTotalBDT = cart.reduce((sum, item) => {
+    if (item.orderType === 'combo') {
+      return sum + (item.basePriceBDT || item.priceBDT || 1490) * item.quantity;
+    }
+    return sum + (item.basePriceBDT || item.priceBDT || 850) * item.quantity;
+  }, 0);
+
+  const retailSavingsTotalBDT = Math.max(0, retailRegularTotalBDT - retailSellingTotalBDT);
 
   // Dynamic Shipping for Cart
   const cartShippingQuote = getShippingQuote(totalCartQuantity || 1);
@@ -254,6 +308,10 @@ export const CartWishlistProvider = ({ children }) => {
         setIsWishlistOpen,
         isCartOpen,
         setIsCartOpen,
+        openCartTemporarily,
+        cancelCartAutoClose,
+        openCart,
+        closeCart,
         toastMessage,
         addToWishlist,
         removeFromWishlist,
@@ -266,6 +324,7 @@ export const CartWishlistProvider = ({ children }) => {
         moveToCartFromWishlist,
         totalCartQuantity,
         totalWishlistCount,
+        isRetailCart,
         totalPriceBDT,
         regularPriceBDT,
         savingsBDT,
@@ -273,6 +332,9 @@ export const CartWishlistProvider = ({ children }) => {
         regularPriceLocal,
         savingsLocal,
         unitPriceLocal,
+        retailRegularTotalBDT,
+        retailSellingTotalBDT,
+        retailSavingsTotalBDT,
         localCurrency,
         currencySymbol,
         exchangeRate,
