@@ -73,6 +73,15 @@ const Footer = () => {
                   </a>
                 </li>
               </ul>
+
+              <div className="mt-5 pt-1 w-full flex flex-col items-center lg:items-start">
+                <p className="text-[10px] text-cream/40 font-medium tracking-wider uppercase mb-2">Accepted Payments</p>
+                <img 
+                  src="/Payment options.png" 
+                  alt="Accepted Payment Methods" 
+                  className="h-auto max-h-8 max-w-[240px] object-contain rounded-md bg-white/95 p-1.5 shadow-sm"
+                />
+              </div>
             </div>
 
           </div>

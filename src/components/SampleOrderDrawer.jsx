@@ -316,10 +316,19 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                       <button 
                         type="submit" 
                         disabled={isSubmitting} 
-                        className="w-full bg-soft-black text-cream px-4 py-3 md:px-6 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-full hover:bg-terracotta transition-colors shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="w-full bg-soft-black text-cream px-4 py-3 md:px-6 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-full hover:bg-terracotta transition-colors shadow-md disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                       >
-                        {isSubmitting ? 'Processing...' : 'Submit Order'}
+                        {isSubmitting ? 'Processing...' : 'Place Order'}
                       </button>
+
+                      {/* Accepted Payment Methods */}
+                      <div className="mt-3.5 flex flex-col items-center justify-center">
+                        <img 
+                          src="/Payment options.png" 
+                          alt="Accepted Payment Options" 
+                          className="h-auto max-h-7 max-w-[220px] object-contain opacity-90"
+                        />
+                      </div>
                     </div>
                   </form>
                 </div>

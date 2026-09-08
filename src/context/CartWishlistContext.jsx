@@ -278,21 +278,21 @@ export const CartWishlistProvider = ({ children }) => {
   const savingsLocal = savingsBDT * exchangeRate;
   const unitPriceLocal = totalCartQuantity > 0 ? totalPriceLocal / totalCartQuantity : 850 * exchangeRate;
 
-  // Retail Cart Calculations (Single: 850 vs 1050, Combo: 1490 vs 2100)
-  const retailRegularTotalBDT = cart.reduce((sum, item) => {
-    if (item.orderType === 'combo') {
-      return sum + (item.regularPriceBDT || 2100) * item.quantity;
-    }
-    return sum + (item.regularPriceBDT || 1050) * item.quantity;
-  }, 0);
+  // Retail Cart Calculations (Single Belts Tiered: 1 for 850, 2 for 1490, 3 for 2090, 4 for 2650, 5 for 3150, 6+ for 630/pc)
+  const singleRetailItems = cart.filter(i => i.isRetail && i.orderType === 'single');
+  const comboRetailItems = cart.filter(i => i.isRetail && i.orderType === 'combo');
+  
+  const singleItemsCount = singleRetailItems.reduce((sum, i) => sum + i.quantity, 0);
+  const comboItemsCount = comboRetailItems.reduce((sum, i) => sum + i.quantity, 0);
 
-  const retailSellingTotalBDT = cart.reduce((sum, item) => {
-    if (item.orderType === 'combo') {
-      return sum + (item.basePriceBDT || item.priceBDT || 1490) * item.quantity;
-    }
-    return sum + (item.basePriceBDT || item.priceBDT || 850) * item.quantity;
-  }, 0);
+  const singleSellingTotalBDT = calculateTierPriceBDT(singleItemsCount);
+  const singleRegularTotalBDT = singleItemsCount * 1050;
 
+  const comboSellingTotalBDT = comboItemsCount * 1490;
+  const comboRegularTotalBDT = comboItemsCount * 2100;
+
+  const retailRegularTotalBDT = singleRegularTotalBDT + comboRegularTotalBDT;
+  const retailSellingTotalBDT = singleSellingTotalBDT + comboSellingTotalBDT;
   const retailSavingsTotalBDT = Math.max(0, retailRegularTotalBDT - retailSellingTotalBDT);
 
   // Dynamic Shipping for Cart
@@ -332,6 +332,9 @@ export const CartWishlistProvider = ({ children }) => {
         regularPriceLocal,
         savingsLocal,
         unitPriceLocal,
+        singleItemsCount,
+        comboItemsCount,
+        singleSellingTotalBDT,
         retailRegularTotalBDT,
         retailSellingTotalBDT,
         retailSavingsTotalBDT,

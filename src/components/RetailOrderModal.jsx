@@ -31,7 +31,11 @@ const RetailOrderModal = ({
   comboColor1 = 'Black', 
   comboSize1 = 'M', 
   comboColor2 = 'Black', 
-  comboSize2 = 'M' 
+  comboSize2 = 'M',
+  cartItems = null,
+  customProductCost = null,
+  customRegularCost = null,
+  customSavings = null
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -145,9 +149,13 @@ const RetailOrderModal = ({
       setFormError(null);
 
       // Meta Tracking: track when someone opens the order form (Pixel + CAPI)
-      const currentVal = orderType === 'single' ? (storeConfig?.singlePrice ?? 850) : (storeConfig?.comboPrice ?? 1490);
+      const currentVal = customProductCost !== null 
+        ? customProductCost 
+        : (orderType === 'single' ? (storeConfig?.singlePrice ?? 850) : (storeConfig?.comboPrice ?? 1490));
       trackMetaEvent('InitiateCheckout', {
-        content_name: orderType === 'single' ? 'Single Belt' : 'Combo Belt Set',
+        content_name: cartItems && cartItems.length > 0 
+          ? `Cart Retail Order (${cartItems.length} items)` 
+          : (orderType === 'single' ? 'Single Belt' : 'Combo Belt Set'),
         currency: 'BDT',
         value: currentVal,
       });
@@ -268,10 +276,23 @@ const RetailOrderModal = ({
     const singleUnitPrice = storeConfig?.singlePrice ?? 850;
     const comboUnitPrice = storeConfig?.comboPrice ?? 1490;
     const deliveryCostAmount = deliveryCost;
-    const productCostAmount = orderType === 'single' ? singleUnitPrice : comboUnitPrice;
+    const defaultProductCost = orderType === 'combo' ? comboUnitPrice : singleUnitPrice;
+    const productCostAmount = customProductCost !== null ? customProductCost : defaultProductCost;
     const totalCostAmount = productCostAmount + deliveryCostAmount;
 
-    if (orderType === 'combo') {
+    if (cartItems && cartItems.length > 0) {
+      const totalBeltsQty = cartItems.reduce((s, i) => s + i.quantity, 0);
+      const itemDesc = cartItems.map(item => {
+        if (item.orderType === 'combo') {
+          return `Combo: ${item.comboColor1}(${item.comboSize1}) + ${item.comboColor2}(${item.comboSize2}) x${item.quantity}`;
+        }
+        return `Single: ${item.color}(${item.size}) x${item.quantity}`;
+      }).join(' | ');
+
+      formData.append('orderType', `Retail Cart (${totalBeltsQty} Belts - ${productCostAmount} BDT)`);
+      if (!formData.get('color')) formData.append('color', itemDesc);
+      if (!formData.get('size')) formData.append('size', 'Multiple (Cart)');
+    } else if (orderType === 'combo') {
       formData.append('orderType', `Combo (${comboUnitPrice} BDT)`);
       if (!formData.get('color')) formData.append('color', `${comboColor1} + ${comboColor2}`);
       if (!formData.get('size')) formData.append('size', `${comboSize1} + ${comboSize2}`);
@@ -307,6 +328,36 @@ const RetailOrderModal = ({
     const orderId = `AST-${Math.floor(100000 + Math.random() * 900000)}`;
     formData.set('orderId', orderId);
 
+    const receiptItems = cartItems && cartItems.length > 0 
+      ? cartItems.map(item => {
+          if (item.orderType === 'combo') {
+            return {
+              name: 'AST Handmade Macramé Belt (Combo Set)',
+              color: `${item.comboColor1} + ${item.comboColor2}`,
+              size: `${item.comboSize1} + ${item.comboSize2}`,
+              quantity: item.quantity,
+              price: item.basePriceBDT || 1490
+            };
+          }
+          const totalSingleQty = cartItems.filter(i => i.orderType === 'single').reduce((s, i) => s + i.quantity, 0) || 1;
+          const singleSubtotal = customProductCost !== null 
+            ? Math.round(customProductCost * (item.quantity / totalSingleQty))
+            : (item.basePriceBDT || 850);
+          return {
+            name: `AST Handmade Macramé Belt (${item.color})`,
+            color: item.color,
+            size: item.size,
+            quantity: item.quantity,
+            price: Math.round(singleSubtotal / item.quantity)
+          };
+        })
+      : (orderType === 'combo' ? [
+          { name: 'AST Handmade Macramé Belt (1)', color: comboColor1, size: comboSize1, quantity: 1, price: 745 },
+          { name: 'AST Handmade Macramé Belt (2)', color: comboColor2, size: comboSize2, quantity: 1, price: 745 }
+        ] : [
+          { name: 'AST Handmade Macramé Belt', color: selectedColor, size: selectedSize, quantity: 1, price: productCostAmount }
+        ]);
+
     const receiptPayload = {
       orderId,
       date: dateStr,
@@ -315,13 +366,8 @@ const RetailOrderModal = ({
       phone: rawPhone,
       address: fullAddress,
       note,
-      orderType,
-      items: orderType === 'combo' ? [
-        { name: 'AST Handmade Macramé Belt (1)', color: comboColor1, size: comboSize1 },
-        { name: 'AST Handmade Macramé Belt (2)', color: comboColor2, size: comboSize2 }
-      ] : [
-        { name: 'AST Handmade Macramé Belt', color: selectedColor, size: selectedSize }
-      ],
+      orderType: cartItems && cartItems.length > 0 ? 'cart' : orderType,
+      items: receiptItems,
       productCost: productCostAmount,
       deliveryCost: deliveryCostAmount,
       deliveryLocation: 'All over Bangladesh',
@@ -436,7 +482,8 @@ const RetailOrderModal = ({
     };
   }, [isSuccess, orderReceipt]);
 
-  const productCost = orderType === 'single' ? (storeConfig?.singlePrice ?? 850) : (storeConfig?.comboPrice ?? 1490);
+  const defaultProductCost = orderType === 'combo' ? (storeConfig?.comboPrice ?? 1490) : (storeConfig?.singlePrice ?? 850);
+  const productCost = customProductCost !== null ? customProductCost : defaultProductCost;
   const totalCost = productCost + deliveryCost;
 
   return (
@@ -579,7 +626,7 @@ const RetailOrderModal = ({
                           <div className="flex items-center gap-2.5 min-w-0">
                             <div className="w-9 h-9 rounded-lg sm:rounded-none bg-stone/10 border border-stone/20 overflow-hidden shrink-0">
                               <img 
-                                src={colorImages[item.color] || '/logo_black.png'} 
+                                src={colorImages[item.color] || colorImages[item.color?.split(' ')[0]] || '/logo_black.png'} 
                                 alt={item.color} 
                                 className="w-full h-full object-cover mix-blend-multiply" 
                               />
@@ -589,13 +636,20 @@ const RetailOrderModal = ({
                                 {item.name}
                               </div>
                               <div className="text-[10px] text-dark-charcoal/70 mt-0.5 truncate">
-                                Color: <strong className="text-soft-black">{item.color}</strong> &bull; Size: <strong className="text-soft-black">{item.size}</strong>
+                                {item.color?.includes('+') ? (
+                                  <span>Colors: <strong className="text-soft-black">{item.color}</strong></span>
+                                ) : (
+                                  <span>Color: <strong className="text-soft-black">{item.color}</strong> &bull; Size: <strong className="text-soft-black">{item.size}</strong></span>
+                                )}
+                                {item.quantity > 1 && (
+                                  <span className="ml-1.5 font-bold text-terracotta">(Qty: {item.quantity})</span>
+                                )}
                               </div>
                             </div>
                           </div>
                           <div className="text-right shrink-0 ml-2">
                             <span className="text-xs font-bold text-soft-black whitespace-nowrap">
-                              {orderReceipt.orderType === 'combo' ? (idx === 0 ? '৳ 745' : '৳ 745') : `৳ ${orderReceipt.productCost.toLocaleString()}`}
+                              ৳ {((item.price || Math.round(orderReceipt.productCost / orderReceipt.items.length)) * (item.quantity || 1)).toLocaleString()}
                             </span>
                           </div>
                         </div>
@@ -821,8 +875,17 @@ const RetailOrderModal = ({
                       )}
                     </button>
 
+                    {/* Payment Options Image */}
+                    <div className="flex flex-col items-center justify-center pt-0.5 select-none">
+                      <img 
+                        src="/Payment options.png" 
+                        alt="Accepted Payment Options" 
+                        className="h-auto max-h-7 max-w-[220px] object-contain opacity-90"
+                      />
+                    </div>
+
                     {/* Minimalist Security & Encryption Trust Line */}
-                    <div className="flex flex-col items-center justify-center pt-1 text-center select-none">
+                    <div className="flex flex-col items-center justify-center pt-0.5 text-center select-none">
                       <div className="flex items-center justify-center gap-2 text-[10.5px] sm:text-[11.5px] text-dark-charcoal/75 font-medium">
                         <div className="flex items-center gap-1">
                           <Lock className="w-3 h-3 text-emerald-700 shrink-0 stroke-[2]" />
@@ -846,7 +909,43 @@ const RetailOrderModal = ({
                   <div className="bg-white border border-[#D1CCC0] rounded-2xl p-3.5 sm:p-4 md:p-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)] overflow-hidden">
                     <h3 className="text-[9px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-2 md:mb-4 border-b border-[#E5E0D6] pb-1.5 md:pb-3">Order Summary</h3>
                     
-                    {orderType === 'single' ? (
+                    {cartItems && cartItems.length > 0 ? (
+                      <div className="space-y-2 mb-3 md:mb-4 max-h-48 overflow-y-auto pr-1">
+                        <div className="flex items-center justify-between text-[11px] md:text-xs font-bold text-soft-black mb-1.5">
+                          <span>Cart Belts ({cartItems.reduce((s, i) => s + i.quantity, 0)} pcs)</span>
+                          {customSavings > 0 && (
+                            <span className="text-[9.5px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-bold uppercase">
+                              Save ৳{customSavings.toLocaleString()}
+                            </span>
+                          )}
+                        </div>
+                        {cartItems.map((item, idx) => (
+                          <div key={idx} className="flex items-center gap-2.5 p-2 rounded-xl bg-[#FAF8F5] border border-[#E5E0D6]">
+                            <div className="w-10 h-10 shrink-0 bg-stone/10 rounded-lg overflow-hidden border border-[#E5E0D6]">
+                              <img 
+                                src={item.image || colorImages[item.color] || colorImages[item.comboColor1] || '/logo_black.png'} 
+                                alt={item.color || item.title} 
+                                className="w-full h-full object-cover mix-blend-multiply" 
+                              />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="text-[11px] md:text-xs font-bold text-soft-black truncate">
+                                {item.title || (item.orderType === 'combo' ? 'Combo Set (2 Belts)' : 'Single Belt')}
+                              </div>
+                              <div className="text-[10px] text-dark-charcoal/70 truncate">
+                                {item.orderType === 'combo' 
+                                  ? `${item.comboColor1}(${item.comboSize1}) + ${item.comboColor2}(${item.comboSize2})`
+                                  : `Color: ${item.color} • Size: ${item.size}`
+                                }
+                              </div>
+                            </div>
+                            <div className="text-right shrink-0 text-xs font-bold text-soft-black">
+                              Qty: {item.quantity}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : orderType === 'single' ? (
                       <div className="flex items-center gap-3 md:gap-4 mb-3 md:mb-4">
                         <div className="w-12 h-12 md:w-16 md:h-16 shrink-0 bg-stone/10 rounded-xl overflow-hidden border border-[#E5E0D6]">
                           <img src={colorImages[selectedColor]} alt={selectedColor} className="w-full h-full object-cover mix-blend-multiply" />
@@ -877,17 +976,24 @@ const RetailOrderModal = ({
                     <div className="space-y-1.5 md:space-y-2 mt-3 md:mt-4 pt-3 md:pt-4 border-t border-[#E5E0D6]">
                       <div className="flex justify-between items-center text-[11px] md:text-xs text-dark-charcoal/80">
                         <span>Subtotal</span>
-                        <span className="font-medium">{productCost} BDT</span>
+                        <span className="font-medium">৳ {productCost.toLocaleString()}</span>
                       </div>
                       
+                      {customSavings > 0 && (
+                        <div className="flex justify-between items-center text-[11px] md:text-xs text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded">
+                          <span>Volume Discount Savings</span>
+                          <span>-৳ {customSavings.toLocaleString()}</span>
+                        </div>
+                      )}
+
                       <div className="flex justify-between items-center text-[11px] md:text-xs text-dark-charcoal/80">
                         <span>Delivery Charge (All over Bangladesh)</span>
-                        <span className="font-semibold text-soft-black">100 BDT</span>
+                        <span className="font-semibold text-soft-black">৳ {deliveryCost.toLocaleString()}</span>
                       </div>
 
                       <div className="flex justify-between items-center mt-3 md:mt-4 pt-3 md:pt-4 border-t border-[#E5E0D6]">
                         <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-soft-black">Total</span>
-                        <span className="text-base md:text-xl font-serif font-bold text-terracotta">{totalCost} BDT</span>
+                        <span className="text-base md:text-xl font-serif font-bold text-terracotta">৳ {totalCost.toLocaleString()}</span>
                       </div>
                     </div>
                   </div>
@@ -918,8 +1024,17 @@ const RetailOrderModal = ({
                       )}
                     </button>
 
+                    {/* Payment Options Image */}
+                    <div className="flex flex-col items-center justify-center pt-0.5 select-none">
+                      <img 
+                        src="/Payment options.png" 
+                        alt="Accepted Payment Options" 
+                        className="h-auto max-h-8 max-w-[240px] object-contain opacity-90"
+                      />
+                    </div>
+
                     {/* Minimalist Security & Encryption Trust Line */}
-                    <div className="flex flex-col items-center justify-center pt-1 text-center select-none">
+                    <div className="flex flex-col items-center justify-center pt-0.5 text-center select-none">
                       <div className="flex items-center justify-center gap-2.5 text-xs text-dark-charcoal/75 font-medium">
                         <div className="flex items-center gap-1">
                           <Lock className="w-3.5 h-3.5 text-emerald-700 shrink-0 stroke-[2]" />

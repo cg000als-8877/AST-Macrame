@@ -170,6 +170,13 @@ const SampleOrder = () => {
   const savingsLocal = savingsBDT * exchangeRate;
   const currentShipping = getShippingQuote(quantity);
 
+  const nextTierInfo = {
+    1: { targetQty: 2, priceBDT: 1490, saveBDT: 210 },
+    2: { targetQty: 3, priceBDT: 2090, saveBDT: 460 },
+    3: { targetQty: 4, priceBDT: 2650, saveBDT: 750 },
+    4: { targetQty: 5, priceBDT: 3150, saveBDT: 1100 },
+  }[quantity];
+
   const handleAddToCart = () => {
     addToCart({
       title: 'AST Handmade Macramé Belt',
@@ -391,17 +398,7 @@ const SampleOrder = () => {
                 <span className="text-2xl md:text-3xl font-serif text-soft-black font-semibold">
                   {currencySymbol}{Math.round(totalPriceLocal).toLocaleString()}
                 </span>
-                {quantity === 1 ? (
-                  <button
-                    type="button"
-                    onClick={() => setQuantity(2)}
-                    className="inline-flex items-center gap-1.5 bg-emerald-100 hover:bg-emerald-200/90 text-emerald-800 px-2.5 py-1 rounded-lg text-[11px] md:text-xs font-bold tracking-tight transition-all cursor-pointer group"
-                    title="Click to select 2 belts & save"
-                  >
-                    <Tag className="w-3.5 h-3.5 text-emerald-700 group-hover:scale-110 transition-transform shrink-0" />
-                    <span>Buy 2 for {currencySymbol}{Math.round(1490 * exchangeRate).toLocaleString()} <span className="font-semibold text-emerald-700/90">(Save {currencySymbol}{Math.round(210 * exchangeRate).toLocaleString()})</span> &rarr;</span>
-                  </button>
-                ) : (
+                {quantity > 1 && (
                   <>
                     <span className="text-sm md:text-base line-through text-dark-charcoal/40 font-sans">
                       {currencySymbol}{Math.round(regularPriceLocal).toLocaleString()}
@@ -409,12 +406,27 @@ const SampleOrder = () => {
                     <span className="text-xs md:text-sm font-semibold text-white bg-emerald-700 px-2.5 py-0.5 rounded-md shadow-xs">
                       {currencySymbol}{Math.round(unitPriceLocal).toLocaleString()}/pc
                     </span>
-                    {savingsBDT > 0 && (
-                      <span className="text-[11px] font-bold text-white bg-emerald-700 px-2.5 py-0.5 rounded-full shadow-xs">
-                        Save {currencySymbol}{Math.round(savingsLocal).toLocaleString()}
-                      </span>
-                    )}
                   </>
+                )}
+
+                {nextTierInfo ? (
+                  <button
+                    type="button"
+                    onClick={() => setQuantity(nextTierInfo.targetQty)}
+                    className="inline-flex items-center gap-1.5 bg-emerald-100 hover:bg-emerald-200/90 text-emerald-800 px-2.5 py-1 rounded-lg text-[11px] md:text-xs font-bold tracking-tight transition-all cursor-pointer group"
+                    title={`Click to select ${nextTierInfo.targetQty} belts & save`}
+                  >
+                    <Tag className="w-3.5 h-3.5 text-emerald-700 group-hover:scale-110 transition-transform shrink-0" />
+                    <span>
+                      Buy {nextTierInfo.targetQty} for {currencySymbol}{Math.round(nextTierInfo.priceBDT * exchangeRate).toLocaleString()} <span className="font-semibold text-emerald-700/90">(Save {currencySymbol}{Math.round(nextTierInfo.saveBDT * exchangeRate).toLocaleString()})</span> &rarr;
+                    </span>
+                  </button>
+                ) : (
+                  savingsBDT > 0 && (
+                    <span className="text-[11px] font-bold text-white bg-emerald-700 px-2.5 py-0.5 rounded-full shadow-xs">
+                      Save {currencySymbol}{Math.round(savingsLocal).toLocaleString()}
+                    </span>
+                  )
                 )}
               </div>
             </div>

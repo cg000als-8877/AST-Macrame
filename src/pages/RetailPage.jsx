@@ -1524,19 +1524,23 @@ const RetailPage = () => {
                   </button>
                 </div>
 
-                {/* ADD TO CART */}
+                {/* ADD TO CART (Icon only, no text) */}
                 <button
                   type="button"
                   onClick={handleAddToCartClick}
-                  className={`px-3.5 sm:px-5 py-2 sm:py-2.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider rounded-full sm:rounded-none border transition-all duration-200 cursor-pointer ${
+                  className={`w-9 h-9 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center rounded-full sm:rounded-none border transition-all duration-200 cursor-pointer ${
                     isCartedAnimation
-                      ? 'border-emerald-600 text-emerald-700 bg-emerald-50'
-                      : 'bg-transparent border-soft-black/60 text-soft-black hover:border-terracotta hover:text-terracotta active:scale-95'
+                      ? 'border-emerald-600 text-emerald-600 bg-transparent scale-105'
+                      : 'bg-transparent border-soft-black text-soft-black hover:border-terracotta hover:text-terracotta active:scale-95'
                   }`}
                   title="Add to Cart"
                   aria-label="Add to Cart"
                 >
-                  <span className="whitespace-nowrap font-bold">{isCartedAnimation ? 'ADDED!' : 'ADD TO CART'}</span>
+                  {isCartedAnimation ? (
+                    <Check className="w-4 h-4 stroke-[2.5]" />
+                  ) : (
+                    <ShoppingCart className="w-4 h-4 stroke-[1.8]" />
+                  )}
                 </button>
               </div>
             </div>

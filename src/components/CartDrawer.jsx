@@ -19,6 +19,9 @@ const CartDrawer = () => {
     clearCart,
     totalCartQuantity,
     isRetailCart,
+    singleItemsCount,
+    comboItemsCount,
+    singleSellingTotalBDT,
     retailRegularTotalBDT,
     retailSellingTotalBDT,
     retailSavingsTotalBDT,
@@ -81,9 +84,6 @@ const CartDrawer = () => {
   const retailComboColor2 = firstRetailItem?.comboColor2 || 'Navy';
   const retailComboSize2 = firstRetailItem?.comboSize2 || 'M';
 
-  // Retail specific item counts
-  const singleItemsCount = cart.filter(i => i.isRetail && i.orderType === 'single').reduce((sum, i) => sum + i.quantity, 0);
-  const comboItemsCount = cart.filter(i => i.isRetail && i.orderType === 'combo').reduce((sum, i) => sum + i.quantity, 0);
 
   return (
     <>
@@ -165,8 +165,9 @@ const CartDrawer = () => {
                       const isRetail = !!item.isRetail;
                       const isCombo = item.orderType === 'combo';
                       
-                      // Retail pricing (BDT)
-                      const retailUnitPrice = isCombo ? (item.basePriceBDT || 1490) : (item.basePriceBDT || 850);
+                      // Retail pricing (BDT) - Single belts dynamic tiered rate: 1 for 850, 2 for 1490, 3 for 2090, 4 for 2650, 5 for 3150
+                      const effectiveSingleUnitPrice = singleItemsCount > 0 ? Math.round(singleSellingTotalBDT / singleItemsCount) : 850;
+                      const retailUnitPrice = isCombo ? (item.basePriceBDT || 1490) : effectiveSingleUnitPrice;
                       const retailRegularPrice = isCombo ? (item.regularPriceBDT || 2100) : (item.regularPriceBDT || 1050);
                       const retailItemSavings = Math.max(0, retailRegularPrice - retailUnitPrice);
                       const retailItemTotal = retailUnitPrice * item.quantity;
@@ -303,16 +304,13 @@ const CartDrawer = () => {
                   {/* Retail Motivational Upsell Card vs Sample Tier Card */}
                   {isRetailCart ? (
                     (() => {
-                      const hasSingleOnly = singleItemsCount === 1 && comboItemsCount === 0;
-                      const hasComboOrMultiple = comboItemsCount >= 1 || singleItemsCount >= 2;
-
-                      if (hasSingleOnly) {
+                      if (singleItemsCount === 1) {
                         return (
                           <div className="p-3 sm:p-3.5 rounded-xl border bg-amber-50/90 border-amber-200/90 text-amber-950 space-y-2">
                             <div className="flex items-start gap-2">
                               <Sparkles className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                               <div className="text-xs leading-snug">
-                                <span className="font-bold">Add 1 more belt to upgrade to COMBO!</span>
+                                <span className="font-bold">Add 1 more belt to upgrade to COMBO (2 for ৳1,490)!</span>
                                 <p className="text-[11px] text-amber-900/80 mt-0.5">
                                   Get 2 belts for only <strong>1,490 BDT</strong> instead of 2,100 BDT — <strong>Save 610 TK</strong> total!
                                 </p>
@@ -333,15 +331,96 @@ const CartDrawer = () => {
                         );
                       }
 
-                      if (hasComboOrMultiple) {
+                      if (singleItemsCount === 2) {
+                        return (
+                          <div className="p-3 sm:p-3.5 rounded-xl border bg-amber-50/90 border-amber-200/90 text-amber-950 space-y-2">
+                            <div className="flex items-start gap-2">
+                              <Sparkles className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                              <div className="text-xs leading-snug">
+                                <span className="font-bold">2 Belts Deal Applied (৳1,490)! Add 1 more for 3 @ ৳2,090!</span>
+                                <p className="text-[11px] text-amber-900/80 mt-0.5">
+                                  Drop price to only <strong>৳697/pc</strong> (3 Belts for 2,090 BDT) — <strong>Save 1,060 TK</strong> total!
+                                </p>
+                              </div>
+                            </div>
+                            <div className="w-full bg-black/10 rounded-full h-2 overflow-hidden">
+                              <div className="h-full rounded-full bg-terracotta transition-all duration-500 w-2/3" />
+                            </div>
+                            <Link
+                              to="/retail"
+                              onClick={() => setIsCartOpen(false)}
+                              className="w-full inline-flex items-center justify-center gap-1.5 bg-amber-600 hover:bg-amber-700 text-white py-1.5 px-3 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-colors shadow-xs"
+                            >
+                              <span>⚡ Add 3rd Belt & Save 1,060 TK</span>
+                              <ArrowRight className="w-3 h-3" />
+                            </Link>
+                          </div>
+                        );
+                      }
+
+                      if (singleItemsCount === 3) {
+                        return (
+                          <div className="p-3 sm:p-3.5 rounded-xl border bg-amber-50/90 border-amber-200/90 text-amber-950 space-y-2">
+                            <div className="flex items-start gap-2">
+                              <Sparkles className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                              <div className="text-xs leading-snug">
+                                <span className="font-bold">3 Belts Deal Applied (৳2,090)! Add 1 more for 4 @ ৳2,650!</span>
+                                <p className="text-[11px] text-amber-900/80 mt-0.5">
+                                  Drop price to only <strong>৳663/pc</strong> (4 Belts for 2,650 BDT) — <strong>Save 1,550 TK</strong> total!
+                                </p>
+                              </div>
+                            </div>
+                            <div className="w-full bg-black/10 rounded-full h-2 overflow-hidden">
+                              <div className="h-full rounded-full bg-terracotta transition-all duration-500 w-4/5" />
+                            </div>
+                            <Link
+                              to="/retail"
+                              onClick={() => setIsCartOpen(false)}
+                              className="w-full inline-flex items-center justify-center gap-1.5 bg-amber-600 hover:bg-amber-700 text-white py-1.5 px-3 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-colors shadow-xs"
+                            >
+                              <span>⚡ Add 4th Belt & Save 1,550 TK</span>
+                              <ArrowRight className="w-3 h-3" />
+                            </Link>
+                          </div>
+                        );
+                      }
+
+                      if (singleItemsCount === 4) {
+                        return (
+                          <div className="p-3 sm:p-3.5 rounded-xl border bg-amber-50/90 border-amber-200/90 text-amber-950 space-y-2">
+                            <div className="flex items-start gap-2">
+                              <Sparkles className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                              <div className="text-xs leading-snug">
+                                <span className="font-bold">4 Belts Deal Applied (৳2,650)! Add 1 more to unlock MAX rate (5 @ ৳3,150)!</span>
+                                <p className="text-[11px] text-amber-900/80 mt-0.5">
+                                  Drop price to only <strong>৳630/pc</strong> (5 Belts for 3,150 BDT) — <strong>Save 2,100 TK</strong> total!
+                                </p>
+                              </div>
+                            </div>
+                            <div className="w-full bg-black/10 rounded-full h-2 overflow-hidden">
+                              <div className="h-full rounded-full bg-terracotta transition-all duration-500 w-[90%]" />
+                            </div>
+                            <Link
+                              to="/retail"
+                              onClick={() => setIsCartOpen(false)}
+                              className="w-full inline-flex items-center justify-center gap-1.5 bg-amber-600 hover:bg-amber-700 text-white py-1.5 px-3 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-colors shadow-xs"
+                            >
+                              <span>⚡ Add 5th Belt & Save 2,100 TK (Max Rate)</span>
+                              <ArrowRight className="w-3 h-3" />
+                            </Link>
+                          </div>
+                        );
+                      }
+
+                      if (singleItemsCount >= 5 || comboItemsCount >= 1) {
                         return (
                           <div className="p-3 sm:p-3.5 rounded-xl border bg-emerald-50/90 border-emerald-200/90 text-emerald-950 space-y-1.5">
                             <div className="flex items-center gap-2">
                               <Sparkles className="w-4 h-4 text-emerald-600 shrink-0" />
-                              <span className="text-xs sm:text-sm font-bold">🎉 Combo Savings Deal Applied!</span>
+                              <span className="text-xs sm:text-sm font-bold">🎉 Maximum Multi-Belt Savings Applied!</span>
                             </div>
                             <p className="text-[11px] text-emerald-900/80 leading-snug">
-                              You are saving <strong>৳{retailSavingsTotalBDT.toLocaleString()}</strong> with Cash on Delivery across Bangladesh.
+                              You are saving <strong>৳{retailSavingsTotalBDT.toLocaleString()}</strong> total with Cash on Delivery across Bangladesh.
                             </p>
                             <div className="w-full bg-black/10 rounded-full h-2 overflow-hidden">
                               <div className="h-full rounded-full bg-emerald-600 transition-all duration-500 w-full" />
@@ -546,6 +625,10 @@ const CartDrawer = () => {
         <RetailOrderModal
           isOpen={isRetailCheckoutOpen}
           onClose={() => setIsRetailCheckoutOpen(false)}
+          cartItems={cart.filter(item => item.isRetail)}
+          customProductCost={retailSellingTotalBDT}
+          customRegularCost={retailRegularTotalBDT}
+          customSavings={retailSavingsTotalBDT}
           orderType={retailOrderType}
           selectedColor={retailSelectedColor}
           selectedSize={retailSelectedSize}
