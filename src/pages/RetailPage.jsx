@@ -177,7 +177,7 @@ const RetailPage = () => {
     }
 
     setIsCartedAnimation(true);
-    openCartTemporarily(2000);
+    openCartTemporarily(4000);
 
     if (cartAnimationTimeoutRef.current) {
       clearTimeout(cartAnimationTimeoutRef.current);
@@ -185,7 +185,7 @@ const RetailPage = () => {
 
     cartAnimationTimeoutRef.current = setTimeout(() => {
       setIsCartedAnimation(false);
-    }, 2800);
+    }, 4000);
   };
 
   useEffect(() => {
@@ -758,12 +758,12 @@ const RetailPage = () => {
             <div ref={ctaRef} className="flex flex-col mb-10 md:mb-12">
               <div className="flex flex-col gap-3 md:gap-3.5">
                 <div className="flex items-center gap-2.5 sm:gap-3 w-full">
-                  {/* ORDER NOW Button (Left side, primary) */}
+                  {/* ORDER NOW Button (Left side, 50% width) */}
                   <button 
                     type="button"
                     onClick={() => setIsOrderFormOpen(true)}
                     disabled={!isOrderReady}
-                    className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center bg-terracotta text-cream px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-2xl transition-all duration-300 shadow-md ${
+                    className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center bg-terracotta text-cream px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-2xl transition-all duration-300 shadow-md ${
                       !isOrderReady 
                         ? 'opacity-50 cursor-not-allowed' 
                         : 'hover:bg-muted-burgundy hover:shadow-lg hover:shadow-terracotta/25 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] cursor-pointer'
@@ -774,34 +774,25 @@ const RetailPage = () => {
                     <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.22em]">{orderButtonContent}</span>
                   </button>
 
-                  {/* ADD TO CART Button (Right side, outline icon button only) */}
+                  {/* ADD TO CART Button (Right side, 50% width, text only, no icon) */}
                   <button
                     type="button"
                     onClick={handleAddToCartClick}
                     disabled={!isOrderReady}
-                    className={`relative overflow-hidden group w-[48px] md:w-[52px] h-[48px] md:h-[52px] shrink-0 flex items-center justify-center rounded-2xl border-2 transition-all duration-300 ${
+                    className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-2xl border transition-all duration-300 ${
                       isCartedAnimation
-                        ? 'border-emerald-600 text-emerald-600 bg-transparent scale-105 shadow-sm'
-                        : 'bg-transparent border-soft-black text-soft-black hover:border-terracotta hover:text-cream hover:shadow-md hover:shadow-terracotta/20 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 cursor-pointer'
+                        ? 'border-emerald-600 bg-emerald-50 text-emerald-700 scale-[1.01] shadow-sm'
+                        : 'bg-transparent border-soft-black text-soft-black hover:border-terracotta hover:text-cream hover:shadow-md hover:shadow-terracotta/20 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] cursor-pointer'
                     } ${!isOrderReady ? 'opacity-50 cursor-not-allowed' : ''}`}
-                    title="Add to Sample Cart"
-                    aria-label="Add to Sample Cart"
+                    title="Add to Cart"
+                    aria-label="Add to Cart"
                   >
                     {!isCartedAnimation && (
                       <span className="absolute inset-0 bg-terracotta translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
                     )}
-                    {isCartedAnimation ? (
-                      <motion.div
-                        initial={{ scale: 0, rotate: -45 }}
-                        animate={{ scale: 1, rotate: 0 }}
-                        transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-                        className="relative z-10"
-                      >
-                        <Check className="w-5 h-5 md:w-6 md:h-6 stroke-[2.5]" />
-                      </motion.div>
-                    ) : (
-                      <ShoppingCart className="relative z-10 w-5 h-5 md:w-5.5 md:h-5.5 stroke-[1.8] transition-transform duration-300 group-hover:scale-115 group-hover:-rotate-12" />
-                    )}
+                    <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.22em]">
+                      {isCartedAnimation ? 'ADDED TO CART!' : 'ADD TO CART'}
+                    </span>
                   </button>
                 </div>
 
@@ -1533,23 +1524,19 @@ const RetailPage = () => {
                   </button>
                 </div>
 
-                {/* ADD TO CART: Outline Icon Button (No Fill) */}
+                {/* ADD TO CART */}
                 <button
                   type="button"
                   onClick={handleAddToCartClick}
-                  className={`w-9 h-9 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center rounded-full sm:rounded-none border-2 transition-all duration-200 cursor-pointer ${
+                  className={`px-3.5 sm:px-5 py-2 sm:py-2.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider rounded-full sm:rounded-none border transition-all duration-200 cursor-pointer ${
                     isCartedAnimation
-                      ? 'border-emerald-600 text-emerald-600 bg-transparent scale-105'
-                      : 'bg-transparent border-soft-black/40 text-soft-black hover:border-terracotta hover:text-terracotta active:scale-95'
+                      ? 'border-emerald-600 text-emerald-700 bg-emerald-50'
+                      : 'bg-transparent border-soft-black/60 text-soft-black hover:border-terracotta hover:text-terracotta active:scale-95'
                   }`}
-                  title="Add to Sample Cart"
-                  aria-label="Add item to sample cart"
+                  title="Add to Cart"
+                  aria-label="Add to Cart"
                 >
-                  {isCartedAnimation ? (
-                    <Check className="w-4 h-4 stroke-[2.5]" />
-                  ) : (
-                    <ShoppingCart className="w-4 h-4 stroke-[1.8]" />
-                  )}
+                  <span className="whitespace-nowrap font-bold">{isCartedAnimation ? 'ADDED!' : 'ADD TO CART'}</span>
                 </button>
               </div>
             </div>

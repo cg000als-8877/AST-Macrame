@@ -68,7 +68,7 @@ export const CartWishlistProvider = ({ children }) => {
     }
   }, []);
 
-  const openCartTemporarily = useCallback((durationMs = 2000) => {
+  const openCartTemporarily = useCallback((durationMs = 4000) => {
     cancelCartAutoClose();
     setIsCartOpen(true);
     autoCloseTimerRef.current = setTimeout(() => {

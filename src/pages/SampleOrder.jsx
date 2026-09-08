@@ -177,7 +177,7 @@ const SampleOrder = () => {
       size: selectedSize,
       priceBDT: singlePriceBDT
     }, quantity);
-    openCartTemporarily(2000);
+    openCartTemporarily(4000);
   };
 
   const isWishlisted = isInWishlist(selectedColor, selectedSize);
