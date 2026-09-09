@@ -327,7 +327,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                         <img 
                           src={paymentsImg} 
                           alt="Accepted Payment Options" 
-                          className="h-auto max-h-12 w-full object-contain"
+                          className="h-auto max-h-14 sm:max-h-16 w-full max-w-[360px] object-contain"
                         />
                       </div>
                     </div>

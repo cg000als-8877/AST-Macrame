@@ -82,16 +82,16 @@ const Footer = () => {
           </div>
         </div>
         
-        {/* Accepted Payment Options: Full width from left to right fitting screen with original aspect ratio */}
-        <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-cream/10 w-full flex flex-col items-center">
-          <p className="text-[10px] sm:text-xs text-cream/40 font-bold tracking-[0.2em] uppercase mb-3 sm:mb-4 text-center">
+        {/* Accepted Payment Options: Well-proportioned compact banner */}
+        <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-cream/10 w-full flex flex-col items-center">
+          <p className="text-[10px] sm:text-xs text-cream/40 font-bold tracking-[0.2em] uppercase mb-2.5 sm:mb-3 text-center">
             Accepted Payment Methods
           </p>
-          <div className="w-full flex items-center justify-center px-4 sm:px-8">
+          <div className="w-full flex items-center justify-center px-4">
             <img 
               src={paymentsImg} 
               alt="Accepted Payment Methods" 
-              className="w-full h-auto object-contain max-w-5xl"
+              className="w-full h-auto object-contain max-w-[260px] sm:max-w-sm md:max-w-[380px]"
             />
           </div>
         </div>

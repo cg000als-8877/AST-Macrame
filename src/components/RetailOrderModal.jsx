@@ -882,11 +882,11 @@ const RetailOrderModal = ({
                     </button>
 
                     {/* Payment Options Image */}
-                    <div className="flex flex-col items-center justify-center pt-1 select-none">
+                    <div className="flex flex-col items-center justify-center pt-1.5 select-none">
                       <img 
                         src={paymentsImg} 
                         alt="Accepted Payment Options" 
-                        className="h-auto max-h-12 w-full object-contain"
+                        className="h-auto max-h-14 w-full max-w-[340px] object-contain"
                       />
                     </div>
 
@@ -1031,11 +1031,11 @@ const RetailOrderModal = ({
                     </button>
 
                     {/* Payment Options Image */}
-                    <div className="flex flex-col items-center justify-center pt-1 select-none">
+                    <div className="flex flex-col items-center justify-center pt-2 select-none">
                       <img 
                         src={paymentsImg} 
                         alt="Accepted Payment Options" 
-                        className="h-auto max-h-14 w-full object-contain"
+                        className="h-auto max-h-16 w-full max-w-[420px] object-contain"
                       />
                     </div>
 
