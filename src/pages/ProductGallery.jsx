@@ -230,7 +230,7 @@ const ProductGallery = () => {
                   {/* ORDER SAMPLE CTA -> Goes directly to /sample-order */}
                   <Link
                     to={`/sample-order?color=${item.colorName.toLowerCase()}`}
-                    className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded-xl border bg-soft-black hover:bg-dark-charcoal text-cream border-soft-black shadow-xs text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all flex items-center justify-center active:scale-[0.98]"
+                    className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded-xl border border-soft-black bg-transparent text-soft-black hover:bg-soft-black hover:text-cream hover:shadow-sm text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center active:scale-[0.98] cursor-pointer"
                     title="Order sample on the Sample Order page"
                   >
                     Order Sample
@@ -240,7 +240,7 @@ const ProductGallery = () => {
                   <div>
                     <Link
                       to={`/retail?color=${item.colorName.toLowerCase()}`}
-                      className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded-xl bg-terracotta hover:bg-muted-burgundy text-cream text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all shadow-xs active:scale-[0.98] flex items-center justify-center"
+                      className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded-xl bg-terracotta hover:bg-[#131E33] hover:shadow-md hover:brightness-110 text-cream text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all duration-300 shadow-xs active:scale-[0.98] flex items-center justify-center cursor-pointer"
                       title="Order on the Retail page"
                     >
                       Order Retail
