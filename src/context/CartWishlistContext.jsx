@@ -112,20 +112,29 @@ export const CartWishlistProvider = ({ children }) => {
     }
   }, [cart]);
 
-  // Fetch localization
+  // Fetch localization with caching & graceful fallback
   useEffect(() => {
     let isMounted = true;
     const fetchLocalization = async () => {
       try {
-        const ipRes = await fetch('https://ipapi.co/json/');
-        const ipData = await ipRes.json();
-        
-        const currencyCode = ipData.currency || 'USD';
-        const country = ipData.country_name || 'United States';
-        const countryCode = ipData.country_code || 'US';
-        const continentCode = ipData.continent_code || 'NA';
-        const callingCode = ipData.country_calling_code || '+1';
-        
+        // 1. Check cached localization
+        const cached = sessionStorage.getItem('ast_user_localization');
+        if (cached) {
+          try {
+            const data = JSON.parse(cached);
+            if (isMounted && data) {
+              setUserCountry(data.country || 'Bangladesh');
+              setUserCountryCode(data.countryCode || 'BD');
+              setUserContinentCode(data.continentCode || 'AS');
+              setUserCallingCode(data.callingCode || '+880');
+              setLocalCurrency(data.currencyCode || 'BDT');
+              setCurrencySymbol(data.symbol || '৳');
+              setExchangeRate(data.rate || 1);
+              return;
+            }
+          } catch (_) {}
+        }
+
         const symbolMap = { 
           'USD': '$', 
           'EUR': '€', 
@@ -145,8 +154,47 @@ export const CartWishlistProvider = ({ children }) => {
           'JPY': '¥', 
           'CNY': '¥' 
         };
+
+        let currencyCode = 'BDT';
+        let country = 'Bangladesh';
+        let countryCode = 'BD';
+        let continentCode = 'AS';
+        let callingCode = '+880';
+
+        // Try primary IP service with 4s timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 4000);
+
+        try {
+          const ipRes = await fetch('https://ipwho.is/', { signal: controller.signal });
+          clearTimeout(timeoutId);
+          if (ipRes.ok) {
+            const ipData = await ipRes.json();
+            if (ipData.success !== false) {
+              currencyCode = ipData.currency || ipData.currency_code || 'BDT';
+              country = ipData.country || 'Bangladesh';
+              countryCode = ipData.country_code || 'BD';
+              continentCode = ipData.continent_code || 'AS';
+              callingCode = ipData.calling_code ? `+${ipData.calling_code.replace('+', '')}` : '+880';
+            }
+          }
+        } catch (_) {
+          // Fallback to ipapi.co if needed
+          try {
+            const fallbackRes = await fetch('https://ipapi.co/json/');
+            if (fallbackRes.ok) {
+              const fallbackData = await fallbackRes.json();
+              currencyCode = fallbackData.currency || 'BDT';
+              country = fallbackData.country_name || 'Bangladesh';
+              countryCode = fallbackData.country_code || 'BD';
+              continentCode = fallbackData.continent_code || 'AS';
+              callingCode = fallbackData.country_calling_code || '+880';
+            }
+          } catch (_) {}
+        }
+
         const symbol = symbolMap[currencyCode] || currencyCode + ' ';
-        
+
         if (!isMounted) return;
         setUserCountry(country);
         setUserCountryCode(countryCode);
@@ -155,14 +203,32 @@ export const CartWishlistProvider = ({ children }) => {
         setLocalCurrency(currencyCode);
         setCurrencySymbol(symbol);
 
-        const erRes = await fetch('https://api.exchangerate-api.com/v4/latest/BDT');
-        const erData = await erRes.json();
-        const rate = erData.rates[currencyCode] || 1;
-        
+        let rate = 1;
+        if (currencyCode !== 'BDT') {
+          try {
+            const erRes = await fetch('https://api.exchangerate-api.com/v4/latest/BDT');
+            if (erRes.ok) {
+              const erData = await erRes.json();
+              rate = erData.rates?.[currencyCode] || 1;
+            }
+          } catch (_) {}
+        }
+
         if (!isMounted) return;
         setExchangeRate(rate);
+
+        // Cache result for session
+        sessionStorage.setItem('ast_user_localization', JSON.stringify({
+          country,
+          countryCode,
+          continentCode,
+          callingCode,
+          currencyCode,
+          symbol,
+          rate
+        }));
       } catch (err) {
-        console.error("Failed to load localization data", err);
+        // Fallback default is BDT
       }
     };
 

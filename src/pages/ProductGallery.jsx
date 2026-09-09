@@ -18,7 +18,6 @@ import {
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { useCartWishlist } from '../context/CartWishlistContext';
 import { useStoreConfig } from '../context/StoreConfigContext';
-import RetailOrderModal from '../components/RetailOrderModal';
 
 // Black Images
 import b1 from '../assets/products/Black/1.webp';
@@ -105,24 +104,7 @@ const colorCatalog = [
 
 const ProductGallery = () => {
   const { storeConfig } = useStoreConfig();
-  const { addToCart, setIsCartOpen, currencySymbol, exchangeRate } = useCartWishlist();
-
-  // Selected sizes for each belt card (keyed by color name)
-  const [selectedSizes, setSelectedSizes] = useState({
-    Black: 'M',
-    Navy: 'M',
-    Brown: 'M',
-    Maroon: 'M',
-    Khaki: 'M'
-  });
-
-  // Animation triggers when item added to cart
-  const [addedAnimation, setAddedAnimation] = useState({});
-
-  // Retail Modal State
-  const [retailModalColor, setRetailModalColor] = useState('Black');
-  const [retailModalSize, setRetailModalSize] = useState('M');
-  const [isRetailModalOpen, setIsRetailModalOpen] = useState(false);
+  const { currencySymbol, exchangeRate } = useCartWishlist();
 
   // Size Guide Modal State
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
@@ -131,42 +113,6 @@ const ProductGallery = () => {
   const [lightboxImages, setLightboxImages] = useState([]);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [lightboxActive, setLightboxActive] = useState(false);
-
-  const handleSizeSelect = (colorName, size) => {
-    setSelectedSizes(prev => ({
-      ...prev,
-      [colorName]: size
-    }));
-  };
-
-  const handleOrderSample = (item) => {
-    const size = selectedSizes[item.colorName] || 'M';
-    
-    addToCart({
-      id: `${item.id}-${item.colorName}-${size}-sample`,
-      title: `AST Macramé Belt - ${item.colorName}`,
-      color: item.colorName,
-      size: size,
-      quantity: 1,
-      image: item.images[0],
-      isRetail: false,
-      priceBDT: storeConfig?.singlePrice ?? 850
-    });
-
-    setAddedAnimation(prev => ({ ...prev, [item.colorName]: true }));
-    setTimeout(() => {
-      setAddedAnimation(prev => ({ ...prev, [item.colorName]: false }));
-    }, 1200);
-
-    setIsCartOpen(true);
-  };
-
-  const handleOrderRetail = (item) => {
-    const size = selectedSizes[item.colorName] || 'M';
-    setRetailModalColor(item.colorName);
-    setRetailModalSize(size);
-    setIsRetailModalOpen(true);
-  };
 
   const openLightbox = (imagesList, startIndex = 0) => {
     setLightboxImages(imagesList);
@@ -194,16 +140,13 @@ const ProductGallery = () => {
       <section className="max-w-[1480px] mx-auto px-3 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3.5 lg:gap-3 xl:gap-4">
           {colorCatalog.map((item, idx) => {
-            const currentSize = selectedSizes[item.colorName] || 'M';
-            const isAdded = addedAnimation[item.colorName];
-
             return (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, delay: idx * 0.05 }}
-                className="bg-white border border-stone/20 rounded-2xl lg:rounded-2xl xl:rounded-3xl p-2.5 sm:p-3.5 lg:p-3 xl:p-4 shadow-2xs hover:shadow-lg hover:border-stone/40 transition-all flex flex-col justify-between group overflow-hidden"
+                className="bg-white rounded-2xl lg:rounded-2xl xl:rounded-3xl p-2.5 sm:p-3.5 lg:p-3 xl:p-4 shadow-2xs hover:shadow-lg transition-all flex flex-col justify-between group overflow-hidden"
               >
                 <div>
                   {/* 1. 1:1 Aspect Ratio Image Container */}
@@ -238,100 +181,80 @@ const ProductGallery = () => {
                   </div>
 
                   {/* 2. Product Title */}
-                  <h2 className="font-serif text-[12px] sm:text-sm lg:text-[13px] xl:text-[14.5px] font-bold text-soft-black leading-snug line-clamp-2 mb-1 group-hover:text-terracotta transition-colors">
+                  <h2 className="font-serif text-[13px] sm:text-base lg:text-[15px] xl:text-[16px] font-bold text-soft-black leading-snug line-clamp-2 mb-1.5 group-hover:text-terracotta transition-colors">
                     AST Macramé Belt - {item.colorName}
                   </h2>
 
                   {/* Price Banner */}
-                  <div className="flex items-center justify-between gap-1 mb-2 sm:mb-3">
-                    <div className="flex items-baseline gap-1.5">
-                      <span className="text-xs sm:text-sm lg:text-sm xl:text-base font-bold text-terracotta">
+                  <div className="flex items-center justify-between gap-1 mb-2.5 sm:mb-3.5">
+                    <div className="flex items-baseline gap-1.5 sm:gap-2">
+                      <span className="text-sm sm:text-base lg:text-base xl:text-lg font-bold text-terracotta">
                         {currencySymbol}{Math.round(singlePriceBDT * (exchangeRate || 1)).toLocaleString()}
                       </span>
-                      <span className="text-[10px] sm:text-xs text-dark-charcoal/50 line-through">
+                      <span className="text-xs sm:text-sm text-dark-charcoal/50 line-through">
                         {currencySymbol}{Math.round(1050 * (exchangeRate || 1)).toLocaleString()}
                       </span>
                     </div>
-                    <span className="text-[9px] sm:text-[10px] font-semibold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200/60">
+                    <span className="text-[10px] sm:text-xs lg:text-[11px] xl:text-xs font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200/60 shrink-0">
                       Save {currencySymbol}{Math.round(200 * (exchangeRate || 1)).toLocaleString()}
                     </span>
                   </div>
 
-                  {/* 3. Single Color Display + Size Selector (Row) */}
-                  <div className="pt-2 sm:pt-2.5 border-t border-stone/15 mb-2.5 sm:mb-3.5 flex items-center justify-between gap-1">
+                  {/* 3. Single Color Display + Available Sizes (Display Only) */}
+                  <div className="pt-2 sm:pt-3 border-t border-stone/15 mb-3 sm:mb-4 flex items-center justify-between gap-1">
                     
                     {/* Left: Color Swatch + Label */}
-                    <div className="flex items-center gap-1.5 shrink-0">
+                    <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                       <div 
-                        className="w-4.5 h-4.5 sm:w-5 sm:h-5 lg:w-5 lg:h-5 xl:w-5.5 xl:h-5.5 rounded-full border-2 border-soft-black/40 shadow-xs shrink-0" 
+                        className="w-4 h-4 sm:w-5 sm:h-5 rounded-full border border-soft-black/30 shadow-2xs shrink-0" 
                         style={{ backgroundColor: item.hex }} 
                       />
-                      <span className="text-[10px] sm:text-xs lg:text-[11px] xl:text-xs font-bold text-soft-black uppercase tracking-wider">
+                      <span className="text-xs sm:text-sm lg:text-xs xl:text-sm font-bold text-soft-black uppercase tracking-wider">
                         {item.colorName}
                       </span>
                     </div>
 
-                    {/* Right: Selectable Size Boxes (M and L) */}
-                    <div className="flex items-center gap-1 shrink-0">
-                      {['M', 'L'].map((sz) => {
-                        const isSelected = currentSize === sz;
-                        return (
-                          <button
-                            key={sz}
-                            type="button"
-                            onClick={() => handleSizeSelect(item.colorName, sz)}
-                            className={`w-6 h-6 sm:w-6.5 sm:h-6.5 lg:w-6.5 lg:h-6.5 xl:w-7 xl:h-7 rounded-lg text-[10px] sm:text-xs font-bold transition-all cursor-pointer flex items-center justify-center border ${
-                              isSelected
-                                ? 'bg-soft-black text-white border-soft-black shadow-xs scale-105'
-                                : 'bg-[#FAF8F5] text-dark-charcoal border-stone/25 hover:border-stone/40'
-                            }`}
-                            title={`Size ${sz}`}
-                          >
-                            {sz}
-                          </button>
-                        );
-                      })}
+                    {/* Right: Available Sizes (Non-interactive Display) */}
+                    <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+                      <span className="text-[10px] sm:text-xs text-dark-charcoal/60 font-medium mr-0.5">Sizes:</span>
+                      {['M', 'L'].map((sz) => (
+                        <span
+                          key={sz}
+                          className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-[#FAF8F5] text-dark-charcoal/90 border border-stone/25 text-xs sm:text-xs font-bold flex items-center justify-center select-none shadow-2xs"
+                          title={`Size ${sz} Available`}
+                        >
+                          {sz}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 </div>
 
-                {/* 4. Action CTAs: Side-by-Side on Mobile, Stacked One Under Another on PC */}
-                <div className="flex flex-row sm:flex-col gap-1.5 sm:gap-2 pt-1">
+                {/* 4. Action CTAs: Stacked (One Under Another on Mobile & PC) */}
+                <div className="flex flex-col gap-2 pt-1">
                   
-                  {/* ORDER SAMPLE CTA */}
-                  <button
-                    type="button"
-                    onClick={() => handleOrderSample(item)}
-                    className={`w-full h-8.5 sm:h-9 lg:h-9 xl:h-9.5 px-2 rounded-xl border text-[9.5px] sm:text-[11px] lg:text-[10px] xl:text-[11px] font-bold uppercase tracking-tight transition-all cursor-pointer flex items-center justify-center active:scale-[0.98] ${
-                      isAdded
-                        ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
-                        : 'bg-soft-black hover:bg-dark-charcoal text-cream border-soft-black shadow-xs'
-                    }`}
-                    title="Order sample for international review or local testing"
+                  {/* ORDER SAMPLE CTA -> Goes directly to /sample-order */}
+                  <Link
+                    to={`/sample-order?color=${item.colorName.toLowerCase()}`}
+                    className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded-xl border bg-soft-black hover:bg-dark-charcoal text-cream border-soft-black shadow-xs text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all flex items-center justify-center active:scale-[0.98]"
+                    title="Order sample on the Sample Order page"
                   >
-                    {isAdded ? (
-                      <>
-                        <span className="sm:hidden">Added!</span>
-                        <span className="hidden sm:inline">Added to Cart!</span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="sm:hidden">Sample</span>
-                        <span className="hidden sm:inline">Order Sample</span>
-                      </>
-                    )}
-                  </button>
+                    Order Sample
+                  </Link>
 
-                  {/* ORDER RETAIL CTA */}
-                  <button
-                    type="button"
-                    onClick={() => handleOrderRetail(item)}
-                    className="w-full h-8.5 sm:h-9 lg:h-9 xl:h-9.5 px-2 rounded-xl bg-terracotta hover:bg-muted-burgundy text-cream text-[9.5px] sm:text-[11px] lg:text-[10px] xl:text-[11px] font-bold uppercase tracking-tight transition-all shadow-xs active:scale-[0.98] cursor-pointer flex items-center justify-center"
-                    title="Fast Cash on Delivery across Bangladesh"
-                  >
-                    <span className="sm:hidden">Retail</span>
-                    <span className="hidden sm:inline">Order Retail</span>
-                  </button>
+                  {/* ORDER RETAIL CTA -> Goes directly to /retail */}
+                  <div>
+                    <Link
+                      to={`/retail?color=${item.colorName.toLowerCase()}`}
+                      className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded-xl bg-terracotta hover:bg-muted-burgundy text-cream text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all shadow-xs active:scale-[0.98] flex items-center justify-center"
+                      title="Order on the Retail page"
+                    >
+                      Order Retail
+                    </Link>
+                    <p className="text-[10px] sm:text-[11.5px] lg:text-[11.5px] xl:text-[12px] text-dark-charcoal/70 text-center font-medium leading-normal mt-1">
+                      * Retail is for Bangladesh delivery only
+                    </p>
+                  </div>
                 </div>
 
               </motion.div>
@@ -546,15 +469,6 @@ const ProductGallery = () => {
           </div>
         )}
       </AnimatePresence>
-
-      {/* Retail Order Form Modal */}
-      <RetailOrderModal
-        isOpen={isRetailModalOpen}
-        onClose={() => setIsRetailModalOpen(false)}
-        orderType="single"
-        selectedColor={retailModalColor}
-        selectedSize={retailModalSize}
-      />
 
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, ChevronDown, Plus, Minus, X, Ruler, ZoomIn, ZoomOut, RotateCcw, AlignLeft, Layers, Truck, AlertCircle, Droplets, Sparkles, Leaf, Banknote, ArrowUp, Check, ShieldCheck, RefreshCw, MessageCircle, Zap, PackageCheck, ShoppingCart } from 'lucide-react';
 import RetailOrderModal from '../components/RetailOrderModal';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
@@ -105,6 +105,22 @@ const RetailPage = () => {
   const { addToCart, setIsCartOpen, openCartTemporarily, cancelCartAutoClose } = useCartWishlist();
   const [isCartedAnimation, setIsCartedAnimation] = useState(false);
   const cartAnimationTimeoutRef = useRef(null);
+
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const colorParam = searchParams.get('color');
+    if (colorParam) {
+      const validColors = ['Black', 'Navy', 'Brown', 'Maroon', 'Khaki'];
+      const matched = validColors.find(c => c.toLowerCase() === colorParam.toLowerCase());
+      if (matched) {
+        setSelectedColor(matched);
+        setComboColor1(matched);
+        setActiveIndex(0);
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     recordTrafficVisit('retail');

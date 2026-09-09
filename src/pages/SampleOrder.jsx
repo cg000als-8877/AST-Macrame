@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Plus, Minus, X, ZoomIn, ZoomOut, RotateCcw, Info, Heart, ShoppingBag, AlignLeft, Layers, SlidersHorizontal, Ruler, Tag, Zap, Truck, ShieldCheck } from 'lucide-react';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
@@ -91,6 +91,21 @@ const SampleOrder = () => {
   const [lightboxImage, setLightboxImage] = useState(null);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
+
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const colorParam = searchParams.get('color');
+    if (colorParam) {
+      const validColors = ['Black', 'Navy', 'Brown', 'Maroon', 'Khaki'];
+      const matched = validColors.find(c => c.toLowerCase() === colorParam.toLowerCase());
+      if (matched) {
+        setSelectedColor(matched);
+        setActiveIndex(0);
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     document.title = "Sample Order | AST Handmade Macramé Belt - AST Macramé";
