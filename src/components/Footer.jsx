@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import paymentsImg from '../assets/payments.webp';
 
 const Footer = () => {
   const location = useLocation();
@@ -88,7 +89,7 @@ const Footer = () => {
           </p>
           <div className="w-full flex items-center justify-center px-4 sm:px-8">
             <img 
-              src="/payments.webp" 
+              src={paymentsImg} 
               alt="Accepted Payment Methods" 
               className="w-full h-auto object-contain max-w-5xl"
             />
