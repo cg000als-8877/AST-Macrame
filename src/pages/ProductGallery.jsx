@@ -259,10 +259,10 @@ const ProductGallery = () => {
 
       {/* Value Proposition & Wholesale Teaser */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-12 mt-12 sm:mt-16 text-center">
-        <div className="bg-white border border-stone/20 rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-sm">
+        <div className="bg-white border border-stone/20 rounded-2xl sm:rounded-3xl p-6 sm:p-10">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8 text-left">
             
-            <div className="flex items-start gap-3 p-3 rounded-xl bg-[#FAF8F5] border border-stone/15">
+            <div className="flex items-start gap-3 p-3 rounded-xl bg-[#FAF8F5]">
               <ShieldCheck className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
               <div>
                 <h4 className="text-xs sm:text-sm font-bold uppercase text-soft-black">Open-Box Inspection</h4>
@@ -272,7 +272,7 @@ const ProductGallery = () => {
               </div>
             </div>
 
-            <div className="flex items-start gap-3 p-3 rounded-xl bg-[#FAF8F5] border border-stone/15">
+            <div className="flex items-start gap-3 p-3 rounded-xl bg-[#FAF8F5]">
               <Sparkles className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
               <div>
                 <h4 className="text-xs sm:text-sm font-bold uppercase text-soft-black">Multi-Belt Discounts</h4>
@@ -282,7 +282,7 @@ const ProductGallery = () => {
               </div>
             </div>
 
-            <div className="flex items-start gap-3 p-3 rounded-xl bg-[#FAF8F5] border border-stone/15">
+            <div className="flex items-start gap-3 p-3 rounded-xl bg-[#FAF8F5]">
               <Truck className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
               <div>
                 <h4 className="text-xs sm:text-sm font-bold uppercase text-soft-black">Global Sample Export</h4>
