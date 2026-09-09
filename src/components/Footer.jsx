@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import paymentOptionsImg from '../assets/payment-options.png';
 
 const Footer = () => {
   const location = useLocation();
@@ -78,21 +77,25 @@ const Footer = () => {
                   </a>
                 </li>
               </ul>
-
-              <div className="mt-5 pt-1 w-full flex flex-col items-center lg:items-start">
-                <p className="text-[10px] text-cream/40 font-medium tracking-wider uppercase mb-2">Accepted Payments</p>
-                <img 
-                  src={paymentOptionsImg} 
-                  alt="Accepted Payment Methods" 
-                  className="h-auto max-h-14 w-full max-w-[340px] object-contain"
-                />
-              </div>
             </div>
-
           </div>
         </div>
         
-        <div className="mt-6 md:mt-0 pt-4 md:pt-6 border-t border-cream/10 flex flex-col items-center">
+        {/* Accepted Payment Options: Full width from left to right fitting screen with original aspect ratio */}
+        <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-cream/10 w-full flex flex-col items-center">
+          <p className="text-[10px] sm:text-xs text-cream/40 font-bold tracking-[0.2em] uppercase mb-3 sm:mb-4 text-center">
+            Accepted Payment Methods
+          </p>
+          <div className="w-full flex items-center justify-center px-4 sm:px-8">
+            <img 
+              src="/payments.webp" 
+              alt="Accepted Payment Methods" 
+              className="w-full h-auto object-contain max-w-5xl"
+            />
+          </div>
+        </div>
+
+        <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-cream/10 flex flex-col items-center">
           <p className="font-sans text-[11px] text-cream/40 tracking-widest text-center">
             © {new Date().getFullYear()} AST Handmade Macramé Belts. All Rights Reserved.
           </p>

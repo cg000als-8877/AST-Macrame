@@ -172,12 +172,6 @@ const ProductGallery = () => {
                     >
                       <Eye className="w-3.5 h-3.5" />
                     </button>
-
-                    {/* Subtle Color Tag */}
-                    <div className="absolute bottom-2 left-2 sm:bottom-2.5 sm:left-2.5 bg-black/60 backdrop-blur-md text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full border border-white/40" style={{ backgroundColor: item.hex }} />
-                      <span>{item.colorName}</span>
-                    </div>
                   </div>
 
                   {/* 2. Product Title */}

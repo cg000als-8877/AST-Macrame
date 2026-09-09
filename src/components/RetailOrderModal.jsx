@@ -13,7 +13,6 @@ import n1 from '../assets/products/Navy/1.webp';
 import br1 from '../assets/products/Brown/1.webp';
 import m1 from '../assets/products/Maroon/1.webp';
 import k1 from '../assets/products/Khaki/1.webp';
-import paymentOptionsImg from '../assets/payment-options.png';
 
 const colorImages = {
   Black: b1,
@@ -884,9 +883,9 @@ const RetailOrderModal = ({
                     {/* Payment Options Image */}
                     <div className="flex flex-col items-center justify-center pt-1 select-none">
                       <img 
-                        src={paymentOptionsImg} 
+                        src="/payments.webp" 
                         alt="Accepted Payment Options" 
-                        className="h-auto max-h-12 w-full max-w-[320px] object-contain"
+                        className="h-auto max-h-12 w-full object-contain"
                       />
                     </div>
 
@@ -1033,9 +1032,9 @@ const RetailOrderModal = ({
                     {/* Payment Options Image */}
                     <div className="flex flex-col items-center justify-center pt-1 select-none">
                       <img 
-                        src={paymentOptionsImg} 
+                        src="/payments.webp" 
                         alt="Accepted Payment Options" 
-                        className="h-auto max-h-14 w-full max-w-[360px] object-contain"
+                        className="h-auto max-h-14 w-full object-contain"
                       />
                     </div>
 
