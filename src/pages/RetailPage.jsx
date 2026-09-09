@@ -389,8 +389,8 @@ const RetailPage = () => {
                 For international orders, please visit our wholesale section or order a sample.
               </p>
               <Link 
-                to="/product"
-                className="inline-block w-full bg-soft-black text-cream px-6 py-3.5 md:py-4 font-bold uppercase tracking-widest text-[10px] md:text-xs rounded-none hover:bg-terracotta transition-all shadow-md"
+                to="/product" 
+                className="inline-block w-full bg-soft-black text-cream px-6 py-3.5 md:py-4 font-bold uppercase tracking-widest text-[10px] md:text-xs rounded-xl hover:bg-terracotta transition-all shadow-md"
               >
                 Return to Product Page
               </Link>
@@ -761,7 +761,7 @@ const RetailPage = () => {
                     type="button"
                     onClick={() => setIsOrderFormOpen(true)}
                     disabled={!isOrderReady}
-                    className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center bg-terracotta text-cream px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-2xl transition-all duration-300 shadow-md ${
+                    className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center bg-terracotta text-cream px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-xl transition-all duration-300 shadow-md ${
                       !isOrderReady 
                         ? 'opacity-50 cursor-not-allowed' 
                         : 'hover:bg-muted-burgundy hover:shadow-lg hover:shadow-terracotta/25 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] cursor-pointer'
@@ -777,7 +777,7 @@ const RetailPage = () => {
                     type="button"
                     onClick={handleAddToCartClick}
                     disabled={!isOrderReady}
-                    className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-2xl border transition-all duration-300 ${
+                    className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-xl border transition-all duration-300 ${
                       isCartedAnimation
                         ? 'border-emerald-600 bg-emerald-50 text-emerald-700 scale-[1.01] shadow-sm'
                         : 'bg-transparent border-soft-black text-soft-black hover:border-terracotta hover:text-cream hover:shadow-md hover:shadow-terracotta/20 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] cursor-pointer'
@@ -799,7 +799,7 @@ const RetailPage = () => {
                   href="https://wa.me/8801940689061"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative overflow-hidden group w-full h-[48px] md:h-[52px] flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-2xl hover:border-[#25D366] hover:text-white hover:shadow-md hover:shadow-[#25D366]/25 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
+                  className="relative overflow-hidden group w-full h-[48px] md:h-[52px] flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:border-[#25D366] hover:text-white hover:shadow-md hover:shadow-[#25D366]/25 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
                 >
                   <span className="absolute inset-0 bg-[#25D366] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
                   <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5 mr-2 md:mr-3 fill-current relative z-10 transition-transform duration-300 group-hover:scale-115 group-hover:rotate-12">
@@ -1506,7 +1506,7 @@ const RetailPage = () => {
               {/* Action Buttons: Order Now (Left) + Add to Cart Outline Icon (Right) */}
               <div className="flex items-center gap-2 shrink-0">
                 {/* Circling Stroke Light Beam Border: ORDER NOW */}
-                <div className="relative p-[1.5px] overflow-hidden rounded-full sm:rounded-none shadow-md shrink-0 group">
+                <div className="relative p-[1.5px] overflow-hidden rounded-xl shadow-md shrink-0 group">
                   <div 
                     className="absolute -top-[100%] -left-[100%] w-[300%] h-[300%] animate-border-beam pointer-events-none"
                     style={{
@@ -1515,7 +1515,7 @@ const RetailPage = () => {
                   />
                   <button
                     onClick={handleStickyOrderClick}
-                    className="relative z-10 bg-[#1C2841] hover:bg-[#131E33] text-white px-4 sm:px-6 py-2 sm:py-2.5 text-[11px] sm:text-xs md:text-sm font-bold uppercase tracking-[0.15em] rounded-full sm:rounded-none transition-all active:scale-[0.98] flex items-center gap-1.5 sm:gap-2 cursor-pointer"
+                    className="relative z-10 bg-[#1C2841] hover:bg-[#131E33] text-white px-4 sm:px-6 py-2 sm:py-2.5 text-[11px] sm:text-xs md:text-sm font-bold uppercase tracking-[0.15em] rounded-xl transition-all active:scale-[0.98] flex items-center gap-1.5 sm:gap-2 cursor-pointer"
                   >
                     <span className="font-bold tracking-widest whitespace-nowrap">ORDER NOW</span>
                     <ArrowUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-arrow-up" />
@@ -1526,7 +1526,7 @@ const RetailPage = () => {
                 <button
                   type="button"
                   onClick={handleAddToCartClick}
-                  className={`w-9 h-9 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center rounded-full sm:rounded-none border transition-all duration-200 cursor-pointer ${
+                  className={`w-9 h-9 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center rounded-xl border transition-all duration-200 cursor-pointer ${
                     isCartedAnimation
                       ? 'border-emerald-600 text-emerald-600 bg-transparent scale-105'
                       : 'bg-transparent border-soft-black text-soft-black hover:border-terracotta hover:text-terracotta active:scale-95'

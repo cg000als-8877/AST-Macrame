@@ -639,7 +639,7 @@ const Product = () => {
                     <button
                       type="button"
                       onClick={handleSetAllColorsMixPreset}
-                      className="px-2.5 py-1 rounded-full bg-terracotta/10 hover:bg-terracotta/20 text-terracotta border border-terracotta/30 text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                      className="px-2.5 py-1 rounded-xl bg-terracotta/10 hover:bg-terracotta/20 text-terracotta border border-terracotta/30 text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
                     >
                       🌈 1 of Each Color Mix
                     </button>
@@ -707,7 +707,7 @@ const Product = () => {
                 <button 
                   type="button"
                   onClick={() => setIsOrderFormOpen(true)}
-                  className="flex-1 flex items-center justify-center gap-2 bg-soft-black text-cream px-4 py-4 md:py-4.5 text-[11px] md:text-xs font-bold uppercase tracking-[0.16em] rounded-2xl hover:bg-dark-charcoal transition-all shadow-md active:scale-[0.99] cursor-pointer"
+                  className="flex-1 flex items-center justify-center gap-2 bg-soft-black text-cream px-4 py-4 md:py-4.5 text-[11px] md:text-xs font-bold uppercase tracking-[0.16em] rounded-xl hover:bg-dark-charcoal transition-all shadow-md active:scale-[0.99] cursor-pointer"
                 >
                   <span>Request Sample</span>
                   <span className="text-cream/40">•</span>
@@ -718,7 +718,7 @@ const Product = () => {
                 <button
                   type="button"
                   onClick={handleAddToCartClick}
-                  className="px-4 py-4 md:py-4.5 bg-white border border-stone/30 text-soft-black hover:border-soft-black hover:bg-stone/5 text-[11px] md:text-xs font-bold uppercase tracking-wider rounded-2xl transition-all shadow-2xs cursor-pointer flex items-center gap-1.5"
+                  className="px-4 py-4 md:py-4.5 bg-white border border-stone/30 text-soft-black hover:border-soft-black hover:bg-stone/5 text-[11px] md:text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-2xs cursor-pointer flex items-center gap-1.5"
                   title="Add to Cart"
                 >
                   <ShoppingBag className="w-4 h-4" />
@@ -729,7 +729,7 @@ const Product = () => {
                 <button
                   type="button"
                   onClick={handleToggleWishlistClick}
-                  className={`h-[52px] w-[52px] md:h-[54px] md:w-[54px] flex items-center justify-center rounded-2xl border transition-all duration-300 cursor-pointer shrink-0 ${
+                  className={`h-[52px] w-[52px] md:h-[54px] md:w-[54px] flex items-center justify-center rounded-xl border transition-all duration-300 cursor-pointer shrink-0 ${
                     isWishlisted
                       ? 'bg-rose-50 border-rose-300 text-rose-600 shadow-sm'
                       : 'bg-white border-stone/20 text-soft-black hover:border-soft-black/40 hover:text-rose-600 shadow-2xs'
@@ -747,7 +747,7 @@ const Product = () => {
               
               <Link 
                 to="/contact" 
-                className="w-full flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 py-3.5 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-2xl hover:bg-soft-black/5 transition-colors"
+                className="w-full flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 py-3.5 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-soft-black/5 transition-colors"
               >
                 Wholesale Inquiry
               </Link>

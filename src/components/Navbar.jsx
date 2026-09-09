@@ -27,6 +27,7 @@ const Navbar = () => {
   const isRetailPage = location.pathname === '/retail';
 
   const navLinks = [
+    { name: 'Products', path: '/products' },
     { name: 'Request a Sample', path: '/sample-order' },
     { name: 'Wholesale', path: '/sample-wholesale' },
     { name: 'Retail', path: '/retail' },
@@ -63,7 +64,7 @@ const Navbar = () => {
               
               <div className="flex justify-start items-center relative z-10">
                 {/* Desktop Wholesale Button */}
-                <Link to="/sample-wholesale" className="hidden sm:inline-flex text-[10px] sm:text-[11px] md:text-[13px] font-bold tracking-[0.1em] sm:tracking-widest uppercase text-white bg-soft-black hover:bg-white hover:text-soft-black hover:shadow-md border border-transparent hover:border-stone/20 active:scale-95 transition-all shadow-sm px-3 py-1.5 sm:px-4 sm:py-2 rounded-full">
+                <Link to="/sample-wholesale" className="hidden sm:inline-flex text-[10px] sm:text-[11px] md:text-[13px] font-bold tracking-[0.1em] sm:tracking-widest uppercase text-white bg-soft-black hover:bg-white hover:text-soft-black hover:shadow-md border border-transparent hover:border-stone/20 active:scale-95 transition-all shadow-sm px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl">
                   Wholesale
                 </Link>
                 {/* Mobile Hamburger */}

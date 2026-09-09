@@ -216,7 +216,7 @@ const Home = () => {
             >
               <Link 
                 to="/sample-order" 
-                className="bg-cream text-soft-black px-8 py-3.5 md:px-9 md:py-4 text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-warm-sand transition-all shadow-md hover:shadow-xl inline-block"
+                className="bg-cream text-soft-black px-8 py-3.5 md:px-9 md:py-4 text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-warm-sand transition-all shadow-md hover:shadow-xl inline-block"
               >
                 REQUEST A SAMPLE
               </Link>
@@ -479,7 +479,7 @@ const Home = () => {
 
               <Link 
                 to="/sample-order" 
-                className="bg-soft-black text-cream px-8 py-4 sm:py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-dark-charcoal transition-all text-center inline-flex items-center justify-center gap-2 group"
+                className="bg-soft-black text-cream px-8 py-4 sm:py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-dark-charcoal transition-all text-center inline-flex items-center justify-center gap-2 group"
               >
                 <span>VIEW PRODUCT DETAILS</span>
                 <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -817,7 +817,7 @@ const Home = () => {
               href="https://wa.me/8801940689061?text=Hi%20AST%20Macrame,%20I%20have%20a%20reference%20image%20/%20custom%20design%20idea%20to%20discuss."
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-dark-charcoal hover:text-white transition-all shadow-md hover:shadow-xl inline-flex items-center justify-center gap-2.5 group"
+              className="w-full sm:w-auto bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-dark-charcoal hover:text-white transition-all shadow-md hover:shadow-xl inline-flex items-center justify-center gap-2.5 group"
             >
               <MessageCircle className="w-4 h-4 transition-transform group-hover:scale-110" />
               <span>CHAT ON WHATSAPP</span>
@@ -825,7 +825,7 @@ const Home = () => {
             
             <a 
               href="mailto:astmacrame@gmail.com?subject=Custom%20Macrame%20Design%20/%20Reference%20Inquiry"
-              className="w-full sm:w-auto bg-transparent border border-soft-black/30 text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-soft-black hover:text-cream hover:border-soft-black transition-all inline-flex items-center justify-center gap-2.5 group"
+              className="w-full sm:w-auto bg-transparent border border-soft-black/30 text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-soft-black hover:text-cream hover:border-soft-black transition-all inline-flex items-center justify-center gap-2.5 group"
             >
               <Mail className="w-4 h-4 transition-transform group-hover:scale-110" />
               <span>SEND VIA EMAIL</span>
@@ -906,8 +906,8 @@ const Home = () => {
       </section>
 
       {/* HOME — SECTION 9: READY TO SOURCE? */}
-      <section className="py-20 md:py-32 bg-soft-black text-cream px-6 relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-terracotta/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="py-20 md:py-32 bg-[#131E33] text-cream px-6 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-warm-sand mb-2 sm:mb-3 block">
@@ -925,14 +925,14 @@ const Home = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link 
               to="/sample-order" 
-              className="w-full sm:w-auto bg-cream text-soft-black px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-warm-sand transition-all shadow-xl hover:shadow-2xl text-center"
+              className="w-full sm:w-auto bg-cream text-soft-black px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-warm-sand transition-all shadow-xl hover:shadow-2xl text-center"
             >
               REQUEST A SAMPLE
             </Link>
             
             <Link 
               to="/sample-wholesale" 
-              className="w-full sm:w-auto bg-transparent border border-cream/40 text-cream px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-cream/10 hover:border-cream transition-all text-center"
+              className="w-full sm:w-auto bg-transparent border border-cream/40 text-cream px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-cream/10 hover:border-cream transition-all text-center"
             >
               REQUEST A WHOLESALE QUOTE
             </Link>

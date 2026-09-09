@@ -18,33 +18,36 @@ const WishlistDrawer = () => {
 
   useEffect(() => {
     if (isWishlistOpen) {
+      const originalOverflow = document.body.style.overflow;
       document.body.classList.add('modal-open');
-    } else {
-      document.body.classList.remove('modal-open');
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = originalOverflow;
+      };
     }
-    return () => document.body.classList.remove('modal-open');
   }, [isWishlistOpen]);
 
   return (
     <AnimatePresence>
       {isWishlistOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end">
+        <div className="fixed inset-0 z-50 flex justify-end overflow-hidden overscroll-contain">
           {/* Overlay */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsWishlistOpen(false)}
-            className="absolute inset-0 bg-soft-black/50 backdrop-blur-xs"
+            className="absolute inset-0 bg-soft-black/50 backdrop-blur-xs overscroll-contain"
           />
 
-          {/* Drawer */}
+          {/* Drawer (Consumes 300% of 400% = 75% width on mobile) */}
           <motion.div
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-            className="relative w-full max-w-md bg-cream h-full shadow-2xl z-10 flex flex-col overflow-hidden"
+            className="relative w-[75vw] sm:w-full sm:max-w-md bg-cream h-[100dvh] shadow-2xl z-10 flex flex-col overflow-hidden overscroll-contain"
           >
             {/* Header */}
             <div className="px-5 py-4 bg-cream border-b border-stone/15 flex items-center justify-between shadow-2xs">
@@ -83,7 +86,7 @@ const WishlistDrawer = () => {
                   <Link
                     to="/product"
                     onClick={() => setIsWishlistOpen(false)}
-                    className="inline-flex items-center gap-2 bg-soft-black text-cream px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-dark-charcoal transition-colors shadow-sm"
+                    className="inline-flex items-center gap-2 bg-soft-black text-cream px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-dark-charcoal transition-colors shadow-sm"
                   >
                     <span>Browse Belts</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -127,7 +130,7 @@ const WishlistDrawer = () => {
                         <button
                           type="button"
                           onClick={() => moveToCartFromWishlist(item)}
-                          className="flex items-center gap-1 bg-soft-black hover:bg-terracotta text-cream px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors shadow-2xs cursor-pointer"
+                          className="flex items-center gap-1 bg-soft-black hover:bg-terracotta text-cream px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors shadow-2xs cursor-pointer"
                           title="Move to Cart"
                         >
                           <ShoppingBag className="w-3 h-3" />

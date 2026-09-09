@@ -1,14 +1,37 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Sparkles, ShoppingCart, Building2, Store } from 'lucide-react';
+import { Home, ShoppingCart, Building2, Store } from 'lucide-react';
 import { useCartWishlist } from '../context/CartWishlistContext';
+
+const BeltIcon = ({ className = "w-4 h-4" }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+    {/* Buckle Frame */}
+    <rect x="2.5" y="6" width="7" height="12" rx="2" />
+    {/* Buckle Prong */}
+    <line x1="2.5" y1="12" x2="8" y2="12" />
+    {/* Keeper Loop */}
+    <line x1="12.5" y1="6.5" x2="12.5" y2="17.5" />
+    {/* Strap */}
+    <path d="M9.5 8h11a1.5 1.5 0 0 1 1.5 1.5v5a1.5 1.5 0 0 1-1.5 1.5h-11" />
+    {/* Eyelet Hole */}
+    <circle cx="17.5" cy="12" r="0.8" fill="currentColor" />
+  </svg>
+);
 
 const BottomNav = () => {
   const location = useLocation();
   const { totalCartQuantity, setIsCartOpen } = useCartWishlist();
 
   const isHomeActive = location.pathname === '/';
-  const isSampleActive = ['/sample-order', '/sample', '/samples', '/product'].includes(location.pathname);
+  const isProductsActive = ['/products', '/gallery', '/collection', '/all-products'].includes(location.pathname);
   const isWholesaleActive = ['/sample-wholesale', '/wholesale', '/production', '/b2b'].includes(location.pathname);
   const isRetailActive = ['/retail'].includes(location.pathname);
 
@@ -59,14 +82,14 @@ const BottomNav = () => {
             </span>
           </Link>
 
-          {/* 2. SAMPLE */}
+          {/* 2. PRODUCTS (Leading to Universal Product Gallery) */}
           <Link
-            to="/sample-order"
+            to="/products"
             className="flex flex-col items-center justify-center h-full group active:scale-95 transition-transform"
           >
-            <Sparkles className={`w-4 h-4 mb-0.5 stroke-[2] transition-colors ${isSampleActive ? 'text-[#c3b091]' : 'text-white/75 group-hover:text-white'}`} />
-            <span className={`text-[8px] uppercase font-bold tracking-wider leading-none transition-colors ${isSampleActive ? 'text-[#c3b091]' : 'text-white/75 group-hover:text-white'}`}>
-              SAMPLE
+            <BeltIcon className={`w-4 h-4 mb-0.5 transition-colors ${isProductsActive ? 'text-[#c3b091]' : 'text-white/75 group-hover:text-white'}`} />
+            <span className={`text-[8px] uppercase font-bold tracking-wider leading-none transition-colors ${isProductsActive ? 'text-[#c3b091]' : 'text-white/75 group-hover:text-white'}`}>
+              PRODUCTS
             </span>
           </Link>
 

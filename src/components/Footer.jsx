@@ -1,10 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import paymentOptionsImg from '../assets/payment-options.png';
 
 const Footer = () => {
+  const location = useLocation();
+  const isSeamlessPage = location.pathname === '/' || location.pathname === '/sample-wholesale';
+
   return (
-    <footer className="bg-soft-black text-cream pt-16 pb-28 sm:pb-8 border-t border-cream/15">
+    <footer className={`bg-[#131E33] text-cream pt-16 pb-28 sm:pb-8 ${isSeamlessPage ? 'border-t border-white/15 sm:border-t-0' : 'border-t border-white/15'}`}>
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex flex-col lg:grid lg:grid-cols-4 lg:gap-12 mb-0 md:mb-12 gap-6">
           
@@ -35,6 +38,7 @@ const Footer = () => {
             <div className="flex flex-col items-center text-center border-r border-cream/10 px-2 lg:border-none lg:px-0 lg:items-start lg:text-left">
               <h4 className="font-sans text-[10px] md:text-xs font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Services</h4>
               <ul className="flex flex-col space-y-2 md:space-y-3 items-center lg:items-start">
+                <li><Link to="/products" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Products Gallery</Link></li>
                 <li><Link to="/retail" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Retail</Link></li>
                 <li><Link to="/sample-order" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Sample Order</Link></li>
                 <li><Link to="/sample-wholesale" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Wholesale<span className="hidden lg:inline"> Inquiry</span></Link></li>

@@ -136,7 +136,7 @@ const InquiryModal = ({ isOpen, onClose, formType, orderDetails }) => {
                 <p className="text-sm md:text-base text-dark-charcoal/70">
                   Your {formType === 'sample' ? 'sample order' : 'wholesale quotation'} request has been successfully submitted.<br />Our Export Sales Manager will contact you within 24 hours.
                 </p>
-                <button onClick={onClose} className="mt-8 bg-terracotta text-cream px-10 py-3 text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-muted-burgundy transition-colors shadow-lg">
+                <button onClick={onClose} className="mt-8 bg-terracotta text-cream px-10 py-3 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-muted-burgundy transition-colors shadow-lg">
                   Close Window
                 </button>
               </div>
@@ -261,7 +261,7 @@ const InquiryModal = ({ isOpen, onClose, formType, orderDetails }) => {
                   </div>
                   
                   <div className="pt-2 md:pt-4 text-center">
-                    <button type="submit" disabled={isSubmitting} className="bg-terracotta text-cream px-10 md:px-12 py-3 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-muted-burgundy transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
+                    <button type="submit" disabled={isSubmitting} className="bg-terracotta text-cream px-10 md:px-12 py-3 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-muted-burgundy transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
                       {isSubmitting ? 'Sending...' : (formType === 'sample' ? 'Request a Sample' : 'Request Quote')}
                     </button>
                   </div>

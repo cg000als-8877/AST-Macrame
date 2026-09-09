@@ -707,7 +707,7 @@ const RetailOrderModal = ({
                   <button 
                     onClick={handleDownloadReceipt}
                     disabled={isDownloading}
-                    className="w-full bg-[#1C2841] text-white hover:bg-black px-8 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-full transition-all shadow-xl cursor-pointer flex items-center justify-center gap-2.5 active:scale-95 disabled:opacity-75"
+                    className="w-full bg-[#1C2841] text-white hover:bg-black px-8 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl transition-all shadow-xl cursor-pointer flex items-center justify-center gap-2.5 active:scale-95 disabled:opacity-75"
                   >
                     {downloadSuccess ? (
                       <>
@@ -872,7 +872,7 @@ const RetailOrderModal = ({
                     <button 
                       type="submit" 
                       disabled={isSubmitting} 
-                      className="w-full bg-black text-white px-2 sm:px-4 py-3.5 text-[10.5px] min-[360px]:text-[11.5px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider rounded-full hover:bg-neutral-800 transition-colors shadow-lg active:scale-[0.99] disabled:opacity-75 disabled:cursor-wait whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 cursor-pointer"
+                      className="w-full bg-black text-white px-2 sm:px-4 py-3.5 text-[10.5px] min-[360px]:text-[11.5px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider rounded-xl hover:bg-neutral-800 transition-colors shadow-lg active:scale-[0.99] disabled:opacity-75 disabled:cursor-wait whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 cursor-pointer"
                     >
                       {isSubmitting ? (
                         'Processing...'
@@ -1021,7 +1021,7 @@ const RetailOrderModal = ({
                     <button 
                       type="submit" 
                       disabled={isSubmitting} 
-                      className="w-full bg-black text-white px-4 py-4 text-xs lg:text-sm font-bold uppercase tracking-wider rounded-full hover:bg-neutral-800 transition-colors shadow-lg active:scale-[0.99] disabled:opacity-75 disabled:cursor-wait whitespace-nowrap flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="w-full bg-black text-white px-4 py-4 text-xs lg:text-sm font-bold uppercase tracking-wider rounded-xl hover:bg-neutral-800 transition-colors shadow-lg active:scale-[0.99] disabled:opacity-75 disabled:cursor-wait whitespace-nowrap flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       {isSubmitting ? (
                         'Processing...'

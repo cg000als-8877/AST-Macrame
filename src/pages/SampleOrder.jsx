@@ -558,7 +558,7 @@ const SampleOrder = () => {
                 <button 
                   type="button"
                   onClick={handleAddToCart}
-                  className="flex-1 flex items-center justify-center gap-2.5 bg-soft-black text-cream px-6 py-4 md:py-4.5 text-xs font-bold uppercase tracking-[0.18em] rounded-2xl hover:bg-dark-charcoal transition-all shadow-md active:scale-[0.99] cursor-pointer group"
+                  className="flex-1 flex items-center justify-center gap-2.5 bg-soft-black text-cream px-6 py-4 md:py-4.5 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-dark-charcoal transition-all shadow-md active:scale-[0.99] cursor-pointer group"
                 >
                   <ShoppingBag className="w-4 h-4 text-cream transition-transform group-hover:scale-110" />
                   <span>ADD TO CART</span>
@@ -570,7 +570,7 @@ const SampleOrder = () => {
                 <button
                   type="button"
                   onClick={handleToggleWishlistClick}
-                  className={`h-[52px] w-[52px] md:h-[54px] md:w-[54px] flex items-center justify-center rounded-2xl border transition-all duration-300 cursor-pointer shrink-0 ${
+                  className={`h-[52px] w-[52px] md:h-[54px] md:w-[54px] flex items-center justify-center rounded-xl border transition-all duration-300 cursor-pointer shrink-0 ${
                     isWishlisted
                       ? 'bg-rose-50 border-rose-300 text-rose-600 shadow-sm'
                       : 'bg-white border-stone/20 text-soft-black hover:border-soft-black/40 hover:text-rose-600 shadow-2xs'
@@ -588,7 +588,7 @@ const SampleOrder = () => {
               
               <Link 
                 to="/sample-wholesale" 
-                className="w-full flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 py-3.5 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-2xl hover:bg-soft-black/5 transition-colors text-center"
+                className="w-full flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 py-3.5 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-soft-black/5 transition-colors text-center"
               >
                 Wholesale Inquiry
               </Link>
@@ -803,7 +803,7 @@ const SampleOrder = () => {
                   <div>
                     <span className="text-xs font-bold text-soft-black uppercase tracking-wider block">Tiered Sample Pricing</span>
                     <p className="text-xs text-dark-charcoal/80 leading-relaxed mt-0.5">
-                      1 pc ৳850 • 2 pcs ৳1,490 (Save ৳210) • 3 pcs ৳2,090 • 5 pcs ৳3,150. Volume savings apply automatically.
+                      1 pc {currencySymbol}{Math.round(850 * (exchangeRate || 1)).toLocaleString()} • 2 pcs {currencySymbol}{Math.round(1490 * (exchangeRate || 1)).toLocaleString()} (Save {currencySymbol}{Math.round(210 * (exchangeRate || 1)).toLocaleString()}) • 3 pcs {currencySymbol}{Math.round(2090 * (exchangeRate || 1)).toLocaleString()} • 5 pcs {currencySymbol}{Math.round(3150 * (exchangeRate || 1)).toLocaleString()}. Volume savings apply automatically.
                     </p>
                   </div>
                 </div>

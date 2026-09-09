@@ -126,7 +126,25 @@ export const CartWishlistProvider = ({ children }) => {
         const continentCode = ipData.continent_code || 'NA';
         const callingCode = ipData.country_calling_code || '+1';
         
-        const symbolMap = { 'USD': '$', 'EUR': '€', 'GBP': '£', 'BDT': '৳', 'CAD': 'C$', 'AUD': 'A$' };
+        const symbolMap = { 
+          'USD': '$', 
+          'EUR': '€', 
+          'GBP': '£', 
+          'BDT': '৳', 
+          'CAD': 'CA$', 
+          'AUD': 'AU$', 
+          'AED': 'AED ', 
+          'SAR': 'SAR ', 
+          'QAR': 'QAR ', 
+          'KWD': 'KWD ', 
+          'BHD': 'BHD ', 
+          'OMR': 'OMR ', 
+          'INR': '₹', 
+          'SGD': 'S$', 
+          'MYR': 'RM ', 
+          'JPY': '¥', 
+          'CNY': '¥' 
+        };
         const symbol = symbolMap[currencyCode] || currencyCode + ' ';
         
         if (!isMounted) return;

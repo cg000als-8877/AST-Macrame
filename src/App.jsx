@@ -20,6 +20,7 @@ import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import Refund from './pages/Refund';
 import FAQ from './pages/FAQ';
+import ProductGallery from './pages/ProductGallery';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -87,6 +88,13 @@ const AnimatedRoutes = () => {
 
         <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
         <Route path="/retail" element={<PageWrapper><RetailPage /></PageWrapper>} />
+        
+        {/* Universal Product Gallery Page */}
+        <Route path="/products" element={<PageWrapper><ProductGallery /></PageWrapper>} />
+        <Route path="/gallery" element={<PageWrapper><ProductGallery /></PageWrapper>} />
+        <Route path="/collection" element={<PageWrapper><ProductGallery /></PageWrapper>} />
+        <Route path="/all-products" element={<PageWrapper><ProductGallery /></PageWrapper>} />
+
         <Route path="/faq" element={<PageWrapper><FAQ /></PageWrapper>} />
         <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
         <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
