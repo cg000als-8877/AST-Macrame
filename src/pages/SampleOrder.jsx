@@ -414,14 +414,9 @@ const SampleOrder = () => {
                   {currencySymbol}{Math.round(totalPriceLocal).toLocaleString()}
                 </span>
                 {quantity > 1 && (
-                  <>
-                    <span className="text-sm md:text-base line-through text-dark-charcoal/40 font-sans">
-                      {currencySymbol}{Math.round(regularPriceLocal).toLocaleString()}
-                    </span>
-                    <span className="text-xs md:text-sm font-semibold text-white bg-emerald-700 px-2.5 py-0.5 rounded-md shadow-xs">
-                      {currencySymbol}{Math.round(unitPriceLocal).toLocaleString()}/pc
-                    </span>
-                  </>
+                  <span className="text-sm md:text-base line-through text-dark-charcoal/40 font-sans">
+                    {currencySymbol}{Math.round(regularPriceLocal).toLocaleString()}
+                  </span>
                 )}
 
                 {nextTierInfo ? (

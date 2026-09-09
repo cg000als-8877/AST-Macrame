@@ -19,7 +19,7 @@ const Footer = () => {
                 className="h-10 w-auto object-contain opacity-90"
               />
             </Link>
-            <p className="font-sans font-light text-cream/60 text-[11px] md:text-xs leading-relaxed max-w-xs border-l border-cream/20 pl-4 lg:border-none lg:pl-0">
+            <p className="font-sans font-light text-cream/60 text-[12.5px] md:text-[13.5px] leading-relaxed max-w-xs border-l border-cream/20 pl-4 lg:border-none lg:pl-0">
               Premium handmade macramé belt manufacturer based in Chattogram, Bangladesh. We craft for the world's most demanding boutique labels.
             </p>
           </div>
@@ -27,35 +27,35 @@ const Footer = () => {
           <div className="grid grid-cols-3 gap-x-2 gap-y-10 lg:grid-cols-4 lg:gap-8 lg:col-span-3">
             
             <div className="flex flex-col items-center text-center border-r border-cream/10 pr-2 lg:border-none lg:pr-0 lg:items-start lg:text-left">
-              <h4 className="font-sans text-[10px] md:text-xs font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Company</h4>
+              <h4 className="font-sans text-[11.5px] md:text-[13.5px] font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Company</h4>
               <ul className="flex flex-col space-y-2 md:space-y-3 items-center lg:items-start">
-                <li><Link to="/about" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Our Story</Link></li>
-                <li><Link to="/faq" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">FAQs</Link></li>
-                <li><Link to="/contact" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Contact</Link></li>
+                <li><Link to="/about" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Our Story</Link></li>
+                <li><Link to="/faq" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">FAQs</Link></li>
+                <li><Link to="/contact" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Contact</Link></li>
               </ul>
             </div>
             
             <div className="flex flex-col items-center text-center border-r border-cream/10 px-2 lg:border-none lg:px-0 lg:items-start lg:text-left">
-              <h4 className="font-sans text-[10px] md:text-xs font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Services</h4>
+              <h4 className="font-sans text-[11.5px] md:text-[13.5px] font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Services</h4>
               <ul className="flex flex-col space-y-2 md:space-y-3 items-center lg:items-start">
-                <li><Link to="/products" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Products Gallery</Link></li>
-                <li><Link to="/retail" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Retail</Link></li>
-                <li><Link to="/sample-order" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Sample Order</Link></li>
-                <li><Link to="/sample-wholesale" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Wholesale<span className="hidden lg:inline"> Inquiry</span></Link></li>
+                <li><Link to="/products" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Products Gallery</Link></li>
+                <li><Link to="/retail" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Retail</Link></li>
+                <li><Link to="/sample-order" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Sample Order</Link></li>
+                <li><Link to="/sample-wholesale" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Wholesale<span className="hidden lg:inline"> Inquiry</span></Link></li>
               </ul>
             </div>
 
             <div className="flex flex-col items-center text-center pl-2 lg:pl-0 lg:items-start lg:text-left">
-              <h4 className="font-sans text-[10px] md:text-xs font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Legal</h4>
+              <h4 className="font-sans text-[11.5px] md:text-[13.5px] font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Legal</h4>
               <ul className="flex flex-col space-y-2 md:space-y-3 items-center lg:items-start">
-                <li><Link to="/terms" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Terms<span className="hidden lg:inline"> & Conditions</span></Link></li>
-                <li><Link to="/privacy" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Privacy<span className="hidden lg:inline"> Policy</span></Link></li>
-                <li><Link to="/refund" className="font-sans text-[11px] md:text-[13px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Refund<span className="hidden lg:inline"> Policy</span></Link></li>
+                <li><Link to="/terms" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Terms<span className="hidden lg:inline"> & Conditions</span></Link></li>
+                <li><Link to="/privacy" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Privacy<span className="hidden lg:inline"> Policy</span></Link></li>
+                <li><Link to="/refund" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Refund<span className="hidden lg:inline"> Policy</span></Link></li>
               </ul>
             </div>
             
             <div className="col-span-3 lg:col-span-1 flex flex-col items-center text-center mt-2 lg:mt-0 pt-6 lg:pt-0 border-t border-cream/10 lg:border-none lg:items-start lg:text-left">
-              <h4 className="font-sans text-[11px] md:text-xs font-bold tracking-[0.2em] uppercase mb-4 text-cream/40">Connect</h4>
+              <h4 className="font-sans text-[11.5px] md:text-[13.5px] font-bold tracking-[0.2em] uppercase mb-4 text-cream/40">Connect</h4>
               <ul className="flex justify-center lg:justify-start gap-4">
                 <li>
                   <a href="mailto:astmacrame@gmail.com" className="w-10 h-10 flex items-center justify-center rounded-full border border-cream/20 text-cream/80 hover:bg-cream/10 hover:text-white transition-all" aria-label="Mail">
@@ -84,7 +84,7 @@ const Footer = () => {
         
         {/* Accepted Payment Options: Well-proportioned compact banner */}
         <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-cream/10 w-full flex flex-col items-center">
-          <p className="text-[10px] sm:text-xs text-cream/40 font-bold tracking-[0.2em] uppercase mb-2.5 sm:mb-3 text-center">
+          <p className="text-[11.5px] sm:text-[13.5px] text-cream/40 font-bold tracking-[0.2em] uppercase mb-2.5 sm:mb-3 text-center">
             Accepted Payment Methods
           </p>
           <div className="w-full flex items-center justify-center px-4">
@@ -97,7 +97,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-cream/10 flex flex-col items-center">
-          <p className="font-sans text-[11px] text-cream/40 tracking-widest text-center">
+          <p className="font-sans text-[12.5px] md:text-[13px] text-cream/40 tracking-widest text-center">
             © {new Date().getFullYear()} AST Handmade Macramé Belts. All Rights Reserved.
           </p>
         </div>
