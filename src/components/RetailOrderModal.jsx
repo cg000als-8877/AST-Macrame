@@ -21,11 +21,18 @@ const colorImages = {
   Brown: br1,
   Maroon: m1,
   Khaki: k1,
+  'Lime Rush': '/AST Macrame Kids/Neon Green/1.webp',
+  'Red Blaze': '/AST Macrame Kids/Red/1.webp',
+  'Shadow Black': '/AST Macrame Kids/Black/1.webp',
+  'Ocean Navy': '/AST Macrame Kids/Navy/1.webp',
+  'Neon Green': '/AST Macrame Kids/Neon Green/1.webp',
+  Red: '/AST Macrame Kids/Red/1.webp',
 };
 
 const RetailOrderModal = ({ 
   isOpen, 
   onClose, 
+  productTitle = 'AST Handmade Macramé Belt',
   orderType = 'single', 
   selectedColor = 'Black', 
   selectedSize = 'M', 
@@ -358,10 +365,10 @@ const RetailOrderModal = ({
           };
         })
       : (orderType === 'combo' ? [
-          { name: 'AST Handmade Macramé Belt (1)', color: comboColor1, size: comboSize1, quantity: 1, price: 745 },
-          { name: 'AST Handmade Macramé Belt (2)', color: comboColor2, size: comboSize2, quantity: 1, price: 745 }
+          { name: `${productTitle} (1)`, color: comboColor1, size: comboSize1, quantity: 1, price: Math.round(productCostAmount / 2) },
+          { name: `${productTitle} (2)`, color: comboColor2, size: comboSize2, quantity: 1, price: Math.round(productCostAmount / 2) }
         ] : [
-          { name: 'AST Handmade Macramé Belt', color: selectedColor, size: selectedSize, quantity: 1, price: productCostAmount }
+          { name: productTitle, color: selectedColor, size: selectedSize, quantity: 1, price: productCostAmount }
         ]);
 
     const receiptPayload = {

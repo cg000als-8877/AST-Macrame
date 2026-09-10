@@ -32,7 +32,6 @@ const Navbar = () => {
     { name: 'Products', path: '/products' },
     { name: 'Sample Order', path: '/sample-order' },
     { name: 'Wholesale', path: '/sample-wholesale' },
-    { name: 'Retail', path: '/retail' },
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' }
   ];
@@ -156,28 +155,23 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Navigation Links */}
+          {/* Navigation Links with Neumorphic Active Button */}
           <div className="flex items-center justify-center">
-            <nav className="flex items-center space-x-3 md:space-x-5 lg:space-x-7 text-soft-black">
-              {desktopNavLinks.map((link, index) => {
+            <nav className="flex items-center gap-1 sm:gap-1.5 md:gap-2 lg:gap-2.5 text-soft-black">
+              {desktopNavLinks.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (
-                  <React.Fragment key={link.name}>
-                    <Link 
-                      to={link.path}
-                      className={`relative py-1 text-[11px] md:text-xs lg:text-[13px] font-bold tracking-wider uppercase active:scale-90 transition-colors whitespace-nowrap ${
-                        isActive ? 'text-terracotta' : 'hover:text-terracotta text-soft-black/90'
-                      }`}
-                    >
-                      {link.name}
-                      {isActive && (
-                        <span className="absolute -bottom-0.5 left-0 w-full h-[2px] bg-terracotta rounded-full"></span>
-                      )}
-                    </Link>
-                    {index < desktopNavLinks.length - 1 && (
-                      <div className="w-[1px] h-3 bg-soft-black/15 shrink-0"></div>
-                    )}
-                  </React.Fragment>
+                  <Link 
+                    key={link.name}
+                    to={link.path}
+                    className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-[11px] md:text-xs lg:text-[12.5px] font-bold tracking-wider uppercase transition-all duration-200 whitespace-nowrap rounded-full ${
+                      isActive 
+                        ? 'text-terracotta bg-[#FAF7F2] shadow-[2px_3px_8px_rgba(0,0,0,0.1),-2px_-2px_6px_rgba(255,255,255,0.95)] border border-white/90 scale-[1.02]' 
+                        : 'text-soft-black/80 hover:text-soft-black hover:bg-black/[0.03] active:scale-95'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
                 );
               })}
             </nav>

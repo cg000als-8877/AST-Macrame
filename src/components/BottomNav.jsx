@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, ShoppingCart, Building2, Store } from 'lucide-react';
+import { Home, ShoppingCart, Building2, Phone } from 'lucide-react';
 import { useCartWishlist } from '../context/CartWishlistContext';
 
 const BeltIcon = ({ className = "w-4 h-4" }) => (
@@ -53,7 +53,7 @@ const BottomNav = () => {
   const isHomeActive = location.pathname === '/';
   const isProductsActive = ['/products', '/gallery', '/collection', '/all-products'].includes(location.pathname);
   const isWholesaleActive = ['/sample-wholesale', '/wholesale', '/production', '/b2b'].includes(location.pathname);
-  const isRetailActive = ['/retail'].includes(location.pathname);
+  const isContactActive = ['/contact', '/support'].includes(location.pathname);
 
   // Dynamic colors based on footer visibility
   const navBgFill = isOverFooter ? '#FFFFFF' : '#131E33';
@@ -152,14 +152,14 @@ const BottomNav = () => {
             </span>
           </Link>
 
-          {/* 5. RETAIL */}
+          {/* 5. CONTACT */}
           <Link
-            to="/retail"
+            to="/contact"
             className="flex flex-col items-center justify-center h-full group active:scale-95 transition-transform"
           >
-            <Store className={`w-4 h-4 mb-0.5 stroke-[2] transition-all duration-300 ${isRetailActive ? iconActiveClass : iconInactiveClass}`} />
-            <span className={`text-[8px] uppercase tracking-wider leading-none transition-all duration-300 ${isRetailActive ? textActiveClass : textInactiveClass}`}>
-              RETAIL
+            <Phone className={`w-4 h-4 mb-0.5 stroke-[2] transition-all duration-300 ${isContactActive ? iconActiveClass : iconInactiveClass}`} />
+            <span className={`text-[8px] uppercase tracking-wider leading-none transition-all duration-300 ${isContactActive ? textActiveClass : textInactiveClass}`}>
+              CONTACT
             </span>
           </Link>
 

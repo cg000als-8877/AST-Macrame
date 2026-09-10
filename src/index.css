@@ -209,3 +209,11 @@ body.modal-open .mobile-navbar-logo {
     font-size: 0.8125rem !important; /* 13px table cells */
   }
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

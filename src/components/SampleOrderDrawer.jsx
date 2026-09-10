@@ -16,6 +16,12 @@ const colorImages = {
   Brown: br1,
   Maroon: m1,
   Khaki: k1,
+  'Lime Rush': '/AST Macrame Kids/Neon Green/1.webp',
+  'Red Blaze': '/AST Macrame Kids/Red/1.webp',
+  'Shadow Black': '/AST Macrame Kids/Black/1.webp',
+  'Ocean Navy': '/AST Macrame Kids/Navy/1.webp',
+  'Neon Green': '/AST Macrame Kids/Neon Green/1.webp',
+  Red: '/AST Macrame Kids/Red/1.webp',
 };
 
 const getFlagEmoji = (countryCode) => {

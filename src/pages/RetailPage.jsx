@@ -7,6 +7,7 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { useStoreConfig } from '../context/StoreConfigContext';
 import { useCartWishlist } from '../context/CartWishlistContext';
 import { recordTrafficVisit } from '../services/storeService';
+import { PRODUCTS, getProductById } from '../data/products';
 
 import b1 from '../assets/products/Black/1.webp';
 import b2 from '../assets/products/Black/2.webp';
@@ -73,14 +74,25 @@ const Accordion = ({ title, isOpen, onClick, children }) => (
 );
 
 const RetailPage = () => {
-  const [selectedColor, setSelectedColor] = useState('Black');
-  const [selectedSize, setSelectedSize] = useState('M');
+  const [searchParams] = useSearchParams();
+  
+  const productParam = searchParams.get('product');
+  const [activeProductId, setActiveProductId] = useState(() => {
+    return (productParam && PRODUCTS[productParam.toLowerCase()]) ? productParam.toLowerCase() : 'adult';
+  });
+
+  const activeProduct = PRODUCTS[activeProductId] || PRODUCTS.adult;
+  const colors = activeProduct.colors;
+  const defaultSizeForProduct = activeProduct.defaultSize || activeProduct.sizes[0] || 'One Size';
+
+  const [selectedColor, setSelectedColor] = useState(activeProduct.colors[0].name);
+  const [selectedSize, setSelectedSize] = useState(defaultSizeForProduct);
   const [activeIndex, setActiveIndex] = useState(0);
   const [orderType, setOrderType] = useState('single');
-  const [comboColor1, setComboColor1] = useState('Black');
-  const [comboColor2, setComboColor2] = useState('Black');
-  const [comboSize1, setComboSize1] = useState('M');
-  const [comboSize2, setComboSize2] = useState('M');
+  const [comboColor1, setComboColor1] = useState(activeProduct.colors[0].name);
+  const [comboColor2, setComboColor2] = useState(activeProduct.colors[1]?.name || activeProduct.colors[0].name);
+  const [comboSize1, setComboSize1] = useState(defaultSizeForProduct);
+  const [comboSize2, setComboSize2] = useState(defaultSizeForProduct);
   const [openAccordions, setOpenAccordions] = useState({
     description: true,
     materials: false,
@@ -106,21 +118,62 @@ const RetailPage = () => {
   const [isCartedAnimation, setIsCartedAnimation] = useState(false);
   const cartAnimationTimeoutRef = useRef(null);
 
-  const [searchParams] = useSearchParams();
-
   useEffect(() => {
+    const prodParam = searchParams.get('product');
     const colorParam = searchParams.get('color');
-    if (colorParam) {
-      const validColors = ['Black', 'Navy', 'Brown', 'Maroon', 'Khaki'];
-      const matched = validColors.find(c => c.toLowerCase() === colorParam.toLowerCase());
-      if (matched) {
-        setSelectedColor(matched);
-        setComboColor1(matched);
-        setActiveIndex(0);
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      }
+
+    let currentProdId = activeProductId;
+    if (prodParam && PRODUCTS[prodParam.toLowerCase()]) {
+      currentProdId = prodParam.toLowerCase();
+      setActiveProductId(currentProdId);
     }
+
+    const currentProd = PRODUCTS[currentProdId] || PRODUCTS.adult;
+    const defSize = currentProd.defaultSize || currentProd.sizes[0] || 'One Size';
+
+    if (colorParam) {
+      const matched = currentProd.colors.find(c => c.name.toLowerCase() === colorParam.toLowerCase());
+      if (matched) {
+        setSelectedColor(matched.name);
+        setComboColor1(matched.name);
+        setComboColor2(currentProd.colors[1]?.name || matched.name);
+      } else {
+        setSelectedColor(currentProd.colors[0].name);
+        setComboColor1(currentProd.colors[0].name);
+        setComboColor2(currentProd.colors[1]?.name || currentProd.colors[0].name);
+      }
+    } else {
+      setSelectedColor(currentProd.colors[0].name);
+      setComboColor1(currentProd.colors[0].name);
+      setComboColor2(currentProd.colors[1]?.name || currentProd.colors[0].name);
+    }
+
+    setSelectedSize(defSize);
+    setComboSize1(defSize);
+    setComboSize2(defSize);
+    setActiveIndex(0);
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }, [searchParams]);
+
+  const currentSinglePrice = activeProductId === 'adult' 
+    ? (storeConfig?.singlePrice ?? activeProduct.singlePriceBDT) 
+    : activeProduct.singlePriceBDT;
+
+  const currentSingleRegularPrice = activeProductId === 'adult' 
+    ? (storeConfig?.singleRegularPrice ?? activeProduct.singleRegularPriceBDT) 
+    : activeProduct.singleRegularPriceBDT;
+
+  const currentComboPrice = activeProductId === 'adult' 
+    ? (storeConfig?.comboPrice ?? activeProduct.comboPriceBDT) 
+    : activeProduct.comboPriceBDT;
+
+  const currentComboRegularPrice = activeProductId === 'adult' 
+    ? (storeConfig?.comboRegularPrice ?? activeProduct.comboRegularPriceBDT) 
+    : activeProduct.comboRegularPriceBDT;
+
+  const currentPrice = orderType === 'single' ? currentSinglePrice : currentComboPrice;
+  const currentRegularPrice = orderType === 'single' ? currentSingleRegularPrice : currentComboRegularPrice;
+  const currentSavings = Math.max(0, currentRegularPrice - currentPrice);
 
   useEffect(() => {
     recordTrafficVisit('retail');
@@ -158,12 +211,13 @@ const RetailPage = () => {
         return;
       }
       addToCart({
-        id: `retail-single-${selectedColor}-${selectedSize}`,
-        title: 'AST Handmade Macramé Belt',
+        id: `retail-single-${activeProductId}-${selectedColor}-${selectedSize}`,
+        productId: activeProductId,
+        title: activeProduct.title,
         color: selectedColor,
         size: selectedSize,
-        priceBDT: storeConfig?.singlePrice ?? 850,
-        regularPriceBDT: storeConfig?.singleRegularPrice ?? 1050,
+        priceBDT: currentSinglePrice,
+        regularPriceBDT: currentSingleRegularPrice,
         isRetail: true,
         orderType: 'single'
       }, 1);
@@ -177,16 +231,17 @@ const RetailPage = () => {
         return;
       }
       addToCart({
-        id: `retail-combo-${comboColor1}-${comboSize1}-${comboColor2}-${comboSize2}`,
-        title: 'AST Handmade Macramé Combo (2 Belts)',
+        id: `retail-combo-${activeProductId}-${comboColor1}-${comboSize1}-${comboColor2}-${comboSize2}`,
+        productId: activeProductId,
+        title: `${activeProduct.title} Combo (2 Belts)`,
         color: `${comboColor1} & ${comboColor2}`,
         size: `${comboSize1} & ${comboSize2}`,
         comboColor1,
         comboSize1,
         comboColor2,
         comboSize2,
-        priceBDT: storeConfig?.comboPrice ?? 1490,
-        regularPriceBDT: storeConfig?.comboRegularPrice ?? 2100,
+        priceBDT: currentComboPrice,
+        regularPriceBDT: currentComboRegularPrice,
         isRetail: true,
         orderType: 'combo'
       }, 1);
@@ -205,8 +260,8 @@ const RetailPage = () => {
   };
 
   useEffect(() => {
-    document.title = "Retail Store | Handcrafted Macramé Belts (Cash on Delivery) - AST Macramé";
-  }, []);
+    document.title = `Retail Store | ${activeProduct.title} (Cash on Delivery) - AST Macramé`;
+  }, [activeProduct]);
 
   useEffect(() => {
     const checkLocation = async () => {
@@ -217,7 +272,7 @@ const RetailPage = () => {
           setIsForeignUser(true);
         }
       } catch (error) {
-        console.error('Error fetching location:', error);
+        // location fetch fallback
       }
     };
     checkLocation();
@@ -231,33 +286,14 @@ const RetailPage = () => {
     }
   }, [lightboxImage, isSizeGuideOpen, isCareGuideOpen, isOrderFormOpen]);
 
-  const colors = [
-    { name: 'Black', hex: '#1a1a1a' },
-    { name: 'Navy', hex: '#1c2841' },
-    { name: 'Brown', hex: '#B0868B' },
-    { name: 'Maroon', hex: '#6b2737' },
-    { name: 'Khaki', hex: '#c3b091' },
-  ];
+  const allColorGalleryItems = colors.flatMap((c) =>
+    c.images.map((img, idx) => ({ color: c.name, img, subIndex: idx }))
+  );
 
-  const colorImages = {
-    Black: [b1, b2, b3, b4, b5, b6],
-    Navy: [n1, n2, n3, n4, n5, n6],
-    Brown: [br1, br2, br3, br4, br5, br6],
-    Maroon: [m1, m2, m3, m4, m5, m6],
-    Khaki: [k1, k2, k3, k4, k5, k6],
-  };
-
-  const allColorGalleryItems = [
-    ...colorImages.Black.map((img, idx) => ({ color: 'Black', img, subIndex: idx })),
-    ...colorImages.Navy.map((img, idx) => ({ color: 'Navy', img, subIndex: idx })),
-    ...colorImages.Brown.map((img, idx) => ({ color: 'Brown', img, subIndex: idx })),
-    ...colorImages.Maroon.map((img, idx) => ({ color: 'Maroon', img, subIndex: idx })),
-    ...colorImages.Khaki.map((img, idx) => ({ color: 'Khaki', img, subIndex: idx })),
-  ];
-
-  // Safely fallback to Black images if no color is selected yet
-  const displayColor = selectedColor || 'Black';
-  const images = colorImages[displayColor];
+  // Safely fallback to first color images if no color is selected yet
+  const displayColor = selectedColor || colors[0].name;
+  const currentMatchedColorObj = colors.find(c => c.name === displayColor) || colors[0];
+  const images = currentMatchedColorObj.images;
 
   const scrollRef = React.useRef(null);
   const scrollTimeoutRef = React.useRef(null);
@@ -377,7 +413,7 @@ const RetailPage = () => {
     }
   };
 
-  let orderButtonContent = "ORDER NOW";
+  let orderButtonContent = "ORDER NOW (COD)";
   let isOrderReady = false;
 
   if (orderType === 'single') {
@@ -388,7 +424,7 @@ const RetailPage = () => {
     } else if (!selectedColor && selectedSize) {
       orderButtonContent = "SELECT COLOR";
     } else {
-      orderButtonContent = "ORDER NOW";
+      orderButtonContent = "ORDER NOW (COD)";
       isOrderReady = true;
     }
   } else {
@@ -396,7 +432,7 @@ const RetailPage = () => {
     if (!comboColor1 || !comboColor2 || !comboSize1 || !comboSize2) {
       orderButtonContent = "SELECT COMBO OPTIONS";
     } else {
-      orderButtonContent = "ORDER NOW";
+      orderButtonContent = "ORDER NOW (COD)";
       isOrderReady = true;
     }
   }
@@ -428,7 +464,7 @@ const RetailPage = () => {
         </div>
       )}
 
-      <div className="w-full bg-cream min-h-screen pt-[77px] sm:pt-[76px] md:pt-[96px]">
+      <div className="w-full bg-cream min-h-screen pt-[77px] sm:pt-24 md:pt-28 lg:pt-36">
       <div className="max-w-7xl mx-auto px-0 lg:px-12">
         
         {/* Product Hero & Details */}
@@ -519,25 +555,26 @@ const RetailPage = () => {
           </div>
           
           <div className="flex flex-col px-2.5 sm:px-4 lg:px-0 lg:pt-0 lg:col-span-5">
-            <h1 className="text-2xl lg:text-3xl font-serif text-soft-black mb-1 md:mb-2 mt-0 lg:mt-0">AST Handmade Macramé Belt</h1>
+            
+            <h1 className="text-2xl lg:text-3xl font-serif text-soft-black mb-1 md:mb-2 mt-0 lg:mt-0">{activeProduct.title}</h1>
             <p className="text-xs md:text-sm font-light italic text-dark-charcoal/80 mb-2 md:mb-3 leading-relaxed">
-              Handcrafted with high-density cotton weave for superior flexibility, lasting strength, and effortless daily style.
+              {activeProduct.shortDesc}
             </p>
-            <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-2 md:mb-3">UNISEX | 100% NATURAL COTTON</p>
+            <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-2 md:mb-3">{activeProduct.subtitle}</p>
             
             {/* Added Price */}
             <div className="mb-4 md:mb-5 flex items-center gap-3 md:gap-4 mt-2 flex-wrap">
               <span className="text-2xl md:text-3xl font-serif text-soft-black leading-none">
-                {orderType === 'single' ? `${(storeConfig?.singlePrice ?? 850).toLocaleString()} BDT` : `${(storeConfig?.comboPrice ?? 1490).toLocaleString()} BDT`}
+                {orderType === 'single' ? `${currentSinglePrice.toLocaleString()} BDT` : `${currentComboPrice.toLocaleString()} BDT`}
               </span>
               <div className="flex items-center gap-2">
                 <span className="text-sm md:text-base text-red-500/80 line-through font-bold whitespace-nowrap leading-none">
-                  {orderType === 'single' ? `${(storeConfig?.singleRegularPrice ?? 1050).toLocaleString()} BDT` : `${(storeConfig?.comboRegularPrice ?? 2100).toLocaleString()} BDT`}
+                  {orderType === 'single' ? `${currentSingleRegularPrice.toLocaleString()} BDT` : `${currentComboRegularPrice.toLocaleString()} BDT`}
                 </span>
                 <span className="inline-flex items-center justify-center bg-emerald-700 text-white text-[10px] md:text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded-[15px] shadow-sm whitespace-nowrap leading-none">
                   {orderType === 'single' 
-                    ? `SAVE ${((storeConfig?.singleRegularPrice ?? 1050) - (storeConfig?.singlePrice ?? 850)).toLocaleString()} TK` 
-                    : `SAVE ${((storeConfig?.comboRegularPrice ?? 2100) - (storeConfig?.comboPrice ?? 1490)).toLocaleString()} TK`}
+                    ? `SAVE ${(currentSingleRegularPrice - currentSinglePrice).toLocaleString()} TK` 
+                    : `SAVE ${(currentComboRegularPrice - currentComboPrice).toLocaleString()} TK`}
                 </span>
               </div>
             </div>
@@ -624,14 +661,14 @@ const RetailPage = () => {
                       Size: <span className="font-semibold text-terracotta">{selectedSize}</span>
                     </span>
                     <div className="flex gap-1.5 sm:gap-2 justify-start">
-                      {['M', 'L'].map((size) => {
+                      {activeProduct.sizes.map((size) => {
                         const isSelected = selectedSize === size;
                         return (
                           <button
                             key={size}
                             type="button"
                             onClick={() => setSelectedSize(size)}
-                            className={`w-9 h-9 md:w-10 md:h-10 rounded-xl border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
+                            className={`min-w-[36px] h-9 md:h-10 px-2.5 rounded-xl border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                               isSelected
                                 ? 'bg-soft-black text-cream border-soft-black shadow-xs'
                                 : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
@@ -701,14 +738,14 @@ const RetailPage = () => {
                         Size: <span className="font-semibold text-terracotta">{comboSize1}</span>
                       </span>
                       <div className="flex gap-1.5 sm:gap-2 justify-start">
-                        {['M', 'L'].map((size) => {
+                        {activeProduct.sizes.map((size) => {
                           const isSelected = comboSize1 === size;
                           return (
                             <button
                               key={size}
                               type="button"
                               onClick={() => setComboSize1(size)}
-                              className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-xl border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
+                              className={`min-w-[32px] h-8 sm:h-9 md:h-10 px-2 rounded-xl border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                                 isSelected
                                   ? 'bg-soft-black text-cream border-soft-black shadow-xs'
                                   : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
@@ -754,14 +791,14 @@ const RetailPage = () => {
                         Size: <span className="font-semibold text-terracotta">{comboSize2}</span>
                       </span>
                       <div className="flex gap-1.5 sm:gap-2 justify-start">
-                        {['M', 'L'].map((size) => {
+                        {activeProduct.sizes.map((size) => {
                           const isSelected = comboSize2 === size;
                           return (
                             <button
                               key={size}
                               type="button"
                               onClick={() => setComboSize2(size)}
-                              className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-xl border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
+                              className={`min-w-[32px] h-8 sm:h-9 md:h-10 px-2 rounded-xl border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                                 isSelected
                                   ? 'bg-soft-black text-cream border-soft-black shadow-xs'
                                   : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
@@ -776,7 +813,7 @@ const RetailPage = () => {
                   </div>
                   
                   <p className="text-[12px] md:text-[13px] font-medium text-dark-charcoal/70 italic text-center pt-1">
-                    * Please select color and size for both belts in your combo.
+                    * Please select colors for both belts in your combo set.
                   </p>
                 </div>
               </div>
@@ -856,12 +893,8 @@ const RetailPage = () => {
                 onClick={() => toggleAccordion('description')}
               >
                 <div className="space-y-3 leading-relaxed text-dark-charcoal/90">
-                  <p>
-                    Expertly hand-knotted by skilled Bangladeshi artisans using 100% premium cotton cord. Designed to adapt naturally to your waist without the stiff discomfort of traditional belts, finished with a heavy-duty, anti-rust zinc-alloy buckle.
-                  </p>
-                  <p>
-                    Whether paired with denim, chinos, or casual ethnic wear, it adds a textured, minimalist statement to your everyday wardrobe.
-                  </p>
+                  <p>{activeProduct.shortDesc}</p>
+                  <p>{activeProduct.retailDesc}</p>
                 </div>
               </Accordion>
 
@@ -886,7 +919,7 @@ const RetailPage = () => {
                   </li>
                   <li className="flex items-start">
                     <span className="w-1.5 h-1.5 rounded-none bg-terracotta mt-[0.45rem] mr-2.5 flex-shrink-0"></span>
-                    <span><strong className="font-semibold text-soft-black">Width:</strong> 4 cm (1.6 in) perfectly fits standard pant & denim loops</span>
+                    <span><strong className="font-semibold text-soft-black">Dimensions:</strong> {activeProduct.dimensionsText}</span>
                   </li>
                   <li className="flex items-start">
                     <span className="w-1.5 h-1.5 rounded-none bg-terracotta mt-[0.45rem] mr-2.5 flex-shrink-0"></span>
@@ -988,232 +1021,234 @@ const RetailPage = () => {
       </div>
 
       {/* ========================================================================= */}
-      {/* 1. COMPARISON SECTION (ABOVE) */}
+      {/* 1. COMPARISON SECTION (ABOVE) - Shown for Adult Belt only */}
       {/* ========================================================================= */}
-      <section className="w-full bg-[#F5F1E8] border-t border-b border-[#E5E0D6] py-8 sm:py-10 md:py-16 mt-2 sm:mt-6 md:mt-12 font-sans">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-          
-          {/* Section Header */}
-          <div className="mb-6 md:mb-10 text-center md:text-left border-b border-[#E0DCD3] pb-4">
-            <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-terracotta block mb-1">
-              Engineered For Comfort & Durability
-            </span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-soft-black tracking-tight">
-              Why Macramé vs Traditional Belts
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-start lg:items-center">
+      {activeProductId === 'adult' && (
+        <section className="w-full bg-[#F5F1E8] border-t border-b border-[#E5E0D6] py-8 sm:py-10 md:py-16 mt-2 sm:mt-6 md:mt-12 font-sans">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
             
-            {/* Image: Stays above on mobile, on the left on desktop */}
-            <div className="lg:col-span-5 relative group">
-              <div className="relative overflow-hidden rounded-2xl sm:rounded-none border-0 bg-white aspect-[4/3] sm:aspect-[4/3] lg:aspect-auto lg:h-[440px] shadow-none">
-                <img 
-                  src={comparisonImg} 
-                  alt="Traditional Belt vs AST Macramé Comparison" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute top-3 left-3 bg-red-600 text-white text-[9.5px] sm:text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg sm:rounded-none shadow-none">
-                  ❌ Traditional Belt
-                </div>
-                <div className="absolute top-3 right-3 bg-emerald-700 text-white text-[9.5px] sm:text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg sm:rounded-none shadow-none">
-                  ✅ AST Macramé
-                </div>
-              </div>
+            {/* Section Header */}
+            <div className="mb-6 md:mb-10 text-center md:text-left border-b border-[#E0DCD3] pb-4">
+              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-terracotta block mb-1">
+                Engineered For Comfort & Durability
+              </span>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-soft-black tracking-tight">
+                Why Macramé vs Traditional Belts
+              </h2>
             </div>
 
-            {/* Comparison Content */}
-            <div className="lg:col-span-7">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-start lg:items-center">
               
-              {/* MOBILE VIEW ONLY: Side-by-side tabs to switch between the 3 comparison points */}
-              <div className="block lg:hidden">
-                {/* 3 Mobile Tabs */}
-                <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#EAE5DA] rounded-xl sm:rounded-none mb-3 border-0 shadow-none">
-                  <button
-                    type="button"
-                    onClick={() => setComparisonTab(0)}
-                    className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded-lg sm:rounded-none text-center cursor-pointer ${
-                      comparisonTab === 0
-                        ? 'bg-soft-black text-white shadow-none'
-                        : 'bg-transparent text-dark-charcoal hover:bg-white/40'
-                    }`}
-                  >
-                    Comfort
-                  </button>
+              {/* Image: Stays above on mobile, on the left on desktop */}
+              <div className="lg:col-span-5 relative group">
+                <div className="relative overflow-hidden rounded-2xl sm:rounded-none border-0 bg-white aspect-[4/3] sm:aspect-[4/3] lg:aspect-auto lg:h-[440px] shadow-none">
+                  <img 
+                    src={comparisonImg} 
+                    alt="Traditional Belt vs AST Macramé Comparison" 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute top-3 left-3 bg-red-600 text-white text-[9.5px] sm:text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg sm:rounded-none shadow-none">
+                    ❌ Traditional Belt
+                  </div>
+                  <div className="absolute top-3 right-3 bg-emerald-700 text-white text-[9.5px] sm:text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg sm:rounded-none shadow-none">
+                    ✅ AST Macramé
+                  </div>
+                </div>
+              </div>
 
-                  <button
-                    type="button"
-                    onClick={() => setComparisonTab(1)}
-                    className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded-lg sm:rounded-none text-center cursor-pointer ${
-                      comparisonTab === 1
-                        ? 'bg-soft-black text-white shadow-none'
-                        : 'bg-transparent text-dark-charcoal hover:bg-white/40'
-                    }`}
-                  >
-                    Fit & Holes
-                  </button>
+              {/* Comparison Content */}
+              <div className="lg:col-span-7">
+                
+                {/* MOBILE VIEW ONLY: Side-by-side tabs to switch between the 3 comparison points */}
+                <div className="block lg:hidden">
+                  {/* 3 Mobile Tabs */}
+                  <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#EAE5DA] rounded-xl sm:rounded-none mb-3 border-0 shadow-none">
+                    <button
+                      type="button"
+                      onClick={() => setComparisonTab(0)}
+                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded-lg sm:rounded-none text-center cursor-pointer ${
+                        comparisonTab === 0
+                          ? 'bg-soft-black text-white shadow-none'
+                          : 'bg-transparent text-dark-charcoal hover:bg-white/40'
+                      }`}
+                    >
+                      Comfort
+                    </button>
 
-                  <button
-                    type="button"
-                    onClick={() => setComparisonTab(2)}
-                    className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded-lg sm:rounded-none text-center cursor-pointer ${
-                      comparisonTab === 2
-                        ? 'bg-soft-black text-white shadow-none'
-                        : 'bg-transparent text-dark-charcoal hover:bg-white/40'
-                    }`}
-                  >
-                    Climate
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => setComparisonTab(1)}
+                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded-lg sm:rounded-none text-center cursor-pointer ${
+                        comparisonTab === 1
+                          ? 'bg-soft-black text-white shadow-none'
+                          : 'bg-transparent text-dark-charcoal hover:bg-white/40'
+                      }`}
+                    >
+                      Fit & Holes
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setComparisonTab(2)}
+                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded-lg sm:rounded-none text-center cursor-pointer ${
+                        comparisonTab === 2
+                          ? 'bg-soft-black text-white shadow-none'
+                          : 'bg-transparent text-dark-charcoal hover:bg-white/40'
+                      }`}
+                    >
+                      Climate
+                    </button>
+                  </div>
+
+                  {/* Mobile Active Tab Card */}
+                  <AnimatePresence mode="wait">
+                    {comparisonTab === 0 && (
+                      <motion.div
+                        key="mob-0"
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.15 }}
+                        className="bg-white p-4 rounded-2xl sm:rounded-none border-0 shadow-none"
+                      >
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-soft-black mb-2.5 pb-1.5 border-b border-[#EAE6DF]">
+                          Dynamic Waist Comfort vs Rigid Pinching
+                        </h3>
+                        <div className="space-y-2 text-[11px]">
+                          <div className="p-2.5 bg-red-50/70 border-0 rounded-xl sm:rounded-none shadow-none">
+                            <span className="font-bold block text-red-700 uppercase text-[9.5px] mb-0.5">❌ Traditional Leather / Faux</span>
+                            Stiff & unyielding structure pinches your abdomen when sitting or after heavy meals.
+                          </div>
+                          <div className="p-2.5 bg-emerald-50/90 border-0 rounded-xl sm:rounded-none shadow-none">
+                            <span className="font-bold block text-emerald-800 uppercase text-[9.5px] mb-0.5">✅ AST Hand-Knotted Macramé</span>
+                            Natural knot matrix breathes and flexes dynamically with your waist's natural movement.
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {comparisonTab === 1 && (
+                      <motion.div
+                        key="mob-1"
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.15 }}
+                        className="bg-white p-4 rounded-2xl sm:rounded-none border-0 shadow-none"
+                      >
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-soft-black mb-2.5 pb-1.5 border-b border-[#EAE6DF]">
+                          Millimeter Precision vs 5 Fixed Holes
+                        </h3>
+                        <div className="space-y-2 text-[11px]">
+                          <div className="p-2.5 bg-red-50/70 border-0 rounded-xl sm:rounded-none shadow-none">
+                            <span className="font-bold block text-red-700 uppercase text-[9.5px] mb-0.5">❌ Traditional Punch Holes</span>
+                            Only 5 fixed holes spaced 1 inch apart — always either 1 inch too tight or 1 inch too loose.
+                          </div>
+                          <div className="p-2.5 bg-emerald-50/90 border-0 rounded-xl sm:rounded-none shadow-none">
+                            <span className="font-bold block text-emerald-800 uppercase text-[9.5px] mb-0.5">✅ AST Infinite Adjustment</span>
+                            Insert prong through any knot anywhere along the belt for 100% millimeter-precise fit.
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {comparisonTab === 2 && (
+                      <motion.div
+                        key="mob-2"
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.15 }}
+                        className="bg-white p-4 rounded-2xl sm:rounded-none border-0 shadow-none"
+                      >
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-soft-black mb-2.5 pb-1.5 border-b border-[#EAE6DF]">
+                          Bangladesh Monsoon & Climate Durability
+                        </h3>
+                        <div className="space-y-2 text-[11px]">
+                          <div className="p-2.5 bg-red-50/70 border-0 rounded-xl sm:rounded-none shadow-none">
+                            <span className="font-bold block text-red-700 uppercase text-[9.5px] mb-0.5">❌ Faux Leather Peeling</span>
+                            Traps body sweat & heat, cracking and peeling into messy flakes in BD monsoon humidity.
+                          </div>
+                          <div className="p-2.5 bg-emerald-50/90 border-0 rounded-xl sm:rounded-none shadow-none">
+                            <span className="font-bold block text-emerald-800 uppercase text-[9.5px] mb-0.5">✅ 100% Combed Cotton</span>
+                            Naturally breathable organic cotton cord and rust-proof zinc alloy hardware built for years of wear.
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
-                {/* Mobile Active Tab Card */}
-                <AnimatePresence mode="wait">
-                  {comparisonTab === 0 && (
-                    <motion.div
-                      key="mob-0"
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -6 }}
-                      transition={{ duration: 0.15 }}
-                      className="bg-white p-4 rounded-2xl sm:rounded-none border-0 shadow-none"
-                    >
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-soft-black mb-2.5 pb-1.5 border-b border-[#EAE6DF]">
+                {/* DESKTOP VIEW: All 3 Comparison Cards */}
+                <div className="hidden lg:block space-y-3.5">
+                  <div className="bg-white p-5 rounded-none border-0 shadow-none">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="w-2 h-2 rounded-none bg-emerald-500"></span>
+                      <h3 className="text-sm font-bold uppercase tracking-wider text-soft-black">
                         Dynamic Waist Comfort vs Rigid Pinching
                       </h3>
-                      <div className="space-y-2 text-[11px]">
-                        <div className="p-2.5 bg-red-50/70 border-0 rounded-xl sm:rounded-none shadow-none">
-                          <span className="font-bold block text-red-700 uppercase text-[9.5px] mb-0.5">❌ Traditional Leather / Faux</span>
-                          Stiff & unyielding structure pinches your abdomen when sitting or after heavy meals.
-                        </div>
-                        <div className="p-2.5 bg-emerald-50/90 border-0 rounded-xl sm:rounded-none shadow-none">
-                          <span className="font-bold block text-emerald-800 uppercase text-[9.5px] mb-0.5">✅ AST Hand-Knotted Macramé</span>
-                          Natural knot matrix breathes and flexes dynamically with your waist's natural movement.
-                        </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 text-xs mt-2.5">
+                      <div className="p-3 bg-red-50/70 border-0 rounded-none shadow-none">
+                        <span className="font-bold block text-red-700 uppercase text-[10px] mb-1">❌ Traditional Leather</span>
+                        Stiff structure pinches your waist and abdomen when sitting or after meals.
                       </div>
-                    </motion.div>
-                  )}
+                      <div className="p-3 bg-emerald-50/90 border-0 rounded-none shadow-none">
+                        <span className="font-bold block text-emerald-800 uppercase text-[10px] mb-1">✅ AST Hand-Knotted</span>
+                        Natural interlocking knot matrix breathes and flexes dynamically with your waist.
+                      </div>
+                    </div>
+                  </div>
 
-                  {comparisonTab === 1 && (
-                    <motion.div
-                      key="mob-1"
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -6 }}
-                      transition={{ duration: 0.15 }}
-                      className="bg-white p-4 rounded-2xl sm:rounded-none border-0 shadow-none"
-                    >
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-soft-black mb-2.5 pb-1.5 border-b border-[#EAE6DF]">
-                        Millimeter Precision vs 5 Fixed Holes
+                  <div className="bg-white p-5 rounded-none border-0 shadow-none">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="w-2 h-2 rounded-none bg-emerald-500"></span>
+                      <h3 className="text-sm font-bold uppercase tracking-wider text-soft-black">
+                        Millimeter Fit Precision (No Hole Constraints)
                       </h3>
-                      <div className="space-y-2 text-[11px]">
-                        <div className="p-2.5 bg-red-50/70 border-0 rounded-xl sm:rounded-none shadow-none">
-                          <span className="font-bold block text-red-700 uppercase text-[9.5px] mb-0.5">❌ Traditional Punch Holes</span>
-                          Only 5 fixed holes spaced 1 inch apart — always either 1 inch too tight or 1 inch too loose.
-                        </div>
-                        <div className="p-2.5 bg-emerald-50/90 border-0 rounded-xl sm:rounded-none shadow-none">
-                          <span className="font-bold block text-emerald-800 uppercase text-[9.5px] mb-0.5">✅ AST Infinite Adjustment</span>
-                          Insert prong through any knot anywhere along the belt for 100% millimeter-precise fit.
-                        </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 text-xs mt-2.5">
+                      <div className="p-3 bg-red-50/70 border-0 rounded-none shadow-none">
+                        <span className="font-bold block text-red-700 uppercase text-[10px] mb-1">❌ Traditional Holes</span>
+                        Limited to 5 fixed punch holes spaced 1 inch apart — always either too tight or too loose.
                       </div>
-                    </motion.div>
-                  )}
+                      <div className="p-3 bg-emerald-50/90 border-0 rounded-none shadow-none">
+                        <span className="font-bold block text-emerald-800 uppercase text-[10px] mb-1">✅ Infinite Adjustment</span>
+                        Insert the buckle prong through any knot anywhere along the belt for millimeter-precise fit.
+                      </div>
+                    </div>
+                  </div>
 
-                  {comparisonTab === 2 && (
-                    <motion.div
-                      key="mob-2"
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -6 }}
-                      transition={{ duration: 0.15 }}
-                      className="bg-white p-4 rounded-2xl sm:rounded-none border-0 shadow-none"
-                    >
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-soft-black mb-2.5 pb-1.5 border-b border-[#EAE6DF]">
-                        Bangladesh Monsoon & Climate Durability
+                  <div className="bg-white p-5 rounded-none border-0 shadow-none">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="w-2 h-2 rounded-none bg-emerald-500"></span>
+                      <h3 className="text-sm font-bold uppercase tracking-wider text-soft-black">
+                        Built for Bangladesh Humidity & Monsoon
                       </h3>
-                      <div className="space-y-2 text-[11px]">
-                        <div className="p-2.5 bg-red-50/70 border-0 rounded-xl sm:rounded-none shadow-none">
-                          <span className="font-bold block text-red-700 uppercase text-[9.5px] mb-0.5">❌ Faux Leather Peeling</span>
-                          Traps body sweat & heat, cracking and peeling into messy flakes in BD monsoon humidity.
-                        </div>
-                        <div className="p-2.5 bg-emerald-50/90 border-0 rounded-xl sm:rounded-none shadow-none">
-                          <span className="font-bold block text-emerald-800 uppercase text-[9.5px] mb-0.5">✅ 100% Combed Cotton</span>
-                          Naturally breathable organic cotton cord and rust-proof zinc alloy hardware built for years of wear.
-                        </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 text-xs mt-2.5">
+                      <div className="p-3 bg-red-50/70 border-0 rounded-none shadow-none">
+                        <span className="font-bold block text-red-700 uppercase text-[10px] mb-1">❌ Faux Leather Cracking</span>
+                        Traps sweat and heat, peeling apart into messy flakes within months in tropical humidity.
                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* DESKTOP VIEW: All 3 Comparison Cards */}
-              <div className="hidden lg:block space-y-3.5">
-                <div className="bg-white p-5 rounded-none border-0 shadow-none">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="w-2 h-2 rounded-none bg-emerald-500"></span>
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-soft-black">
-                      Dynamic Waist Comfort vs Rigid Pinching
-                    </h3>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3 text-xs mt-2.5">
-                    <div className="p-3 bg-red-50/70 border-0 rounded-none shadow-none">
-                      <span className="font-bold block text-red-700 uppercase text-[10px] mb-1">❌ Traditional Leather</span>
-                      Stiff structure pinches your waist and abdomen when sitting or after meals.
-                    </div>
-                    <div className="p-3 bg-emerald-50/90 border-0 rounded-none shadow-none">
-                      <span className="font-bold block text-emerald-800 uppercase text-[10px] mb-1">✅ AST Hand-Knotted</span>
-                      Natural interlocking knot matrix breathes and flexes dynamically with your waist.
+                      <div className="p-3 bg-emerald-50/90 border-0 rounded-none shadow-none">
+                        <span className="font-bold block text-emerald-800 uppercase text-[10px] mb-1">✅ 100% Combed Cotton</span>
+                        Naturally breathable organic cotton cord and rust-proof zinc alloy hardware that lasts for years.
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-white p-5 rounded-none border-0 shadow-none">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="w-2 h-2 rounded-none bg-emerald-500"></span>
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-soft-black">
-                      Millimeter Fit Precision (No Hole Constraints)
-                    </h3>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3 text-xs mt-2.5">
-                    <div className="p-3 bg-red-50/70 border-0 rounded-none shadow-none">
-                      <span className="font-bold block text-red-700 uppercase text-[10px] mb-1">❌ Traditional Holes</span>
-                      Limited to 5 fixed punch holes spaced 1 inch apart — always either too tight or too loose.
-                    </div>
-                    <div className="p-3 bg-emerald-50/90 border-0 rounded-none shadow-none">
-                      <span className="font-bold block text-emerald-800 uppercase text-[10px] mb-1">✅ Infinite Adjustment</span>
-                      Insert the buckle prong through any knot anywhere along the belt for millimeter-precise fit.
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white p-5 rounded-none border-0 shadow-none">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="w-2 h-2 rounded-none bg-emerald-500"></span>
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-soft-black">
-                      Built for Bangladesh Humidity & Monsoon
-                    </h3>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3 text-xs mt-2.5">
-                    <div className="p-3 bg-red-50/70 border-0 rounded-none shadow-none">
-                      <span className="font-bold block text-red-700 uppercase text-[10px] mb-1">❌ Faux Leather Cracking</span>
-                      Traps sweat and heat, peeling apart into messy flakes within months in tropical humidity.
-                    </div>
-                    <div className="p-3 bg-emerald-50/90 border-0 rounded-none shadow-none">
-                      <span className="font-bold block text-emerald-800 uppercase text-[10px] mb-1">✅ 100% Combed Cotton</span>
-                      Naturally breathable organic cotton cord and rust-proof zinc alloy hardware that lasts for years.
-                    </div>
-                  </div>
-                </div>
               </div>
 
             </div>
 
           </div>
-
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ========================================================================= */}
-      {/* 2. GUARANTEE SECTION (BELOW) */}
+      {/* 2. GUARANTEE SECTION (BELOW) - Shown for BOTH Adult & Kids */}
       {/* ========================================================================= */}
       <section className="w-full bg-[#FAF8F5] border-b border-[#E5E0D6] py-10 md:py-16 font-sans">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
@@ -1287,43 +1322,40 @@ const RetailPage = () => {
             onClick={() => setIsSizeGuideOpen(false)}
             className="absolute inset-0 bg-soft-black/40 backdrop-blur-sm"
           />
-          <div className="bg-white border border-stone/20 w-full max-w-sm p-6 relative z-10 shadow-2xl rounded-none text-center">
+          <div className="bg-white border border-stone/20 w-full max-w-sm p-6 relative z-10 shadow-2xl rounded-2xl text-center">
               <button 
                 onClick={() => setIsSizeGuideOpen(false)}
-                className="absolute top-4 right-4 text-soft-black/40 hover:text-soft-black transition-colors"
+                className="absolute top-4 right-4 text-soft-black/40 hover:text-soft-black transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
               
               <img src="/logo_black.png" alt="AST Logo" className="h-5 w-auto mx-auto mb-4 object-contain opacity-80" />
               
-              <h2 className="text-xl font-serif text-soft-black mb-5">Sizing Guide</h2>
+              <h2 className="text-xl font-serif text-soft-black mb-3 font-bold">{activeProduct.sizeGuide?.title || 'Sizing Guide'}</h2>
               
-              <div className="w-full bg-stone/5 rounded-none border border-stone/10 overflow-hidden mb-4">
-                <div className="grid grid-cols-3 bg-stone/10 border-b border-stone/10 py-2">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Size</span>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Waist</span>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Length</span>
+              <div className="w-full bg-stone/5 rounded-xl border border-stone/10 overflow-hidden mb-4 text-xs">
+                <div className="grid grid-cols-3 bg-stone/10 border-b border-stone/10 py-2.5 font-bold uppercase tracking-wider text-dark-charcoal">
+                  <span>Size</span>
+                  <span>Waist Fit</span>
+                  <span>Length</span>
                 </div>
-                <div className="grid grid-cols-3 py-3 border-b border-stone/10/50">
-                  <span className="text-sm font-semibold text-soft-black">M</span>
-                  <span className="text-sm text-soft-black/80">32–35"</span>
-                  <span className="text-sm text-soft-black/80">38"</span>
-                </div>
-                <div className="grid grid-cols-3 py-3">
-                  <span className="text-sm font-semibold text-soft-black">L</span>
-                  <span className="text-sm text-soft-black/80">35–38"</span>
-                  <span className="text-sm text-soft-black/80">42"</span>
-                </div>
+                {activeProduct.sizeGuide?.rows.map((row, rIdx) => (
+                  <div key={rIdx} className={`grid grid-cols-3 py-3 ${rIdx !== (activeProduct.sizeGuide?.rows.length - 1) ? 'border-b border-stone/10/50' : ''}`}>
+                    <span className="font-bold text-soft-black">{row.size}</span>
+                    <span className="text-soft-black/80">{row.waist}</span>
+                    <span className="text-soft-black/80">{row.length}</span>
+                  </div>
+                ))}
               </div>
 
-              <div className="flex justify-between items-center px-4 py-3 bg-stone/5 rounded-none border border-stone/10 mb-4">
-                 <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Belt Width</span>
-                 <span className="text-xs font-semibold text-soft-black">4 cm</span>
+              <div className="flex justify-between items-center px-4 py-3 bg-stone/5 rounded-xl border border-stone/10 mb-4 text-xs">
+                 <span className="font-bold uppercase tracking-wider text-dark-charcoal">Belt Dimensions</span>
+                 <span className="font-semibold text-soft-black">{activeProduct.dimensionsText}</span>
               </div>
               
               <p className="italic font-light text-dark-charcoal/70 text-[11px] leading-relaxed px-2">
-                * Our macramé weave is naturally flexible, offering a slightly adjustable and comfortable fit.
+                {activeProduct.sizeGuide?.note || '* Our macramé weave is naturally flexible, offering a comfortable, pin-anywhere fit.'}
               </p>
             </div>
           </div>
@@ -1336,32 +1368,21 @@ const RetailPage = () => {
             onClick={() => setIsCareGuideOpen(false)}
             className="absolute inset-0 bg-soft-black/40 backdrop-blur-sm"
           />
-          <div className="bg-white border border-stone/20 w-full max-w-md p-5 sm:p-6 relative z-10 shadow-2xl rounded-none text-center max-h-[90vh] overflow-y-auto">
+          <div className="bg-white border border-stone/20 w-full max-w-md p-5 sm:p-6 relative z-10 shadow-2xl rounded-2xl text-center max-h-[90vh] overflow-y-auto">
               <button 
                 onClick={() => setIsCareGuideOpen(false)}
-                className="absolute top-4 right-4 text-soft-black/40 hover:text-soft-black transition-colors"
+                className="absolute top-4 right-4 text-soft-black/40 hover:text-soft-black transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
               
               <img src="/logo_black.png" alt="AST Logo" className="h-5 w-auto mx-auto mb-3 object-contain opacity-80" />
               
-              <h2 className="text-xl md:text-2xl font-serif text-soft-black mb-1">Care Guide</h2>
+              <h2 className="text-xl md:text-2xl font-serif text-soft-black mb-1 font-bold">{activeProduct.careGuide?.title || 'Care Guide'}</h2>
               <p className="text-xs font-light text-terracotta uppercase tracking-[0.15em] mb-4">Keep it clean. Keep it natural.</p>
               
-              <div className="w-full bg-stone/5 rounded-none border border-stone/10 overflow-hidden mb-4 text-left text-xs">
-                <div className="p-3 border-b border-stone/10">
-                  <h3 className="text-[11px] font-bold uppercase tracking-widest text-dark-charcoal mb-1 flex items-center gap-1.5"><span className="text-terracotta text-sm leading-none">•</span> Spot Clean Only</h3>
-                  <p className="text-soft-black/80 leading-relaxed">Gently wipe with a soft, damp cloth and mild soap. Avoid soaking, bleach, or machine washing.</p>
-                </div>
-                <div className="p-3 border-b border-stone/10">
-                  <h3 className="text-[11px] font-bold uppercase tracking-widest text-dark-charcoal mb-1 flex items-center gap-1.5"><span className="text-terracotta text-sm leading-none">•</span> Air Dry & Storage</h3>
-                  <p className="text-soft-black/80 leading-relaxed">Reshape gently and let air dry away from direct heat. Hang or loosely roll your belt.</p>
-                </div>
-                <div className="p-3">
-                  <h3 className="text-[11px] font-bold uppercase tracking-widest text-dark-charcoal mb-1 flex items-center gap-1.5"><span className="text-terracotta text-sm leading-none">•</span> Protect Knots</h3>
-                  <p className="text-soft-black/80 leading-relaxed">Avoid sharp surfaces and excessive pulling to preserve the handmade macramé weave.</p>
-                </div>
+              <div className="w-full bg-stone/5 rounded-xl border border-stone/10 p-4 mb-4 text-left text-xs leading-relaxed text-soft-black/85">
+                {activeProduct.careGuide?.instructions}
               </div>
 
               <p className="text-[11px] text-soft-black/60 italic font-light">
@@ -1468,7 +1489,7 @@ const RetailPage = () => {
                 <button 
                   key={idx}
                   onClick={() => { setLightboxImage(img); setZoomLevel(1); }}
-                  className={`w-12 h-12 sm:w-14 sm:h-14 aspect-square shrink-0 rounded-none overflow-hidden border-2 transition-all cursor-pointer ${
+                  className={`w-12 h-12 sm:w-14 sm:h-14 aspect-square shrink-0 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
                     lightboxImage === img 
                       ? 'border-terracotta scale-105 shadow-md opacity-100' 
                       : 'border-transparent opacity-50 hover:opacity-80'
@@ -1485,6 +1506,7 @@ const RetailPage = () => {
       <RetailOrderModal 
         isOpen={isOrderFormOpen} 
         onClose={() => setIsOrderFormOpen(false)} 
+        productTitle={activeProduct.title}
         orderType={orderType}
         selectedColor={selectedColor}
         selectedSize={selectedSize}
@@ -1492,9 +1514,10 @@ const RetailPage = () => {
         comboSize1={comboSize1}
         comboColor2={comboColor2}
         comboSize2={comboSize2}
+        customProductCost={currentPrice}
+        customRegularCost={currentRegularPrice}
+        customSavings={currentSavings}
       />
-
-
 
       {/* Sticky Floating Order Bar - Wide on Desktop, Easy Reach on Mobile */}
       <AnimatePresence>
@@ -1504,27 +1527,27 @@ const RetailPage = () => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 80, opacity: 0 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed bottom-[86px] sm:bottom-8 inset-x-3.5 sm:inset-x-8 z-40 max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto bg-cotton-white/95 backdrop-blur-md border border-stone/25 px-4 sm:px-8 py-2.5 sm:py-3.5 rounded-xl sm:rounded-none shadow-[0_12px_40px_rgba(0,0,0,0.22)] font-sans"
+            className="fixed bottom-[86px] sm:bottom-8 inset-x-3.5 sm:inset-x-8 z-40 max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto bg-cotton-white/95 backdrop-blur-md border border-stone/25 px-4 sm:px-8 py-2.5 sm:py-3.5 rounded-2xl sm:rounded-none shadow-[0_12px_40px_rgba(0,0,0,0.22)] font-sans"
           >
             <div className="flex items-center justify-between gap-3 sm:gap-6 w-full">
               <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-stone/10 rounded-lg sm:rounded-none overflow-hidden shrink-0 border border-stone/20">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-stone/10 rounded-lg overflow-hidden shrink-0 border border-stone/20">
                   <img 
-                    src={colorImages[selectedColor][0]} 
-                    alt="AST Macrame Belt" 
+                    src={images[0]} 
+                    alt={activeProduct.title} 
                     className="w-full h-full object-cover mix-blend-multiply" 
                   />
                 </div>
                 <div className="flex flex-col min-w-0">
                   <span className="text-xs sm:text-sm md:text-base font-bold text-soft-black truncate">
-                    AST Handmade Macramé Belt
+                    {activeProduct.title}
                   </span>
                   <div className="flex items-center gap-2 text-[10px] sm:text-xs md:text-sm">
                     <span className="text-terracotta font-bold text-sm sm:text-base">
-                      {orderType === 'single' ? `৳ ${(storeConfig?.singlePrice ?? 850).toLocaleString()}` : `৳ ${(storeConfig?.comboPrice ?? 1490).toLocaleString()}`}
+                      ৳ {currentPrice.toLocaleString()}
                     </span>
                     <span className="text-red-500 line-through text-[10px] sm:text-xs hidden sm:inline">
-                      {orderType === 'single' ? `৳ ${(storeConfig?.singleRegularPrice ?? 1050).toLocaleString()}` : `৳ ${(storeConfig?.comboRegularPrice ?? 2100).toLocaleString()}`}
+                      ৳ {currentRegularPrice.toLocaleString()}
                     </span>
                     <span className="text-dark-charcoal/60 truncate font-medium">
                       {orderType === 'single' ? `• ${selectedColor} (${selectedSize})` : `• Combo Pack (2 Belts)`}
@@ -1582,3 +1605,4 @@ const RetailPage = () => {
 };
 
 export default RetailPage;
+

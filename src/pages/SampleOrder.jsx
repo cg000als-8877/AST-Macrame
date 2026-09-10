@@ -1,41 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Plus, Minus, X, ZoomIn, ZoomOut, RotateCcw, Info, ShoppingBag, AlignLeft, Layers, SlidersHorizontal, Ruler, Tag, Zap, Truck, ShieldCheck } from 'lucide-react';
+import { 
+  ChevronLeft, 
+  ChevronRight, 
+  Plus, 
+  Minus, 
+  X, 
+  ZoomIn, 
+  ZoomOut, 
+  RotateCcw, 
+  Info, 
+  ShoppingBag, 
+  Ruler, 
+  Tag, 
+  Zap, 
+  Check, 
+  AlignLeft, 
+  Layers, 
+  Sliders 
+} from 'lucide-react';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-
-import b1 from '../assets/products/Black/1.webp';
-import b2 from '../assets/products/Black/2.webp';
-import b3 from '../assets/products/Black/3.webp';
-import b4 from '../assets/products/Black/4.webp';
-import b5 from '../assets/products/Black/5.webp';
-import b6 from '../assets/products/Black/6.webp';
-import n1 from '../assets/products/Navy/1.webp';
-import n2 from '../assets/products/Navy/2.webp';
-import n3 from '../assets/products/Navy/3.webp';
-import n4 from '../assets/products/Navy/4.webp';
-import n5 from '../assets/products/Navy/5.webp';
-import n6 from '../assets/products/Navy/6.webp';
-import br1 from '../assets/products/Brown/1.webp';
-import br2 from '../assets/products/Brown/2.webp';
-import br3 from '../assets/products/Brown/3.webp';
-import br4 from '../assets/products/Brown/4.webp';
-import br5 from '../assets/products/Brown/5.webp';
-import br6 from '../assets/products/Brown/6.webp';
-import m1 from '../assets/products/Maroon/1.webp';
-import m2 from '../assets/products/Maroon/2.webp';
-import m3 from '../assets/products/Maroon/3.webp';
-import m4 from '../assets/products/Maroon/4.webp';
-import m5 from '../assets/products/Maroon/5.webp';
-import m6 from '../assets/products/Maroon/6.webp';
-import k1 from '../assets/products/Khaki/1.webp';
-import k2 from '../assets/products/Khaki/2.webp';
-import k3 from '../assets/products/Khaki/3.webp';
-import k4 from '../assets/products/Khaki/4.webp';
-import k5 from '../assets/products/Khaki/5.webp';
-import k6 from '../assets/products/Khaki/6.webp';
-
-import { useCartWishlist, calculateTierPriceBDT } from '../context/CartWishlistContext';
+import { useCartWishlist } from '../context/CartWishlistContext';
+import { PRODUCTS } from '../data/products';
 
 const Accordion = ({ title, isOpen, onClick, children }) => (
   <div className="border-b border-stone/15 last:border-b-0 sm:border-stone/30 sm:last:border-b">
@@ -66,16 +53,25 @@ const Accordion = ({ title, isOpen, onClick, children }) => (
 const SampleOrder = () => {
   const { 
     addToCart, 
-    setIsCartOpen,
     openCartTemporarily,
     currencySymbol,
     exchangeRate,
     userCountry,
     getShippingQuote
   } = useCartWishlist();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Active Product state (Adult vs Kids)
+  const [activeProductId, setActiveProductId] = useState(() => {
+    const p = searchParams.get('product');
+    return (p && p.toLowerCase().includes('kid')) ? 'kids' : 'adult';
+  });
+
+  const activeProduct = PRODUCTS[activeProductId] || PRODUCTS.adult;
   
-  const [selectedColor, setSelectedColor] = useState('Black');
-  const [selectedSize, setSelectedSize] = useState('M');
+  const [selectedColor, setSelectedColor] = useState(activeProduct.colors[0].name);
+  const [selectedSize, setSelectedSize] = useState(activeProduct.defaultSize);
   const [quantity, setQuantity] = useState(1);
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -85,30 +81,38 @@ const SampleOrder = () => {
     }
     return { description: true, materials: false, custom: false };
   });
+  
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isSamplePolicyOpen, setIsSamplePolicyOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState(null);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
 
-  const [searchParams] = useSearchParams();
-
   useEffect(() => {
+    const p = searchParams.get('product');
+    const newProductId = (p && p.toLowerCase().includes('kid')) ? 'kids' : 'adult';
+    setActiveProductId(newProductId);
+
+    const prod = PRODUCTS[newProductId] || PRODUCTS.adult;
     const colorParam = searchParams.get('color');
     if (colorParam) {
-      const validColors = ['Black', 'Navy', 'Brown', 'Maroon', 'Khaki'];
-      const matched = validColors.find(c => c.toLowerCase() === colorParam.toLowerCase());
+      const matched = prod.colors.find(c => c.name.toLowerCase() === colorParam.toLowerCase());
       if (matched) {
-        setSelectedColor(matched);
-        setActiveIndex(0);
-        window.scrollTo({ top: 0, behavior: 'instant' });
+        setSelectedColor(matched.name);
+      } else {
+        setSelectedColor(prod.colors[0].name);
       }
+    } else {
+      setSelectedColor(prod.colors[0].name);
     }
+
+    setSelectedSize(prod.defaultSize);
+    setActiveIndex(0);
   }, [searchParams]);
 
   useEffect(() => {
-    document.title = "Sample Order | AST Handmade Macramé Belt - AST Macramé";
-  }, []);
+    document.title = `Sample Order | ${activeProduct.title} - AST Macramé`;
+  }, [activeProduct]);
 
   useEffect(() => {
     if (lightboxImage || isSizeGuideOpen || isSamplePolicyOpen) {
@@ -124,35 +128,30 @@ const SampleOrder = () => {
     };
   }, [lightboxImage, isSizeGuideOpen, isSamplePolicyOpen]);
 
-  const colors = [
-    { name: 'Black', hex: '#1a1a1a' },
-    { name: 'Navy', hex: '#1c2841' },
-    { name: 'Brown', hex: '#B0868B' },
-    { name: 'Maroon', hex: '#6b2737' },
-    { name: 'Khaki', hex: '#c3b091' },
-  ];
-
-  const colorImages = {
-    Black: [b1, b2, b3, b4, b5, b6],
-    Navy: [n1, n2, n3, n4, n5, n6],
-    Brown: [br1, br2, br3, br4, br5, br6],
-    Maroon: [m1, m2, m3, m4, m5, m6],
-    Khaki: [k1, k2, k3, k4, k5, k6],
+  const handleProductSwitch = (newId) => {
+    setActiveProductId(newId);
+    const prod = PRODUCTS[newId] || PRODUCTS.adult;
+    setSelectedColor(prod.colors[0].name);
+    setSelectedSize(prod.defaultSize);
+    setActiveIndex(0);
+    setSearchParams({ product: newId, color: prod.colors[0].name.toLowerCase() });
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ left: 0, behavior: 'instant' });
+    }
   };
 
-  const allColorGalleryItems = [
-    ...colorImages.Black.map((img, idx) => ({ color: 'Black', img, subIndex: idx })),
-    ...colorImages.Navy.map((img, idx) => ({ color: 'Navy', img, subIndex: idx })),
-    ...colorImages.Brown.map((img, idx) => ({ color: 'Brown', img, subIndex: idx })),
-    ...colorImages.Maroon.map((img, idx) => ({ color: 'Maroon', img, subIndex: idx })),
-    ...colorImages.Khaki.map((img, idx) => ({ color: 'Khaki', img, subIndex: idx })),
-  ];
+  const colors = activeProduct.colors;
+  const colorImages = Object.fromEntries(activeProduct.colors.map(c => [c.name, c.images]));
 
-  const images = colorImages[selectedColor] || colorImages.Black;
+  const allColorGalleryItems = activeProduct.colors.flatMap(c => 
+    c.images.map((img, idx) => ({ color: c.name, img, subIndex: idx }))
+  );
 
-  const scrollRef = React.useRef(null);
-  const scrollTimeoutRef = React.useRef(null);
-  const isProgrammaticScrollRef = React.useRef(false);
+  const images = colorImages[selectedColor] || activeProduct.colors[0].images;
+
+  const scrollRef = useRef(null);
+  const scrollTimeoutRef = useRef(null);
+  const isProgrammaticScrollRef = useRef(false);
 
   const handleColorChange = (colorName) => {
     setSelectedColor(colorName);
@@ -182,18 +181,22 @@ const SampleOrder = () => {
     setQuantity(Math.max(1, Math.min(20, newQty)));
   };
 
-  const singlePriceBDT = 850;
+  const singlePriceBDT = activeProduct.singlePriceBDT;
   const regularPriceBDT = singlePriceBDT * quantity;
-  const totalPriceBDT = calculateTierPriceBDT(quantity);
+  const totalPriceBDT = activeProduct.calculateTierPrice(quantity);
   const savingsBDT = Math.max(0, regularPriceBDT - totalPriceBDT);
 
-  const unitPriceLocal = quantity > 0 ? (totalPriceBDT / quantity) * exchangeRate : singlePriceBDT * exchangeRate;
   const totalPriceLocal = totalPriceBDT * exchangeRate;
   const regularPriceLocal = regularPriceBDT * exchangeRate;
   const savingsLocal = savingsBDT * exchangeRate;
   const currentShipping = getShippingQuote(quantity);
 
-  const nextTierInfo = {
+  const nextTierInfo = activeProductId === 'kids' ? {
+    1: { targetQty: 2, priceBDT: 1090, saveBDT: 610 },
+    2: { targetQty: 3, priceBDT: 1560, saveBDT: 990 },
+    3: { targetQty: 4, priceBDT: 1980, saveBDT: 1420 },
+    4: { targetQty: 5, priceBDT: 2350, saveBDT: 1900 },
+  }[quantity] : {
     1: { targetQty: 2, priceBDT: 1490, saveBDT: 210 },
     2: { targetQty: 3, priceBDT: 2090, saveBDT: 460 },
     3: { targetQty: 4, priceBDT: 2650, saveBDT: 750 },
@@ -202,10 +205,15 @@ const SampleOrder = () => {
 
   const handleAddToCart = () => {
     addToCart({
-      title: 'AST Handmade Macramé Belt',
+      id: `sample-${activeProduct.id}-${selectedColor}-${selectedSize}`,
+      productId: activeProduct.id,
+      title: activeProduct.title,
       color: selectedColor,
       size: selectedSize,
-      priceBDT: singlePriceBDT
+      priceBDT: singlePriceBDT,
+      regularPriceBDT: activeProduct.singleRegularPriceBDT,
+      image: (colors.find(c => c.name === selectedColor) || colors[0]).images[0],
+      isRetail: false
     }, quantity);
     openCartTemporarily(4000);
   };
@@ -239,7 +247,7 @@ const SampleOrder = () => {
   };
 
   const scrollToSubIndex = (subIdx) => {
-    const currentColor = selectedColor || 'Black';
+    const currentColor = selectedColor || activeProduct.colors[0].name;
     const targetIdx = allColorGalleryItems.findIndex(
       item => item.color === currentColor && item.subIndex === subIdx
     );
@@ -259,8 +267,6 @@ const SampleOrder = () => {
       }, 500);
     }
   };
-
-  const currentSubIndex = allColorGalleryItems[activeIndex]?.subIndex ?? 0;
 
   const minSwipeDistance = 50;
 
@@ -288,102 +294,101 @@ const SampleOrder = () => {
 
   const handleNextImage = (e) => {
     if (e) e.stopPropagation();
-    const currentIdx = allColorGalleryItems.findIndex(item => item.img === lightboxImage);
+    const currentIdx = images.indexOf(lightboxImage);
     if (currentIdx !== -1) {
-      setLightboxImage(allColorGalleryItems[(currentIdx + 1) % allColorGalleryItems.length].img);
+      setLightboxImage(images[(currentIdx + 1) % images.length]);
     }
   };
 
   const handlePrevImage = (e) => {
     if (e) e.stopPropagation();
-    const currentIdx = allColorGalleryItems.findIndex(item => item.img === lightboxImage);
+    const currentIdx = images.indexOf(lightboxImage);
     if (currentIdx !== -1) {
-      setLightboxImage(allColorGalleryItems[(currentIdx - 1 + allColorGalleryItems.length) % allColorGalleryItems.length].img);
+      setLightboxImage(images[(currentIdx - 1 + images.length) % images.length]);
     }
   };
 
   return (
-    <div className="w-full bg-cream min-h-screen pt-[50px] sm:pt-[76px] md:pt-[96px]">
-      <div className="max-w-7xl mx-auto px-0 lg:px-12">
-        
-        {/* Product Hero & Details */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-1.5 lg:gap-y-0 lg:gap-x-10 items-start mb-4 sm:mb-8 lg:mb-16">
+    <div className="bg-[#FAF8F5] min-h-screen text-soft-black pt-16 sm:pt-24 md:pt-28 pb-20 sm:pb-24 selection:bg-terracotta selection:text-cream">
+      
+      {/* Main Grid */}
+      <div className="container mx-auto px-0 sm:px-4 md:px-6 lg:px-8 max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-1.5 sm:gap-y-6 lg:gap-8 items-start mb-6 sm:mb-12">
           
-          <div className="relative px-0 lg:px-0 lg:col-span-7">
-            {/* Mobile Product Gallery */}
-            <div className="lg:hidden w-full px-[2px] pt-[2px] mb-2">
-              <div className="relative w-full overflow-hidden">
-                <div 
-                  ref={scrollRef}
-                  onScroll={handleScroll}
-                  className="w-full flex overflow-x-auto snap-x snap-mandatory gap-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden overscroll-x-contain"
-                  style={{ 
-                    scrollSnapType: 'x mandatory',
-                    WebkitOverflowScrolling: 'touch'
-                  }}
-                >
-                  {allColorGalleryItems.map((item, idx) => (
-                    <div 
-                      key={idx} 
-                      className="relative w-full min-w-full shrink-0 aspect-square bg-stone/15 overflow-hidden snap-start snap-always rounded-none select-none"
-                      style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
-                    >
-                      <img 
-                        src={item.img} 
-                        alt={`Macrame Belt ${item.color} view ${item.subIndex + 1}`} 
-                        onClick={() => setLightboxImage(item.img)}
-                        className="w-full h-full object-cover object-center cursor-zoom-in select-none pointer-events-auto"
-                        draggable="false"
-                        loading={idx < 4 ? "eager" : "lazy"}
-                      />
-                    </div>
-                  ))}
-                </div>
-
-                {/* Zoom Icon (Mobile) */}
-                <div className="absolute bottom-2.5 right-2.5 pointer-events-none flex items-center gap-1 bg-black/60 backdrop-blur-md text-white text-[9px] px-2 py-0.5 rounded-full font-medium tracking-wider shadow-sm z-10">
-                  <ZoomIn className="w-3 h-3 stroke-[2]" />
-                  <span>Tap to zoom</span>
-                </div>
-              </div>
-
-              {/* Thumbnails Underneath Product Image */}
-              <div className="flex gap-1.5 sm:gap-2 mt-2 w-full overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {images.map((img, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => scrollToSubIndex(idx)}
-                    className={`relative aspect-square w-[calc((100%-5*0.375rem)/6)] shrink-0 overflow-hidden transition-all duration-300 rounded-[4px] cursor-pointer ${
-                      currentSubIndex === idx
-                        ? 'border border-terracotta/75 shadow-xs'
-                        : 'border border-black/[0.08] hover:border-black/20'
-                    }`}
-                    aria-label={`Select product image ${idx + 1}`}
+          {/* Gallery Column */}
+          <div className="lg:col-span-7 flex flex-col items-center">
+            
+            {/* Mobile Carousel */}
+            <div className="relative w-full aspect-square sm:hidden mb-2 bg-[#F3EFEA] overflow-hidden select-none">
+              <div 
+                ref={scrollRef}
+                onScroll={handleScroll}
+                className="w-full h-full flex overflow-x-auto snap-x snap-mandatory no-scrollbar cursor-grab active:cursor-grabbing"
+              >
+                {allColorGalleryItems.map((item, idx) => (
+                  <div 
+                    key={idx} 
+                    className="w-full h-full flex-shrink-0 snap-center relative"
+                    onClick={() => setLightboxImage(item.img)}
                   >
                     <img 
-                      src={img} 
-                      alt={`Thumbnail ${idx + 1}`} 
-                      className="w-full h-full object-cover object-center rounded-[4px]"
+                      src={item.img} 
+                      alt={`${activeProduct.title} - ${item.color} ${item.subIndex + 1}`}
+                      className="w-full h-full object-cover mix-blend-multiply"
                     />
-                  </button>
+                    <div className="absolute bottom-3 left-3 bg-black/40 text-white backdrop-blur-xs text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded">
+                      {item.color} ({item.subIndex + 1}/{images.length})
+                    </div>
+                  </div>
                 ))}
               </div>
+
+              <button 
+                type="button"
+                onClick={() => setLightboxImage(allColorGalleryItems[activeIndex]?.img || images[0])}
+                className="absolute top-3 right-3 p-2 bg-black/40 text-white rounded-full backdrop-blur-xs cursor-pointer active:scale-95"
+                aria-label="Inspect Fullscreen"
+              >
+                <ZoomIn className="w-4 h-4" />
+              </button>
             </div>
 
-            {/* Desktop 2-Column Grid */}
-            <div className="hidden lg:grid grid-cols-2 gap-4">
+            {/* Mobile Sub-Index Thumbnails */}
+            <div className="flex sm:hidden justify-center items-center gap-1.5 px-3 mb-3 w-full">
+              {images.map((img, subIdx) => {
+                const currentGalleryItem = allColorGalleryItems[activeIndex];
+                const isSelected = currentGalleryItem?.color === selectedColor && currentGalleryItem?.subIndex === subIdx;
+                return (
+                  <button
+                    key={subIdx}
+                    type="button"
+                    onClick={() => scrollToSubIndex(subIdx)}
+                    className={`w-11 h-11 rounded-lg overflow-hidden border-2 transition-all shrink-0 bg-[#F3EFEA] cursor-pointer ${
+                      isSelected ? 'border-soft-black scale-105 shadow-xs' : 'border-stone/20 opacity-60'
+                    }`}
+                  >
+                    <img src={img} alt={`Thumb ${subIdx + 1}`} className="w-full h-full object-cover mix-blend-multiply" />
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Desktop 2-column gallery */}
+            <div className="hidden sm:grid sm:grid-cols-2 gap-2.5 sm:gap-3 w-full">
               {images.map((img, idx) => (
-                <div key={idx} className="relative w-full aspect-square bg-stone/10 overflow-hidden group rounded-none">
+                <div 
+                  key={idx}
+                  onClick={() => setLightboxImage(img)}
+                  className="relative aspect-square bg-[#F3EFEA] rounded-xl lg:rounded-2xl overflow-hidden cursor-pointer group shadow-2xs hover:shadow-md transition-shadow"
+                >
                   <img 
-                    key={selectedColor + idx}
                     src={img} 
-                    alt={`Macrame Belt ${selectedColor} view ${idx + 1}`} 
-                    onClick={() => setLightboxImage(img)}
-                    className="absolute inset-0 w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700 cursor-zoom-in"
+                    alt={`${activeProduct.title} - ${selectedColor} view ${idx + 1}`}
+                    className="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-500"
                   />
                   {idx === 0 && (
-                    <div className="absolute bottom-4 left-4 pointer-events-none mix-blend-difference text-white z-10 opacity-70 group-hover:opacity-100 transition-opacity">
-                      <ZoomIn className="w-6 h-6 stroke-[1.5]" />
+                    <div className="absolute bottom-3 left-3 bg-black/40 text-white backdrop-blur-xs text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-md">
+                      {selectedColor}
                     </div>
                   )}
                 </div>
@@ -391,13 +396,47 @@ const SampleOrder = () => {
             </div>
           </div>
           
+          {/* Configurator Column */}
           <div className="flex flex-col px-2.5 sm:px-4 lg:px-0 lg:pt-0 lg:col-span-5">
+            
+            {/* Collection Switcher Tabs */}
+            <div className="flex items-center gap-1.5 mb-3.5 bg-stone/10 p-1 rounded-xl">
+              <button
+                type="button"
+                onClick={() => handleProductSwitch('adult')}
+                className={`flex-1 py-1.5 px-2 rounded-lg text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                  activeProductId === 'adult'
+                    ? 'bg-soft-black text-white shadow-xs'
+                    : 'text-soft-black/75 hover:text-soft-black'
+                }`}
+              >
+                Adult Unisex ({PRODUCTS.adult.colors.length} Colors)
+              </button>
+              <button
+                type="button"
+                onClick={() => handleProductSwitch('kids')}
+                className={`flex-1 py-1.5 px-2 rounded-lg text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                  activeProductId === 'kids'
+                    ? 'bg-soft-black text-white shadow-xs'
+                    : 'text-soft-black/75 hover:text-soft-black'
+                }`}
+              >
+                Kids Collection ({PRODUCTS.kids.colors.length} Colors)
+              </button>
+            </div>
+
             {/* Header / Title */}
-            <h1 className="text-2xl lg:text-3xl font-serif text-soft-black mb-1 md:mb-2 mt-0 lg:mt-0 font-medium">AST Handmade Macramé Belt</h1>
+            <h1 className="text-2xl lg:text-3xl font-serif text-soft-black mb-1 md:mb-2 mt-0 lg:mt-0 font-medium">
+              {activeProduct.title}
+            </h1>
+            
             <p className="text-xs md:text-sm font-light italic text-dark-charcoal/80 mb-2 md:mb-3 leading-relaxed">
-              Export-grade artisanal macramé with retail-ready finishing. Exceptional craftsmanship built to elevate your brand’s collection.
+              {activeProduct.shortDesc}
             </p>
-            <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-2 md:mb-3">UNISEX | 100% NATURAL COTTON</p>
+            
+            <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-2 md:mb-3">
+              {activeProduct.subtitle}
+            </p>
             
             {/* Price Display */}
             <div className="mb-4 md:mb-5 flex items-center gap-2.5 sm:gap-3.5 flex-wrap">
@@ -413,18 +452,16 @@ const SampleOrder = () => {
               {nextTierInfo ? (
                 <button
                   type="button"
-                  onClick={() => setQuantity(nextTierInfo.targetQty)}
-                  className="inline-flex items-center gap-1.5 bg-emerald-100 hover:bg-emerald-200/90 text-emerald-800 px-2.5 py-1 rounded-lg text-[11px] md:text-xs font-bold tracking-tight transition-all cursor-pointer group"
-                  title={`Click to select ${nextTierInfo.targetQty} belts & save`}
+                  onClick={() => handleQuantityUpdate(nextTierInfo.targetQty)}
+                  className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 hover:bg-emerald-100/80 px-2.5 py-1 rounded-full border border-emerald-200/80 transition-colors flex items-center gap-1 cursor-pointer"
+                  title="Upgrade to next volume discount tier"
                 >
-                  <Tag className="w-3.5 h-3.5 text-emerald-700 group-hover:scale-110 transition-transform shrink-0" />
-                  <span>
-                    Buy {nextTierInfo.targetQty} for {currencySymbol}{Math.round(nextTierInfo.priceBDT * exchangeRate).toLocaleString()} <span className="font-semibold text-emerald-700/90">(Save {currencySymbol}{Math.round(nextTierInfo.saveBDT * exchangeRate).toLocaleString()})</span> &rarr;
-                  </span>
+                  <Zap className="w-3 h-3 fill-emerald-600 text-emerald-600 shrink-0" />
+                  <span>Add {nextTierInfo.targetQty - quantity} more &bull; Save {currencySymbol}{Math.round(nextTierInfo.saveBDT * (exchangeRate || 1)).toLocaleString()}</span>
                 </button>
               ) : (
                 savingsBDT > 0 && (
-                  <span className="text-[11px] font-bold text-white bg-emerald-700 px-2.5 py-0.5 rounded-full shadow-xs">
+                  <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200/60">
                     Save {currencySymbol}{Math.round(savingsLocal).toLocaleString()}
                   </span>
                 )
@@ -474,14 +511,14 @@ const SampleOrder = () => {
                   Size: <span className="font-semibold text-terracotta">{selectedSize}</span>
                 </span>
                 <div className="flex gap-1.5 sm:gap-2 justify-start">
-                  {['M', 'L'].map((size) => {
+                  {activeProduct.sizes.map((size) => {
                     const isSelected = selectedSize === size;
                     return (
                       <button
                         key={size}
                         type="button"
                         onClick={() => handleSizeChange(size)}
-                        className={`w-9 h-9 md:w-10 md:h-10 rounded-xl border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
+                        className={`h-9 md:h-10 px-3 rounded-xl border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                           isSelected
                             ? 'bg-soft-black text-cream border-soft-black shadow-xs'
                             : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
@@ -495,7 +532,7 @@ const SampleOrder = () => {
               </div>
             </div>
 
-            {/* Row 2: Quantity Stepper & Add to Cart (Side by side) */}
+            {/* Row 2: Quantity Stepper & Add to Cart */}
             <div className="flex items-center gap-2 sm:gap-3 mb-1">
               {/* Quantity Stepper */}
               <div className="flex items-center h-[48px] sm:h-[52px] bg-white border border-stone/20 rounded-xl p-1 sm:p-1.5 shrink-0 w-[110px] sm:w-[130px]">
@@ -564,13 +601,9 @@ const SampleOrder = () => {
                 isOpen={!!openAccordions['description']} 
                 onClick={() => toggleAccordion('description')}
               >
-                <div className="space-y-2.5 text-sm md:text-base text-dark-charcoal/85 leading-relaxed font-light">
-                  <p>
-                    Expertly hand-knotted by skilled Bangladeshi artisans using 100% premium cotton cord. Designed to adapt naturally to your waist without the stiff discomfort of traditional belts, finished with a heavy-duty, anti-rust zinc-alloy buckle.
-                  </p>
-                  <p>
-                    Whether paired with denim, chinos, or casual ethnic wear, it adds a textured, minimalist statement to your everyday wardrobe.
-                  </p>
+                <div className="space-y-3 leading-relaxed text-dark-charcoal/90">
+                  <p>{activeProduct.shortDesc}</p>
+                  <p>{activeProduct.retailDesc}</p>
                 </div>
               </Accordion>
 
@@ -578,32 +611,28 @@ const SampleOrder = () => {
                 title={
                   <div className="flex items-center gap-2.5">
                     <Layers className="w-4 h-4 text-terracotta shrink-0" />
-                    <span>Materials & Specifications</span>
+                    <span>Materials & Hardware Specifications</span>
                   </div>
                 } 
                 isOpen={!!openAccordions['materials']} 
                 onClick={() => toggleAccordion('materials')}
               >
-                <ul className="space-y-2 pt-1 text-sm md:text-base text-dark-charcoal/85 font-light">
+                <ul className="space-y-2.5 text-dark-charcoal/90 text-xs sm:text-sm">
                   <li className="flex items-start">
                     <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                    <span><strong className="font-semibold text-soft-black">Cord:</strong> 100% natural, eco-friendly high-grade braided cotton</span>
+                    <span><strong className="font-semibold text-soft-black">Weave Material:</strong> 100% natural, high-tensile organic cotton cord.</span>
                   </li>
                   <li className="flex items-start">
                     <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                    <span><strong className="font-semibold text-soft-black">Hardware:</strong> Rust-resistant metal pin buckle with matte brushed finish</span>
+                    <span><strong className="font-semibold text-soft-black">Hardware:</strong> Anti-rust metal pin buckle with matte brushed finish.</span>
                   </li>
                   <li className="flex items-start">
                     <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                    <span><strong className="font-semibold text-soft-black">Width:</strong> 4 cm (1.6 in) perfectly fits standard pant & denim loops</span>
+                    <span><strong className="font-semibold text-soft-black">Dimensions:</strong> {activeProduct.dimensionsText || activeProduct.sizeGuide?.width}.</span>
                   </li>
                   <li className="flex items-start">
                     <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                    <span><strong className="font-semibold text-soft-black">Flexibility:</strong> Micro-adjustable weave — fasten the buckle prong at any point along the belt for a custom fit</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                    <span><strong className="font-semibold text-soft-black">Origin:</strong> Proudly handcrafted in Bangladesh</span>
+                    <span><strong className="font-semibold text-soft-black">Finish Quality:</strong> Zero synthetic glue, hand-sealed finished cord ends.</span>
                   </li>
                 </ul>
               </Accordion>
@@ -611,33 +640,29 @@ const SampleOrder = () => {
               <Accordion 
                 title={
                   <div className="flex items-center gap-2.5">
-                    <SlidersHorizontal className="w-4 h-4 text-terracotta shrink-0" />
-                    <span>Customization & OEM Capabilities</span>
+                    <Sliders className="w-4 h-4 text-terracotta shrink-0" />
+                    <span>OEM & Custom Production Capability</span>
                   </div>
                 } 
                 isOpen={!!openAccordions['custom']} 
                 onClick={() => toggleAccordion('custom')}
               >
-                <div className="space-y-3 pt-1 text-sm md:text-base text-dark-charcoal/85 font-light">
-                  <p className="leading-relaxed">
-                    Our workshop provides complete OEM/ODM manufacturing and private-label customization for brands, boutiques, and corporate buyers:
+                <div className="space-y-3 leading-relaxed text-dark-charcoal/90 text-xs sm:text-sm">
+                  <p>
+                    All samples serve as direct reference standards for our commercial OEM and wholesale manufacturing:
                   </p>
                   <ul className="space-y-2">
                     <li className="flex items-start">
                       <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                      <span><strong className="font-semibold text-soft-black">Bespoke Colorways:</strong> Pantone-accurate color dyeing, multi-tone weave patterns, and seasonal palette runs.</span>
+                      <span><strong className="font-semibold text-soft-black">Custom Pantone Dyeing:</strong> Lab-dip color matching to your brand's seasonal color palette.</span>
                     </li>
                     <li className="flex items-start">
                       <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                      <span><strong className="font-semibold text-soft-black">Hardware & Logo Engraving:</strong> Custom buckle finishes (Matte Black, Antique Brass, Brushed Nickel, Gunmetal) with laser-engraved brand logos.</span>
+                      <span><strong className="font-semibold text-soft-black">Custom Dimensions:</strong> Tailored widths (3.0 cm to 5.0 cm) and custom length gradings.</span>
                     </li>
                     <li className="flex items-start">
                       <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                      <span><strong className="font-semibold text-soft-black">Custom Dimensions:</strong> Tailored widths (3.0 cm to 5.0 cm) and extended waist size gradings tailored to your demographic.</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                      <span><strong className="font-semibold text-soft-black">Private Label & Packaging:</strong> Custom woven brand tags, embossed kraft gift boxes, organic cotton dust pouches, and retail-ready barcode hangtags.</span>
+                      <span><strong className="font-semibold text-soft-black">Private Label & Packaging:</strong> Custom woven tags, embossed gift boxes, and barcode hangtags.</span>
                     </li>
                   </ul>
                 </div>
@@ -645,7 +670,6 @@ const SampleOrder = () => {
             </div>
           </div>
         </div>
-        
       </div>
       
       {/* Size Guide Modal */}
@@ -663,7 +687,7 @@ const SampleOrder = () => {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-white border border-stone/20 w-full max-w-sm p-6 relative z-10 shadow-2xl rounded-xl text-center"
+              className="bg-white border border-stone/20 w-full max-w-sm p-6 relative z-10 shadow-2xl rounded-2xl text-center"
             >
               <button 
                 onClick={() => setIsSizeGuideOpen(false)}
@@ -674,40 +698,38 @@ const SampleOrder = () => {
               
               <img src="/logo_black.png" alt="AST Logo" className="h-5 w-auto mx-auto mb-4 object-contain opacity-80" />
               
-              <h2 className="text-xl font-serif text-soft-black mb-5">Sizing Guide</h2>
+              <h2 className="text-xl font-serif text-soft-black mb-1 font-bold">{activeProduct.sizeGuide?.title || 'Sizing Guide'}</h2>
+              <p className="text-xs text-dark-charcoal/70 mb-4">Measurement specifications for {activeProduct.title}</p>
               
-              <div className="w-full bg-stone/5 rounded-lg border border-stone/10 overflow-hidden mb-4">
-                <div className="grid grid-cols-3 bg-stone/10 border-b border-stone/10 py-2">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Size</span>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Waist</span>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Length</span>
+              <div className="w-full bg-stone/5 rounded-xl border border-stone/10 overflow-hidden mb-4 text-xs">
+                <div className="grid grid-cols-3 bg-stone/10 border-b border-stone/10 py-2 font-bold uppercase tracking-widest text-dark-charcoal">
+                  {activeProduct.sizeGuide?.columns?.map((c, i) => (
+                    <span key={i}>{c}</span>
+                  ))}
                 </div>
-                <div className="grid grid-cols-3 py-3 border-b border-stone/10/50">
-                  <span className="text-sm font-semibold text-soft-black">M</span>
-                  <span className="text-sm text-soft-black/80">32–35"</span>
-                  <span className="text-sm text-soft-black/80">38"</span>
-                </div>
-                <div className="grid grid-cols-3 py-3">
-                  <span className="text-sm font-semibold text-soft-black">L</span>
-                  <span className="text-sm text-soft-black/80">35–38"</span>
-                  <span className="text-sm text-soft-black/80">42"</span>
-                </div>
+                {activeProduct.sizeGuide?.rows?.map((r, i) => (
+                  <div key={i} className="grid grid-cols-3 py-3 border-b border-stone/10 last:border-b-0">
+                    <span className="font-bold text-soft-black">{r.size}</span>
+                    <span className="text-soft-black/80">{r.waist}</span>
+                    <span className="text-soft-black/80">{r.length}</span>
+                  </div>
+                ))}
               </div>
 
-              <div className="flex justify-between items-center px-4 py-3 bg-stone/5 rounded-lg border border-stone/10 mb-4">
-                 <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Belt Width</span>
-                 <span className="text-xs font-semibold text-soft-black">4 cm</span>
+              <div className="flex justify-between items-center px-4 py-2.5 bg-stone/5 rounded-xl border border-stone/10 mb-4 text-xs">
+                <span className="font-bold uppercase tracking-widest text-dark-charcoal">Belt Width</span>
+                <span className="font-bold text-soft-black">{activeProduct.sizeGuide?.width}</span>
               </div>
               
               <p className="italic font-light text-dark-charcoal/70 text-[11px] leading-relaxed px-2">
-                * Our macramé weave is naturally flexible, offering a slightly adjustable and comfortable fit.
+                {activeProduct.sizeGuide?.note}
               </p>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
 
-      {/* Sample Policy Modal - Monochromatic Design */}
+      {/* Sample Policy Modal */}
       <AnimatePresence>
         {isSamplePolicyOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
@@ -722,7 +744,7 @@ const SampleOrder = () => {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-white border border-stone/20 w-full max-w-md p-6 sm:p-7 relative z-10 shadow-2xl rounded-xl text-center max-h-[90vh] overflow-y-auto"
+              className="bg-white border border-stone/20 w-full max-w-md p-6 sm:p-7 relative z-10 shadow-2xl rounded-2xl text-center max-h-[90vh] overflow-y-auto"
             >
               <button 
                 onClick={() => setIsSamplePolicyOpen(false)}
@@ -739,15 +761,13 @@ const SampleOrder = () => {
                 Commercial evaluation guidelines for brand buyers & partners.
               </p>
 
-              {/* Monochromatic Policy Sections */}
-              <div className="w-full bg-stone/5 rounded-lg border border-stone/10 p-4 sm:p-4.5 text-left space-y-3.5 mb-4">
+              <div className="w-full bg-stone/5 rounded-xl border border-stone/10 p-4 sm:p-4.5 text-left space-y-3.5 mb-4 text-xs">
                 
-                {/* 1. 100% Rebate */}
                 <div className="flex items-start gap-3">
                   <Tag className="w-4 h-4 text-soft-black shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-xs font-bold text-soft-black uppercase tracking-wider block">100% Sample Rebate</span>
-                    <p className="text-xs text-dark-charcoal/80 leading-relaxed mt-0.5">
+                    <span className="font-bold text-soft-black uppercase tracking-wider block">100% Sample Rebate</span>
+                    <p className="text-dark-charcoal/80 leading-relaxed mt-0.5">
                       The full sample purchase cost is credited back towards your first wholesale bulk order invoice.
                     </p>
                   </div>
@@ -755,239 +775,134 @@ const SampleOrder = () => {
 
                 <div className="w-full h-px bg-stone/15"></div>
 
-                {/* 2. Strategic Tiered Pricing */}
                 <div className="flex items-start gap-3">
                   <Zap className="w-4 h-4 text-soft-black shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-xs font-bold text-soft-black uppercase tracking-wider block">Tiered Sample Pricing</span>
-                    <p className="text-xs text-dark-charcoal/80 leading-relaxed mt-0.5">
-                      1 pc {currencySymbol}{Math.round(850 * (exchangeRate || 1)).toLocaleString()} • 2 pcs {currencySymbol}{Math.round(1490 * (exchangeRate || 1)).toLocaleString()} (Save {currencySymbol}{Math.round(210 * (exchangeRate || 1)).toLocaleString()}) • 3 pcs {currencySymbol}{Math.round(2090 * (exchangeRate || 1)).toLocaleString()} • 5 pcs {currencySymbol}{Math.round(3150 * (exchangeRate || 1)).toLocaleString()}. Volume savings apply automatically.
+                    <span className="font-bold text-soft-black uppercase tracking-wider block">Tiered Sample Pricing ({activeProduct.title})</span>
+                    <p className="text-dark-charcoal/80 leading-relaxed mt-0.5">
+                      {activeProductId === 'kids' ? (
+                        <>1 pc {currencySymbol}{Math.round(600 * (exchangeRate || 1)).toLocaleString()} &bull; 2 pcs {currencySymbol}{Math.round(1090 * (exchangeRate || 1)).toLocaleString()} (Save {currencySymbol}{Math.round(610 * (exchangeRate || 1)).toLocaleString()}) &bull; 3 pcs {currencySymbol}{Math.round(1560 * (exchangeRate || 1)).toLocaleString()} &bull; 5 pcs {currencySymbol}{Math.round(2350 * (exchangeRate || 1)).toLocaleString()}. Volume savings apply automatically.</>
+                      ) : (
+                        <>1 pc {currencySymbol}{Math.round(850 * (exchangeRate || 1)).toLocaleString()} &bull; 2 pcs {currencySymbol}{Math.round(1490 * (exchangeRate || 1)).toLocaleString()} (Save {currencySymbol}{Math.round(210 * (exchangeRate || 1)).toLocaleString()}) &bull; 3 pcs {currencySymbol}{Math.round(2090 * (exchangeRate || 1)).toLocaleString()} &bull; 5 pcs {currencySymbol}{Math.round(3150 * (exchangeRate || 1)).toLocaleString()}. Volume savings apply automatically.</>
+                      )}
                     </p>
                   </div>
                 </div>
 
                 <div className="w-full h-px bg-stone/15"></div>
 
-                {/* 3. Dispatch & Payment */}
                 <div className="flex items-start gap-3">
-                  <Truck className="w-4 h-4 text-soft-black shrink-0 mt-0.5" />
+                  <Check className="w-4 h-4 text-soft-black shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-xs font-bold text-soft-black uppercase tracking-wider block">Delivery & Payment</span>
-                    <p className="text-xs text-dark-charcoal/80 leading-relaxed mt-0.5">
-                      Cash on Delivery (COD) nationwide in Bangladesh. Express courier dispatch for international destinations.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="w-full h-px bg-stone/15"></div>
-
-                {/* 4. Quality Evaluation Terms */}
-                <div className="flex items-start gap-3">
-                  <ShieldCheck className="w-4 h-4 text-soft-black shrink-0 mt-0.5" />
-                  <div>
-                    <span className="text-xs font-bold text-soft-black uppercase tracking-wider block">Evaluation Terms</span>
-                    <p className="text-xs text-dark-charcoal/80 leading-relaxed mt-0.5">
-                      Samples are provided for physical quality inspection prior to volume manufacturing. Freight charges cover direct transit.
+                    <span className="font-bold text-soft-black uppercase tracking-wider block">Production Standard Guarantee</span>
+                    <p className="text-dark-charcoal/80 leading-relaxed mt-0.5">
+                      All sample items are handcrafted using identical materials, knot density, and hardware to your future mass production run.
                     </p>
                   </div>
                 </div>
 
               </div>
-              
-              <p className="italic font-light text-dark-charcoal/70 text-[11px] leading-relaxed px-2">
-                * Evaluate craftsmanship with complete confidence, knowing sample expenses are credited upon bulk PO confirmation.
-              </p>
+
+              <button
+                type="button"
+                onClick={() => setIsSamplePolicyOpen(false)}
+                className="w-full bg-soft-black text-white hover:bg-dark-charcoal py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+              >
+                I Understand &bull; Continue Order
+              </button>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
 
       {/* Lightbox Modal */}
-      <AnimatePresence>
-        {lightboxImage && (
-          <div 
-            className="fixed inset-0 z-[100] flex flex-col items-center justify-between bg-black/95 px-2 sm:px-4 py-3 sm:py-4 overflow-hidden select-none"
-            onTouchStart={onTouchStart}
-            onTouchMove={onTouchMove}
-            onTouchEnd={onTouchEndEvent}
-          >
-            {/* Top Bar with Counter & Close */}
-            <div className="w-full flex items-center justify-between px-2 sm:px-6 z-[120]">
-              <div className="text-white/75 text-xs sm:text-sm font-mono tracking-wider">
-                {images.indexOf(lightboxImage) + 1} / {images.length}
-              </div>
-              <button 
-                onClick={() => setLightboxImage(null)}
-                className="text-white/80 hover:text-white transition-all hover:scale-110 p-2 cursor-pointer bg-white/10 hover:bg-white/20 rounded-full"
-                aria-label="Close Preview"
-              >
-                <X className="w-5 h-5 sm:w-6 sm:h-6" />
-              </button>
+      {lightboxImage && (
+        <div 
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-between bg-black/95 px-2 sm:px-4 py-3 sm:py-4 overflow-hidden select-none"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEndEvent}
+        >
+          <div className="w-full flex items-center justify-between px-2 sm:px-6 z-[120]">
+            <div className="text-white/75 text-xs sm:text-sm font-mono tracking-wider">
+              {images.indexOf(lightboxImage) + 1} / {images.length}
             </div>
-
-            {/* Main Zoomable Image View */}
-            <div className="relative flex items-center justify-center w-full flex-1 max-h-[70vh] sm:max-h-[75vh] md:max-h-[78vh] my-auto">
-              <button 
-                onClick={handlePrevImage}
-                className="absolute left-2 sm:left-4 md:left-8 text-white z-[110] p-2 sm:p-3 bg-black/40 hover:bg-black/70 backdrop-blur-sm rounded-full transition-all cursor-pointer shadow-lg"
-                aria-label="Previous Image"
-              >
-                <ChevronLeft className="w-5 h-5 sm:w-7 sm:h-7" />
-              </button>
-              
-              <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
-                <TransformWrapper
-                  initialScale={1}
-                  minScale={1}
-                  maxScale={4}
-                  centerOnInit={true}
-                  doubleClick={{ mode: "toggle" }}
-                  wheel={{ step: 0.1 }}
-                >
-                  {({ zoomIn, zoomOut, resetTransform }) => (
-                    <React.Fragment>
-                      <TransformComponent wrapperClass="!w-full !h-full" contentClass="!w-full !h-full flex items-center justify-center">
-                        <img 
-                          src={lightboxImage} 
-                          alt="Product Zoom"
-                          className="w-full h-full object-contain cursor-grab active:cursor-grabbing bg-transparent select-none"
-                          draggable="false"
-                        />
-                      </TransformComponent>
-                      
-                      {/* Zoom Controls */}
-                      <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-3 sm:gap-5 z-[110] bg-black/75 backdrop-blur-md px-4 sm:px-6 py-2 rounded-full border border-white/20 shadow-2xl">
-                        <button onClick={() => zoomOut()} className="text-white/80 hover:text-white hover:scale-110 transition-all p-1 cursor-pointer" title="Zoom Out">
-                          <ZoomOut className="w-4 h-4 sm:w-5 sm:h-5" />
-                        </button>
-                        <button onClick={() => resetTransform()} className="flex items-center gap-1.5 text-[10px] sm:text-xs text-white/90 font-mono uppercase tracking-widest hover:text-white hover:scale-105 transition-all px-2.5 py-0.5 border-x border-white/25 cursor-pointer" title="Reset View">
-                          <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                          <span>Reset</span>
-                        </button>
-                        <button onClick={() => zoomIn()} className="text-white/80 hover:text-white hover:scale-110 transition-all p-1 cursor-pointer" title="Zoom In">
-                          <ZoomIn className="w-4 h-4 sm:w-5 sm:h-5" />
-                        </button>
-                      </div>
-                    </React.Fragment>
-                  )}
-                </TransformWrapper>
-              </div>
-
-              <button 
-                onClick={handleNextImage}
-                className="absolute right-2 sm:right-4 md:right-8 text-white z-[110] p-2 sm:p-3 bg-black/40 hover:bg-black/70 backdrop-blur-sm rounded-full transition-all cursor-pointer shadow-lg"
-                aria-label="Next Image"
-              >
-                <ChevronRight className="w-5 h-5 sm:w-7 sm:h-7" />
-              </button>
-            </div>
-
-            {/* Thumbnails */}
-            <div className="w-full h-16 sm:h-20 flex items-center justify-center gap-2 sm:gap-3 px-4 z-[110]">
-               {images.map((img, idx) => (
-                  <button 
-                    key={idx} 
-                    onClick={() => setLightboxImage(img)}
-                    className={`w-12 h-12 sm:w-14 sm:h-14 aspect-square shrink-0 rounded-none overflow-hidden border-2 transition-all cursor-pointer ${
-                      lightboxImage === img 
-                        ? 'border-terracotta scale-105 shadow-md opacity-100' 
-                        : 'border-transparent opacity-50 hover:opacity-80'
-                    }`}
-                    aria-label={`View thumbnail ${idx + 1}`}
-                  >
-                    <img src={img} className="w-full h-full object-cover" alt={`Thumbnail ${idx + 1}`} />
-                  </button>
-               ))}
-            </div>
+            <button 
+              onClick={() => setLightboxImage(null)}
+              className="text-white/80 hover:text-white transition-all hover:scale-110 p-2 cursor-pointer bg-white/10 hover:bg-white/20 rounded-full"
+              aria-label="Close Preview"
+            >
+              <X className="w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
           </div>
-        )}
-      </AnimatePresence>
 
-      {/* Features Grid */}
-      <section className="pt-12 md:pt-20 pb-8 md:pb-12 bg-cotton-white px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8 w-full">
+          <div className="relative flex items-center justify-center w-full flex-1 max-h-[70vh] sm:max-h-[75vh] md:max-h-[78vh] my-auto">
+            <button 
+              onClick={handlePrevImage}
+              className="absolute left-2 sm:left-4 md:left-8 text-white z-[110] p-2 sm:p-3 bg-black/40 hover:bg-black/70 backdrop-blur-sm rounded-full transition-all cursor-pointer shadow-lg"
+              aria-label="Previous Image"
+            >
+              <ChevronLeft className="w-5 h-5 sm:w-7 sm:h-7" />
+            </button>
             
-            {/* Bento Card 1: Premium Materials */}
-            <div className="group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
-              <img src="/premium_materials_bento.jpg" alt="Premium Materials" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-85 md:opacity-75 md:group-hover:opacity-95 transition-opacity duration-500"></div>
-              
-              <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
-                <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                    </svg>
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-serif text-white leading-tight">Premium Materials</h3>
-                </div>
-                
-                <div className="grid grid-rows-[1fr] md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-100 md:opacity-0 md:group-hover:opacity-100">
-                  <div className="overflow-hidden">
-                    <p className="text-white/80 text-xs md:text-sm leading-relaxed mt-2 pb-2">
-                      We source only high-quality cotton macramé cord and rust-resistant, durable metal buckles for every piece.
-                    </p>
-                  </div>
-                </div>
-              </div>
+            <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+              <TransformWrapper initialScale={1} minScale={1} maxScale={4} centerOnInit={true}>
+                {({ zoomIn, zoomOut, resetTransform }) => (
+                  <>
+                    <TransformComponent wrapperClass="!w-full !h-full" contentClass="!w-full !h-full flex items-center justify-center">
+                      <img 
+                        src={lightboxImage} 
+                        alt="Product Zoom" 
+                        className="w-full h-full object-contain cursor-grab active:cursor-grabbing bg-transparent select-none"
+                        draggable="false"
+                      />
+                    </TransformComponent>
+                    
+                    <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-3 sm:gap-5 z-[110] bg-black/75 backdrop-blur-md px-4 sm:px-6 py-2 rounded-full border border-white/20 shadow-2xl">
+                      <button onClick={() => zoomOut()} className="text-white/80 hover:text-white p-1 cursor-pointer">
+                        <ZoomOut className="w-4 h-4 sm:w-5 sm:h-5" />
+                      </button>
+                      <button onClick={() => resetTransform()} className="flex items-center gap-1.5 text-[10px] sm:text-xs text-white/90 font-mono uppercase tracking-widest px-2.5 py-0.5 border-x border-white/25 cursor-pointer">
+                        <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                        <span>Reset</span>
+                      </button>
+                      <button onClick={() => zoomIn()} className="text-white/80 hover:text-white p-1 cursor-pointer">
+                        <ZoomIn className="w-4 h-4 sm:w-5 sm:h-5" />
+                      </button>
+                    </div>
+                  </>
+                )}
+              </TransformWrapper>
             </div>
-            
-            {/* Bento Card 2: OEM & Private Label */}
-            <div className="group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
-              <img src="/oem_private_label_bento.jpg" alt="OEM & Private Label" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-85 md:opacity-75 md:group-hover:opacity-95 transition-opacity duration-500"></div>
-              
-              <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
-                <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                      <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                      <line x1="12" y1="22.08" x2="12" y2="12"/>
-                    </svg>
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-serif text-white leading-tight">OEM &<br/>Private Label</h3>
-                </div>
-                
-                <div className="grid grid-rows-[1fr] md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-100 md:opacity-0 md:group-hover:opacity-100">
-                  <div className="overflow-hidden">
-                    <p className="text-white/80 text-xs md:text-sm leading-relaxed mt-2 pb-2">
-                      Complete customization including custom tags, packaging, bespoke colors, and specific size requirements.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Bento Card 3: Quality Assured */}
-            <div className="group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full aspect-[3/2]">
-              <img src="/quality_assured_bento.jpg" alt="Quality Assured" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-85 md:opacity-75 md:group-hover:opacity-95 transition-opacity duration-500"></div>
-              
-              <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
-                <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                    </svg>
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-serif text-white leading-tight">Quality Assured</h3>
-                </div>
-                
-                <div className="grid grid-rows-[1fr] md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-100 md:opacity-0 md:group-hover:opacity-100">
-                  <div className="overflow-hidden">
-                    <p className="text-white/80 text-xs md:text-sm leading-relaxed mt-2 pb-2">
-                      Every belt undergoes rigorous individual inspection covering weaving quality, size accuracy, and buckle strength.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
+
+            <button 
+              onClick={handleNextImage}
+              className="absolute right-2 sm:right-4 md:right-8 text-white z-[110] p-2 sm:p-3 bg-black/40 hover:bg-black/70 backdrop-blur-sm rounded-full transition-all cursor-pointer shadow-lg"
+              aria-label="Next Image"
+            >
+              <ChevronRight className="w-5 h-5 sm:w-7 sm:h-7" />
+            </button>
+          </div>
+
+          <div className="w-full h-16 sm:h-20 flex items-center justify-center gap-2 sm:gap-3 px-4 z-[110]">
+            {images.map((img, idx) => (
+              <button 
+                key={idx}
+                onClick={() => setLightboxImage(img)}
+                className={`w-12 h-12 sm:w-14 sm:h-14 aspect-square shrink-0 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
+                  lightboxImage === img 
+                    ? 'border-terracotta scale-105 shadow-md opacity-100' 
+                    : 'border-transparent opacity-50 hover:opacity-80'
+                }`}
+                aria-label={`View image ${idx + 1}`}
+              >
+                <img src={img} className="w-full h-full object-cover" alt={`Thumbnail ${idx + 1}`} />
+              </button>
+            ))}
           </div>
         </div>
-      </section>
+      )}
+
     </div>
   );
 };
