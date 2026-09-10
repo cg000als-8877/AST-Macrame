@@ -60,10 +60,10 @@ const Navbar = () => {
     }
   };
 
-  const navClass = `fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-300 top-0 sm:top-3 md:top-4 w-full sm:w-[95%] md:w-[92%] max-w-6xl bg-cream border-b sm:border border-stone/20 sm:border-white/20 rounded-none sm:rounded-full ${
+  const navClass = `fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-300 top-0 sm:top-3 md:top-4 w-full sm:w-[95%] md:w-[92%] max-w-6xl bg-white sm:bg-cream border-b sm:border border-stone/20 sm:border-white/20 rounded-none sm:rounded-full ${
     isScrolled 
-      ? 'shadow-md sm:shadow-lg bg-cream sm:bg-cream/95 sm:backdrop-blur-md' 
-      : 'shadow-xs sm:shadow-md bg-cream sm:bg-cream/90 sm:backdrop-blur-md'
+      ? 'shadow-md sm:shadow-lg bg-white sm:bg-cream/95 sm:backdrop-blur-md' 
+      : 'shadow-xs sm:shadow-md bg-white sm:bg-cream/90 sm:backdrop-blur-md'
   }`;
 
   return (

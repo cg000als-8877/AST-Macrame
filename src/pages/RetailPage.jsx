@@ -576,20 +576,20 @@ const RetailPage = () => {
                 <div className="flex items-center gap-2 md:gap-3">
                   <button 
                     type="button"
-                    onClick={() => setIsSizeGuideOpen(true)}
-                    className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-wider uppercase text-soft-black/80 hover:text-soft-black transition-colors cursor-pointer"
-                  >
-                    <Ruler className="w-3.5 h-3.5 text-terracotta shrink-0" />
-                    <span className="underline underline-offset-4">Size Guide</span>
-                  </button>
-                  <span className="text-stone-300 text-xs shrink-0">•</span>
-                  <button 
-                    type="button"
                     onClick={() => setIsCareGuideOpen(true)}
                     className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-wider uppercase text-soft-black/80 hover:text-soft-black transition-colors cursor-pointer"
                   >
                     <Droplets className="w-3.5 h-3.5 text-terracotta shrink-0" />
                     <span className="underline underline-offset-4">Care Guide</span>
+                  </button>
+                  <span className="text-stone-300 text-xs shrink-0">•</span>
+                  <button 
+                    type="button"
+                    onClick={() => setIsSizeGuideOpen(true)}
+                    className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-wider uppercase text-soft-black/80 hover:text-soft-black transition-colors cursor-pointer"
+                  >
+                    <Ruler className="w-3.5 h-3.5 text-terracotta shrink-0" />
+                    <span className="underline underline-offset-4">Size Guide</span>
                   </button>
                 </div>
 
@@ -651,20 +651,20 @@ const RetailPage = () => {
                 <div className="flex items-center gap-2 md:gap-3">
                   <button 
                     type="button"
-                    onClick={() => setIsSizeGuideOpen(true)}
-                    className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-wider uppercase text-soft-black/80 hover:text-soft-black transition-colors cursor-pointer"
-                  >
-                    <Ruler className="w-3.5 h-3.5 text-terracotta shrink-0" />
-                    <span className="underline underline-offset-4">Size Guide</span>
-                  </button>
-                  <span className="text-stone-300 text-xs shrink-0">•</span>
-                  <button 
-                    type="button"
                     onClick={() => setIsCareGuideOpen(true)}
                     className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-wider uppercase text-soft-black/80 hover:text-soft-black transition-colors cursor-pointer"
                   >
                     <Droplets className="w-3.5 h-3.5 text-terracotta shrink-0" />
                     <span className="underline underline-offset-4">Care Guide</span>
+                  </button>
+                  <span className="text-stone-300 text-xs shrink-0">•</span>
+                  <button 
+                    type="button"
+                    onClick={() => setIsSizeGuideOpen(true)}
+                    className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold tracking-wider uppercase text-soft-black/80 hover:text-soft-black transition-colors cursor-pointer"
+                  >
+                    <Ruler className="w-3.5 h-3.5 text-terracotta shrink-0" />
+                    <span className="underline underline-offset-4">Size Guide</span>
                   </button>
                 </div>
 
