@@ -159,15 +159,17 @@ const Navbar = () => {
           <div className="flex items-center justify-center">
             <nav className="flex items-center gap-1 sm:gap-1.5 md:gap-2 lg:gap-2.5 text-soft-black">
               {desktopNavLinks.map((link) => {
-                const isActive = location.pathname === link.path;
+                const isActive = location.pathname === link.path || 
+                  (link.path === '/products' && location.pathname === '/product') ||
+                  (link.path === '/sample-wholesale' && location.pathname === '/wholesale');
                 return (
                   <Link 
                     key={link.name}
                     to={link.path}
-                    className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-[11px] md:text-xs lg:text-[12.5px] font-bold tracking-wider uppercase transition-all duration-200 whitespace-nowrap rounded-full ${
+                    className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-[11px] md:text-xs lg:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded-full border transition-all duration-200 ${
                       isActive 
-                        ? 'text-terracotta bg-[#FAF7F2] shadow-[2px_3px_8px_rgba(0,0,0,0.1),-2px_-2px_6px_rgba(255,255,255,0.95)] border border-white/90 scale-[1.02]' 
-                        : 'text-soft-black/80 hover:text-soft-black hover:bg-black/[0.03] active:scale-95'
+                        ? 'text-terracotta bg-gradient-to-b from-[#FAF3EB] to-[#EFE3D5] border-[#E8DACB] shadow-[2px_3px_8px_rgba(75,45,25,0.14),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02]' 
+                        : 'border-transparent text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
                     }`}
                   >
                     {link.name}
@@ -177,17 +179,8 @@ const Navbar = () => {
             </nav>
           </div>
 
-          {/* Right side: Contact Link + Cart Button */}
-          <div className="shrink-0 flex items-center gap-3 md:gap-4">
-            <Link 
-              to="/contact"
-              className="p-1.5 text-soft-black/80 hover:text-terracotta active:scale-90 transition-colors cursor-pointer"
-              title="Contact Us"
-              aria-label="Contact Us"
-            >
-              <Phone className="w-4.5 h-4.5 stroke-[1.8]" />
-            </Link>
-
+          {/* Right side: Cart Button */}
+          <div className="shrink-0 flex items-center">
             <button 
               type="button"
               onClick={() => setIsCartOpen(true)}

@@ -155,51 +155,51 @@ const ProductGallery = () => {
                     </div>
 
                     {/* 2. Product Title */}
-                    <h2 className="font-serif text-[12.5px] sm:text-base lg:text-[14.5px] xl:text-[15.5px] font-bold text-soft-black leading-snug line-clamp-2 mb-1 group-hover:text-terracotta transition-colors">
+                    <h2 className="font-serif text-[11px] sm:text-base lg:text-[14.5px] xl:text-[15.5px] font-normal sm:font-bold text-soft-black leading-snug line-clamp-2 mb-1 group-hover:text-terracotta transition-colors">
                       {item.productTitle} - {item.colorName}
                     </h2>
 
                     {/* Tagline */}
-                    <p className="text-[10.5px] sm:text-xs text-dark-charcoal/60 font-light italic mb-2 line-clamp-1">
+                    <p className="text-[9.5px] sm:text-xs text-dark-charcoal/60 font-normal italic mb-1.5 sm:mb-2 line-clamp-1">
                       {item.tagline}
                     </p>
 
                     {/* Price Banner */}
-                    <div className="flex items-center justify-between gap-1 mb-2.5 sm:mb-3.5">
-                      <div className="flex items-baseline gap-1.5 sm:gap-2">
-                        <span className="text-sm sm:text-base lg:text-base xl:text-lg font-bold text-terracotta">
+                    <div className="flex items-center justify-between gap-1 mb-2 sm:mb-3.5">
+                      <div className="flex items-baseline gap-1 sm:gap-2">
+                        <span className="text-xs sm:text-base lg:text-base xl:text-lg font-normal sm:font-bold text-terracotta">
                           {currencySymbol}{Math.round(singlePrice * (exchangeRate || 1)).toLocaleString()}
                         </span>
-                        <span className="text-xs sm:text-sm text-dark-charcoal/50 line-through">
+                        <span className="text-[10px] sm:text-sm text-dark-charcoal/50 line-through">
                           {currencySymbol}{Math.round(regularPrice * (exchangeRate || 1)).toLocaleString()}
                         </span>
                       </div>
-                      <span className="text-[10px] sm:text-xs lg:text-[11px] xl:text-xs font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200/60 shrink-0">
+                      <span className="text-[9px] sm:text-xs lg:text-[11px] xl:text-xs font-normal sm:font-semibold text-emerald-800 bg-emerald-50 px-1.5 sm:px-2 py-0.5 rounded border border-emerald-200/60 shrink-0">
                         Save {currencySymbol}{Math.round(savingsBDT * (exchangeRate || 1)).toLocaleString()}
                       </span>
                     </div>
 
                     {/* 3. Single Color Display + Available Sizes */}
-                    <div className="pt-2 sm:pt-2.5 border-t border-stone/15 mb-3 sm:mb-4 flex items-center justify-between gap-1">
+                    <div className="pt-1.5 sm:pt-2.5 border-t border-stone/15 mb-2.5 sm:mb-4 flex items-center justify-between gap-1">
                       
                       {/* Left: Color Swatch + Label */}
                       <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                         <div 
-                          className="w-4 h-4 sm:w-5 sm:h-5 rounded-full border border-soft-black/30 shadow-2xs shrink-0" 
+                          className="w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full border border-soft-black/30 shadow-2xs shrink-0" 
                           style={{ backgroundColor: item.hex }} 
                         />
-                        <span className="text-xs sm:text-sm lg:text-xs xl:text-sm font-bold text-soft-black uppercase tracking-wider">
+                        <span className="text-[10px] sm:text-sm lg:text-xs xl:text-sm font-normal sm:font-bold text-soft-black uppercase tracking-wider">
                           {item.colorName}
                         </span>
                       </div>
 
                       {/* Right: Available Sizes */}
                       <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
-                        <span className="text-[10px] sm:text-xs text-dark-charcoal/60 font-medium mr-0.5">Size:</span>
+                        <span className="text-[9px] sm:text-xs text-dark-charcoal/60 font-normal sm:font-medium mr-0.5">Size:</span>
                         {item.sizes.map((sz) => (
                           <span
                             key={sz}
-                            className="px-1.5 h-6 sm:h-7 rounded-md bg-[#FAF8F5] text-dark-charcoal/90 border border-stone/25 text-[11px] sm:text-xs font-bold flex items-center justify-center select-none shadow-2xs"
+                            className="px-1.5 h-5 sm:h-7 rounded-md bg-[#FAF8F5] text-dark-charcoal/90 border border-stone/25 text-[9.5px] sm:text-xs font-normal sm:font-bold flex items-center justify-center select-none shadow-2xs"
                             title={`Size ${sz} Available`}
                           >
                             {sz}
