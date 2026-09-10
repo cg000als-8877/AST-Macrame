@@ -28,10 +28,13 @@ const Navbar = () => {
 
   const isRetailPage = location.pathname === '/retail';
 
-  const desktopNavLinks = [
+  const desktopLeftLinks = [
+    { name: 'Home', path: '/' },
     { name: 'Products', path: '/products' },
-    { name: 'Sample Order', path: '/sample-order' },
-    { name: 'Wholesale', path: '/sample-wholesale' },
+    { name: 'Wholesale', path: '/sample-wholesale' }
+  ];
+
+  const desktopRightLinks = [
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' }
   ];
@@ -143,22 +146,12 @@ const Navbar = () => {
         </div>
 
         {/* 2. DESKTOP NAVBAR (Hidden on mobile) */}
-        <div className="hidden sm:flex px-6 lg:px-8 h-12 md:h-14 items-center justify-between w-full">
-          {/* Logo (Desktop) */}
-          <div className="shrink-0 flex items-center">
-            <Link to="/" className="flex items-center gap-2 active:scale-95 transition-transform duration-200">
-              <img 
-                src="/logo_black.png" 
-                alt="AST Handmade Macramé Belts" 
-                className="h-7 md:h-8 lg:h-9 w-auto object-contain"
-              />
-            </Link>
-          </div>
-
-          {/* Navigation Links with Neumorphic Active Button */}
-          <div className="flex items-center justify-center">
+        <div className="hidden sm:flex px-4 md:px-6 lg:px-8 h-14 md:h-16 items-center justify-between w-full">
+          
+          {/* Left Navigation Links: Home, Products, Wholesale */}
+          <div className="flex-1 flex items-center justify-start">
             <nav className="flex items-center gap-1 sm:gap-1.5 md:gap-2 lg:gap-2.5 text-soft-black">
-              {desktopNavLinks.map((link) => {
+              {desktopLeftLinks.map((link) => {
                 const isActive = location.pathname === link.path || 
                   (link.path === '/products' && location.pathname === '/product') ||
                   (link.path === '/sample-wholesale' && location.pathname === '/wholesale');
@@ -179,23 +172,55 @@ const Navbar = () => {
             </nav>
           </div>
 
-          {/* Right side: Cart Button */}
-          <div className="shrink-0 flex items-center">
+          {/* Center Logo (Bigger & Centered) */}
+          <div className="shrink-0 flex items-center justify-center px-2 md:px-4">
+            <Link to="/" className="flex items-center gap-2 active:scale-95 transition-transform duration-200">
+              <img 
+                src="/logo_black.png" 
+                alt="AST Handmade Macramé Belts" 
+                className="h-8 md:h-9.5 lg:h-11 w-auto object-contain"
+              />
+            </Link>
+          </div>
+
+          {/* Right Navigation Links: About, Contact + Cart */}
+          <div className="flex-1 flex items-center justify-end gap-1 sm:gap-1.5 md:gap-2 lg:gap-2.5">
+            <nav className="flex items-center gap-1 sm:gap-1.5 md:gap-2 lg:gap-2.5 text-soft-black">
+              {desktopRightLinks.map((link) => {
+                const isActive = location.pathname === link.path;
+                return (
+                  <Link 
+                    key={link.name}
+                    to={link.path}
+                    className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-[11px] md:text-xs lg:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded-full border transition-all duration-200 ${
+                      isActive 
+                        ? 'text-terracotta bg-gradient-to-b from-[#FAF3EB] to-[#EFE3D5] border-[#E8DACB] shadow-[2px_3px_8px_rgba(75,45,25,0.14),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02]' 
+                        : 'border-transparent text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            {/* Cart Button */}
             <button 
               type="button"
               onClick={() => setIsCartOpen(true)}
-              className="relative p-1.5 text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer group"
+              className="relative p-2 text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer group"
               title="Cart"
               aria-label="Cart"
             >
               <ShoppingCart className="w-5 h-5 stroke-[1.8] transition-transform group-hover:scale-105" />
               {totalCartQuantity > 0 && (
-                <span className="absolute -top-1 -right-1 bg-terracotta text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-xs">
+                <span className="absolute -top-0.5 -right-0.5 bg-terracotta text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-xs">
                   {totalCartQuantity}
                 </span>
               )}
             </button>
           </div>
+
         </div>
 
       </header>

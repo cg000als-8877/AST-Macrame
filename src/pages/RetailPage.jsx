@@ -847,13 +847,13 @@ const RetailPage = () => {
                     className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-xl border transition-all duration-300 ${
                       isCartedAnimation
                         ? 'border-emerald-600 bg-emerald-50 text-emerald-700 scale-[1.01] shadow-sm'
-                        : 'bg-transparent border-soft-black text-soft-black hover:border-terracotta hover:text-cream hover:shadow-md hover:shadow-terracotta/20 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] cursor-pointer'
+                        : 'bg-transparent border-soft-black text-soft-black hover:border-soft-black hover:text-cream hover:shadow-md hover:shadow-black/20 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] cursor-pointer'
                     } ${!isOrderReady ? 'opacity-50 cursor-not-allowed' : ''}`}
                     title="Add to Cart"
                     aria-label="Add to Cart"
                   >
                     {!isCartedAnimation && (
-                      <span className="absolute inset-0 bg-terracotta translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
+                      <span className="absolute inset-0 bg-soft-black translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
                     )}
                     <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.22em]">
                       {isCartedAnimation ? 'ADDED TO CART!' : 'ADD TO CART'}
@@ -1582,7 +1582,7 @@ const RetailPage = () => {
                   className={`w-9 h-9 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center rounded-xl border transition-all duration-200 cursor-pointer ${
                     isCartedAnimation
                       ? 'border-emerald-600 text-emerald-600 bg-transparent scale-105'
-                      : 'bg-transparent border-soft-black text-soft-black hover:border-terracotta hover:text-terracotta active:scale-95'
+                      : 'bg-transparent border-soft-black text-soft-black hover:bg-soft-black hover:text-cream active:scale-95'
                   }`}
                   title="Add to Cart"
                   aria-label="Add to Cart"
