@@ -7,7 +7,6 @@ import { CartWishlistProvider, useCartWishlist } from './context/CartWishlistCon
 import Navbar from './components/Navbar';
 import BottomNav from './components/BottomNav';
 import Footer from './components/Footer';
-import WishlistDrawer from './components/WishlistDrawer';
 import CartDrawer from './components/CartDrawer';
 import Home from './pages/Home';
 import Product from './pages/Product';
@@ -30,21 +29,9 @@ const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.body.classList.remove('modal-open');
   }, [pathname]);
   return null;
-};
-
-const PageWrapper = ({ children }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -30 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
 };
 
 const GlobalToast = () => {
@@ -67,55 +54,52 @@ const GlobalToast = () => {
 };
 
 const AnimatedRoutes = () => {
-  const location = useLocation();
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-        
-        {/* Dedicated Sample Order Page (Supports all aliases) */}
-        <Route path="/sample-order" element={<PageWrapper><SampleOrder /></PageWrapper>} />
-        <Route path="/sample" element={<PageWrapper><SampleOrder /></PageWrapper>} />
-        <Route path="/samples" element={<PageWrapper><SampleOrder /></PageWrapper>} />
-        <Route path="/sample-production" element={<PageWrapper><SampleOrder /></PageWrapper>} />
-        <Route path="/product" element={<PageWrapper><SampleOrder /></PageWrapper>} />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      
+      {/* Dedicated Sample Order Page (Supports all aliases) */}
+      <Route path="/sample-order" element={<SampleOrder />} />
+      <Route path="/sample" element={<SampleOrder />} />
+      <Route path="/samples" element={<SampleOrder />} />
+      <Route path="/sample-production" element={<SampleOrder />} />
+      <Route path="/product" element={<SampleOrder />} />
 
-        {/* Dedicated Wholesale & B2B Portal */}
-        <Route path="/sample-wholesale" element={<PageWrapper><SampleWholesale /></PageWrapper>} />
-        <Route path="/wholesale" element={<PageWrapper><SampleWholesale /></PageWrapper>} />
-        <Route path="/production" element={<PageWrapper><SampleWholesale /></PageWrapper>} />
-        <Route path="/b2b" element={<PageWrapper><SampleWholesale /></PageWrapper>} />
+      {/* Dedicated Wholesale & B2B Portal */}
+      <Route path="/sample-wholesale" element={<SampleWholesale />} />
+      <Route path="/wholesale" element={<SampleWholesale />} />
+      <Route path="/production" element={<SampleWholesale />} />
+      <Route path="/b2b" element={<SampleWholesale />} />
 
-        <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
-        <Route path="/retail" element={<PageWrapper><RetailPage /></PageWrapper>} />
-        
-        {/* Universal Product Gallery Page */}
-        <Route path="/products" element={<PageWrapper><ProductGallery /></PageWrapper>} />
-        <Route path="/gallery" element={<PageWrapper><ProductGallery /></PageWrapper>} />
-        <Route path="/collection" element={<PageWrapper><ProductGallery /></PageWrapper>} />
-        <Route path="/all-products" element={<PageWrapper><ProductGallery /></PageWrapper>} />
+      <Route path="/about" element={<About />} />
+      <Route path="/retail" element={<RetailPage />} />
+      
+      {/* Universal Product Gallery Page */}
+      <Route path="/products" element={<ProductGallery />} />
+      <Route path="/gallery" element={<ProductGallery />} />
+      <Route path="/collection" element={<ProductGallery />} />
+      <Route path="/all-products" element={<ProductGallery />} />
 
-        <Route path="/faq" element={<PageWrapper><FAQ /></PageWrapper>} />
-        <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
-        <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
-        <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
-        <Route path="/refund" element={<PageWrapper><Refund /></PageWrapper>} />
-        
-        {/* Wildcard 404 Fallback */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-        
-        {/* Secure Admin Portal Routes */}
-        <Route path="/admin/login" element={<AdminLogin />} />
-        <Route 
-          path="/admin" 
-          element={
-            <ProtectedRoute>
-              <AdminDashboard />
-            </ProtectedRoute>
-          } 
-        />
-      </Routes>
-    </AnimatePresence>
+      <Route path="/faq" element={<FAQ />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/terms" element={<Terms />} />
+      <Route path="/privacy" element={<Privacy />} />
+      <Route path="/refund" element={<Refund />} />
+      
+      {/* Wildcard 404 Fallback */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+      
+      {/* Secure Admin Portal Routes */}
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route 
+        path="/admin" 
+        element={
+          <ProtectedRoute>
+            <AdminDashboard />
+          </ProtectedRoute>
+        } 
+      />
+    </Routes>
   );
 };
 
@@ -124,19 +108,18 @@ const AppLayout = () => {
   const isAdmin = location.pathname.startsWith('/admin');
 
   return (
-    <div className="flex flex-col bg-cream text-soft-black font-sans selection:bg-terracotta selection:text-cream">
+    <div className="flex flex-col bg-cream text-soft-black font-sans selection:bg-terracotta selection:text-cream min-h-screen">
       {!isAdmin && <Navbar />}
-      <main>
+      <main className="flex-1">
         <AnimatedRoutes />
       </main>
       {!isAdmin && <BottomNav />}
       {!isAdmin && <Footer />}
       {!isAdmin && <ThemeSwitcher />}
       
-      {/* Sample Cart and Wishlist Drawers (Excluded on Admin) */}
+      {/* Cart Drawer & Global Toast */}
       {!isAdmin && (
         <>
-          <WishlistDrawer />
           <CartDrawer />
           <GlobalToast />
         </>

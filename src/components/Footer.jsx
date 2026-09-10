@@ -7,7 +7,7 @@ const Footer = () => {
   const isSeamlessPage = location.pathname === '/' || location.pathname === '/sample-wholesale';
 
   return (
-    <footer className={`bg-[#131E33] text-cream pt-16 pb-28 sm:pb-8 ${isSeamlessPage ? 'border-t border-white/15 sm:border-t-0' : 'border-t border-white/15'}`}>
+    <footer id="site-footer" className={`bg-[#131E33] text-cream pt-16 pb-28 sm:pb-8 ${isSeamlessPage ? 'border-t border-white/15 sm:border-t-0' : 'border-t border-white/15'}`}>
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex flex-col lg:grid lg:grid-cols-4 lg:gap-12 mb-0 md:mb-12 gap-6">
           

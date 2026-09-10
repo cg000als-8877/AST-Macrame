@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { 
   Ruler, 
   Eye, 
@@ -13,7 +13,8 @@ import {
   ShieldCheck, 
   Truck, 
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Search
 } from 'lucide-react';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { useCartWishlist } from '../context/CartWishlistContext';
@@ -105,6 +106,20 @@ const colorCatalog = [
 const ProductGallery = () => {
   const { storeConfig } = useStoreConfig();
   const { currencySymbol, exchangeRate } = useCartWishlist();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const searchQuery = searchParams.get('search')?.toLowerCase().trim() || '';
+
+  const filteredCatalog = colorCatalog.filter(item => {
+    if (!searchQuery) return true;
+    return (
+      item.colorName.toLowerCase().includes(searchQuery) ||
+      item.tagline.toLowerCase().includes(searchQuery) ||
+      item.desc.toLowerCase().includes(searchQuery) ||
+      'macrame belt'.includes(searchQuery) ||
+      'cotton belt'.includes(searchQuery)
+    );
+  });
 
   // Size Guide Modal State
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
@@ -134,12 +149,39 @@ const ProductGallery = () => {
         <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light max-w-2xl mx-auto leading-relaxed">
           Explore our signature 100% handcrafted cotton macramé belts across all 5 artisan shades. Available for retail purchase in Bangladesh and sample orders worldwide.
         </p>
+
+        {searchQuery && (
+          <div className="mt-4 flex items-center justify-center gap-2">
+            <span className="text-xs font-semibold text-dark-charcoal/80 bg-stone/20 px-3 py-1 rounded-full flex items-center gap-1.5">
+              <span>Showing results for: <strong>"{searchQuery}"</strong></span>
+              <button 
+                onClick={() => setSearchParams({})} 
+                className="text-soft-black/60 hover:text-soft-black ml-1 font-bold cursor-pointer"
+                title="Clear Search"
+              >
+                ×
+              </button>
+            </span>
+          </div>
+        )}
       </section>
 
       {/* Main Gallery Grid: 2 Columns on Mobile, 3 on Tablet, 5 on PC (All in One Row) */}
       <section className="max-w-[1480px] mx-auto px-3 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3.5 lg:gap-3 xl:gap-4">
-          {colorCatalog.map((item, idx) => {
+        {filteredCatalog.length === 0 ? (
+          <div className="text-center py-16 bg-white rounded-3xl border border-stone/15 p-8 max-w-md mx-auto">
+            <p className="font-serif text-lg font-bold text-soft-black mb-2">No belts found for "{searchQuery}"</p>
+            <p className="text-xs text-dark-charcoal/70 mb-4">Try searching for Black, Navy, Brown, Maroon, or Khaki.</p>
+            <button
+              onClick={() => setSearchParams({})}
+              className="bg-soft-black text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-terracotta transition-colors cursor-pointer"
+            >
+              View All 5 Belts
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3.5 lg:gap-3 xl:gap-4">
+            {filteredCatalog.map((item, idx) => {
             return (
               <motion.div
                 key={item.id}
@@ -254,7 +296,8 @@ const ProductGallery = () => {
               </motion.div>
             );
           })}
-        </div>
+          </div>
+        )}
       </section>
 
       {/* Value Proposition & Wholesale Teaser */}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Plus, Minus, X, ZoomIn, ZoomOut, RotateCcw, Info, Heart, ShoppingBag } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Minus, X, ZoomIn, ZoomOut, RotateCcw, Info, ShoppingBag } from 'lucide-react';
 import SampleOrderDrawer from '../components/SampleOrderDrawer';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
@@ -67,8 +67,6 @@ const Accordion = ({ title, isOpen, onClick, children }) => (
 const Product = () => {
   const { 
     addToCart, 
-    toggleWishlist, 
-    isInWishlist, 
     setIsCartOpen,
     openCartTemporarily,
     localCurrency,
@@ -198,17 +196,6 @@ const Product = () => {
         ...piece,
         color: colors[idx % colors.length].name
       }));
-    });
-  };
-
-  const isWishlisted = isInWishlist(selectedColor, selectedSize);
-
-  const handleToggleWishlistClick = () => {
-    toggleWishlist({
-      title: 'AST Handmade Macramé Belt',
-      color: selectedColor,
-      size: selectedSize,
-      priceBDT: 850
     });
   };
 
@@ -723,25 +710,6 @@ const Product = () => {
                 >
                   <ShoppingBag className="w-4 h-4" />
                   <span className="hidden sm:inline">Add to Cart</span>
-                </button>
-
-                {/* Wishlist Button with Heart Icon */}
-                <button
-                  type="button"
-                  onClick={handleToggleWishlistClick}
-                  className={`h-[52px] w-[52px] md:h-[54px] md:w-[54px] flex items-center justify-center rounded-xl border transition-all duration-300 cursor-pointer shrink-0 ${
-                    isWishlisted
-                      ? 'bg-rose-50 border-rose-300 text-rose-600 shadow-sm'
-                      : 'bg-white border-stone/20 text-soft-black hover:border-soft-black/40 hover:text-rose-600 shadow-2xs'
-                  }`}
-                  title={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
-                  aria-label={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
-                >
-                  <Heart 
-                    className={`w-5 h-5 md:w-6 md:h-6 transition-transform duration-300 ${
-                      isWishlisted ? 'fill-rose-500 text-rose-500 scale-110' : 'stroke-[1.75]'
-                    }`} 
-                  />
                 </button>
               </div>
               

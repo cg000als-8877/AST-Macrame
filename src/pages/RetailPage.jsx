@@ -261,11 +261,13 @@ const RetailPage = () => {
 
   const scrollRef = React.useRef(null);
   const scrollTimeoutRef = React.useRef(null);
+  const isProgrammaticScrollRef = React.useRef(false);
 
   const handleColorChange = (colorName) => {
     setSelectedColor(colorName);
     const targetIdx = allColorGalleryItems.findIndex(item => item.color === colorName);
     if (targetIdx !== -1) {
+      isProgrammaticScrollRef.current = true;
       setActiveIndex(targetIdx);
       if (scrollRef.current) {
         const itemWidth = scrollRef.current.clientWidth || scrollRef.current.offsetWidth;
@@ -274,6 +276,10 @@ const RetailPage = () => {
           behavior: 'smooth'
         });
       }
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = setTimeout(() => {
+        isProgrammaticScrollRef.current = false;
+      }, 500);
     }
   };
 
@@ -282,6 +288,7 @@ const RetailPage = () => {
   };
 
   const handleScroll = (e) => {
+    if (isProgrammaticScrollRef.current) return;
     const container = e.target;
     if (!container) return;
     const { scrollLeft, clientWidth } = container;
@@ -295,7 +302,9 @@ const RetailPage = () => {
         if (item && item.color !== selectedColor) {
           if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
           scrollTimeoutRef.current = setTimeout(() => {
-            setSelectedColor(item.color);
+            if (!isProgrammaticScrollRef.current) {
+              setSelectedColor(item.color);
+            }
           }, 80);
         }
       }
@@ -308,6 +317,7 @@ const RetailPage = () => {
       item => item.color === currentColor && item.subIndex === subIdx
     );
     if (targetIdx !== -1) {
+      isProgrammaticScrollRef.current = true;
       setActiveIndex(targetIdx);
       if (scrollRef.current) {
         const itemWidth = scrollRef.current.clientWidth || scrollRef.current.offsetWidth;
@@ -316,6 +326,10 @@ const RetailPage = () => {
           behavior: 'smooth'
         });
       }
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = setTimeout(() => {
+        isProgrammaticScrollRef.current = false;
+      }, 500);
     }
   };
 
