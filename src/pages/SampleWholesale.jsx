@@ -163,11 +163,11 @@ const SampleWholesale = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7 }}
               >
-                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
+                <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
                   DIRECT FACTORY SOURCING
                 </span>
                 
-                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-bold uppercase text-soft-black tracking-tight leading-tight mb-4 sm:mb-6">
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-4 sm:mb-6">
                   WHOLESALE & PRIVATE LABEL MANUFACTURING
                 </h1>
                 
@@ -269,10 +269,10 @@ const SampleWholesale = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
               VOLUME PRODUCTION TIERS
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
               TIERED MANUFACTURING MATRIX
             </h2>
             <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light max-w-xl mx-auto leading-relaxed">
@@ -302,7 +302,7 @@ const SampleWholesale = () => {
                     </span>
                   </div>
 
-                  <h3 className="text-base sm:text-lg font-serif font-bold uppercase text-soft-black mb-1">
+                  <h3 className="text-base sm:text-lg font-serif font-semibold uppercase text-soft-black mb-1">
                     {tier.title}
                   </h3>
 
@@ -355,10 +355,10 @@ const SampleWholesale = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
               TECHNICAL SPECIFICATIONS
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
               OEM & CUSTOMIZATION GUIDE
             </h2>
             <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light max-w-xl mx-auto leading-relaxed">
@@ -373,9 +373,10 @@ const SampleWholesale = () => {
             <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:justify-center gap-2 sm:gap-3 mb-8">
               {[
                 { id: 'cord', label: 'Yarn & Weave', icon: Layers },
-                { id: 'hardware', label: 'Buckles & Alloy', icon: Sliders },
-                { id: 'branding', label: 'Labels & Packaging', icon: Tag },
-                { id: 'dyeing', label: 'Pantone Dyeing', icon: Palette }
+                { id: 'hardware', label: 'Buckles & Metals', icon: Disc },
+                { id: 'leather', label: 'Leather & Trims', icon: Sparkles },
+                { id: 'branding', label: 'Labels & Packaging', icon: Package },
+                { id: 'compliance', label: 'Testing & Reach', icon: ShieldCheck },
               ].map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
@@ -383,14 +384,14 @@ const SampleWholesale = () => {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2.5 sm:py-3 rounded text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                    className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
                       isActive 
-                        ? 'bg-soft-black text-cream shadow-md' 
-                        : 'bg-white border border-stone/20 text-dark-charcoal/80 hover:border-soft-black/40'
+                        ? 'bg-soft-black text-cream shadow-md scale-102' 
+                        : 'bg-white/80 border border-stone/30 text-dark-charcoal hover:bg-white hover:border-soft-black/40'
                     }`}
                   >
-                    <Icon className="w-3.5 h-3.5 shrink-0" />
-                    <span className="truncate">{tab.label}</span>
+                    <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-terracotta' : 'text-dark-charcoal/60'}`} />
+                    <span>{tab.label}</span>
                   </button>
                 );
               })}
@@ -407,7 +408,7 @@ const SampleWholesale = () => {
                 className="bg-white border border-stone/20 rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-sm"
               >
                 <div className="mb-6 pb-6 border-b border-stone/15">
-                  <h3 className="text-xl sm:text-2xl font-serif font-bold uppercase text-soft-black mb-2">
+                  <h3 className="text-xl sm:text-2xl font-serif font-semibold uppercase text-soft-black mb-2">
                     {specCategories[activeTab].title}
                   </h3>
                   <p className="text-xs sm:text-sm text-dark-charcoal/80 font-light leading-relaxed">
@@ -440,10 +441,10 @@ const SampleWholesale = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
               ZERO-RISK SAMPLING
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
               100% SAMPLE COST CREDIT
             </h2>
             <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light max-w-xl mx-auto leading-relaxed">
@@ -458,7 +459,7 @@ const SampleWholesale = () => {
                 <div className="w-10 h-10 rounded-full bg-soft-black text-cream flex items-center justify-center mb-4">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
-                <h3 className="text-base sm:text-lg font-serif font-bold uppercase text-soft-black mb-2">
+                <h3 className="text-base sm:text-lg font-serif font-semibold uppercase text-soft-black mb-2">
                   Full Invoice Deduction
                 </h3>
                 <p className="text-xs sm:text-sm text-dark-charcoal/75 font-light leading-relaxed">
@@ -472,7 +473,7 @@ const SampleWholesale = () => {
                 <div className="w-10 h-10 rounded-full bg-terracotta text-cream flex items-center justify-center mb-4">
                   <RefreshCw className="w-5 h-5" />
                 </div>
-                <h3 className="text-base sm:text-lg font-serif font-bold uppercase text-soft-black mb-2">
+                <h3 className="text-base sm:text-lg font-serif font-semibold uppercase text-soft-black mb-2">
                   5–7 Day Fast Dispatch
                 </h3>
                 <p className="text-xs sm:text-sm text-dark-charcoal/75 font-light leading-relaxed">
@@ -486,7 +487,7 @@ const SampleWholesale = () => {
                 <div className="w-10 h-10 rounded-full bg-[#2D3A30] text-cream flex items-center justify-center mb-4">
                   <Check className="w-5 h-5" />
                 </div>
-                <h3 className="text-base sm:text-lg font-serif font-bold uppercase text-soft-black mb-2">
+                <h3 className="text-base sm:text-lg font-serif font-semibold uppercase text-soft-black mb-2">
                   Pre-Bulk QC Sign-Off
                 </h3>
                 <p className="text-xs sm:text-sm text-dark-charcoal/75 font-light leading-relaxed">
@@ -514,10 +515,10 @@ const SampleWholesale = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
               GLOBAL FULFILLMENT
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
               PACKAGING & EXPORT LOGISTICS
             </h2>
             <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light max-w-xl mx-auto leading-relaxed">
@@ -534,7 +535,7 @@ const SampleWholesale = () => {
                     <Box className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-serif font-bold uppercase text-soft-black">
+                    <h3 className="text-lg font-serif font-semibold uppercase text-soft-black">
                       Carton Packing Standards
                     </h3>
                     <span className="text-xs text-terracotta font-semibold">Retail-Ready & Protected</span>
@@ -564,7 +565,7 @@ const SampleWholesale = () => {
                     <Plane className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-serif font-bold uppercase text-soft-black">
+                    <h3 className="text-lg font-serif font-semibold uppercase text-soft-black">
                       Worldwide Freight Options
                     </h3>
                     <span className="text-xs text-terracotta font-semibold">Door-to-Door & Port-to-Port</span>
@@ -595,11 +596,11 @@ const SampleWholesale = () => {
       {/* WHOLESALE — SECTION 6: DIRECT WHATSAPP & FAST CHAT */}
       <section className="py-16 md:py-24 bg-cream border-b border-stone/15">
         <div className="max-w-4xl mx-auto px-5 sm:px-8 lg:px-12 text-center">
-          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
+          <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
             HAVE A REFERENCE IMAGE OR TECH PACK?
           </span>
           
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
             SEND YOUR IDEA DIRECTLY TO OUR WORKSHOP
           </h2>
           
@@ -634,11 +635,11 @@ const SampleWholesale = () => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-warm-sand mb-2 sm:mb-3 block">
+          <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-warm-sand mb-2 sm:mb-3 block">
             START YOUR PARTNERSHIP
           </span>
           
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold uppercase text-cream tracking-tight leading-tight mb-2 sm:mb-4">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-cream tracking-tight leading-tight mb-2 sm:mb-4">
             READY TO SCALE YOUR COLLECTION?
           </h2>
           

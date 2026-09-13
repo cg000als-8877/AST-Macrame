@@ -149,7 +149,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
           >
             {/* Header */}
             <div className="sticky top-0 bg-cream z-20 px-4 md:px-6 py-4 flex items-center justify-between border-b border-stone/10 shadow-sm">
-              <h2 className="text-base md:text-lg font-serif font-bold text-soft-black">
+              <h2 className="text-base md:text-lg font-serif font-semibold text-soft-black">
                 {isSuccess ? 'Order Confirmation' : 'Sample Order Form'}
               </h2>
               

@@ -193,7 +193,7 @@ const Home = () => {
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="text-3xl sm:text-5xl lg:text-6xl font-serif font-bold uppercase text-cream tracking-tight leading-tight mb-3 md:mb-4"
+              className="text-3xl sm:text-5xl lg:text-6xl font-serif font-semibold uppercase text-cream tracking-tight leading-tight mb-3 md:mb-4"
             >
               CRAFTED FOR <br className="hidden md:block"/>
               THE EXTRAORDINARY
@@ -231,10 +231,10 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-0 sm:px-8 lg:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12 md:mb-16 px-4">
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
               SUPPLY CHAIN & PRODUCTION
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold uppercase text-soft-black tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight">
               MADE FOR WHOLESALE
             </h2>
           </div>
@@ -434,11 +434,11 @@ const Home = () => {
             </div>
 
             <div className="lg:col-span-6 flex flex-col justify-center">
-              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
+              <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
                 CORE ACCESSORY
               </span>
               
-              <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-3">
+              <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-3">
                 AST MACRAMÉ HANDMADE BELT
               </h2>
               
@@ -502,6 +502,7 @@ const Home = () => {
             src={craftsmanshipDetailImg} 
             alt="Detail is the Product - Macrame Close-up Knot and Brass Hardware" 
             className="w-full h-full object-cover object-center" 
+            loading="lazy"
           />
         </picture>
         
@@ -512,10 +513,10 @@ const Home = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
           
           <div className="max-w-4xl mx-auto text-center mb-10 md:mb-16">
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-warm-sand block mb-2 sm:mb-3">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-warm-sand block mb-2 sm:mb-3">
               MATERIAL & CRAFTSMANSHIP
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold uppercase text-white tracking-tight leading-tight mb-2 sm:mb-4">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-white tracking-tight leading-tight mb-2 sm:mb-4">
               DETAIL IS THE PRODUCT
             </h2>
             <p className="text-xs sm:text-base md:text-lg text-cream/85 font-light max-w-xl mx-auto leading-relaxed">
@@ -605,10 +606,10 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-3 sm:px-8 lg:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-14 md:mb-16">
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
               SOURCING WORKFLOW
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
               4 STEPS, START TO FINISH
             </h2>
             <p className="text-xs sm:text-base text-dark-charcoal/80 font-light max-w-xl mx-auto leading-relaxed">
@@ -681,10 +682,10 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-3 sm:px-8 lg:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-14 md:mb-16">
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
               B2B PARTNERSHIP
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
               BUILT FOR BRANDS
             </h2>
             <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light max-w-xl mx-auto leading-relaxed">
@@ -802,11 +803,11 @@ const Home = () => {
       {/* HOME — SECTION 7: HAVE A REFERENCE IMAGE? */}
       <section className="py-16 md:py-24 bg-cream border-t border-stone/15">
         <div className="max-w-4xl mx-auto px-5 sm:px-8 lg:px-12 text-center">
-          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
+          <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
             HAVE A REFERENCE IMAGE?
           </span>
           
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
             SEND YOUR IDEA.<br className="hidden sm:inline" /> WE'LL MAP OUT THE NEXT STEP.
           </h2>
           
@@ -843,10 +844,10 @@ const Home = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
               GOT QUESTIONS?
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
               QUICK ANSWERS
             </h2>
             <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light max-w-xl mx-auto leading-relaxed">
@@ -914,11 +915,11 @@ const Home = () => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-warm-sand mb-2 sm:mb-3 block">
+          <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-warm-sand mb-2 sm:mb-3 block">
             START YOUR PARTNERSHIP
           </span>
           
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold uppercase text-cream tracking-tight leading-tight mb-2 sm:mb-4">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-cream tracking-tight leading-tight mb-2 sm:mb-4">
             READY TO SOURCE AST?
           </h2>
           

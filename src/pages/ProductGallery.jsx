@@ -54,7 +54,7 @@ const ProductGallery = () => {
       
       {/* Header Section */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 sm:mb-10 text-center">
-        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-bold uppercase tracking-tight text-soft-black mb-2.5 sm:mb-4">
+        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-semibold uppercase tracking-tight text-soft-black mb-2.5 sm:mb-4">
           Product Gallery
         </h1>
 
@@ -328,7 +328,7 @@ const ProductGallery = () => {
               
               <img src="/logo_black.png" alt="AST Logo" className="h-5 w-auto mx-auto mb-3 object-contain opacity-80" />
               
-              <h3 className="text-xl font-serif text-soft-black mb-1 font-bold">Belt Sizing Guide</h3>
+              <h3 className="text-xl font-serif text-soft-black mb-1 font-semibold">Belt Sizing Guide</h3>
               <p className="text-xs text-dark-charcoal/70 mb-3">Select your collection to check dimensions & measurements.</p>
               
               {/* Tab Switcher */}

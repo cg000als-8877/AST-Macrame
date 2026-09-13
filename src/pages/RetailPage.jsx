@@ -447,7 +447,7 @@ const RetailPage = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
               </div>
-              <h2 className="text-xl md:text-2xl font-serif font-bold text-soft-black mb-2 md:mb-3">
+              <h2 className="text-xl md:text-2xl font-serif font-semibold text-soft-black mb-2 md:mb-3">
                 Region Restricted
               </h2>
               <p className="text-dark-charcoal/80 mb-6 md:mb-8 text-sm md:text-base leading-relaxed">
@@ -1029,10 +1029,10 @@ const RetailPage = () => {
             
             {/* Section Header */}
             <div className="mb-6 md:mb-10 text-center md:text-left border-b border-[#E0DCD3] pb-4">
-              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-terracotta block mb-1">
+              <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-terracotta block mb-1">
                 Engineered For Comfort & Durability
               </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-soft-black tracking-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-soft-black tracking-tight">
                 Why Macramé vs Traditional Belts
               </h2>
             </div>
@@ -1255,10 +1255,10 @@ const RetailPage = () => {
           
           {/* Section Header */}
           <div className="mb-6 md:mb-10 text-center md:text-left border-b border-[#E0DCD3] pb-4">
-            <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-terracotta block mb-1">
+            <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-terracotta block mb-1">
               Zero Risk Cash On Delivery
             </span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-soft-black tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-soft-black tracking-tight">
               100% Peace of Mind Guarantee
             </h2>
           </div>
@@ -1343,7 +1343,7 @@ const RetailPage = () => {
               
               <img src="/logo_black.png" alt="AST Logo" className="h-5 w-auto mx-auto mb-4 object-contain opacity-80" />
               
-              <h2 className="text-xl font-serif text-soft-black mb-3 font-bold">{activeProduct.sizeGuide?.title || 'Sizing Guide'}</h2>
+              <h2 className="text-xl font-serif text-soft-black mb-3 font-semibold">{activeProduct.sizeGuide?.title || 'Sizing Guide'}</h2>
               
               <div className="w-full bg-stone/5 rounded-xl border border-stone/10 overflow-hidden mb-4 text-xs">
                 <div className="grid grid-cols-3 bg-stone/10 border-b border-stone/10 py-2.5 font-bold uppercase tracking-wider text-dark-charcoal">
@@ -1401,7 +1401,7 @@ const RetailPage = () => {
               
               <img src="/logo_black.png" alt="AST Logo" className="h-5 w-auto mx-auto mb-3 object-contain opacity-80" />
               
-              <h2 className="text-xl md:text-2xl font-serif text-soft-black mb-1 font-bold">{activeProduct.careGuide?.title || 'Care Guide'}</h2>
+              <h2 className="text-xl md:text-2xl font-serif text-soft-black mb-1 font-semibold">{activeProduct.careGuide?.title || 'Care Guide'}</h2>
               <p className="text-xs font-light text-terracotta uppercase tracking-[0.15em] mb-4">Keep it clean. Keep it natural.</p>
               
               <div className="w-full bg-stone/5 rounded-xl border border-stone/10 p-4 mb-4 text-left text-xs leading-relaxed text-soft-black/85">
