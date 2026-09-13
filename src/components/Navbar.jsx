@@ -63,7 +63,7 @@ const Navbar = () => {
     }
   };
 
-  const navClass = `fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-300 top-0 sm:top-3 md:top-4 w-full sm:w-[95%] md:w-[92%] max-w-6xl bg-white sm:bg-cream border-b sm:border border-stone/20 rounded-none sm:rounded-[8px] overflow-hidden ${
+  const navClass = `fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-300 top-0 sm:top-3 md:top-4 w-full sm:w-[95%] md:w-[92%] max-w-6xl bg-white sm:bg-[#FAF7F2] border-b sm:border border-stone/20 rounded-none sm:rounded-[8px] overflow-hidden ${
     isScrolled 
       ? 'shadow-md sm:shadow-lg' 
       : 'shadow-xs sm:shadow-md'
@@ -160,7 +160,7 @@ const Navbar = () => {
                   <React.Fragment key={link.name}>
                     {idx > 0 && (
                       <span 
-                        className="w-[1px] h-3.5 md:h-4 bg-gradient-to-b from-transparent via-stone-400/50 to-transparent shrink-0 mx-0.5 select-none" 
+                        className="relative z-10 w-[1px] h-5 sm:h-5.5 bg-gradient-to-b from-transparent via-stone-400/80 to-transparent shrink-0 mx-1 sm:mx-1.5 select-none" 
                         aria-hidden="true" 
                       />
                     )}
@@ -168,7 +168,7 @@ const Navbar = () => {
                       to={link.path}
                       className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-xs md:text-[13px] lg:text-[13.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
                         isActive 
-                          ? 'text-soft-black bg-cream border-white/70 shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02] -translate-y-[1px]' 
+                          ? 'text-soft-black bg-[#FAF7F2] border-white/70 shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02] -translate-y-[1px]' 
                           : 'border-transparent text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
                       }`}
                     >
@@ -181,12 +181,12 @@ const Navbar = () => {
           </div>
 
           {/* Center Logo (Bigger & Centered) */}
-          <div className="shrink-0 flex items-center justify-center px-2 md:px-4">
-            <Link to="/" className="flex items-center gap-2 active:scale-95 transition-transform duration-200">
+          <div className="shrink-0 flex items-center justify-center px-3 md:px-5 lg:px-6">
+            <Link to="/" className="flex items-center gap-2 active:scale-95 transition-transform duration-200 py-1">
               <img 
                 src="/logo_black.png" 
                 alt="AST Handmade Macramé Belts" 
-                className="h-8 md:h-9.5 lg:h-11 w-auto object-contain"
+                className="h-10 sm:h-11 md:h-12 lg:h-[50px] w-auto object-contain transition-all"
               />
             </Link>
           </div>
@@ -200,7 +200,7 @@ const Navbar = () => {
                   <React.Fragment key={link.name}>
                     {idx > 0 && (
                       <span 
-                        className="w-[1px] h-3.5 md:h-4 bg-gradient-to-b from-transparent via-stone-400/50 to-transparent shrink-0 mx-0.5 select-none" 
+                        className="relative z-10 w-[1px] h-5 sm:h-5.5 bg-gradient-to-b from-transparent via-stone-400/80 to-transparent shrink-0 mx-1 sm:mx-1.5 select-none" 
                         aria-hidden="true" 
                       />
                     )}
@@ -208,7 +208,7 @@ const Navbar = () => {
                       to={link.path}
                       className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-xs md:text-[13px] lg:text-[13.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
                         isActive 
-                          ? 'text-soft-black bg-cream border-white/70 shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02] -translate-y-[1px]' 
+                          ? 'text-soft-black bg-[#FAF7F2] border-white/70 shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02] -translate-y-[1px]' 
                           : 'border-transparent text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
                       }`}
                     >
@@ -221,7 +221,7 @@ const Navbar = () => {
 
             {/* Divider between Contact and Cart */}
             <span 
-              className="w-[1px] h-3.5 md:h-4 bg-gradient-to-b from-transparent via-stone-400/50 to-transparent shrink-0 mx-0.5 select-none" 
+              className="relative z-10 w-[1px] h-5 sm:h-5.5 bg-gradient-to-b from-transparent via-stone-400/80 to-transparent shrink-0 mx-1 sm:mx-1.5 select-none" 
               aria-hidden="true" 
             />
 
