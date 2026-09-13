@@ -828,7 +828,7 @@ const Product = () => {
 
               <div className="flex justify-between items-center px-4 py-3 bg-stone/5 rounded-lg border border-stone/10 mb-4">
                  <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Belt Width</span>
-                 <span className="text-xs font-semibold text-soft-black">4 cm</span>
+                 <span className="text-xs font-semibold text-soft-black">1.5"</span>
               </div>
               
               <p className="italic font-light text-dark-charcoal/70 text-[11px] leading-relaxed px-2">

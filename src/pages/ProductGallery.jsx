@@ -213,11 +213,10 @@ const ProductGallery = () => {
                       {/* ORDER SAMPLE CTA -> Deep link to /sample-order */}
                       <Link
                         to={`/sample-order?product=${item.productId}&color=${encodeURIComponent(item.colorName.toLowerCase())}`}
-                        className="relative overflow-hidden group w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded border border-soft-black bg-transparent text-soft-black hover:border-soft-black hover:text-cream hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center cursor-pointer"
+                        className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded border border-soft-black/80 bg-white text-soft-black hover:bg-soft-black hover:text-cream hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all duration-200 flex items-center justify-center cursor-pointer shadow-2xs"
                         title="Order sample on the Sample Order page"
                       >
-                        <span className="absolute inset-0 bg-soft-black translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
-                        <span className="relative z-10 transition-all duration-300 group-hover:tracking-widest">Order Sample</span>
+                        <span className="transition-all duration-200">Order Sample</span>
                       </Link>
 
                       {/* ORDER RETAIL CTA -> Deep link to /retail */}
@@ -376,7 +375,7 @@ const ProductGallery = () => {
 
                   <div className="flex justify-between items-center px-4 py-2.5 bg-[#FAF8F5] rounded-xl border border-stone/15 mb-4 text-xs">
                     <span className="font-bold uppercase tracking-wider text-dark-charcoal">Width</span>
-                    <span className="font-bold text-soft-black">4.0 cm (1.57 in)</span>
+                    <span className="font-bold text-soft-black">1.5"</span>
                   </div>
                 </>
               ) : (
@@ -390,13 +389,13 @@ const ProductGallery = () => {
                     <div className="grid grid-cols-3 py-3">
                       <span className="font-bold text-soft-black">One</span>
                       <span className="text-soft-black/80">20–26 in</span>
-                      <span className="text-soft-black/80">28 in (71 cm)</span>
+                      <span className="text-soft-black/80">28 in</span>
                     </div>
                   </div>
 
                   <div className="flex justify-between items-center px-4 py-2.5 bg-[#FAF8F5] rounded-xl border border-stone/15 mb-4 text-xs">
                     <span className="font-bold uppercase tracking-wider text-dark-charcoal">Width</span>
-                    <span className="font-bold text-soft-black">1 1/4 inch (3.2 cm)</span>
+                    <span className="font-bold text-soft-black">1 1/4"</span>
                   </div>
                 </>
               )}

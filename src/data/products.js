@@ -105,7 +105,7 @@ export const PRODUCTS = {
     calculateTierPrice: calculateAdultTierPriceBDT,
     sizes: ['M', 'L'],
     defaultSize: 'M',
-    dimensionsText: '1.5" Width (4.0 cm) • 38"-42" Length (96-107 cm)',
+    dimensionsText: '1.5" Width • 38"-42" Length',
     colors: [
       {
         id: 'adult-black',
@@ -160,11 +160,17 @@ export const PRODUCTS = {
         { size: 'M', waist: '32–35"', length: '38"' },
         { size: 'L', waist: '35–38"', length: '42"' }
       ],
-      width: '4 cm (~1.5 inch)',
+      width: '1.5"',
       note: '* Our macramé weave is naturally flexible, offering a slightly adjustable and comfortable fit.'
     },
     careGuide: {
       title: 'Care Instructions',
+      points: [
+        'Spot clean with a damp cloth or soft brush for everyday dust and minor marks.',
+        'Hand wash gently in cold water with mild detergent when deep cleaning.',
+        'Lay flat on a clean surface in shade to dry naturally.',
+        'Do not machine wash, tumble dry, bleach, or wring out tightly.'
+      ],
       instructions: 'Spot clean with a damp cloth or hand wash in cold water with mild detergent. Lay flat in shade to dry. Do not machine dry, bleach, or wring.'
     }
   },
@@ -186,7 +192,7 @@ export const PRODUCTS = {
     calculateTierPrice: calculateKidsTierPriceBDT,
     sizes: ['One'],
     defaultSize: 'One',
-    dimensionsText: '1 1/4" Width (3.2 cm) • 28" Length (71 cm)',
+    dimensionsText: '1 1/4" Width • 28" Length',
     colors: [
       {
         id: 'kids-lime-rush',
@@ -235,12 +241,18 @@ export const PRODUCTS = {
       rows: [
         { size: 'One', waist: '20–26"', length: '28"' }
       ],
-      width: '1 1/4 inch (3.2 cm)',
-      length: '28 inch (71 cm)',
+      width: '1 1/4"',
+      length: '28"',
       note: '* Pin-Anywhere Flexibility: The buckle prong inserts smoothly through any point of the macramé braid without fixed punch holes, effortlessly adjusting as your child grows.'
     },
     careGuide: {
       title: 'Kids Belt Care Instructions',
+      points: [
+        'Spot clean food, juice, or play stains easily using a soft damp cloth.',
+        'Hand wash gently in cool water with mild, child-safe soap when needed.',
+        'Lay flat to air-dry naturally in shade.',
+        'Do not machine wash, tumble dry, wring, or bleach.'
+      ],
       instructions: 'Hand wash gently in cold water using mild, kid-safe soap. Spot clean juice, food, or play stains with a soft damp cloth. Lay flat to dry naturally in shade. Do not tumble dry, wring, or bleach.'
     }
   }

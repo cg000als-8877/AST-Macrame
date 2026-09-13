@@ -337,24 +337,27 @@ const SampleOrder = () => {
 
               {/* Thumbnails Underneath Product Image */}
               <div className="flex gap-1.5 sm:gap-2 mt-2 w-full overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {images.map((img, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => scrollToSubIndex(idx)}
-                    className={`relative aspect-square w-[calc((100%-5*0.375rem)/6)] shrink-0 overflow-hidden transition-all duration-300 rounded-[4px] cursor-pointer ${
-                      currentSubIndex === idx
-                        ? 'border border-terracotta/75 shadow-xs'
-                        : 'border border-black/[0.08] hover:border-black/20'
-                    }`}
-                    aria-label={`Select product image ${idx + 1}`}
-                  >
-                    <img 
-                      src={img} 
-                      alt={`Thumbnail ${idx + 1}`} 
-                      className="w-full h-full object-cover object-center rounded-[4px]"
-                    />
-                  </button>
-                ))}
+                {images.map((img, idx) => {
+                  const isActive = currentSubIndex === idx;
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => scrollToSubIndex(idx)}
+                      className={`relative aspect-square w-[calc((100%-5*0.375rem)/6)] shrink-0 overflow-hidden transition-all duration-300 rounded-[4px] cursor-pointer ${
+                        isActive
+                          ? 'opacity-100'
+                          : 'opacity-50 hover:opacity-100'
+                      }`}
+                      aria-label={`Select product image ${idx + 1}`}
+                    >
+                      <img 
+                        src={img} 
+                        alt={`Thumbnail ${idx + 1}`} 
+                        className="w-full h-full object-cover object-center rounded-[4px]"
+                      />
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -593,7 +596,7 @@ const SampleOrder = () => {
                   </li>
                   <li className="flex items-start">
                     <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                    <span><strong className="font-semibold text-soft-black">Width:</strong> {activeProduct.sizeGuide?.width || '4 cm (1.6 in)'} perfectly fits standard pant & denim loops</span>
+                    <span><strong className="font-semibold text-soft-black">Width:</strong> {activeProduct.sizeGuide?.width || '1.5"'} perfectly fits standard pant & denim loops</span>
                   </li>
                   <li className="flex items-start">
                     <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
@@ -691,7 +694,7 @@ const SampleOrder = () => {
 
               <div className="flex justify-between items-center px-4 py-3 bg-stone/5 rounded-lg border border-stone/10 mb-4">
                  <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Belt Width</span>
-                 <span className="text-xs font-semibold text-soft-black">{activeProduct.sizeGuide?.width || '4 cm'}</span>
+                 <span className="text-xs font-semibold text-soft-black">{activeProduct.sizeGuide?.width || '1.5"'}</span>
               </div>
               
               <p className="italic font-light text-dark-charcoal/70 text-[11px] leading-relaxed px-2">

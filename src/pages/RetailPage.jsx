@@ -279,12 +279,12 @@ const RetailPage = () => {
   }, []);
 
   useEffect(() => {
-    if (lightboxImage || isSizeGuideOpen || isCareGuideOpen) {
+    if (lightboxImage) {
       document.body.style.overflow = 'hidden';
     } else if (!isOrderFormOpen) {
       document.body.style.overflow = 'auto';
     }
-  }, [lightboxImage, isSizeGuideOpen, isCareGuideOpen, isOrderFormOpen]);
+  }, [lightboxImage, isOrderFormOpen]);
 
   const allColorGalleryItems = colors.flatMap((c) =>
     c.images.map((img, idx) => ({ color: c.name, img, subIndex: idx }))
@@ -413,7 +413,7 @@ const RetailPage = () => {
     }
   };
 
-  let orderButtonContent = "ORDER NOW (COD)";
+  let orderButtonContent = "ORDER NOW";
   let isOrderReady = false;
 
   if (orderType === 'single') {
@@ -424,7 +424,7 @@ const RetailPage = () => {
     } else if (!selectedColor && selectedSize) {
       orderButtonContent = "SELECT COLOR";
     } else {
-      orderButtonContent = "ORDER NOW (COD)";
+      orderButtonContent = "ORDER NOW";
       isOrderReady = true;
     }
   } else {
@@ -432,7 +432,7 @@ const RetailPage = () => {
     if (!comboColor1 || !comboColor2 || !comboSize1 || !comboSize2) {
       orderButtonContent = "SELECT COMBO OPTIONS";
     } else {
-      orderButtonContent = "ORDER NOW (COD)";
+      orderButtonContent = "ORDER NOW";
       isOrderReady = true;
     }
   }
@@ -511,24 +511,27 @@ const RetailPage = () => {
 
               {/* Thumbnails Underneath Product Image - 6 Visible Slots matching image width, smooth scroll if >6 */}
               <div className="flex gap-1.5 sm:gap-2 mt-2 w-full overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {images.map((img, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => scrollToSubIndex(idx)}
-                    className={`relative aspect-square w-[calc((100%-5*0.375rem)/6)] shrink-0 overflow-hidden transition-all duration-300 rounded-[4px] cursor-pointer ${
-                      currentSubIndex === idx
-                        ? 'border border-terracotta/75 shadow-xs'
-                        : 'border border-black/[0.08] hover:border-black/20'
-                    }`}
-                    aria-label={`Select product view ${idx + 1}`}
-                  >
-                    <img 
-                      src={img} 
-                      alt={`Thumbnail ${idx + 1}`} 
-                      className="w-full h-full object-cover object-center rounded-[4px]"
-                    />
-                  </button>
-                ))}
+                {images.map((img, idx) => {
+                  const isActive = currentSubIndex === idx;
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => scrollToSubIndex(idx)}
+                      className={`relative aspect-square w-[calc((100%-5*0.375rem)/6)] shrink-0 overflow-hidden transition-all duration-300 rounded-[4px] cursor-pointer ${
+                        isActive
+                          ? 'opacity-100'
+                          : 'opacity-50 hover:opacity-100'
+                      }`}
+                      aria-label={`Select product view ${idx + 1}`}
+                    >
+                      <img 
+                        src={img} 
+                        alt={`Thumbnail ${idx + 1}`} 
+                        className="w-full h-full object-cover object-center rounded-[4px]"
+                      />
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -1313,13 +1316,24 @@ const RetailPage = () => {
       </section>
       
       {/* Size Guide Modal */}
-      {isSizeGuideOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-          <div 
-            onClick={() => setIsSizeGuideOpen(false)}
-            className="absolute inset-0 bg-soft-black/40 backdrop-blur-sm"
-          />
-          <div className="bg-white border border-stone/20 w-full max-w-sm p-6 relative z-10 shadow-2xl rounded-2xl text-center">
+      <AnimatePresence>
+        {isSizeGuideOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              onClick={() => setIsSizeGuideOpen(false)}
+              className="absolute inset-0 bg-soft-black/50"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+              className="bg-white border border-stone/20 w-full max-w-sm p-6 relative z-10 shadow-2xl rounded-2xl text-center"
+            >
               <button 
                 onClick={() => setIsSizeGuideOpen(false)}
                 className="absolute top-4 right-4 text-soft-black/40 hover:text-soft-black transition-colors cursor-pointer"
@@ -1354,18 +1368,30 @@ const RetailPage = () => {
               <p className="italic font-light text-dark-charcoal/70 text-[11px] leading-relaxed px-2">
                 {activeProduct.sizeGuide?.note || '* Our macramé weave is naturally flexible, offering a comfortable, pin-anywhere fit.'}
               </p>
-            </div>
+            </motion.div>
           </div>
         )}
+      </AnimatePresence>
 
       {/* Care Guide Modal */}
-      {isCareGuideOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-          <div 
-            onClick={() => setIsCareGuideOpen(false)}
-            className="absolute inset-0 bg-soft-black/40 backdrop-blur-sm"
-          />
-          <div className="bg-white border border-stone/20 w-full max-w-md p-5 sm:p-6 relative z-10 shadow-2xl rounded-2xl text-center max-h-[90vh] overflow-y-auto">
+      <AnimatePresence>
+        {isCareGuideOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              onClick={() => setIsCareGuideOpen(false)}
+              className="absolute inset-0 bg-soft-black/50"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+              className="bg-white border border-stone/20 w-full max-w-md p-5 sm:p-6 relative z-10 shadow-2xl rounded-2xl text-center max-h-[90vh] overflow-y-auto"
+            >
               <button 
                 onClick={() => setIsCareGuideOpen(false)}
                 className="absolute top-4 right-4 text-soft-black/40 hover:text-soft-black transition-colors cursor-pointer"
@@ -1379,15 +1405,27 @@ const RetailPage = () => {
               <p className="text-xs font-light text-terracotta uppercase tracking-[0.15em] mb-4">Keep it clean. Keep it natural.</p>
               
               <div className="w-full bg-stone/5 rounded-xl border border-stone/10 p-4 mb-4 text-left text-xs leading-relaxed text-soft-black/85">
-                {activeProduct.careGuide?.instructions}
+                {activeProduct.careGuide?.points ? (
+                  <ul className="space-y-2.5">
+                    {activeProduct.careGuide.points.map((point, idx) => (
+                      <li key={idx} className="flex items-start gap-2.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-1.5 shrink-0" />
+                        <span className="leading-snug">{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  activeProduct.careGuide?.instructions
+                )}
               </div>
 
               <p className="text-[11px] text-soft-black/60 italic font-light">
                 Handcrafted to age beautifully with proper care.
               </p>
+            </motion.div>
           </div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
 
       {/* Lightbox Modal */}
       {lightboxImage && (
