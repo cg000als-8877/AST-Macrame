@@ -213,7 +213,7 @@ const ProductGallery = () => {
                       {/* ORDER SAMPLE CTA -> Deep link to /sample-order */}
                       <Link
                         to={`/sample-order?product=${item.productId}&color=${encodeURIComponent(item.colorName.toLowerCase())}`}
-                        className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded border border-soft-black/80 bg-white text-soft-black hover:bg-soft-black hover:text-cream hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all duration-200 flex items-center justify-center cursor-pointer shadow-2xs"
+                        className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded border border-soft-black/80 bg-white text-soft-black hover:bg-soft-black hover:text-cream hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-medium sm:font-bold uppercase tracking-wide sm:tracking-wider transition-all duration-200 flex items-center justify-center cursor-pointer shadow-2xs"
                         title="Order sample on the Sample Order page"
                       >
                         <span className="transition-all duration-200">Order Sample</span>
@@ -223,7 +223,7 @@ const ProductGallery = () => {
                       <div>
                         <Link
                           to={`/retail?product=${item.productId}&color=${encodeURIComponent(item.colorName.toLowerCase())}`}
-                          className="relative overflow-hidden group w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded bg-terracotta hover:bg-[#131E33] hover:shadow-md hover:shadow-terracotta/25 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-cream text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all duration-300 shadow-xs flex items-center justify-center cursor-pointer"
+                          className="relative overflow-hidden group w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded bg-terracotta hover:bg-[#131E33] hover:shadow-md hover:shadow-terracotta/25 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-cream text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-medium sm:font-bold uppercase tracking-wide sm:tracking-wider transition-all duration-300 shadow-xs flex items-center justify-center cursor-pointer"
                           title="Order on the Retail page"
                         >
                           <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />

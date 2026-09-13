@@ -36,6 +36,7 @@ const Navbar = () => {
 
   const desktopRightLinks = [
     { name: 'About', path: '/about' },
+    { name: 'FAQ', path: '/faq' },
     { name: 'Contact', path: '/contact' }
   ];
 
@@ -62,7 +63,7 @@ const Navbar = () => {
     }
   };
 
-  const navClass = `fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-300 top-0 sm:top-3 md:top-4 w-full sm:w-[95%] md:w-[92%] max-w-6xl bg-white sm:bg-cream border-b sm:border border-stone/20 sm:border-white/20 rounded-none sm:rounded-full ${
+  const navClass = `fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-300 top-0 sm:top-3 md:top-4 w-full sm:w-[95%] md:w-[92%] max-w-6xl bg-white sm:bg-cream border-b sm:border border-stone/20 sm:border-white/20 rounded-none sm:rounded-[8px] overflow-hidden ${
     isScrolled 
       ? 'shadow-md sm:shadow-lg bg-white sm:bg-cream/95 sm:backdrop-blur-md' 
       : 'shadow-xs sm:shadow-md bg-white sm:bg-cream/90 sm:backdrop-blur-md'
@@ -74,7 +75,7 @@ const Navbar = () => {
         
         {/* Retail Announcement Bar (Top on Retail page only, #131E33 Footer Blue background) */}
         {isRetailPage && (
-          <div className="w-full bg-[#131E33] text-white text-[10px] sm:text-[11px] font-medium flex items-center justify-center gap-1.5 py-1.5 px-3 z-50 tracking-wider uppercase sm:rounded-t-full">
+          <div className="w-full bg-[#131E33] text-white text-[10px] sm:text-[11px] font-medium flex items-center justify-center gap-1.5 py-1.5 px-3 z-50 tracking-wider uppercase sm:rounded-t-[8px]">
             <svg className="w-3.5 h-3.5 text-[#C3B091] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1" />
@@ -159,9 +160,9 @@ const Navbar = () => {
                   <Link 
                     key={link.name}
                     to={link.path}
-                    className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-[11px] md:text-xs lg:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
+                    className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-xs md:text-[13px] lg:text-[13.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
                       isActive 
-                        ? 'text-terracotta bg-gradient-to-b from-[#FAF3EB] to-[#EFE3D5] border-[#E8DACB] shadow-[2px_3px_8px_rgba(75,45,25,0.14),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02]' 
+                        ? 'text-soft-black bg-cream border-white/70 shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02] -translate-y-[1px]' 
                         : 'border-transparent text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
                     }`}
                   >
@@ -192,9 +193,9 @@ const Navbar = () => {
                   <Link 
                     key={link.name}
                     to={link.path}
-                    className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-[11px] md:text-xs lg:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
+                    className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-xs md:text-[13px] lg:text-[13.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
                       isActive 
-                        ? 'text-terracotta bg-gradient-to-b from-[#FAF3EB] to-[#EFE3D5] border-[#E8DACB] shadow-[2px_3px_8px_rgba(75,45,25,0.14),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02]' 
+                        ? 'text-soft-black bg-cream border-white/70 shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02] -translate-y-[1px]' 
                         : 'border-transparent text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
                     }`}
                   >
