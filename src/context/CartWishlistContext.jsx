@@ -310,7 +310,7 @@ export const CartWishlistProvider = ({ children }) => {
     const defaultTitle = isKids ? 'AST Handmade Macramé Kids Belt' : 'AST Handmade Macramé Belt';
     const defaultBasePrice = isKids ? 600 : 850;
     const defaultRegularPrice = isKids ? 850 : 1050;
-    const id = item.id || `${isKids ? 'kids-' : ''}${item.color || 'Black'}-${item.size || (isKids ? 'One Size' : 'M')}`;
+    const id = item.id || `${isKids ? 'kids-' : ''}${item.color || 'Black'}-${item.size || (isKids ? 'One' : 'M')}`;
 
     setCart(prev => {
       const existingIndex = prev.findIndex(c => c.id === id);
@@ -327,7 +327,7 @@ export const CartWishlistProvider = ({ children }) => {
           productId: isKids ? 'kids' : 'adult',
           title: item.title || defaultTitle,
           color: item.color || (isKids ? 'Neon Green' : 'Black'),
-          size: item.size || (isKids ? 'One Size' : 'M'),
+          size: item.size || (isKids ? 'One' : 'M'),
           quantity: qty,
           basePriceBDT: item.basePriceBDT || item.priceBDT || defaultBasePrice,
           regularPriceBDT: item.regularPriceBDT || defaultRegularPrice,

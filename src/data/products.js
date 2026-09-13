@@ -184,8 +184,8 @@ export const PRODUCTS = {
     comboPriceBDT: 1090,
     comboRegularPriceBDT: 1700,
     calculateTierPrice: calculateKidsTierPriceBDT,
-    sizes: ['One Size'],
-    defaultSize: 'One Size',
+    sizes: ['One'],
+    defaultSize: 'One',
     dimensionsText: '1 1/4" Width (3.2 cm) • 28" Length (71 cm)',
     colors: [
       {
@@ -233,7 +233,7 @@ export const PRODUCTS = {
       title: 'Kids Sizing Guide (Boys & Girls)',
       columns: ['Size', 'Waist Fit', 'Total Length'],
       rows: [
-        { size: 'One Size', waist: '20–26"', length: '28"' }
+        { size: 'One', waist: '20–26"', length: '28"' }
       ],
       width: '1 1/4 inch (3.2 cm)',
       length: '28 inch (71 cm)',

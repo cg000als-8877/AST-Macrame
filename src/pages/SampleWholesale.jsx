@@ -179,19 +179,21 @@ const SampleWholesale = () => {
                 <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 items-stretch sm:items-center mb-10 sm:mb-12">
                   <Link 
                     to="/sample-order" 
-                    className="bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-dark-charcoal hover:text-white transition-all shadow-md hover:shadow-xl text-center inline-flex items-center justify-center gap-2 group"
+                    className="relative overflow-hidden group bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-dark-charcoal hover:text-white hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 shadow-md text-center inline-flex items-center justify-center gap-2"
                   >
-                    <span>ORDER SAMPLES ONLINE</span>
-                    <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+                    <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">ORDER SAMPLES ONLINE</span>
+                    <ChevronRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 relative z-10" />
                   </Link>
 
                   <a 
                     href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20would%20like%20to%20request%20a%20wholesale%20quote."
                     target="_blank"
                     rel="noreferrer"
-                    className="bg-transparent border border-soft-black/30 text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-soft-black hover:text-cream hover:border-soft-black transition-all text-center inline-flex items-center justify-center gap-2"
+                    className="relative overflow-hidden group bg-transparent border border-soft-black/30 text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:border-soft-black hover:text-cream hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 text-center inline-flex items-center justify-center gap-2"
                   >
-                    <span>REQUEST A CUSTOM QUOTE</span>
+                    <span className="absolute inset-0 bg-soft-black translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
+                    <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">REQUEST A CUSTOM QUOTE</span>
                   </a>
                 </div>
 
@@ -647,18 +649,20 @@ const SampleWholesale = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link 
               to="/sample-order" 
-              className="w-full sm:w-auto bg-cream text-soft-black px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-warm-sand transition-all shadow-xl hover:shadow-2xl text-center"
+              className="relative overflow-hidden group w-full sm:w-auto bg-cream text-soft-black px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-warm-sand hover:shadow-2xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 shadow-xl text-center"
             >
-              ORDER SAMPLES ONLINE
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+              <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">ORDER SAMPLES ONLINE</span>
             </Link>
             
             <a 
               href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20would%20like%20to%20request%20a%20wholesale%20quote."
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto bg-transparent border border-cream/40 text-cream px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-cream/10 hover:border-cream transition-all text-center"
+              className="relative overflow-hidden group w-full sm:w-auto bg-transparent border border-cream/40 text-cream px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:border-cream hover:text-soft-black hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 text-center"
             >
-              GET A CUSTOM QUOTE
+              <span className="absolute inset-0 bg-cream translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
+              <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">GET A CUSTOM QUOTE</span>
             </a>
           </div>
         </div>

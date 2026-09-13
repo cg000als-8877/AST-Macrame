@@ -83,7 +83,7 @@ const RetailPage = () => {
 
   const activeProduct = PRODUCTS[activeProductId] || PRODUCTS.adult;
   const colors = activeProduct.colors;
-  const defaultSizeForProduct = activeProduct.defaultSize || activeProduct.sizes[0] || 'One Size';
+  const defaultSizeForProduct = activeProduct.defaultSize || activeProduct.sizes[0] || 'One';
 
   const [selectedColor, setSelectedColor] = useState(activeProduct.colors[0].name);
   const [selectedSize, setSelectedSize] = useState(defaultSizeForProduct);
@@ -129,7 +129,7 @@ const RetailPage = () => {
     }
 
     const currentProd = PRODUCTS[currentProdId] || PRODUCTS.adult;
-    const defSize = currentProd.defaultSize || currentProd.sizes[0] || 'One Size';
+    const defSize = currentProd.defaultSize || currentProd.sizes[0] || 'One';
 
     if (colorParam) {
       const matched = currentProd.colors.find(c => c.name.toLowerCase() === colorParam.toLowerCase());
@@ -557,9 +557,6 @@ const RetailPage = () => {
           <div className="flex flex-col px-2.5 sm:px-4 lg:px-0 lg:pt-0 lg:col-span-5">
             
             <h1 className="text-2xl lg:text-3xl font-serif text-soft-black mb-1 md:mb-2 mt-0 lg:mt-0">{activeProduct.title}</h1>
-            <p className="text-xs md:text-sm font-light italic text-dark-charcoal/80 mb-2 md:mb-3 leading-relaxed">
-              {activeProduct.shortDesc}
-            </p>
             <p className="text-[10px] md:text-sm font-sans tracking-widest uppercase text-terracotta mb-2 md:mb-3">{activeProduct.subtitle}</p>
             
             {/* Added Price */}
@@ -568,10 +565,10 @@ const RetailPage = () => {
                 {orderType === 'single' ? `${currentSinglePrice.toLocaleString()} BDT` : `${currentComboPrice.toLocaleString()} BDT`}
               </span>
               <div className="flex items-center gap-2">
-                <span className="text-sm md:text-base text-red-500/80 line-through font-bold whitespace-nowrap leading-none">
+                <span className="text-sm md:text-base text-dark-charcoal/40 line-through font-semibold whitespace-nowrap leading-none">
                   {orderType === 'single' ? `${currentSingleRegularPrice.toLocaleString()} BDT` : `${currentComboRegularPrice.toLocaleString()} BDT`}
                 </span>
-                <span className="inline-flex items-center justify-center bg-emerald-700 text-white text-[10px] md:text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded-[15px] shadow-sm whitespace-nowrap leading-none">
+                <span className="inline-flex items-center justify-center bg-soft-black text-cream text-[10px] md:text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded shadow-xs whitespace-nowrap leading-none">
                   {orderType === 'single' 
                     ? `SAVE ${(currentSingleRegularPrice - currentSinglePrice).toLocaleString()} TK` 
                     : `SAVE ${(currentComboRegularPrice - currentComboPrice).toLocaleString()} TK`}

@@ -216,9 +216,10 @@ const Home = () => {
             >
               <Link 
                 to="/sample-order" 
-                className="bg-cream text-soft-black px-8 py-3.5 md:px-9 md:py-4 text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-warm-sand transition-all shadow-md hover:shadow-xl inline-block"
+                className="relative overflow-hidden group bg-cream text-soft-black px-8 py-3.5 md:px-9 md:py-4 text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-warm-sand hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 shadow-md inline-block"
               >
-                REQUEST A SAMPLE
+                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+                <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">REQUEST A SAMPLE</span>
               </Link>
             </motion.div>
           </div>
@@ -405,13 +406,13 @@ const Home = () => {
         </div>
       </section>
       {/* HOME — SECTION 3: THE PRODUCT */}
-      <section className="py-16 md:py-24 bg-cream overflow-hidden">
+      <section className="pt-0 pb-16 md:py-24 bg-cream overflow-hidden">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             
-            <div className="lg:col-span-6">
-              <div className="relative rounded-3xl overflow-hidden bg-white border border-stone/20 aspect-square">
+            <div className="lg:col-span-6 -mx-5 sm:mx-0">
+              <div className="relative rounded-none sm:rounded-3xl overflow-hidden bg-white sm:border sm:border-stone/20 aspect-square">
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={productColors[selectedColorIdx].id}
@@ -425,8 +426,8 @@ const Home = () => {
                   />
                 </AnimatePresence>
                 
-                <div className="absolute top-4 left-4 bg-gradient-to-r from-[#DFB76C] via-[#F6E7BE] to-[#C99A45] text-soft-black text-[10px] sm:text-[11px] font-sans font-extrabold uppercase tracking-[0.2em] px-3.5 py-1.5 rounded-full flex items-center gap-1.5 border border-[#F6E7BE]/80">
-                  <Sparkles className="w-3.5 h-3.5 text-soft-black" />
+                <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-gradient-to-r from-[#DFB76C] via-[#F6E7BE] to-[#C99A45] text-soft-black text-[9px] sm:text-[11px] font-sans font-extrabold uppercase tracking-[0.18em] sm:tracking-[0.2em] px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full flex items-center gap-1 sm:gap-1.5 border border-[#F6E7BE]/80 shadow-xs">
+                  <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-soft-black" />
                   <span>PREMIUM</span>
                 </div>
               </div>
@@ -479,10 +480,11 @@ const Home = () => {
 
               <Link 
                 to="/sample-order" 
-                className="bg-soft-black text-cream px-8 py-4 sm:py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-dark-charcoal transition-all text-center inline-flex items-center justify-center gap-2 group"
+                className="relative overflow-hidden group bg-soft-black text-cream px-8 py-4 sm:py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-dark-charcoal hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 text-center inline-flex items-center justify-center gap-2"
               >
-                <span>VIEW PRODUCT DETAILS</span>
-                <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+                <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">VIEW PRODUCT DETAILS</span>
+                <ChevronRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 relative z-10" />
               </Link>
             </div>
 
@@ -817,18 +819,20 @@ const Home = () => {
               href="https://wa.me/8801940689061?text=Hi%20AST%20Macrame,%20I%20have%20a%20reference%20image%20/%20custom%20design%20idea%20to%20discuss."
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-dark-charcoal hover:text-white transition-all shadow-md hover:shadow-xl inline-flex items-center justify-center gap-2.5 group"
+              className="relative overflow-hidden group w-full sm:w-auto bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-dark-charcoal hover:text-white hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 shadow-md inline-flex items-center justify-center gap-2.5"
             >
-              <MessageCircle className="w-4 h-4 transition-transform group-hover:scale-110" />
-              <span>CHAT ON WHATSAPP</span>
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+              <MessageCircle className="w-4 h-4 transition-transform duration-300 group-hover:scale-110 relative z-10" />
+              <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">CHAT ON WHATSAPP</span>
             </a>
             
             <a 
               href="mailto:astmacrame@gmail.com?subject=Custom%20Macrame%20Design%20/%20Reference%20Inquiry"
-              className="w-full sm:w-auto bg-transparent border border-soft-black/30 text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-soft-black hover:text-cream hover:border-soft-black transition-all inline-flex items-center justify-center gap-2.5 group"
+              className="relative overflow-hidden group w-full sm:w-auto bg-transparent border border-soft-black/30 text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:border-soft-black hover:text-cream hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 inline-flex items-center justify-center gap-2.5"
             >
-              <Mail className="w-4 h-4 transition-transform group-hover:scale-110" />
-              <span>SEND VIA EMAIL</span>
+              <span className="absolute inset-0 bg-soft-black translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
+              <Mail className="w-4 h-4 transition-transform duration-300 group-hover:scale-110 relative z-10" />
+              <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">SEND VIA EMAIL</span>
             </a>
           </div>
         </div>
@@ -925,16 +929,18 @@ const Home = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link 
               to="/sample-order" 
-              className="w-full sm:w-auto bg-cream text-soft-black px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-warm-sand transition-all shadow-xl hover:shadow-2xl text-center"
+              className="relative overflow-hidden group w-full sm:w-auto bg-cream text-soft-black px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-warm-sand hover:shadow-2xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 shadow-xl text-center"
             >
-              REQUEST A SAMPLE
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+              <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">REQUEST A SAMPLE</span>
             </Link>
             
             <Link 
               to="/sample-wholesale" 
-              className="w-full sm:w-auto bg-transparent border border-cream/40 text-cream px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-cream/10 hover:border-cream transition-all text-center"
+              className="relative overflow-hidden group w-full sm:w-auto bg-transparent border border-cream/40 text-cream px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:border-cream hover:text-soft-black hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 text-center"
             >
-              REQUEST A WHOLESALE QUOTE
+              <span className="absolute inset-0 bg-cream translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
+              <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">REQUEST A WHOLESALE QUOTE</span>
             </Link>
           </div>
         </div>

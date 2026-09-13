@@ -67,7 +67,7 @@ const ProductGallery = () => {
           <button
             type="button"
             onClick={() => setSelectedCategory('all')}
-            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+            className={`px-2.5 sm:px-4 py-1 sm:py-2 rounded text-[10px] sm:text-xs font-normal uppercase tracking-wider transition-all cursor-pointer shrink-0 whitespace-nowrap ${
               selectedCategory === 'all'
                 ? 'bg-soft-black text-white shadow-xs'
                 : 'bg-white border border-stone/20 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black'
@@ -78,7 +78,7 @@ const ProductGallery = () => {
           <button
             type="button"
             onClick={() => setSelectedCategory('adult')}
-            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+            className={`px-2.5 sm:px-4 py-1 sm:py-2 rounded text-[10px] sm:text-xs font-normal uppercase tracking-wider transition-all cursor-pointer shrink-0 whitespace-nowrap ${
               selectedCategory === 'adult'
                 ? 'bg-soft-black text-white shadow-xs'
                 : 'bg-white border border-stone/20 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black'
@@ -89,7 +89,7 @@ const ProductGallery = () => {
           <button
             type="button"
             onClick={() => setSelectedCategory('kids')}
-            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+            className={`px-2.5 sm:px-4 py-1 sm:py-2 rounded text-[10px] sm:text-xs font-normal uppercase tracking-wider transition-all cursor-pointer shrink-0 whitespace-nowrap ${
               selectedCategory === 'kids'
                 ? 'bg-soft-black text-white shadow-xs'
                 : 'bg-white border border-stone/20 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black'
@@ -213,23 +213,25 @@ const ProductGallery = () => {
                       {/* ORDER SAMPLE CTA -> Deep link to /sample-order */}
                       <Link
                         to={`/sample-order?product=${item.productId}&color=${encodeURIComponent(item.colorName.toLowerCase())}`}
-                        className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded border border-soft-black bg-transparent text-soft-black hover:bg-soft-black hover:text-cream hover:shadow-sm text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center active:scale-[0.98] cursor-pointer"
+                        className="relative overflow-hidden group w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded border border-soft-black bg-transparent text-soft-black hover:border-soft-black hover:text-cream hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center cursor-pointer"
                         title="Order sample on the Sample Order page"
                       >
-                        Order Sample
+                        <span className="absolute inset-0 bg-soft-black translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
+                        <span className="relative z-10 transition-all duration-300 group-hover:tracking-widest">Order Sample</span>
                       </Link>
 
                       {/* ORDER RETAIL CTA -> Deep link to /retail */}
                       <div>
                         <Link
                           to={`/retail?product=${item.productId}&color=${encodeURIComponent(item.colorName.toLowerCase())}`}
-                          className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded bg-terracotta hover:bg-[#131E33] hover:shadow-md hover:brightness-110 text-cream text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all duration-300 shadow-xs active:scale-[0.98] flex items-center justify-center cursor-pointer"
+                          className="relative overflow-hidden group w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded bg-terracotta hover:bg-[#131E33] hover:shadow-md hover:shadow-terracotta/25 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-cream text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all duration-300 shadow-xs flex items-center justify-center cursor-pointer"
                           title="Order on the Retail page"
                         >
-                          Order Retail
+                          <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+                          <span className="relative z-10 transition-all duration-300 group-hover:tracking-widest">Order Retail</span>
                         </Link>
                         <p className="text-[10px] sm:text-[11.5px] lg:text-[11.5px] xl:text-[12px] text-dark-charcoal/70 text-center font-medium leading-normal mt-1">
-                          * Retail is for Bangladesh delivery only
+                          Retail is for Bangladesh only
                         </p>
                       </div>
                     </div>
@@ -386,7 +388,7 @@ const ProductGallery = () => {
                       <span>Total Length</span>
                     </div>
                     <div className="grid grid-cols-3 py-3">
-                      <span className="font-bold text-soft-black">One Size</span>
+                      <span className="font-bold text-soft-black">One</span>
                       <span className="text-soft-black/80">20–26 in</span>
                       <span className="text-soft-black/80">28 in (71 cm)</span>
                     </div>

@@ -323,9 +323,10 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                       <button 
                         type="submit" 
                         disabled={isSubmitting} 
-                        className="w-full bg-soft-black text-cream px-4 py-3 md:px-6 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded hover:bg-terracotta transition-colors shadow-md disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                        className="relative overflow-hidden group w-full bg-soft-black text-cream px-4 py-3 md:px-6 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded hover:bg-terracotta hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 shadow-md disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                       >
-                        {isSubmitting ? 'Processing...' : 'Place Order'}
+                        <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+                        <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.2em]">{isSubmitting ? 'Processing...' : 'Place Order'}</span>
                       </button>
 
                       {/* Accepted Payment Methods */}

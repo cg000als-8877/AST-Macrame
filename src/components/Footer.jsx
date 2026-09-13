@@ -82,23 +82,21 @@ const Footer = () => {
           </div>
         </div>
         
-        {/* Accepted Payment Options: Well-proportioned compact banner */}
+        {/* Combined Payment Methods & Copyright Section */}
         <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-cream/10 w-full flex flex-col items-center">
-          <p className="text-[11.5px] sm:text-[13.5px] text-cream/40 font-bold tracking-[0.2em] uppercase mb-2.5 sm:mb-3 text-center">
+          <p className="hidden sm:block text-[11.5px] sm:text-[13.5px] text-cream/40 font-bold tracking-[0.2em] uppercase mb-2.5 sm:mb-3 text-center">
             Accepted Payment Methods
           </p>
-          <div className="w-full flex items-center justify-center px-4">
+          <div className="w-full flex items-center justify-center px-4 mb-3 sm:mb-4">
             <img 
               src={paymentsImg} 
               alt="Accepted Payment Methods" 
-              className="w-full h-auto object-contain max-w-[260px] sm:max-w-sm md:max-w-[380px]"
+              className="w-full h-auto object-contain max-w-[200px] sm:max-w-sm md:max-w-[380px]"
             />
           </div>
-        </div>
-
-        <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-cream/10 flex flex-col items-center">
-          <p className="font-sans text-[12.5px] md:text-[13px] text-cream/40 tracking-widest text-center">
-            © {new Date().getFullYear()} AST Handmade Macramé Belts. All Rights Reserved.
+          <p className="font-sans text-[12px] sm:text-[12.5px] md:text-[13px] text-cream/40 tracking-widest text-center leading-relaxed">
+            <span className="block sm:inline">© {new Date().getFullYear()} AST Handmade Macramé Belts.</span>
+            <span className="block sm:inline sm:ml-1">All Rights Reserved.</span>
           </p>
         </div>
       </div>

@@ -203,9 +203,9 @@ const FAQ = () => {
   return (
     <div className="w-full bg-cream min-h-screen pt-[76px] sm:pt-[84px] md:pt-[104px] pb-16 md:pb-24">
       {/* Hero Header */}
-      <section className="relative px-4 sm:px-6 lg:px-12 py-8 sm:py-12 md:py-16 border-b border-stone/20 bg-gradient-to-b from-stone/10 to-cream">
+      <section className="relative px-4 sm:px-6 lg:px-12 py-8 sm:py-12 md:py-16 bg-stone/5">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/80 border border-stone/20 text-terracotta text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] mb-3 sm:mb-4 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-stone/20 text-terracotta text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] mb-3 sm:mb-4 rounded">
             <HelpCircle className="w-3.5 h-3.5" />
             <span>Help &amp; Knowledge Base</span>
           </div>
@@ -228,7 +228,7 @@ const FAQ = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by keyword (e.g. COD, size, wash, exchange)..."
-              className="w-full pl-10 sm:pl-12 pr-10 py-2.5 sm:py-3.5 bg-white border border-stone/30 focus:border-terracotta text-xs sm:text-sm text-soft-black placeholder:text-dark-charcoal/40 outline-none transition-all shadow-sm rounded-none"
+              className="w-full pl-10 sm:pl-12 pr-10 py-2.5 sm:py-3.5 bg-white border border-stone/30 focus:border-terracotta text-xs sm:text-sm text-soft-black placeholder:text-dark-charcoal/40 outline-none transition-all rounded"
             />
             {searchQuery && (
               <button
@@ -250,8 +250,8 @@ const FAQ = () => {
             onClick={() => { setSelectedCategory('all'); setSearchQuery(''); }}
             className={`px-3.5 sm:px-5 py-2 text-[10.5px] sm:text-xs md:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all rounded cursor-pointer ${
               selectedCategory === 'all'
-                ? 'bg-soft-black text-white shadow-sm'
-                : 'bg-white text-soft-black border border-stone/25 hover:border-stone/50'
+                ? 'bg-soft-black text-white'
+                : 'bg-white text-soft-black hover:bg-stone/10'
             }`}
           >
             All Topics
@@ -266,8 +266,8 @@ const FAQ = () => {
                 onClick={() => { setSelectedCategory(cat.id); setSearchQuery(''); }}
                 className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 text-[10.5px] sm:text-xs md:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all rounded cursor-pointer ${
                   isSelected
-                    ? 'bg-soft-black text-white shadow-sm'
-                    : 'bg-white text-soft-black border border-stone/25 hover:border-stone/50'
+                    ? 'bg-soft-black text-white'
+                    : 'bg-white text-soft-black hover:bg-stone/10'
                 }`}
               >
                 <Icon className={`w-3.5 h-3.5 ${isSelected ? 'text-terracotta' : 'text-dark-charcoal/60'}`} />
@@ -286,15 +286,15 @@ const FAQ = () => {
 
         {/* FAQ Accordion List */}
         {filteredCategories.length > 0 ? (
-          <div className="space-y-8 sm:space-y-12">
+          <div className="space-y-6 sm:space-y-8">
             {filteredCategories.map((category) => {
               const Icon = category.icon;
               return (
-                <div key={category.id} className="bg-white/90 border border-stone/20 p-4 sm:p-6 md:p-8 shadow-sm">
+                <div key={category.id} className="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-7 md:p-8">
                   {/* Category Header */}
-                  <div className="flex items-start gap-3 sm:gap-4 pb-4 sm:pb-6 border-b border-stone/20 mb-4 sm:mb-6">
-                    <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-none bg-stone/10 text-terracotta flex items-center justify-center shrink-0 border border-stone/20">
-                      <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <div className="flex items-start gap-3.5 sm:gap-4 pb-4 sm:pb-6 border-b border-stone/10 mb-4 sm:mb-6">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-cream text-terracotta flex items-center justify-center shrink-0">
+                      <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
                     <div>
                       <h2 className="text-base sm:text-lg md:text-xl font-serif font-bold text-soft-black">
@@ -307,7 +307,7 @@ const FAQ = () => {
                   </div>
 
                   {/* Questions in Category */}
-                  <div className="divide-y divide-stone/15">
+                  <div className="divide-y divide-stone/10">
                     {category.matchedQuestions.map((item) => {
                       const itemKey = `${category.catIdx}-${item.qIdx}`;
                       const isOpen = !!openItems[itemKey];
@@ -323,10 +323,10 @@ const FAQ = () => {
                             }`}>
                               {item.q}
                             </span>
-                            <div className={`w-5 h-5 sm:w-6 sm:h-6 shrink-0 flex items-center justify-center transition-colors ${
-                              isOpen ? 'text-terracotta' : 'text-stone-400 group-hover:text-soft-black'
+                            <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center shrink-0 transition-colors ${
+                              isOpen ? 'bg-terracotta/10 text-terracotta' : 'bg-stone/10 text-soft-black group-hover:bg-terracotta/10 group-hover:text-terracotta'
                             }`}>
-                              {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                              {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
                             </div>
                           </button>
 
@@ -355,7 +355,7 @@ const FAQ = () => {
           </div>
         ) : (
           /* Empty Search State */
-          <div className="bg-white border border-stone/20 p-8 sm:p-12 text-center my-8">
+          <div className="bg-white rounded-xl sm:rounded-2xl p-8 sm:p-12 text-center my-8">
             <HelpCircle className="w-10 h-10 text-dark-charcoal/30 mx-auto mb-3" />
             <h3 className="text-base sm:text-lg font-serif font-bold text-soft-black mb-1">
               No matching questions found
@@ -365,15 +365,16 @@ const FAQ = () => {
             </p>
             <button
               onClick={() => { setSearchQuery(''); setSelectedCategory('all'); }}
-              className="px-4 py-2 bg-soft-black text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-terracotta transition-colors cursor-pointer"
+              className="relative overflow-hidden group px-5 py-2.5 bg-soft-black text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-dark-charcoal hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
             >
-              Reset Search Filter
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+              <span className="relative z-10">Reset Search Filter</span>
             </button>
           </div>
         )}
 
         {/* Live Support Banner */}
-        <div className="mt-12 sm:mt-16 bg-soft-black text-cream p-6 sm:p-8 md:p-10 border border-stone/30 shadow-md">
+        <div className="mt-12 sm:mt-16 bg-soft-black text-cream p-6 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
             <div className="max-w-xl">
               <span className="text-[10px] sm:text-xs font-bold text-white uppercase tracking-[0.2em] block mb-1.5">
@@ -392,18 +393,20 @@ const FAQ = () => {
                 href="https://wa.me/8801940689061"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#25D366] text-white px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-bold uppercase tracking-wider rounded hover:bg-[#1EBE5D] transition-all shadow-sm active:scale-95 cursor-pointer"
+                className="relative overflow-hidden group inline-flex items-center gap-2 bg-[#25D366] text-white px-5 sm:px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider rounded hover:bg-[#1EBE5D] hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
               >
-                <MessageCircle className="w-4 h-4 fill-current" />
-                <span>WhatsApp Live Support</span>
+                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+                <MessageCircle className="w-4 h-4 fill-current relative z-10" />
+                <span className="relative z-10 transition-all duration-300 group-hover:tracking-wider">WhatsApp Live Support</span>
               </a>
               
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 bg-white/10 text-white border border-white/20 hover:bg-white hover:text-soft-black px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-bold uppercase tracking-wider rounded transition-all active:scale-95 cursor-pointer"
+                className="relative overflow-hidden group inline-flex items-center gap-2 bg-white/10 text-white border border-white/20 hover:border-white hover:text-soft-black hover:shadow-lg hover:-translate-y-0.5 px-5 sm:px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider rounded active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
               >
-                <Mail className="w-4 h-4" />
-                <span>Contact Form</span>
+                <span className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
+                <Mail className="w-4 h-4 relative z-10" />
+                <span className="relative z-10 transition-all duration-300 group-hover:tracking-wider">Contact Form</span>
               </Link>
             </div>
           </div>
