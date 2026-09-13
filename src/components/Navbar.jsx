@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Menu, X, Search, ChevronRight, Phone } from 'lucide-react';
+import { ShoppingCart, Menu, X, Search, ChevronRight, Phone, ArrowLeft } from 'lucide-react';
 import { useCartWishlist } from '../context/CartWishlistContext';
 
 const Navbar = () => {
@@ -9,7 +9,9 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileSearchExpanded, setIsMobileSearchExpanded] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const searchInputRef = useRef(null);
   const { totalCartQuantity, setIsCartOpen } = useCartWishlist();
 
   useEffect(() => {
@@ -21,10 +23,18 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [location.pathname]);
 
-  // Close mobile menu on route change
+  // Close mobile menu & expanded search on route change
   useEffect(() => {
     setIsMobileMenuOpen(false);
+    setIsMobileSearchExpanded(false);
   }, [location.pathname]);
+
+  // Auto-focus input when mobile search expands
+  useEffect(() => {
+    if (isMobileSearchExpanded && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [isMobileSearchExpanded]);
 
   const isRetailPage = location.pathname === '/retail';
 
@@ -56,6 +66,7 @@ const Navbar = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+    setIsMobileSearchExpanded(false);
     if (searchQuery.trim()) {
       navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
     } else {
@@ -84,66 +95,119 @@ const Navbar = () => {
           </div>
         )}
 
-        {/* 1. UNIVERSAL MOBILE TOP BAR (Burger + Logo + Search + Cart) */}
-        <div className="flex sm:hidden px-2.5 sm:px-4 h-[52px] items-center justify-between gap-1.5 w-full">
-          
-          {/* Left: Burger Menu Button + Logo & Brand */}
-          <div className="flex items-center gap-1 shrink-0">
-            <button 
-              type="button"
-              onClick={() => setIsMobileMenuOpen(true)}
-              className="p-1.5 text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer"
-              aria-label="Open Navigation Menu"
-              title="Menu"
-            >
-              <Menu className="w-5 h-5 stroke-[2.2]" />
-            </button>
+        {/* 1. UNIVERSAL MOBILE TOP BAR (Burger + Logo + Search + Cart / Expanded Full-Width Search) */}
+        <div className="flex sm:hidden px-2.5 sm:px-4 h-[52px] items-center justify-between gap-1.5 w-full relative">
+          <AnimatePresence mode="wait">
+            {isMobileSearchExpanded ? (
+              <motion.form
+                key="expanded-search"
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.18, ease: "easeOut" }}
+                onSubmit={handleSearchSubmit}
+                className="flex items-center gap-2 w-full h-full"
+              >
+                <div className="relative flex-1 flex items-center bg-stone/15 border border-stone/25 focus-within:border-terracotta rounded-full px-3 py-1.5 text-xs transition-colors shadow-inner">
+                  <Search className="w-4 h-4 text-terracotta shrink-0 mr-2" />
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search macramé belts, colors..."
+                    className="w-full bg-transparent text-xs text-soft-black placeholder:text-dark-charcoal/50 focus:outline-none"
+                  />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery('')}
+                      className="p-1 text-dark-charcoal/50 hover:text-soft-black cursor-pointer shrink-0"
+                      aria-label="Clear search"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsMobileSearchExpanded(false)}
+                  className="text-[11px] font-bold text-terracotta uppercase tracking-wider px-1.5 py-1 active:scale-95 transition-all shrink-0 cursor-pointer"
+                >
+                  Cancel
+                </button>
+              </motion.form>
+            ) : (
+              <motion.div
+                key="normal-bar"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                className="flex items-center justify-between gap-1.5 w-full h-full"
+              >
+                {/* Left: Burger Menu Button + Logo & Brand */}
+                <div className="flex items-center gap-1 shrink-0">
+                  <button 
+                    type="button"
+                    onClick={() => setIsMobileMenuOpen(true)}
+                    className="p-1.5 text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer"
+                    aria-label="Open Navigation Menu"
+                    title="Menu"
+                  >
+                    <Menu className="w-5 h-5 stroke-[2.2]" />
+                  </button>
 
-            <Link to="/" className="flex items-center gap-1.5 active:scale-95 transition-transform shrink-0">
-              <img 
-                src="/logo_black.png" 
-                alt="AST Logo" 
-                className="h-6 w-auto object-contain"
-              />
-              <span className="font-serif font-bold text-soft-black text-[12.5px] tracking-tight whitespace-nowrap">
-                AST Macramé
-              </span>
-            </Link>
-          </div>
+                  <Link to="/" className="flex items-center gap-1.5 active:scale-95 transition-transform shrink-0">
+                    <img 
+                      src="/logo_black.png" 
+                      alt="AST Logo" 
+                      className="h-6 w-auto object-contain"
+                    />
+                    <span className="font-serif font-bold text-soft-black text-[12.5px] tracking-tight whitespace-nowrap">
+                      AST Macramé
+                    </span>
+                  </Link>
+                </div>
 
-          {/* Center: Search Bar with Icon and Demo Placeholder */}
-          <form onSubmit={handleSearchSubmit} className="flex-1 min-w-0 mx-1">
-            <div className="relative w-full flex items-center bg-stone/15 hover:bg-stone/20 border border-stone/20 rounded-full px-2.5 py-1.5 text-xs transition-colors">
-              <Search className="w-3.5 h-3.5 text-dark-charcoal/50 shrink-0 mr-1.5" />
-              <input 
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search belts..." 
-                className="w-full bg-transparent text-[11px] text-soft-black placeholder:text-dark-charcoal/50 focus:outline-none truncate" 
-                aria-label="Search belts"
-              />
-            </div>
-          </form>
+                {/* Center: Search Bar with Icon and Demo Placeholder (Click to expand) */}
+                <div 
+                  onClick={() => setIsMobileSearchExpanded(true)}
+                  className="flex-1 min-w-0 mx-1 cursor-pointer"
+                >
+                  <div className="relative w-full flex items-center bg-stone/15 hover:bg-stone/20 border border-stone/20 rounded-full px-2.5 py-1.5 text-xs transition-colors">
+                    <Search className="w-3.5 h-3.5 text-dark-charcoal/50 shrink-0 mr-1.5" />
+                    <input 
+                      type="text"
+                      value={searchQuery}
+                      readOnly
+                      placeholder="Search belts..." 
+                      className="w-full bg-transparent text-[11px] text-soft-black placeholder:text-dark-charcoal/50 focus:outline-none truncate pointer-events-none" 
+                      aria-label="Search belts"
+                    />
+                  </div>
+                </div>
 
-          {/* Right: Cart Button with Badge */}
-          <div className="flex items-center shrink-0">
-            <button 
-              type="button"
-              onClick={() => setIsCartOpen(true)}
-              className="relative p-1.5 text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer" 
-              aria-label="Shopping Cart"
-              title="Cart"
-            >
-              <ShoppingCart className="w-5 h-5 stroke-[2]" />
-              {totalCartQuantity > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 bg-terracotta text-white text-[8.5px] font-black w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-xs">
-                  {totalCartQuantity}
-                </span>
-              )}
-            </button>
-          </div>
-
+                {/* Right: Cart Button with Badge */}
+                <div className="flex items-center shrink-0">
+                  <button 
+                    type="button"
+                    onClick={() => setIsCartOpen(true)}
+                    className="relative p-1.5 text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer" 
+                    aria-label="Shopping Cart"
+                    title="Cart"
+                  >
+                    <ShoppingCart className="w-5 h-5 stroke-[2]" />
+                    {totalCartQuantity > 0 && (
+                      <span className="absolute -top-0.5 -right-0.5 bg-terracotta text-white text-[8.5px] font-black w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-xs">
+                        {totalCartQuantity}
+                      </span>
+                    )}
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* 2. DESKTOP NAVBAR (Hidden on mobile) */}
