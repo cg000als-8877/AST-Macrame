@@ -137,7 +137,7 @@ const AdminLogin = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#1C2841] hover:bg-black text-white py-3.5 px-4 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-lg active:scale-98 disabled:opacity-70 disabled:cursor-wait mt-2 cursor-pointer flex items-center justify-center gap-2"
+            className="w-full bg-[#1C2841] hover:bg-black text-white py-3.5 px-4 rounded text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-lg active:scale-98 disabled:opacity-70 disabled:cursor-wait mt-2 cursor-pointer flex items-center justify-center gap-2"
           >
             {loading ? "Verifying..." : "Sign In to Dashboard"}
           </button>

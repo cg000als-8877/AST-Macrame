@@ -192,7 +192,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                     </div>
                   </div>
 
-                  <button onClick={onClose} className="w-full max-w-[200px] bg-soft-black text-cream px-6 py-3 md:py-3.5 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-xl hover:bg-terracotta transition-colors shadow-md mx-auto cursor-pointer">
+                  <button onClick={onClose} className="w-full max-w-[200px] bg-soft-black text-cream px-6 py-3 md:py-3.5 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded hover:bg-terracotta transition-colors shadow-md mx-auto cursor-pointer">
                     Close
                   </button>
                 </div>
@@ -323,7 +323,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                       <button 
                         type="submit" 
                         disabled={isSubmitting} 
-                        className="w-full bg-soft-black text-cream px-4 py-3 md:px-6 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-xl hover:bg-terracotta transition-colors shadow-md disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                        className="w-full bg-soft-black text-cream px-4 py-3 md:px-6 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded hover:bg-terracotta transition-colors shadow-md disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                       >
                         {isSubmitting ? 'Processing...' : 'Place Order'}
                       </button>

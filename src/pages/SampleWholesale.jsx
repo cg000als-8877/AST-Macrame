@@ -179,7 +179,7 @@ const SampleWholesale = () => {
                 <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 items-stretch sm:items-center mb-10 sm:mb-12">
                   <Link 
                     to="/sample-order" 
-                    className="bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-dark-charcoal hover:text-white transition-all shadow-md hover:shadow-xl text-center inline-flex items-center justify-center gap-2 group"
+                    className="bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-dark-charcoal hover:text-white transition-all shadow-md hover:shadow-xl text-center inline-flex items-center justify-center gap-2 group"
                   >
                     <span>ORDER SAMPLES ONLINE</span>
                     <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -189,7 +189,7 @@ const SampleWholesale = () => {
                     href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20would%20like%20to%20request%20a%20wholesale%20quote."
                     target="_blank"
                     rel="noreferrer"
-                    className="bg-transparent border border-soft-black/30 text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-soft-black hover:text-cream hover:border-soft-black transition-all text-center inline-flex items-center justify-center gap-2"
+                    className="bg-transparent border border-soft-black/30 text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-soft-black hover:text-cream hover:border-soft-black transition-all text-center inline-flex items-center justify-center gap-2"
                   >
                     <span>REQUEST A CUSTOM QUOTE</span>
                   </a>
@@ -327,7 +327,7 @@ const SampleWholesale = () => {
                   href={`https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20am%20interested%20in%20${encodeURIComponent(tier.tier + ' (' + tier.title + ' - ' + tier.range + ')')}%20wholesale%20production.`}
                   target="_blank"
                   rel="noreferrer"
-                  className={`w-full py-3 text-center text-xs font-bold uppercase tracking-[0.15em] rounded-xl transition-all block ${
+                  className={`w-full py-3 text-center text-xs font-bold uppercase tracking-[0.15em] rounded transition-all block ${
                     tier.popular 
                       ? 'bg-soft-black text-cream hover:bg-dark-charcoal' 
                       : 'bg-white border border-stone/30 text-soft-black hover:border-soft-black hover:bg-soft-black hover:text-cream'
@@ -381,7 +381,7 @@ const SampleWholesale = () => {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2.5 sm:py-3 rounded-xl text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                    className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2.5 sm:py-3 rounded text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                       isActive 
                         ? 'bg-soft-black text-cream shadow-md' 
                         : 'bg-white border border-stone/20 text-dark-charcoal/80 hover:border-soft-black/40'
@@ -498,7 +498,7 @@ const SampleWholesale = () => {
           <div className="text-center mt-10 sm:mt-12">
             <Link 
               to="/sample-order" 
-              className="bg-soft-black text-cream px-9 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-dark-charcoal transition-all shadow-md inline-block"
+              className="bg-soft-black text-cream px-9 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-dark-charcoal transition-all shadow-md inline-block"
             >
               ORDER PHYSICAL SAMPLES
             </Link>
@@ -610,7 +610,7 @@ const SampleWholesale = () => {
               href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20would%20like%20to%20discuss%20a%20wholesale%20/%20custom%20OEM%20production%20project."
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-dark-charcoal hover:text-white transition-all shadow-md hover:shadow-xl inline-flex items-center justify-center gap-2.5 group"
+              className="w-full sm:w-auto bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-dark-charcoal hover:text-white transition-all shadow-md hover:shadow-xl inline-flex items-center justify-center gap-2.5 group"
             >
               <MessageCircle className="w-4 h-4 transition-transform group-hover:scale-110" />
               <span>CHAT ON WHATSAPP</span>
@@ -618,7 +618,7 @@ const SampleWholesale = () => {
             
             <a 
               href="mailto:astmacrame@gmail.com?subject=Wholesale%20OEM%20Manufacturing%20Inquiry"
-              className="w-full sm:w-auto bg-transparent border border-soft-black/30 text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-soft-black hover:text-cream hover:border-soft-black transition-all inline-flex items-center justify-center gap-2.5 group"
+              className="w-full sm:w-auto bg-transparent border border-soft-black/30 text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-soft-black hover:text-cream hover:border-soft-black transition-all inline-flex items-center justify-center gap-2.5 group"
             >
               <Mail className="w-4 h-4 transition-transform group-hover:scale-110" />
               <span>EMAIL TECH PACKS</span>
@@ -647,7 +647,7 @@ const SampleWholesale = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link 
               to="/sample-order" 
-              className="w-full sm:w-auto bg-cream text-soft-black px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-warm-sand transition-all shadow-xl hover:shadow-2xl text-center"
+              className="w-full sm:w-auto bg-cream text-soft-black px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-warm-sand transition-all shadow-xl hover:shadow-2xl text-center"
             >
               ORDER SAMPLES ONLINE
             </Link>
@@ -656,7 +656,7 @@ const SampleWholesale = () => {
               href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20would%20like%20to%20request%20a%20wholesale%20quote."
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto bg-transparent border border-cream/40 text-cream px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-cream/10 hover:border-cream transition-all text-center"
+              className="w-full sm:w-auto bg-transparent border border-cream/40 text-cream px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-cream/10 hover:border-cream transition-all text-center"
             >
               GET A CUSTOM QUOTE
             </a>

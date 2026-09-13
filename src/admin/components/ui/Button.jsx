@@ -24,9 +24,9 @@ export const Button = ({
   };
 
   const sizeStyles = {
-    sm: 'text-xs px-2.5 py-1.5 rounded-lg gap-1.5',
-    md: 'text-xs font-bold uppercase tracking-wider px-3.5 py-2.5 rounded-xl gap-2',
-    lg: 'text-sm font-bold uppercase tracking-wider px-5 py-3 rounded-xl gap-2.5',
+    sm: 'text-xs px-2.5 py-1.5 rounded gap-1.5',
+    md: 'text-xs font-bold uppercase tracking-wider px-3.5 py-2.5 rounded gap-2',
+    lg: 'text-sm font-bold uppercase tracking-wider px-5 py-3 rounded gap-2.5',
   };
 
   return (

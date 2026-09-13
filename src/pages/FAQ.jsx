@@ -248,7 +248,7 @@ const FAQ = () => {
         <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-3 mb-6 sm:mb-10 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <button
             onClick={() => { setSelectedCategory('all'); setSearchQuery(''); }}
-            className={`px-3.5 sm:px-5 py-2 text-[10.5px] sm:text-xs md:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer ${
+            className={`px-3.5 sm:px-5 py-2 text-[10.5px] sm:text-xs md:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all rounded cursor-pointer ${
               selectedCategory === 'all'
                 ? 'bg-soft-black text-white shadow-sm'
                 : 'bg-white text-soft-black border border-stone/25 hover:border-stone/50'
@@ -264,7 +264,7 @@ const FAQ = () => {
               <button
                 key={cat.id}
                 onClick={() => { setSelectedCategory(cat.id); setSearchQuery(''); }}
-                className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 text-[10.5px] sm:text-xs md:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 text-[10.5px] sm:text-xs md:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all rounded cursor-pointer ${
                   isSelected
                     ? 'bg-soft-black text-white shadow-sm'
                     : 'bg-white text-soft-black border border-stone/25 hover:border-stone/50'
@@ -365,7 +365,7 @@ const FAQ = () => {
             </p>
             <button
               onClick={() => { setSearchQuery(''); setSelectedCategory('all'); }}
-              className="px-4 py-2 bg-soft-black text-white text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-terracotta transition-colors cursor-pointer"
+              className="px-4 py-2 bg-soft-black text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-terracotta transition-colors cursor-pointer"
             >
               Reset Search Filter
             </button>
@@ -392,7 +392,7 @@ const FAQ = () => {
                 href="https://wa.me/8801940689061"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#25D366] text-white px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl hover:bg-[#1EBE5D] transition-all shadow-sm active:scale-95 cursor-pointer"
+                className="inline-flex items-center gap-2 bg-[#25D366] text-white px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-bold uppercase tracking-wider rounded hover:bg-[#1EBE5D] transition-all shadow-sm active:scale-95 cursor-pointer"
               >
                 <MessageCircle className="w-4 h-4 fill-current" />
                 <span>WhatsApp Live Support</span>
@@ -400,7 +400,7 @@ const FAQ = () => {
               
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 bg-white/10 text-white border border-white/20 hover:bg-white hover:text-soft-black px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl transition-all active:scale-95 cursor-pointer"
+                className="inline-flex items-center gap-2 bg-white/10 text-white border border-white/20 hover:bg-white hover:text-soft-black px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-bold uppercase tracking-wider rounded transition-all active:scale-95 cursor-pointer"
               >
                 <Mail className="w-4 h-4" />
                 <span>Contact Form</span>

@@ -259,7 +259,7 @@ const CartDrawer = () => {
 
                             {/* Stepper */}
                             <div className="flex items-center justify-between mt-2 pt-1 border-t border-stone/10">
-                              <div className="flex items-center bg-stone/10 border border-stone/20 rounded-lg p-0.5">
+                              <div className="flex items-center bg-stone/10 border border-stone/20 rounded p-0.5">
                                 <button
                                   type="button"
                                   onClick={() => updateCartQuantity(item.id, item.quantity - 1)}
@@ -454,7 +454,7 @@ const CartDrawer = () => {
                     <button
                       type="button"
                       onClick={handleOpenRetailCheckout}
-                      className="w-full flex items-center justify-center gap-1.5 bg-terracotta hover:bg-muted-burgundy text-cream py-3 px-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-[0.99] cursor-pointer"
+                      className="w-full flex items-center justify-center gap-1.5 bg-terracotta hover:bg-muted-burgundy text-cream py-3 px-3 rounded text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-[0.99] cursor-pointer"
                     >
                       <PackageCheck className="w-4 h-4 shrink-0" />
                       <span className="truncate">CASH ON DELIVERY CHECKOUT</span>
@@ -464,7 +464,7 @@ const CartDrawer = () => {
                     <button
                       type="button"
                       onClick={handleOpenSampleCheckout}
-                      className="w-full flex items-center justify-center gap-1.5 bg-soft-black hover:bg-dark-charcoal text-cream py-3 px-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-[0.99] cursor-pointer"
+                      className="w-full flex items-center justify-center gap-1.5 bg-soft-black hover:bg-dark-charcoal text-cream py-3 px-3 rounded text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-[0.99] cursor-pointer"
                     >
                       <span className="truncate">Proceed to Sample Order</span>
                       <ArrowRight className="w-3.5 h-3.5 shrink-0" />

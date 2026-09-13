@@ -86,7 +86,7 @@ const WishlistDrawer = () => {
                   <Link
                     to="/product"
                     onClick={() => setIsWishlistOpen(false)}
-                    className="inline-flex items-center gap-2 bg-soft-black text-cream px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-dark-charcoal transition-colors shadow-sm"
+                    className="inline-flex items-center gap-2 bg-soft-black text-cream px-6 py-3 rounded text-xs font-bold uppercase tracking-widest hover:bg-dark-charcoal transition-colors shadow-sm"
                   >
                     <span>Browse Belts</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -130,7 +130,7 @@ const WishlistDrawer = () => {
                         <button
                           type="button"
                           onClick={() => moveToCartFromWishlist(item)}
-                          className="flex items-center gap-1 bg-soft-black hover:bg-terracotta text-cream px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors shadow-2xs cursor-pointer"
+                          className="flex items-center gap-1 bg-soft-black hover:bg-terracotta text-cream px-3 py-1.5 rounded text-[10px] font-bold uppercase tracking-wider transition-colors shadow-2xs cursor-pointer"
                           title="Move to Cart"
                         >
                           <ShoppingBag className="w-3 h-3" />

@@ -585,7 +585,7 @@ const RetailPage = () => {
                 <button 
                   type="button"
                   onClick={() => setOrderType('single')}
-                  className={`flex-1 py-2 md:py-2.5 px-3 text-xs font-bold uppercase tracking-wider rounded-xl border transition-all duration-300 cursor-pointer ${
+                  className={`flex-1 py-2 md:py-2.5 px-3 text-xs font-bold uppercase tracking-wider rounded border transition-all duration-300 cursor-pointer ${
                     orderType === 'single'
                       ? 'bg-soft-black text-cream border-soft-black shadow-xs'
                       : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
@@ -596,7 +596,7 @@ const RetailPage = () => {
                 <button 
                   type="button"
                   onClick={() => setOrderType('combo')}
-                  className={`flex-1 py-2 md:py-2.5 px-3 text-xs font-bold uppercase tracking-wider rounded-xl border transition-all duration-300 cursor-pointer ${
+                  className={`flex-1 py-2 md:py-2.5 px-3 text-xs font-bold uppercase tracking-wider rounded border transition-all duration-300 cursor-pointer ${
                     orderType === 'combo'
                       ? 'bg-soft-black text-cream border-soft-black shadow-xs'
                       : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
@@ -668,7 +668,7 @@ const RetailPage = () => {
                             key={size}
                             type="button"
                             onClick={() => setSelectedSize(size)}
-                            className={`min-w-[36px] h-9 md:h-10 px-2.5 rounded-xl border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
+                            className={`min-w-[36px] h-9 md:h-10 px-2.5 rounded border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                               isSelected
                                 ? 'bg-soft-black text-cream border-soft-black shadow-xs'
                                 : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
@@ -707,7 +707,7 @@ const RetailPage = () => {
 
                 <div className="space-y-4">
                   {/* Belt 1 */}
-                  <div className="flex flex-row justify-start items-end gap-3 sm:gap-5 md:gap-6 w-full p-3 sm:p-3.5 rounded-xl border border-stone/20 bg-white/50">
+                  <div className="flex flex-row justify-start items-end gap-3 sm:gap-5 md:gap-6 w-full p-3 sm:p-3.5 rounded border border-stone/20 bg-white/50">
                     {/* Belt 1 Color */}
                     <div>
                       <span className="block text-[10px] md:text-xs font-bold tracking-wider uppercase text-soft-black mb-2">
@@ -745,7 +745,7 @@ const RetailPage = () => {
                               key={size}
                               type="button"
                               onClick={() => setComboSize1(size)}
-                              className={`min-w-[32px] h-8 sm:h-9 md:h-10 px-2 rounded-xl border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
+                              className={`min-w-[32px] h-8 sm:h-9 md:h-10 px-2 rounded border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                                 isSelected
                                   ? 'bg-soft-black text-cream border-soft-black shadow-xs'
                                   : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
@@ -760,7 +760,7 @@ const RetailPage = () => {
                   </div>
 
                   {/* Belt 2 */}
-                  <div className="flex flex-row justify-start items-end gap-3 sm:gap-5 md:gap-6 w-full p-3 sm:p-3.5 rounded-xl border border-stone/20 bg-white/50">
+                  <div className="flex flex-row justify-start items-end gap-3 sm:gap-5 md:gap-6 w-full p-3 sm:p-3.5 rounded border border-stone/20 bg-white/50">
                     {/* Belt 2 Color */}
                     <div>
                       <span className="block text-[10px] md:text-xs font-bold tracking-wider uppercase text-soft-black mb-2">
@@ -798,7 +798,7 @@ const RetailPage = () => {
                               key={size}
                               type="button"
                               onClick={() => setComboSize2(size)}
-                              className={`min-w-[32px] h-8 sm:h-9 md:h-10 px-2 rounded-xl border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
+                              className={`min-w-[32px] h-8 sm:h-9 md:h-10 px-2 rounded border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                                 isSelected
                                   ? 'bg-soft-black text-cream border-soft-black shadow-xs'
                                   : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
@@ -828,7 +828,7 @@ const RetailPage = () => {
                     type="button"
                     onClick={() => setIsOrderFormOpen(true)}
                     disabled={!isOrderReady}
-                    className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center bg-terracotta text-cream px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-xl transition-all duration-300 shadow-md ${
+                    className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center bg-terracotta text-cream px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded transition-all duration-300 shadow-md ${
                       !isOrderReady 
                         ? 'opacity-50 cursor-not-allowed' 
                         : 'hover:bg-muted-burgundy hover:shadow-lg hover:shadow-terracotta/25 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] cursor-pointer'
@@ -844,7 +844,7 @@ const RetailPage = () => {
                     type="button"
                     onClick={handleAddToCartClick}
                     disabled={!isOrderReady}
-                    className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-xl border transition-all duration-300 ${
+                    className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded border transition-all duration-300 ${
                       isCartedAnimation
                         ? 'border-emerald-600 bg-emerald-50 text-emerald-700 scale-[1.01] shadow-sm'
                         : 'bg-transparent border-soft-black text-soft-black hover:border-soft-black hover:text-cream hover:shadow-md hover:shadow-black/20 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] cursor-pointer'
@@ -866,7 +866,7 @@ const RetailPage = () => {
                   href="https://wa.me/8801940689061"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative overflow-hidden group w-full h-[48px] md:h-[52px] flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:border-[#25D366] hover:text-white hover:shadow-md hover:shadow-[#25D366]/25 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
+                  className="relative overflow-hidden group w-full h-[48px] md:h-[52px] flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded hover:border-[#25D366] hover:text-white hover:shadow-md hover:shadow-[#25D366]/25 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
                 >
                   <span className="absolute inset-0 bg-[#25D366] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
                   <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5 mr-2 md:mr-3 fill-current relative z-10 transition-transform duration-300 group-hover:scale-115 group-hover:rotate-12">
@@ -1062,11 +1062,11 @@ const RetailPage = () => {
                 {/* MOBILE VIEW ONLY: Side-by-side tabs to switch between the 3 comparison points */}
                 <div className="block lg:hidden">
                   {/* 3 Mobile Tabs */}
-                  <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#EAE5DA] rounded-xl sm:rounded-none mb-3 border-0 shadow-none">
+                  <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#EAE5DA] rounded mb-3 border-0 shadow-none">
                     <button
                       type="button"
                       onClick={() => setComparisonTab(0)}
-                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded-lg sm:rounded-none text-center cursor-pointer ${
+                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded text-center cursor-pointer ${
                         comparisonTab === 0
                           ? 'bg-soft-black text-white shadow-none'
                           : 'bg-transparent text-dark-charcoal hover:bg-white/40'
@@ -1078,7 +1078,7 @@ const RetailPage = () => {
                     <button
                       type="button"
                       onClick={() => setComparisonTab(1)}
-                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded-lg sm:rounded-none text-center cursor-pointer ${
+                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded text-center cursor-pointer ${
                         comparisonTab === 1
                           ? 'bg-soft-black text-white shadow-none'
                           : 'bg-transparent text-dark-charcoal hover:bg-white/40'
@@ -1090,7 +1090,7 @@ const RetailPage = () => {
                     <button
                       type="button"
                       onClick={() => setComparisonTab(2)}
-                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded-lg sm:rounded-none text-center cursor-pointer ${
+                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded text-center cursor-pointer ${
                         comparisonTab === 2
                           ? 'bg-soft-black text-white shadow-none'
                           : 'bg-transparent text-dark-charcoal hover:bg-white/40'
@@ -1559,7 +1559,7 @@ const RetailPage = () => {
               {/* Action Buttons: Order Now (Left) + Add to Cart Outline Icon (Right) */}
               <div className="flex items-center gap-2 shrink-0">
                 {/* Circling Stroke Light Beam Border: ORDER NOW */}
-                <div className="relative p-[1.5px] overflow-hidden rounded-xl shadow-md shrink-0 group">
+                <div className="relative p-[1.5px] overflow-hidden rounded shadow-md shrink-0 group">
                   <div 
                     className="absolute -top-[100%] -left-[100%] w-[300%] h-[300%] animate-border-beam pointer-events-none"
                     style={{
@@ -1568,7 +1568,7 @@ const RetailPage = () => {
                   />
                   <button
                     onClick={handleStickyOrderClick}
-                    className="relative z-10 bg-[#1C2841] hover:bg-[#131E33] text-white px-4 sm:px-6 py-2 sm:py-2.5 text-[11px] sm:text-xs md:text-sm font-bold uppercase tracking-[0.15em] rounded-xl transition-all active:scale-[0.98] flex items-center gap-1.5 sm:gap-2 cursor-pointer"
+                    className="relative z-10 bg-[#1C2841] hover:bg-[#131E33] text-white px-4 sm:px-6 py-2 sm:py-2.5 text-[11px] sm:text-xs md:text-sm font-bold uppercase tracking-[0.15em] rounded transition-all active:scale-[0.98] flex items-center gap-1.5 sm:gap-2 cursor-pointer"
                   >
                     <span className="font-bold tracking-widest whitespace-nowrap">ORDER NOW</span>
                     <ArrowUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-arrow-up" />
@@ -1579,7 +1579,7 @@ const RetailPage = () => {
                 <button
                   type="button"
                   onClick={handleAddToCartClick}
-                  className={`w-9 h-9 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center rounded-xl border transition-all duration-200 cursor-pointer ${
+                  className={`w-9 h-9 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center rounded border transition-all duration-200 cursor-pointer ${
                     isCartedAnimation
                       ? 'border-emerald-600 text-emerald-600 bg-transparent scale-105'
                       : 'bg-transparent border-soft-black text-soft-black hover:bg-soft-black hover:text-cream active:scale-95'

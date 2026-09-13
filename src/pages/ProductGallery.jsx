@@ -67,7 +67,7 @@ const ProductGallery = () => {
           <button
             type="button"
             onClick={() => setSelectedCategory('all')}
-            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0 whitespace-nowrap ${
               selectedCategory === 'all'
                 ? 'bg-soft-black text-white shadow-xs'
                 : 'bg-white border border-stone/20 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black'
@@ -78,7 +78,7 @@ const ProductGallery = () => {
           <button
             type="button"
             onClick={() => setSelectedCategory('adult')}
-            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0 whitespace-nowrap ${
               selectedCategory === 'adult'
                 ? 'bg-soft-black text-white shadow-xs'
                 : 'bg-white border border-stone/20 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black'
@@ -89,7 +89,7 @@ const ProductGallery = () => {
           <button
             type="button"
             onClick={() => setSelectedCategory('kids')}
-            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0 whitespace-nowrap ${
               selectedCategory === 'kids'
                 ? 'bg-soft-black text-white shadow-xs'
                 : 'bg-white border border-stone/20 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black'
@@ -101,7 +101,7 @@ const ProductGallery = () => {
 
         {searchQuery && (
           <div className="mt-4 flex items-center justify-center gap-2">
-            <span className="text-xs font-semibold text-dark-charcoal/80 bg-stone/20 px-3 py-1 rounded-full flex items-center gap-1.5">
+            <span className="text-xs font-semibold text-dark-charcoal/80 bg-stone/20 px-3 py-1 rounded flex items-center gap-1.5">
               <span>Showing results for: <strong>"{searchQuery}"</strong></span>
               <button 
                 onClick={() => setSearchParams({})} 
@@ -123,7 +123,7 @@ const ProductGallery = () => {
             <p className="text-xs text-dark-charcoal/70 mb-4">Try searching for Black, Navy, Brown, Maroon, Khaki, Neon Green, or Red.</p>
             <button
               onClick={() => { setSelectedCategory('all'); setSearchParams({}); }}
-              className="bg-soft-black text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-terracotta transition-colors cursor-pointer"
+              className="bg-soft-black text-white px-5 py-2.5 rounded text-xs font-bold uppercase tracking-wider hover:bg-terracotta transition-colors cursor-pointer"
             >
               View All Products
             </button>
@@ -133,7 +133,6 @@ const ProductGallery = () => {
             {filteredCatalog.map((item, idx) => {
               const singlePrice = item.singlePriceBDT;
               const regularPrice = item.regularPriceBDT;
-              const savingsBDT = Math.max(0, regularPrice - singlePrice);
 
               return (
                 <motion.div
@@ -141,98 +140,98 @@ const ProductGallery = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.35, delay: idx * 0.04 }}
-                  className="bg-white rounded-2xl lg:rounded-2xl xl:rounded-3xl p-2.5 sm:p-3.5 lg:p-3 xl:p-4 shadow-2xs hover:shadow-lg transition-all flex flex-col justify-between group overflow-hidden"
+                  className="bg-white rounded-2xl lg:rounded-2xl xl:rounded-3xl shadow-2xs hover:shadow-lg transition-all flex flex-col justify-between group overflow-hidden border border-stone/15"
                 >
-                  <div>
-                    {/* 1. 1:1 Aspect Ratio Image Container */}
-                    <div className="relative w-full aspect-square bg-[#F3EFEA] rounded-xl lg:rounded-xl xl:rounded-2xl overflow-hidden mb-2 sm:mb-3 select-none">
-                      <img
-                        src={item.images[0]}
-                        alt={`${item.productTitle} - ${item.colorName}`}
-                        className="w-full h-full object-cover mix-blend-multiply pointer-events-none"
-                        loading="lazy"
-                      />
-                    </div>
-
-                    {/* 2. Product Title */}
-                    <h2 className="font-serif text-[11px] sm:text-base lg:text-[14.5px] xl:text-[15.5px] font-normal sm:font-bold text-soft-black leading-snug line-clamp-2 mb-1 group-hover:text-terracotta transition-colors">
-                      {item.productTitle} - {item.colorName}
-                    </h2>
-
-                    {/* Tagline */}
-                    <p className="text-[9.5px] sm:text-xs text-dark-charcoal/60 font-normal italic mb-1.5 sm:mb-2 line-clamp-1">
-                      {item.tagline}
-                    </p>
-
-                    {/* Price Banner */}
-                    <div className="flex items-center justify-between gap-1 mb-2 sm:mb-3.5">
-                      <div className="flex items-baseline gap-1 sm:gap-2">
-                        <span className="text-xs sm:text-base lg:text-base xl:text-lg font-normal sm:font-bold text-terracotta">
-                          {currencySymbol}{Math.round(singlePrice * (exchangeRate || 1)).toLocaleString()}
-                        </span>
-                        <span className="text-[10px] sm:text-sm text-dark-charcoal/50 line-through">
-                          {currencySymbol}{Math.round(regularPrice * (exchangeRate || 1)).toLocaleString()}
-                        </span>
-                      </div>
-                      <span className="text-[9px] sm:text-xs lg:text-[11px] xl:text-xs font-normal sm:font-semibold text-emerald-800 bg-emerald-50 px-1.5 sm:px-2 py-0.5 rounded border border-emerald-200/60 shrink-0">
-                        Save {currencySymbol}{Math.round(savingsBDT * (exchangeRate || 1)).toLocaleString()}
-                      </span>
-                    </div>
-
-                    {/* 3. Single Color Display + Available Sizes */}
-                    <div className="pt-1.5 sm:pt-2.5 border-t border-stone/15 mb-2.5 sm:mb-4 flex items-center justify-between gap-1">
-                      
-                      {/* Left: Color Swatch + Label */}
-                      <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                        <div 
-                          className="w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full border border-soft-black/30 shadow-2xs shrink-0" 
-                          style={{ backgroundColor: item.hex }} 
-                        />
-                        <span className="text-[10px] sm:text-sm lg:text-xs xl:text-sm font-normal sm:font-bold text-soft-black uppercase tracking-wider">
-                          {item.colorName}
-                        </span>
-                      </div>
-
-                      {/* Right: Available Sizes */}
-                      <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
-                        <span className="text-[9px] sm:text-xs text-dark-charcoal/60 font-normal sm:font-medium mr-0.5">Size:</span>
-                        {item.sizes.map((sz) => (
-                          <span
-                            key={sz}
-                            className="px-1.5 h-5 sm:h-7 rounded-md bg-[#FAF8F5] text-dark-charcoal/90 border border-stone/25 text-[9.5px] sm:text-xs font-normal sm:font-bold flex items-center justify-center select-none shadow-2xs"
-                            title={`Size ${sz} Available`}
-                          >
-                            {sz}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+                  {/* 1. Flush Edge-to-Edge Image Container */}
+                  <div className="relative w-full aspect-square bg-[#F3EFEA] overflow-hidden select-none">
+                    <img
+                      src={item.images[0]}
+                      alt={item.productTitle}
+                      className="w-full h-full object-cover mix-blend-multiply pointer-events-none group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
                   </div>
 
-                  {/* 4. Action CTAs: Stacked */}
-                  <div className="flex flex-col gap-2 pt-1">
-                    
-                    {/* ORDER SAMPLE CTA -> Deep link to /sample-order */}
-                    <Link
-                      to={`/sample-order?product=${item.productId}&color=${encodeURIComponent(item.colorName.toLowerCase())}`}
-                      className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded-xl border border-soft-black bg-transparent text-soft-black hover:bg-soft-black hover:text-cream hover:shadow-sm text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center active:scale-[0.98] cursor-pointer"
-                      title="Order sample on the Sample Order page"
-                    >
-                      Order Sample
-                    </Link>
-
-                    {/* ORDER RETAIL CTA -> Deep link to /retail */}
+                  {/* Card Body with Padding */}
+                  <div className="p-2.5 sm:p-3.5 lg:p-3 xl:p-4 flex flex-col flex-1 justify-between">
                     <div>
-                      <Link
-                        to={`/retail?product=${item.productId}&color=${encodeURIComponent(item.colorName.toLowerCase())}`}
-                        className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded-xl bg-terracotta hover:bg-[#131E33] hover:shadow-md hover:brightness-110 text-cream text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all duration-300 shadow-xs active:scale-[0.98] flex items-center justify-center cursor-pointer"
-                        title="Order on the Retail page"
-                      >
-                        Order Retail
-                      </Link>
-                      <p className="text-[10px] sm:text-[11.5px] lg:text-[11.5px] xl:text-[12px] text-dark-charcoal/70 text-center font-medium leading-normal mt-1">
-                        * Retail is for Bangladesh delivery only
+                      {/* 2. Product Title (without color name) */}
+                      <h2 className="font-serif text-[11px] sm:text-base lg:text-[14.5px] xl:text-[15.5px] font-normal sm:font-bold text-soft-black leading-snug line-clamp-2 mb-1 group-hover:text-terracotta transition-colors">
+                        {item.productTitle}
+                      </h2>
+
+                      {/* Tagline */}
+                      <p className="text-[9.5px] sm:text-xs text-dark-charcoal/60 font-normal italic mb-1.5 sm:mb-2 line-clamp-1">
+                        {item.tagline}
                       </p>
+
+                      {/* Price Banner */}
+                      <div className="flex items-center justify-between gap-1 mb-2 sm:mb-3.5">
+                        <div className="flex items-baseline gap-1 sm:gap-2">
+                          <span className="text-xs sm:text-base lg:text-base xl:text-lg font-normal sm:font-bold text-terracotta">
+                            {currencySymbol}{Math.round(singlePrice * (exchangeRate || 1)).toLocaleString()}
+                          </span>
+                          <span className="text-[10px] sm:text-sm text-dark-charcoal/50 line-through">
+                            {currencySymbol}{Math.round(regularPrice * (exchangeRate || 1)).toLocaleString()}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* 3. Single Color Display + Available Sizes */}
+                      <div className="pt-1.5 sm:pt-2.5 border-t border-stone/15 mb-2.5 sm:mb-4 flex items-center justify-between gap-1">
+                        
+                        {/* Left: Color Swatch + Label */}
+                        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                          <div 
+                            className="w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full border border-soft-black/30 shadow-2xs shrink-0" 
+                            style={{ backgroundColor: item.hex }} 
+                          />
+                          <span className="text-[10px] sm:text-sm lg:text-xs xl:text-sm font-normal sm:font-bold text-soft-black uppercase tracking-wider">
+                            {item.colorName}
+                          </span>
+                        </div>
+
+                        {/* Right: Available Sizes */}
+                        <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+                          <span className="text-[9px] sm:text-xs text-dark-charcoal/60 font-normal sm:font-medium mr-0.5">Size:</span>
+                          {item.sizes.map((sz) => (
+                            <span
+                              key={sz}
+                              className="px-1.5 h-5 sm:h-7 rounded-md bg-[#FAF8F5] text-dark-charcoal/90 border border-stone/25 text-[9.5px] sm:text-xs font-normal sm:font-bold flex items-center justify-center select-none shadow-2xs"
+                              title={`Size ${sz} Available`}
+                            >
+                              {sz}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 4. Action CTAs: Stacked */}
+                    <div className="flex flex-col gap-2 pt-1">
+                      
+                      {/* ORDER SAMPLE CTA -> Deep link to /sample-order */}
+                      <Link
+                        to={`/sample-order?product=${item.productId}&color=${encodeURIComponent(item.colorName.toLowerCase())}`}
+                        className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded border border-soft-black bg-transparent text-soft-black hover:bg-soft-black hover:text-cream hover:shadow-sm text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center active:scale-[0.98] cursor-pointer"
+                        title="Order sample on the Sample Order page"
+                      >
+                        Order Sample
+                      </Link>
+
+                      {/* ORDER RETAIL CTA -> Deep link to /retail */}
+                      <div>
+                        <Link
+                          to={`/retail?product=${item.productId}&color=${encodeURIComponent(item.colorName.toLowerCase())}`}
+                          className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded bg-terracotta hover:bg-[#131E33] hover:shadow-md hover:brightness-110 text-cream text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-bold uppercase tracking-wider transition-all duration-300 shadow-xs active:scale-[0.98] flex items-center justify-center cursor-pointer"
+                          title="Order on the Retail page"
+                        >
+                          Order Retail
+                        </Link>
+                        <p className="text-[10px] sm:text-[11.5px] lg:text-[11.5px] xl:text-[12px] text-dark-charcoal/70 text-center font-medium leading-normal mt-1">
+                          * Retail is for Bangladesh delivery only
+                        </p>
+                      </div>
                     </div>
                   </div>
 
@@ -283,7 +282,7 @@ const ProductGallery = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               to="/retail"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-terracotta hover:bg-muted-burgundy text-white px-7 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-95"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-terracotta hover:bg-muted-burgundy text-white px-7 py-3.5 rounded text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-95"
             >
               <span>Explore Retail Multi-Buy Combos</span>
               <ArrowRight className="w-4 h-4" />
@@ -291,7 +290,7 @@ const ProductGallery = () => {
 
             <Link
               to="/sample-wholesale"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-soft-black hover:bg-dark-charcoal text-white px-7 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-95"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-soft-black hover:bg-dark-charcoal text-white px-7 py-3.5 rounded text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-95"
             >
               <span>Wholesale & OEM Specifications</span>
               <ArrowRight className="w-4 h-4" />
@@ -336,7 +335,7 @@ const ProductGallery = () => {
                 <button
                   type="button"
                   onClick={() => setActiveGuideTab('adult')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
+                  className={`px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all ${
                     activeGuideTab === 'adult' ? 'bg-soft-black text-white' : 'bg-stone/10 text-soft-black/80'
                   }`}
                 >
@@ -345,7 +344,7 @@ const ProductGallery = () => {
                 <button
                   type="button"
                   onClick={() => setActiveGuideTab('kids')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
+                  className={`px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all ${
                     activeGuideTab === 'kids' ? 'bg-soft-black text-white' : 'bg-stone/10 text-soft-black/80'
                   }`}
                 >

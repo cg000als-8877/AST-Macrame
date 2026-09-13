@@ -159,7 +159,7 @@ const Navbar = () => {
                   <Link 
                     key={link.name}
                     to={link.path}
-                    className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-[11px] md:text-xs lg:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded-full border transition-all duration-200 ${
+                    className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-[11px] md:text-xs lg:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
                       isActive 
                         ? 'text-terracotta bg-gradient-to-b from-[#FAF3EB] to-[#EFE3D5] border-[#E8DACB] shadow-[2px_3px_8px_rgba(75,45,25,0.14),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02]' 
                         : 'border-transparent text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
@@ -192,7 +192,7 @@ const Navbar = () => {
                   <Link 
                     key={link.name}
                     to={link.path}
-                    className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-[11px] md:text-xs lg:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded-full border transition-all duration-200 ${
+                    className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-[11px] md:text-xs lg:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
                       isActive 
                         ? 'text-terracotta bg-gradient-to-b from-[#FAF3EB] to-[#EFE3D5] border-[#E8DACB] shadow-[2px_3px_8px_rgba(75,45,25,0.14),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02]' 
                         : 'border-transparent text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
@@ -263,7 +263,7 @@ const Navbar = () => {
                   <button 
                     type="button"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="p-1.5 text-soft-black/60 hover:text-soft-black rounded-lg hover:bg-stone/10 transition-colors cursor-pointer"
+                    className="p-1.5 text-soft-black/60 hover:text-soft-black rounded hover:bg-stone/10 transition-colors cursor-pointer"
                     aria-label="Close Menu"
                   >
                     <X className="w-5 h-5" />
@@ -279,7 +279,7 @@ const Navbar = () => {
                         key={link.name}
                         to={link.path}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${
+                        className={`flex items-center justify-between px-3.5 py-2.5 rounded text-xs font-bold uppercase tracking-wider transition-all ${
                           isActive 
                             ? 'bg-[#131E33] text-white shadow-xs' 
                             : 'text-soft-black/85 hover:bg-stone/10 hover:text-soft-black'

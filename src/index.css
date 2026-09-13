@@ -217,3 +217,10 @@ body.modal-open .mobile-navbar-logo {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Global 4px corner radius for all interactive buttons on desktop & mobile, preserving circular color swatches */
+button:not(.rounded-full):not([data-swatch]):not([style*="backgroundColor"]):not([style*="background-color"]),
+.btn {
+  border-radius: 4px;
+}
+

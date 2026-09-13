@@ -216,7 +216,7 @@ const Home = () => {
             >
               <Link 
                 to="/sample-order" 
-                className="bg-cream text-soft-black px-8 py-3.5 md:px-9 md:py-4 text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-warm-sand transition-all shadow-md hover:shadow-xl inline-block"
+                className="bg-cream text-soft-black px-8 py-3.5 md:px-9 md:py-4 text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-warm-sand transition-all shadow-md hover:shadow-xl inline-block"
               >
                 REQUEST A SAMPLE
               </Link>
@@ -227,9 +227,9 @@ const Home = () => {
 
       {/* HOME — SECTION 2: MADE FOR WHOLESALE */}
       <section className="py-16 md:py-24 bg-white border-b border-stone/15 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+        <div className="max-w-7xl mx-auto px-0 sm:px-8 lg:px-12">
           
-          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12 md:mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12 md:mb-16 px-4">
             <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
               SUPPLY CHAIN & PRODUCTION
             </span>
@@ -239,7 +239,7 @@ const Home = () => {
           </div>
 
           {/* DESKTOP VIEW (3-Column Grid) */}
-          <div className="hidden sm:grid sm:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+          <div className="hidden sm:grid sm:grid-cols-3 gap-4 md:gap-6 lg:gap-8 px-4 sm:px-0">
             {wholesaleFeatures.map((feat) => {
               const IconComponent = feat.icon;
               return (
@@ -277,10 +277,10 @@ const Home = () => {
             })}
           </div>
 
-          {/* MOBILE VIEW (Cover Flow: 1 Forward Center, 2 Backward on Left & Right Sides) */}
-          <div className="block sm:hidden relative px-1 py-4 overflow-hidden">
+          {/* MOBILE VIEW (Cover Flow: 1 Forward Center, 2 Backward on Left & Right Sides - Edge-to-Edge) */}
+          <div className="block sm:hidden relative px-0 py-4 overflow-hidden w-full">
             {/* Stage Container */}
-            <div className="relative w-full h-[225px] flex items-center justify-center">
+            <div className="relative w-full h-[230px] flex items-center justify-center">
               {wholesaleFeatures.map((feat, index) => {
                 // Calculate position relative to active card
                 // 0 = Center Forward, 1 = Right Side Backward, 2 = Left Side Backward
@@ -300,9 +300,9 @@ const Home = () => {
                     boxShadow: '0 20px 35px -10px rgba(0,0,0,0.13), 0 8px 16px -4px rgba(0,0,0,0.06)'
                   },
                   1: {
-                    x: "46%",
+                    x: "48%",
                     y: 4,
-                    scale: 0.82,
+                    scale: 0.83,
                     rotate: 3.5,
                     zIndex: 10,
                     opacity: 0.6,
@@ -310,9 +310,9 @@ const Home = () => {
                     boxShadow: '0 8px 18px -6px rgba(0,0,0,0.08)'
                   },
                   2: {
-                    x: "-46%",
+                    x: "-48%",
                     y: 4,
-                    scale: 0.82,
+                    scale: 0.83,
                     rotate: -3.5,
                     zIndex: 10,
                     opacity: 0.6,
@@ -340,7 +340,7 @@ const Home = () => {
                         setActiveWholesaleIdx((prev) => (prev - 1 + wholesaleFeatures.length) % wholesaleFeatures.length);
                       }
                     }}
-                    className={`absolute w-[76vw] max-w-[280px] h-full ${feat.bg} ${feat.border} border rounded-2xl p-5 flex flex-col justify-between select-none cursor-grab active:cursor-grabbing`}
+                    className={`absolute w-[80vw] max-w-[300px] h-full ${feat.bg} ${feat.border} border rounded-2xl p-5 flex flex-col justify-between select-none cursor-grab active:cursor-grabbing`}
                     style={{
                       touchAction: 'pan-y'
                     }}
@@ -459,7 +459,7 @@ const Home = () => {
                     <button
                       key={color.id}
                       onClick={() => setSelectedColorIdx(idx)}
-                      className={`flex flex-col items-center p-2 rounded-xl border transition-all duration-200 cursor-pointer ${
+                      className={`flex flex-col items-center p-2 rounded border transition-all duration-200 cursor-pointer ${
                         selectedColorIdx === idx 
                           ? 'border-soft-black bg-white shadow-xs' 
                           : 'border-stone/25 bg-white/40 hover:bg-white hover:border-stone/40'
@@ -467,7 +467,7 @@ const Home = () => {
                     >
                       <div 
                         className="w-6 h-6 sm:w-8 sm:h-8 rounded-full mb-1.5 border border-stone/20" 
-                        style={{ backgroundColor: color.hex }}
+                        style={{ backgroundColor: color.hex }} 
                       />
                       <span className="text-[9px] sm:text-[10px] font-mono uppercase text-dark-charcoal font-semibold truncate w-full text-center">
                         {color.name}
@@ -479,7 +479,7 @@ const Home = () => {
 
               <Link 
                 to="/sample-order" 
-                className="bg-soft-black text-cream px-8 py-4 sm:py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-dark-charcoal transition-all text-center inline-flex items-center justify-center gap-2 group"
+                className="bg-soft-black text-cream px-8 py-4 sm:py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-dark-charcoal transition-all text-center inline-flex items-center justify-center gap-2 group"
               >
                 <span>VIEW PRODUCT DETAILS</span>
                 <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -817,7 +817,7 @@ const Home = () => {
               href="https://wa.me/8801940689061?text=Hi%20AST%20Macrame,%20I%20have%20a%20reference%20image%20/%20custom%20design%20idea%20to%20discuss."
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-dark-charcoal hover:text-white transition-all shadow-md hover:shadow-xl inline-flex items-center justify-center gap-2.5 group"
+              className="w-full sm:w-auto bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-dark-charcoal hover:text-white transition-all shadow-md hover:shadow-xl inline-flex items-center justify-center gap-2.5 group"
             >
               <MessageCircle className="w-4 h-4 transition-transform group-hover:scale-110" />
               <span>CHAT ON WHATSAPP</span>
@@ -825,7 +825,7 @@ const Home = () => {
             
             <a 
               href="mailto:astmacrame@gmail.com?subject=Custom%20Macrame%20Design%20/%20Reference%20Inquiry"
-              className="w-full sm:w-auto bg-transparent border border-soft-black/30 text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-soft-black hover:text-cream hover:border-soft-black transition-all inline-flex items-center justify-center gap-2.5 group"
+              className="w-full sm:w-auto bg-transparent border border-soft-black/30 text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-soft-black hover:text-cream hover:border-soft-black transition-all inline-flex items-center justify-center gap-2.5 group"
             >
               <Mail className="w-4 h-4 transition-transform group-hover:scale-110" />
               <span>SEND VIA EMAIL</span>
@@ -925,14 +925,14 @@ const Home = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link 
               to="/sample-order" 
-              className="w-full sm:w-auto bg-cream text-soft-black px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-warm-sand transition-all shadow-xl hover:shadow-2xl text-center"
+              className="w-full sm:w-auto bg-cream text-soft-black px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-warm-sand transition-all shadow-xl hover:shadow-2xl text-center"
             >
               REQUEST A SAMPLE
             </Link>
             
             <Link 
               to="/sample-wholesale" 
-              className="w-full sm:w-auto bg-transparent border border-cream/40 text-cream px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-cream/10 hover:border-cream transition-all text-center"
+              className="w-full sm:w-auto bg-transparent border border-cream/40 text-cream px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-cream/10 hover:border-cream transition-all text-center"
             >
               REQUEST A WHOLESALE QUOTE
             </Link>
