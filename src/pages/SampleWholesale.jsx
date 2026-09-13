@@ -373,10 +373,9 @@ const SampleWholesale = () => {
             <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:justify-center gap-2 sm:gap-3 mb-8">
               {[
                 { id: 'cord', label: 'Yarn & Weave', icon: Layers },
-                { id: 'hardware', label: 'Buckles & Metals', icon: Disc },
-                { id: 'leather', label: 'Leather & Trims', icon: Sparkles },
-                { id: 'branding', label: 'Labels & Packaging', icon: Package },
-                { id: 'compliance', label: 'Testing & Reach', icon: ShieldCheck },
+                { id: 'hardware', label: 'Buckles & Alloy', icon: Sliders },
+                { id: 'branding', label: 'Labels & Packaging', icon: Tag },
+                { id: 'dyeing', label: 'Pantone Dyeing', icon: Palette },
               ].map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;

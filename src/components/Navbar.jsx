@@ -63,10 +63,10 @@ const Navbar = () => {
     }
   };
 
-  const navClass = `fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-300 top-0 sm:top-3 md:top-4 w-full sm:w-[95%] md:w-[92%] max-w-6xl bg-white sm:bg-cream border-b sm:border border-stone/20 sm:border-white/20 rounded-none sm:rounded-[8px] overflow-hidden ${
+  const navClass = `fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-300 top-0 sm:top-3 md:top-4 w-full sm:w-[95%] md:w-[92%] max-w-6xl bg-white sm:bg-cream border-b sm:border border-stone/20 rounded-none sm:rounded-[8px] overflow-hidden ${
     isScrolled 
-      ? 'shadow-md sm:shadow-lg bg-white sm:bg-cream/95 sm:backdrop-blur-md' 
-      : 'shadow-xs sm:shadow-md bg-white sm:bg-cream/90 sm:backdrop-blur-md'
+      ? 'shadow-md sm:shadow-lg' 
+      : 'shadow-xs sm:shadow-md'
   }`;
 
   return (
@@ -151,23 +151,30 @@ const Navbar = () => {
           
           {/* Left Navigation Links: Home, Products, Wholesale */}
           <div className="flex-1 flex items-center justify-start">
-            <nav className="flex items-center gap-1 sm:gap-1.5 md:gap-2 lg:gap-2.5 text-soft-black">
-              {desktopLeftLinks.map((link) => {
+            <nav className="flex items-center gap-1 sm:gap-1.5 md:gap-2 text-soft-black">
+              {desktopLeftLinks.map((link, idx) => {
                 const isActive = location.pathname === link.path || 
                   (link.path === '/products' && location.pathname === '/product') ||
                   (link.path === '/sample-wholesale' && location.pathname === '/wholesale');
                 return (
-                  <Link 
-                    key={link.name}
-                    to={link.path}
-                    className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-xs md:text-[13px] lg:text-[13.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
-                      isActive 
-                        ? 'text-soft-black bg-cream border-white/70 shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02] -translate-y-[1px]' 
-                        : 'border-transparent text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
-                    }`}
-                  >
-                    {link.name}
-                  </Link>
+                  <React.Fragment key={link.name}>
+                    {idx > 0 && (
+                      <span 
+                        className="w-[1px] h-3.5 md:h-4 bg-gradient-to-b from-transparent via-stone-400/50 to-transparent shrink-0 mx-0.5 select-none" 
+                        aria-hidden="true" 
+                      />
+                    )}
+                    <Link 
+                      to={link.path}
+                      className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-xs md:text-[13px] lg:text-[13.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
+                        isActive 
+                          ? 'text-soft-black bg-cream border-white/70 shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02] -translate-y-[1px]' 
+                          : 'border-transparent text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  </React.Fragment>
                 );
               })}
             </nav>
@@ -184,26 +191,39 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Right Navigation Links: About, Contact + Cart */}
-          <div className="flex-1 flex items-center justify-end gap-1 sm:gap-1.5 md:gap-2 lg:gap-2.5">
-            <nav className="flex items-center gap-1 sm:gap-1.5 md:gap-2 lg:gap-2.5 text-soft-black">
-              {desktopRightLinks.map((link) => {
+          {/* Right Navigation Links: About, FAQ, Contact + Cart */}
+          <div className="flex-1 flex items-center justify-end gap-1 sm:gap-1.5 md:gap-2">
+            <nav className="flex items-center gap-1 sm:gap-1.5 md:gap-2 text-soft-black">
+              {desktopRightLinks.map((link, idx) => {
                 const isActive = location.pathname === link.path;
                 return (
-                  <Link 
-                    key={link.name}
-                    to={link.path}
-                    className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-xs md:text-[13px] lg:text-[13.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
-                      isActive 
-                        ? 'text-soft-black bg-cream border-white/70 shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02] -translate-y-[1px]' 
-                        : 'border-transparent text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
-                    }`}
-                  >
-                    {link.name}
-                  </Link>
+                  <React.Fragment key={link.name}>
+                    {idx > 0 && (
+                      <span 
+                        className="w-[1px] h-3.5 md:h-4 bg-gradient-to-b from-transparent via-stone-400/50 to-transparent shrink-0 mx-0.5 select-none" 
+                        aria-hidden="true" 
+                      />
+                    )}
+                    <Link 
+                      to={link.path}
+                      className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-xs md:text-[13px] lg:text-[13.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
+                        isActive 
+                          ? 'text-soft-black bg-cream border-white/70 shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02] -translate-y-[1px]' 
+                          : 'border-transparent text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  </React.Fragment>
                 );
               })}
             </nav>
+
+            {/* Divider between Contact and Cart */}
+            <span 
+              className="w-[1px] h-3.5 md:h-4 bg-gradient-to-b from-transparent via-stone-400/50 to-transparent shrink-0 mx-0.5 select-none" 
+              aria-hidden="true" 
+            />
 
             {/* Cart Button */}
             <button 
