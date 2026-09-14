@@ -1,6 +1,6 @@
 // Central Product Catalog Configuration
 
-// Adult Images
+// Adult Images (Original Studio Photos)
 import b1 from '../assets/products/Black/1.webp';
 import b2 from '../assets/products/Black/2.webp';
 import b3 from '../assets/products/Black/3.webp';
@@ -36,7 +36,19 @@ import k4 from '../assets/products/Khaki/4.webp';
 import k5 from '../assets/products/Khaki/5.webp';
 import k6 from '../assets/products/Khaki/6.webp';
 
-// Kids Images (served from public folder)
+// Isolated Display Images for Products Gallery (#F5F5F5 background)
+import b1Clean from '../assets/products/Black/1_clean.png';
+import n1Clean from '../assets/products/Navy/1_clean.png';
+import br1Clean from '../assets/products/Brown/1_clean.png';
+import m1Clean from '../assets/products/Maroon/1_clean.png';
+import k1Clean from '../assets/products/Khaki/1_clean.png';
+
+import kidsNeonClean from '../assets/products/Kids/Neon/1_clean.png';
+import kidsNavyClean from '../assets/products/Kids/Navy/1_clean.png';
+import kidsRedClean from '../assets/products/Kids/Red/1_clean.png';
+import kidsBlackClean from '../assets/products/Kids/Black/1_clean.png';
+
+// Kids Images (served from public folder for order pages)
 const kidsNeon = [
   '/AST Macrame Kids/Neon Green/1.webp',
   '/AST Macrame Kids/Neon Green/2.webp',
@@ -113,6 +125,7 @@ export const PRODUCTS = {
         colorName: 'Black',
         hex: '#1C1B1A',
         tagline: 'Classic & Versatile',
+        displayImage: b1Clean,
         images: [b1, b2, b3, b4, b5, b6],
         desc: 'Deep obsidian tone. The quintessential everyday belt for sharp formal wear and casual styling.'
       },
@@ -122,6 +135,7 @@ export const PRODUCTS = {
         colorName: 'Navy',
         hex: '#1B263B',
         tagline: 'Refined Maritime Blue',
+        displayImage: n1Clean,
         images: [n1, n2, n3, n4, n5, n6],
         desc: 'Rich indigo hue. Pairs effortlessly with raw denim, chinos, linen shirts, and warm summer neutrals.'
       },
@@ -131,6 +145,7 @@ export const PRODUCTS = {
         colorName: 'Brown',
         hex: '#4A3525',
         tagline: 'Earth & Leather Heritage',
+        displayImage: br1Clean,
         images: [br1, br2, br3, br4, br5, br6],
         desc: 'Warm earthy espresso tone. Offers organic texture for safari jackets, olive trousers, and casual suits.'
       },
@@ -140,6 +155,7 @@ export const PRODUCTS = {
         colorName: 'Maroon',
         hex: '#58111A',
         tagline: 'Signature Artisan Wine',
+        displayImage: m1Clean,
         images: [m1, m2, m3, m4, m5, m6],
         desc: 'Distinctive burgundy wine palette. A bold conversational statement piece crafted with tight knot density.'
       },
@@ -149,6 +165,7 @@ export const PRODUCTS = {
         colorName: 'Khaki',
         hex: '#C3B091',
         tagline: 'Sun-Bleached Sand',
+        displayImage: k1Clean,
         images: [k1, k2, k3, k4, k5, k6],
         desc: 'Warm desert sand tone. Highlights the natural pure cotton weave pattern with high-contrast depth.'
       }
@@ -201,6 +218,7 @@ export const PRODUCTS = {
         hex: '#CBE743',
         shade: 'Neon Lime + Grey',
         tagline: 'Neon Lime + Grey | Vibrant & Energetic',
+        displayImage: kidsNeonClean,
         images: kidsNeon,
         desc: 'Electric neon lime interwoven with crisp grey accents. A lively, dual-tone pop of color for kids active wear, parties, and summer outfits.'
       },
@@ -211,6 +229,7 @@ export const PRODUCTS = {
         hex: '#1B263B',
         shade: 'Navy + Grey',
         tagline: 'Navy + Grey | Refined Maritime Classic',
+        displayImage: kidsNavyClean,
         images: kidsNavy,
         desc: 'Deep oceanic navy paired with refined grey shades. Ideal for school uniforms, family gatherings, denim jeans, and smart casual attire.'
       },
@@ -221,6 +240,7 @@ export const PRODUCTS = {
         hex: '#D62226',
         shade: 'Red + Grey',
         tagline: 'Red + Grey | Bold & Playful Blaze',
+        displayImage: kidsRedClean,
         images: kidsRed,
         desc: 'Bright ruby red blended with subtle grey contrast. Adds an eye-catching, cheerful dual-shade style to kids outfits, dresses, and celebratory wear.'
       },
@@ -231,6 +251,7 @@ export const PRODUCTS = {
         hex: '#1C1B1A',
         shade: 'Black + Grey',
         tagline: 'Black + Grey | Smart & Modern Essential',
+        displayImage: kidsBlackClean,
         images: kidsBlack,
         desc: 'Crisp obsidian black combined with grey tones. Clean, versatile, and stain-resistant for daily school, sports, and formal wear.'
       }
@@ -268,7 +289,8 @@ export const ALL_GALLERY_ITEMS = [
     singlePriceBDT: PRODUCTS.adult.singlePriceBDT,
     regularPriceBDT: PRODUCTS.adult.singleRegularPriceBDT,
     sizes: PRODUCTS.adult.sizes,
-    dimensions: '1.5" Width • 38"-42" Length'
+    dimensions: '1.5" Width • 38"-42" Length',
+    displayImage: c.displayImage || c.images[0]
   })),
   ...PRODUCTS.kids.colors.map(c => ({
     ...c,
@@ -278,7 +300,8 @@ export const ALL_GALLERY_ITEMS = [
     singlePriceBDT: PRODUCTS.kids.singlePriceBDT,
     regularPriceBDT: PRODUCTS.kids.singleRegularPriceBDT,
     sizes: PRODUCTS.kids.sizes,
-    dimensions: '1 1/4" Width • 28" Length'
+    dimensions: '1 1/4" Width • 28" Length',
+    displayImage: c.displayImage || c.images[0]
   }))
 ];
 

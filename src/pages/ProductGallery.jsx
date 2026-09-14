@@ -142,12 +142,12 @@ const ProductGallery = () => {
                   transition={{ duration: 0.35, delay: idx * 0.04 }}
                   className="bg-white rounded-2xl lg:rounded-2xl xl:rounded-3xl shadow-2xs hover:shadow-lg transition-all flex flex-col justify-between group overflow-hidden border border-stone/15"
                 >
-                  {/* 1. Flush Edge-to-Edge Image Container */}
-                  <div className="relative w-full aspect-square bg-[#F3EFEA] overflow-hidden select-none">
+                  {/* 1. Flush Edge-to-Edge Image Container with Premium #F5F5F5 background & natural shadow */}
+                  <div className="relative w-full aspect-square bg-[#F5F5F5] overflow-hidden select-none flex items-center justify-center">
                     <img
-                      src={item.images[0]}
+                      src={item.displayImage || item.images[0]}
                       alt={item.productTitle}
-                      className="w-full h-full object-cover mix-blend-multiply pointer-events-none group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-contain p-2.5 sm:p-3 pointer-events-none group-hover:scale-105 transition-transform duration-500 drop-shadow-[0_8px_16px_rgba(0,0,0,0.10)]"
                       loading="lazy"
                     />
                   </div>
