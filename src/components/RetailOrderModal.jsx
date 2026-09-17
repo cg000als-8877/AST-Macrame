@@ -13,6 +13,8 @@ import n1 from '../assets/products/Navy/1.webp';
 import br1 from '../assets/products/Brown/1.webp';
 import m1 from '../assets/products/Maroon/1.webp';
 import k1 from '../assets/products/Khaki/1.webp';
+import wp1 from '../assets/products/Women/Pink/1.webp';
+import wpu1 from '../assets/products/Women/Purple/1.webp';
 import paymentsImg from '../assets/payments.webp';
 
 const colorImages = {
@@ -27,6 +29,10 @@ const colorImages = {
   'Ocean Navy': '/AST Macrame Kids/Navy/1.webp',
   'Neon Green': '/AST Macrame Kids/Neon Green/1.webp',
   Red: '/AST Macrame Kids/Red/1.webp',
+  Pink: wp1,
+  Purple: wpu1,
+  'Blush Pink': wp1,
+  'Royal Purple': wpu1,
 };
 
 const RetailOrderModal = ({ 

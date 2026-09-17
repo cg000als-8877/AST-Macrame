@@ -171,12 +171,17 @@ const SampleOrder = () => {
     2: { targetQty: 3, priceBDT: 1560, saveBDT: 240 },
     3: { targetQty: 4, priceBDT: 1980, saveBDT: 420 },
     4: { targetQty: 5, priceBDT: 2350, saveBDT: 650 },
+  }[quantity] : (activeProductId === 'women' ? {
+    1: { targetQty: 2, priceBDT: 1080, saveBDT: 100 },
+    2: { targetQty: 3, priceBDT: 1530, saveBDT: 240 },
+    3: { targetQty: 4, priceBDT: 1960, saveBDT: 400 },
+    4: { targetQty: 5, priceBDT: 2350, saveBDT: 600 },
   }[quantity] : {
     1: { targetQty: 2, priceBDT: 1490, saveBDT: 210 },
     2: { targetQty: 3, priceBDT: 2090, saveBDT: 460 },
     3: { targetQty: 4, priceBDT: 2650, saveBDT: 750 },
     4: { targetQty: 5, priceBDT: 3150, saveBDT: 1100 },
-  }[quantity];
+  }[quantity]);
 
   const handleAddToCart = () => {
     addToCart({

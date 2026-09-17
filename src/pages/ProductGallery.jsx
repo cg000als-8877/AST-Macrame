@@ -47,7 +47,7 @@ const ProductGallery = () => {
 
   // Size Guide Modal State
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
-  const [activeGuideTab, setActiveGuideTab] = useState('adult'); // 'adult' | 'kids'
+  const [activeGuideTab, setActiveGuideTab] = useState('adult'); // 'adult' | 'women' | 'kids'
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-soft-black pt-20 sm:pt-28 md:pt-32 pb-24 sm:pb-32 selection:bg-terracotta selection:text-cream">
@@ -59,7 +59,7 @@ const ProductGallery = () => {
         </h1>
 
         <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light max-w-2xl mx-auto leading-relaxed">
-          Explore our signature 100% handcrafted cotton macramé belts for adults and kids. Available for retail delivery across Bangladesh and sample orders worldwide.
+          Explore our signature 100% handcrafted cotton macramé belts for adults, women, and kids. Available for retail delivery across Bangladesh and sample orders worldwide.
         </p>
 
         {/* Category Pill Filters */}
@@ -85,6 +85,17 @@ const ProductGallery = () => {
             }`}
           >
             Adult Unisex ({PRODUCTS.adult.colors.length})
+          </button>
+          <button
+            type="button"
+            onClick={() => setSelectedCategory('women')}
+            className={`px-2.5 sm:px-4 py-1 sm:py-2 rounded text-[10px] sm:text-xs font-normal uppercase tracking-wider transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+              selectedCategory === 'women'
+                ? 'bg-soft-black text-white shadow-xs'
+                : 'bg-white border border-stone/20 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black'
+            }`}
+          >
+            Women's Waist Belt ({PRODUCTS.women.colors.length})
           </button>
           <button
             type="button"
@@ -332,11 +343,11 @@ const ProductGallery = () => {
               <p className="text-xs text-dark-charcoal/70 mb-3">Select your collection to check dimensions & measurements.</p>
               
               {/* Tab Switcher */}
-              <div className="flex gap-2 mb-4 justify-center">
+              <div className="flex gap-1.5 sm:gap-2 mb-4 justify-center flex-wrap">
                 <button
                   type="button"
                   onClick={() => setActiveGuideTab('adult')}
-                  className={`px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all ${
+                  className={`px-3 py-1.5 rounded text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                     activeGuideTab === 'adult' ? 'bg-soft-black text-white' : 'bg-stone/10 text-soft-black/80'
                   }`}
                 >
@@ -344,16 +355,25 @@ const ProductGallery = () => {
                 </button>
                 <button
                   type="button"
+                  onClick={() => setActiveGuideTab('women')}
+                  className={`px-3 py-1.5 rounded text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                    activeGuideTab === 'women' ? 'bg-soft-black text-white' : 'bg-stone/10 text-soft-black/80'
+                  }`}
+                >
+                  Women's Waist
+                </button>
+                <button
+                  type="button"
                   onClick={() => setActiveGuideTab('kids')}
-                  className={`px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all ${
+                  className={`px-3 py-1.5 rounded text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                     activeGuideTab === 'kids' ? 'bg-soft-black text-white' : 'bg-stone/10 text-soft-black/80'
                   }`}
                 >
-                  Kids (Boys & Girls)
+                  Kids (Boys &amp; Girls)
                 </button>
               </div>
 
-              {activeGuideTab === 'adult' ? (
+              {activeGuideTab === 'adult' && (
                 <>
                   <div className="w-full bg-[#FAF8F5] rounded-xl border border-stone/15 overflow-hidden mb-4 text-xs">
                     <div className="grid grid-cols-3 bg-stone/10 py-2.5 font-bold uppercase tracking-wider text-dark-charcoal">
@@ -378,7 +398,36 @@ const ProductGallery = () => {
                     <span className="font-bold text-soft-black">1.5"</span>
                   </div>
                 </>
-              ) : (
+              )}
+
+              {activeGuideTab === 'women' && (
+                <>
+                  <div className="w-full bg-[#FAF8F5] rounded-xl border border-stone/15 overflow-hidden mb-4 text-xs">
+                    <div className="grid grid-cols-3 bg-stone/10 py-2.5 font-bold uppercase tracking-wider text-dark-charcoal">
+                      <span>Size</span>
+                      <span>Waist Fit</span>
+                      <span>Total Length</span>
+                    </div>
+                    <div className="grid grid-cols-3 py-3 border-b border-stone/10">
+                      <span className="font-bold text-soft-black">31"</span>
+                      <span className="text-soft-black/80">24–30 in</span>
+                      <span className="text-soft-black/80">31 in</span>
+                    </div>
+                    <div className="grid grid-cols-3 py-3">
+                      <span className="font-bold text-soft-black">36"</span>
+                      <span className="text-soft-black/80">30–38 in</span>
+                      <span className="text-soft-black/80">36 in</span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center px-4 py-2.5 bg-[#FAF8F5] rounded-xl border border-stone/15 mb-4 text-xs">
+                    <span className="font-bold uppercase tracking-wider text-dark-charcoal">Width &amp; Closure</span>
+                    <span className="font-bold text-soft-black">2" • Adjustable Tie</span>
+                  </div>
+                </>
+              )}
+
+              {activeGuideTab === 'kids' && (
                 <>
                   <div className="w-full bg-[#FAF8F5] rounded-xl border border-stone/15 overflow-hidden mb-4 text-xs">
                     <div className="grid grid-cols-3 bg-stone/10 py-2.5 font-bold uppercase tracking-wider text-dark-charcoal">
@@ -401,7 +450,7 @@ const ProductGallery = () => {
               )}
               
               <p className="italic font-light text-dark-charcoal/70 text-[11px] leading-relaxed">
-                * The handmade macramé weave features subtle pin-through flexibility at any knot point, ensuring an adaptable tailored fit.
+                * The handmade macramé weave features natural adjustability to ensure an adaptable, comfortable fit.
               </p>
             </motion.div>
           </div>

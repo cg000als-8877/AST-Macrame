@@ -48,6 +48,21 @@ import kidsNavyClean from '../assets/products/Kids/Navy/1_clean.png';
 import kidsRedClean from '../assets/products/Kids/Red/1_clean.png';
 import kidsBlackClean from '../assets/products/Kids/Black/1_clean.png';
 
+// Women's Waist Belt Images (Original Studio Photos & Clean Display Images)
+import wp1 from '../assets/products/Women/Pink/1.webp';
+import wp2 from '../assets/products/Women/Pink/2.webp';
+import wp3 from '../assets/products/Women/Pink/3.webp';
+import wp4 from '../assets/products/Women/Pink/4.webp';
+import wp5 from '../assets/products/Women/Pink/5.webp';
+import wp6 from '../assets/products/Women/Pink/6.webp';
+import womenPinkClean from '../assets/products/Women/Pink/1_clean.png';
+
+import wpu1 from '../assets/products/Women/Purple/1.webp';
+import wpu2 from '../assets/products/Women/Purple/2.webp';
+import wpu3 from '../assets/products/Women/Purple/3.webp';
+import wpu4 from '../assets/products/Women/Purple/4.webp';
+import womenPurpleClean from '../assets/products/Women/Purple/1_clean.png';
+
 // Kids Images (served from public folder for order pages)
 const kidsNeon = [
   '/AST Macrame Kids/Neon Green/1.webp',
@@ -77,7 +92,11 @@ const kidsBlack = [
   '/AST Macrame Kids/Black/4.webp'
 ];
 
-// Tier pricing calculations for Adult Belt (Base 850 BDT)
+// Women's Waist Belt Gallery Image Arrays
+const womenPink = [wp1, wp2, wp3, wp4, wp5, wp6];
+const womenPurple = [wpu1, wpu2, wpu3, wpu4];
+
+// Tier pricing calculations for Adult Belt (Base 850 BDT, Regular 1050 BDT)
 export const calculateAdultTierPriceBDT = (totalQty) => {
   if (totalQty <= 0) return 0;
   if (totalQty === 1) return 850;
@@ -88,7 +107,18 @@ export const calculateAdultTierPriceBDT = (totalQty) => {
   return totalQty * 630;
 };
 
-// Tier pricing calculations for Kids Belt (Base 600 BDT)
+// Tier pricing calculations for Women's Waist Belt (Base 590 BDT, Regular 750 BDT)
+export const calculateWomenTierPriceBDT = (totalQty) => {
+  if (totalQty <= 0) return 0;
+  if (totalQty === 1) return 590;
+  if (totalQty === 2) return 1080; // 540/pc (Save 420 vs 1500)
+  if (totalQty === 3) return 1530; // 510/pc (Save 720 vs 2250)
+  if (totalQty === 4) return 1960; // 490/pc (Save 1040 vs 3000)
+  if (totalQty === 5) return 2350; // 470/pc (Save 1400 vs 3750)
+  return totalQty * 470;
+};
+
+// Tier pricing calculations for Kids Belt (Base 600 BDT, Regular 850 BDT)
 export const calculateKidsTierPriceBDT = (totalQty) => {
   if (totalQty <= 0) return 0;
   if (totalQty === 1) return 600;
@@ -192,6 +222,70 @@ export const PRODUCTS = {
     }
   },
 
+  women: {
+    id: 'women',
+    slug: 'women',
+    title: 'AST Women’s Handmade Macramé Waist Belt',
+    shortTitle: 'Women’s Waist Belt',
+    badge: 'Women’s Collection',
+    category: 'women',
+    subtitle: 'WOMEN’S TIE-STYLE | 100% NATURAL COTTON',
+    shortDesc: 'Artisanal tie-style macramé waist belt for women with flexible knotting and 2-inch width. Beautifully handcrafted to elevate dresses, tunics, and modern fashion.',
+    retailDesc: 'Handcrafted with 100% natural cotton in an intricate diamond macramé knot. Features an adjustable tie-style closure that shapes comfortably around any waist.',
+    singlePriceBDT: 590,
+    singleRegularPriceBDT: 750,
+    comboPriceBDT: 1080,
+    comboRegularPriceBDT: 1500,
+    calculateTierPrice: calculateWomenTierPriceBDT,
+    sizes: ['31"', '36"'],
+    defaultSize: '31"',
+    dimensionsText: '2" Width • 31" / 36" Length',
+    colors: [
+      {
+        id: 'women-pink',
+        name: 'Pink',
+        colorName: 'Pink',
+        hex: '#E5989B',
+        shade: 'Blush Pink',
+        tagline: 'Blush Pink | Bohemian Grace',
+        displayImage: womenPinkClean,
+        images: womenPink,
+        desc: 'Soft rose blush pink shade. A romantic bohemian statement piece that pairs gorgeously with flowy maxi dresses, linen tunics, and festive evening wear.'
+      },
+      {
+        id: 'women-purple',
+        name: 'Purple',
+        colorName: 'Purple',
+        hex: '#5A2A60',
+        shade: 'Royal Purple',
+        tagline: 'Royal Purple | Rich Regal Accent',
+        displayImage: womenPurpleClean,
+        images: womenPurple,
+        desc: 'Deep royal purple tone. Adds an eye-catching regal accent to monochromatic dresses, kaftans, and contemporary party outfits.'
+      }
+    ],
+    sizeGuide: {
+      title: 'Women’s Waist Belt Sizing Guide',
+      columns: ['Size', 'Total Length', 'Width', 'Fit'],
+      rows: [
+        { size: '31"', length: '31 inches', waist: '24–30"', width: '2 inches', fit: 'Adjustable Tie' },
+        { size: '36"', length: '36 inches', waist: '30–38"', width: '2 inches', fit: 'Adjustable Tie' }
+      ],
+      width: '2"',
+      note: '* Tie-Style Adjustability: Designed with generous woven end ties, allowing you to knot or bow at your preferred waist position for a tailored silhouette over any outfit.'
+    },
+    careGuide: {
+      title: 'Women’s Belt Care Instructions',
+      points: [
+        'Spot clean dust and minor marks with a soft damp cloth.',
+        'Hand wash gently in cold water with mild soap when necessary.',
+        'Lay flat on a clean dry towel in shade to dry naturally.',
+        'Do not machine wash, tumble dry, wring, or bleach.'
+      ],
+      instructions: 'Spot clean with a soft damp cloth or hand wash gently in cold water with mild soap. Lay flat in shade to dry naturally. Do not machine dry, bleach, or wring.'
+    }
+  },
+
   kids: {
     id: 'kids',
     slug: 'kids',
@@ -279,7 +373,7 @@ export const PRODUCTS = {
   }
 };
 
-// Flattened gallery catalog containing all 9 product styles
+// Flattened gallery catalog containing all product styles (Adult, Women, Kids)
 export const ALL_GALLERY_ITEMS = [
   ...PRODUCTS.adult.colors.map(c => ({
     ...c,
@@ -289,7 +383,18 @@ export const ALL_GALLERY_ITEMS = [
     singlePriceBDT: PRODUCTS.adult.singlePriceBDT,
     regularPriceBDT: PRODUCTS.adult.singleRegularPriceBDT,
     sizes: PRODUCTS.adult.sizes,
-    dimensions: '1.5" Width • 38"-42" Length',
+    dimensions: PRODUCTS.adult.dimensionsText,
+    displayImage: c.displayImage || c.images[0]
+  })),
+  ...PRODUCTS.women.colors.map(c => ({
+    ...c,
+    productId: 'women',
+    productTitle: PRODUCTS.women.title,
+    badge: 'Women’s Collection',
+    singlePriceBDT: PRODUCTS.women.singlePriceBDT,
+    regularPriceBDT: PRODUCTS.women.singleRegularPriceBDT,
+    sizes: PRODUCTS.women.sizes,
+    dimensions: PRODUCTS.women.dimensionsText,
     displayImage: c.displayImage || c.images[0]
   })),
   ...PRODUCTS.kids.colors.map(c => ({
@@ -300,7 +405,7 @@ export const ALL_GALLERY_ITEMS = [
     singlePriceBDT: PRODUCTS.kids.singlePriceBDT,
     regularPriceBDT: PRODUCTS.kids.singleRegularPriceBDT,
     sizes: PRODUCTS.kids.sizes,
-    dimensions: '1 1/4" Width • 28" Length',
+    dimensions: PRODUCTS.kids.dimensionsText,
     displayImage: c.displayImage || c.images[0]
   }))
 ];
@@ -311,5 +416,9 @@ export const getProductById = (id = 'adult') => {
   if (cleanId === 'kids' || cleanId === 'kid' || cleanId === 'ast-macrame-kids') {
     return PRODUCTS.kids;
   }
+  if (cleanId === 'women' || cleanId === 'womens' || cleanId === 'women-waist-belt' || cleanId === 'ast-womens-waist-belt' || cleanId === 'waist-belt') {
+    return PRODUCTS.women;
+  }
   return PRODUCTS.adult;
 };
+

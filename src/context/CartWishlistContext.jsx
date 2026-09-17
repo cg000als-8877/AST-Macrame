@@ -6,6 +6,8 @@ import n1 from '../assets/products/Navy/1.webp';
 import br1 from '../assets/products/Brown/1.webp';
 import m1 from '../assets/products/Maroon/1.webp';
 import k1 from '../assets/products/Khaki/1.webp';
+import wp1 from '../assets/products/Women/Pink/1.webp';
+import wpu1 from '../assets/products/Women/Purple/1.webp';
 
 export const colorImageMap = {
   Black: b1,
@@ -23,6 +25,12 @@ export const colorImageMap = {
   'Kids-Navy': '/AST Macrame Kids/Navy/1.webp',
   'Kids-Neon Green': '/AST Macrame Kids/Neon Green/1.webp',
   'Kids-Red': '/AST Macrame Kids/Red/1.webp',
+  Pink: wp1,
+  Purple: wpu1,
+  'Blush Pink': wp1,
+  'Royal Purple': wpu1,
+  'Women-Pink': wp1,
+  'Women-Purple': wpu1,
 };
 
 const CartWishlistContext = createContext();
@@ -44,6 +52,17 @@ export const calculateTierPriceBDT = (totalQty) => {
   if (totalQty === 4) return 2650; // 662.5/pc (Save 750)
   if (totalQty === 5) return 3150; // 630/pc (Save 1100)
   return totalQty * 630;           // 630/pc for 6+
+};
+
+// Strategic volume pricing formula for Women's Waist Belt (590 base price, 2 for 1080)
+export const calculateWomenTierPriceBDT = (totalQty) => {
+  if (totalQty <= 0) return 0;
+  if (totalQty === 1) return 590;
+  if (totalQty === 2) return 1080; // 540/pc (Save 420)
+  if (totalQty === 3) return 1530; // 510/pc (Save 720)
+  if (totalQty === 4) return 1960; // 490/pc (Save 1040)
+  if (totalQty === 5) return 2350; // 470/pc (Save 1400)
+  return totalQty * 470;           // 470/pc for 6+
 };
 
 // Strategic volume pricing formula for Kids Belt (600 base price, 2 for 1090)
@@ -380,13 +399,15 @@ export const CartWishlistProvider = ({ children }) => {
   const isRetailCart = cart.some(item => item.isRetail);
 
   // Sample Cart Calculations (Tiered by product)
-  const adultSampleItems = cart.filter(i => !i.isRetail && i.productId !== 'kids');
+  const adultSampleItems = cart.filter(i => !i.isRetail && i.productId !== 'kids' && i.productId !== 'women');
+  const womenSampleItems = cart.filter(i => !i.isRetail && i.productId === 'women');
   const kidsSampleItems = cart.filter(i => !i.isRetail && i.productId === 'kids');
   const adultSampleQty = adultSampleItems.reduce((s, i) => s + i.quantity, 0);
+  const womenSampleQty = womenSampleItems.reduce((s, i) => s + i.quantity, 0);
   const kidsSampleQty = kidsSampleItems.reduce((s, i) => s + i.quantity, 0);
 
-  const totalPriceBDT = calculateTierPriceBDT(adultSampleQty) + calculateKidsTierPriceBDT(kidsSampleQty);
-  const regularPriceBDT = (adultSampleQty * 850) + (kidsSampleQty * 850);
+  const totalPriceBDT = calculateTierPriceBDT(adultSampleQty) + calculateWomenTierPriceBDT(womenSampleQty) + calculateKidsTierPriceBDT(kidsSampleQty);
+  const regularPriceBDT = (adultSampleQty * 850) + (womenSampleQty * 750) + (kidsSampleQty * 850);
   const savingsBDT = Math.max(0, regularPriceBDT - totalPriceBDT);
 
   const totalPriceLocal = totalPriceBDT * exchangeRate;
@@ -395,24 +416,30 @@ export const CartWishlistProvider = ({ children }) => {
   const unitPriceLocal = totalCartQuantity > 0 ? totalPriceLocal / totalCartQuantity : 850 * exchangeRate;
 
   // Retail Cart Calculations
-  const adultSingleRetail = cart.filter(i => i.isRetail && i.orderType === 'single' && i.productId !== 'kids');
+  const adultSingleRetail = cart.filter(i => i.isRetail && i.orderType === 'single' && i.productId !== 'kids' && i.productId !== 'women');
+  const womenSingleRetail = cart.filter(i => i.isRetail && i.orderType === 'single' && i.productId === 'women');
   const kidsSingleRetail = cart.filter(i => i.isRetail && i.orderType === 'single' && i.productId === 'kids');
-  const adultComboRetail = cart.filter(i => i.isRetail && i.orderType === 'combo' && i.productId !== 'kids');
+  
+  const adultComboRetail = cart.filter(i => i.isRetail && i.orderType === 'combo' && i.productId !== 'kids' && i.productId !== 'women');
+  const womenComboRetail = cart.filter(i => i.isRetail && i.orderType === 'combo' && i.productId === 'women');
   const kidsComboRetail = cart.filter(i => i.isRetail && i.orderType === 'combo' && i.productId === 'kids');
 
   const adultSingleQty = adultSingleRetail.reduce((s, i) => s + i.quantity, 0);
+  const womenSingleQty = womenSingleRetail.reduce((s, i) => s + i.quantity, 0);
   const kidsSingleQty = kidsSingleRetail.reduce((s, i) => s + i.quantity, 0);
+  
   const adultComboQty = adultComboRetail.reduce((s, i) => s + i.quantity, 0);
+  const womenComboQty = womenComboRetail.reduce((s, i) => s + i.quantity, 0);
   const kidsComboQty = kidsComboRetail.reduce((s, i) => s + i.quantity, 0);
 
-  const singleItemsCount = adultSingleQty + kidsSingleQty;
-  const comboItemsCount = adultComboQty + kidsComboQty;
+  const singleItemsCount = adultSingleQty + womenSingleQty + kidsSingleQty;
+  const comboItemsCount = adultComboQty + womenComboQty + kidsComboQty;
 
-  const singleSellingTotalBDT = calculateTierPriceBDT(adultSingleQty) + calculateKidsTierPriceBDT(kidsSingleQty);
-  const singleRegularTotalBDT = (adultSingleQty * 1050) + (kidsSingleQty * 850);
+  const singleSellingTotalBDT = calculateTierPriceBDT(adultSingleQty) + calculateWomenTierPriceBDT(womenSingleQty) + calculateKidsTierPriceBDT(kidsSingleQty);
+  const singleRegularTotalBDT = (adultSingleQty * 1050) + (womenSingleQty * 750) + (kidsSingleQty * 850);
 
-  const comboSellingTotalBDT = (adultComboQty * 1490) + (kidsComboQty * 1090);
-  const comboRegularTotalBDT = (adultComboQty * 2100) + (kidsComboQty * 1700);
+  const comboSellingTotalBDT = (adultComboQty * 1490) + (womenComboQty * 1080) + (kidsComboQty * 1090);
+  const comboRegularTotalBDT = (adultComboQty * 2100) + (womenComboQty * 1500) + (kidsComboQty * 1700);
 
   const retailRegularTotalBDT = singleRegularTotalBDT + comboRegularTotalBDT;
   const retailSellingTotalBDT = singleSellingTotalBDT + comboSellingTotalBDT;
