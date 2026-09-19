@@ -52,7 +52,7 @@ const About = () => {
   ];
 
   return (
-    <div className="w-full bg-cream min-h-screen pt-24 sm:pt-28 md:pt-32 pb-16 md:pb-24 selection:bg-terracotta selection:text-white">
+    <div className="w-full bg-cream min-h-screen pt-20 sm:pt-22 md:pt-24 pb-16 md:pb-24 selection:bg-terracotta selection:text-white">
       
       {/* 1. HERO SECTION */}
       <section className="relative px-4 sm:px-6 lg:px-12 pb-12 sm:pb-16 border-b border-stone/15">

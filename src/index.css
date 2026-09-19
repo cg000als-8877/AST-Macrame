@@ -62,9 +62,18 @@
   --color-muted-burgundy: var(--tw-color-muted-burgundy);
   --color-natural-linen: var(--tw-color-natural-linen);
   
-  --font-serif: 'Outfit', sans-serif;
-  --font-sans: 'Outfit', sans-serif;
+  --font-serif: 'Outfit', 'Noto Serif Bengali', sans-serif;
+  --font-sans: 'Outfit', 'Noto Serif Bengali', sans-serif;
   --font-bengali: 'Noto Serif Bengali', serif;
+  --radius-xs: 2px;
+  --radius-sm: 2px;
+  --radius: 4px;
+  --radius-md: 4px;
+  --radius-lg: 4px;
+  --radius-xl: 4px;
+  --radius-2xl: 4px;
+  --radius-3xl: 4px;
+  --radius-4xl: 4px;
 }
 
 html {
@@ -222,9 +231,45 @@ body.modal-open .mobile-navbar-logo {
   scrollbar-width: none;
 }
 
-/* Global 4px corner radius for all interactive buttons on desktop & mobile, preserving circular color swatches */
-button:not(.rounded-full):not([data-swatch]):not([style*="backgroundColor"]):not([style*="background-color"]),
-.btn {
-  border-radius: 4px;
+/* ================= GLOBAL CORNER RADIUS SCALE (4px / 2px only) ================= */
+
+/* Large & Medium Cards, Containers, Drawers, Modals (4px) */
+.card-lg,
+.card-md,
+.stat-card,
+[class*="rounded-2xl"]:not(.rounded-full):not([data-swatch]):not([style*="borderRadius"]),
+[class*="rounded-3xl"]:not(.rounded-full):not([data-swatch]):not([style*="borderRadius"]),
+[class*="rounded-xl"]:not(.rounded-full):not([data-swatch]):not([style*="borderRadius"]),
+[class*="rounded-lg"]:not(.rounded-full):not([data-swatch]):not([style*="borderRadius"]),
+[class*="rounded-md"]:not(.rounded-full):not([data-swatch]):not([style*="borderRadius"]) {
+  border-radius: 4px !important;
 }
 
+/* Small Cards, Indicators, Micro Chips & Badges (2px) */
+.card-sm,
+[class*="rounded-sm"]:not(.rounded-full):not([data-swatch]):not([style*="borderRadius"]),
+[class*="rounded-xs"]:not(.rounded-full):not([data-swatch]):not([style*="borderRadius"]) {
+  border-radius: 2px !important;
+}
+
+/* Micro badges, tags, and small indicator chips (2px) */
+.badge:not(.rounded-full),
+span[class*="text-[8."][class*="rounded"]:not(.rounded-full),
+span[class*="text-[9px]"][class*="rounded"]:not(.rounded-full),
+span[class*="text-[10px]"][class*="rounded"]:not(.rounded-full),
+span[class*="text-[11px]"][class*="rounded"]:not(.rounded-full) {
+  border-radius: 2px !important;
+}
+
+/* Form Inputs, Selects, and Textareas (4px) */
+input:not([type="checkbox"]):not([type="radio"]):not(.rounded-full),
+select:not(.rounded-full),
+textarea:not(.rounded-full) {
+  border-radius: 4px !important;
+}
+
+/* Buttons (4px), preserving circular swatches */
+button:not(.rounded-full):not([data-swatch]):not([style*="backgroundColor"]):not([style*="background-color"]),
+.btn {
+  border-radius: 4px !important;
+}

@@ -50,7 +50,7 @@ const ProductGallery = () => {
   const [activeGuideTab, setActiveGuideTab] = useState('adult'); // 'adult' | 'women' | 'kids'
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-soft-black pt-20 sm:pt-28 md:pt-32 pb-24 sm:pb-32 selection:bg-terracotta selection:text-cream">
+    <div className="min-h-screen bg-[#FAF8F5] text-soft-black pt-16 sm:pt-20 md:pt-24 pb-24 sm:pb-32 selection:bg-terracotta selection:text-cream">
       
       {/* Header Section */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 sm:mb-10 text-center">

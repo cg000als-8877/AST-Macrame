@@ -74,7 +74,7 @@ const Navbar = () => {
     }
   };
 
-  const navClass = `fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-300 top-0 sm:top-3 md:top-4 w-full sm:w-[95%] md:w-[92%] max-w-6xl bg-white sm:bg-[#FAF7F2] border-b sm:border border-stone/20 rounded-none sm:rounded-[8px] overflow-hidden ${
+  const navClass = `fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-300 top-0 sm:top-2 md:top-2.5 w-full sm:w-[95%] md:w-[92%] max-w-6xl bg-white sm:bg-[#FAF7F2] border-b sm:border border-stone/20 rounded-none sm:rounded-[4px] overflow-hidden ${
     isScrolled 
       ? 'shadow-md sm:shadow-lg' 
       : 'shadow-xs sm:shadow-md'
@@ -86,8 +86,8 @@ const Navbar = () => {
         
         {/* Retail Announcement Bar (Top on Retail page only, #131E33 Footer Blue background) */}
         {isRetailPage && (
-          <div className="w-full bg-[#131E33] text-white text-[10px] sm:text-[11px] font-medium flex items-center justify-center gap-1.5 py-1.5 px-3 z-50 tracking-wider uppercase sm:rounded-t-[8px]">
-            <svg className="w-3.5 h-3.5 text-[#C3B091] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="w-full bg-[#131E33] text-white text-[9.5px] sm:text-[10.5px] font-medium flex items-center justify-center gap-1.5 py-1 px-3 z-50 tracking-wider uppercase sm:rounded-t-[4px]">
+            <svg className="w-3 h-3 text-[#C3B091] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1" />
             </svg>
@@ -96,7 +96,7 @@ const Navbar = () => {
         )}
 
         {/* 1. UNIVERSAL MOBILE TOP BAR (Burger + Logo + Search + Cart / Expanded Full-Width Search) */}
-        <div className="flex sm:hidden px-2.5 sm:px-4 h-[52px] items-center justify-between gap-1.5 w-full relative">
+        <div className="flex sm:hidden px-2.5 sm:px-4 h-[48px] items-center justify-between gap-1.5 w-full relative">
           <AnimatePresence mode="wait">
             {isMobileSearchExpanded ? (
               <motion.form
@@ -162,9 +162,9 @@ const Navbar = () => {
                     <img 
                       src="/logo_black.png" 
                       alt="AST Logo" 
-                      className="h-6 w-auto object-contain"
+                      className="h-5.5 w-auto object-contain"
                     />
-                    <span className="font-serif font-bold text-soft-black text-[12.5px] tracking-tight whitespace-nowrap">
+                    <span className="font-serif font-bold text-soft-black text-[12px] tracking-tight whitespace-nowrap">
                       AST Macramé
                     </span>
                   </Link>
@@ -175,7 +175,7 @@ const Navbar = () => {
                   onClick={() => setIsMobileSearchExpanded(true)}
                   className="flex-1 min-w-0 mx-1 cursor-pointer"
                 >
-                  <div className="relative w-full flex items-center bg-stone/15 hover:bg-stone/20 border border-stone/20 rounded-full px-2.5 py-1.5 text-xs transition-colors">
+                  <div className="relative w-full flex items-center bg-stone/15 hover:bg-stone/20 border border-stone/20 rounded-full px-2.5 py-1 text-xs transition-colors">
                     <Search className="w-3.5 h-3.5 text-dark-charcoal/50 shrink-0 mr-1.5" />
                     <input 
                       type="text"
@@ -211,11 +211,11 @@ const Navbar = () => {
         </div>
 
         {/* 2. DESKTOP NAVBAR (Hidden on mobile) */}
-        <div className="hidden sm:flex px-4 md:px-6 lg:px-8 h-14 md:h-16 items-center justify-between w-full">
+        <div className="hidden sm:flex px-4 md:px-6 lg:px-7 h-14 md:h-15 items-center justify-between w-full">
           
           {/* Left Navigation Links: Home, Products, Wholesale */}
           <div className="flex-1 flex items-center justify-start">
-            <nav className="flex items-center gap-1 sm:gap-1.5 md:gap-2 text-soft-black">
+            <nav className="flex items-center gap-0.5 sm:gap-1 md:gap-1.5 text-soft-black">
               {desktopLeftLinks.map((link, idx) => {
                 const isActive = location.pathname === link.path || 
                   (link.path === '/products' && location.pathname === '/product') ||
@@ -224,15 +224,15 @@ const Navbar = () => {
                   <React.Fragment key={link.name}>
                     {idx > 0 && (
                       <span 
-                        className="relative z-10 w-[1px] h-5 sm:h-5.5 bg-gradient-to-b from-transparent via-stone-400/80 to-transparent shrink-0 mx-1 sm:mx-1.5 select-none" 
+                        className="relative z-10 w-[1px] h-4 sm:h-4.5 bg-gradient-to-b from-transparent via-stone-400/80 to-transparent shrink-0 mx-0.5 sm:mx-1 select-none" 
                         aria-hidden="true" 
                       />
                     )}
                     <Link 
                       to={link.path}
-                      className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-xs md:text-[13px] lg:text-[13.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
+                      className={`relative px-2.5 py-1.5 md:px-3 text-xs md:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
                         isActive 
-                          ? 'text-soft-black bg-[#FAF7F2] border-white/70 shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02] -translate-y-[1px]' 
+                          ? 'text-soft-black bg-[#FAF7F2] border-white/70 shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02]' 
                           : 'border-transparent text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
                       }`}
                     >
@@ -244,35 +244,35 @@ const Navbar = () => {
             </nav>
           </div>
 
-          {/* Center Logo (Bigger & Centered) */}
-          <div className="shrink-0 flex items-center justify-center px-3 md:px-5 lg:px-6">
-            <Link to="/" className="flex items-center gap-2 active:scale-95 transition-transform duration-200 py-1">
+          {/* Center Logo (Proportional & Centered) */}
+          <div className="shrink-0 flex items-center justify-center px-2 md:px-4">
+            <Link to="/" className="flex items-center gap-2 active:scale-95 transition-transform duration-200 py-0.5">
               <img 
                 src="/logo_black.png" 
                 alt="AST Handmade Macramé Belts" 
-                className="h-10 sm:h-11 md:h-12 lg:h-[50px] w-auto object-contain transition-all"
+                className="h-8 sm:h-8.5 md:h-9 lg:h-9.5 w-auto object-contain transition-all"
               />
             </Link>
           </div>
 
           {/* Right Navigation Links: About, FAQ, Contact + Cart */}
-          <div className="flex-1 flex items-center justify-end gap-1 sm:gap-1.5 md:gap-2">
-            <nav className="flex items-center gap-1 sm:gap-1.5 md:gap-2 text-soft-black">
+          <div className="flex-1 flex items-center justify-end gap-0.5 sm:gap-1 md:gap-1.5">
+            <nav className="flex items-center gap-0.5 sm:gap-1 md:gap-1.5 text-soft-black">
               {desktopRightLinks.map((link, idx) => {
                 const isActive = location.pathname === link.path;
                 return (
                   <React.Fragment key={link.name}>
                     {idx > 0 && (
                       <span 
-                        className="relative z-10 w-[1px] h-5 sm:h-5.5 bg-gradient-to-b from-transparent via-stone-400/80 to-transparent shrink-0 mx-1 sm:mx-1.5 select-none" 
+                        className="relative z-10 w-[1px] h-4 sm:h-4.5 bg-gradient-to-b from-transparent via-stone-400/80 to-transparent shrink-0 mx-0.5 sm:mx-1 select-none" 
                         aria-hidden="true" 
                       />
                     )}
                     <Link 
                       to={link.path}
-                      className={`relative px-3 py-1.5 md:px-3.5 lg:px-4 text-xs md:text-[13px] lg:text-[13.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
+                      className={`relative px-2.5 py-1.5 md:px-3 text-xs md:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
                         isActive 
-                          ? 'text-soft-black bg-[#FAF7F2] border-white/70 shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02] -translate-y-[1px]' 
+                          ? 'text-soft-black bg-[#FAF7F2] border-white/70 shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02]' 
                           : 'border-transparent text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
                       }`}
                     >
@@ -285,7 +285,7 @@ const Navbar = () => {
 
             {/* Divider between Contact and Cart */}
             <span 
-              className="relative z-10 w-[1px] h-5 sm:h-5.5 bg-gradient-to-b from-transparent via-stone-400/80 to-transparent shrink-0 mx-1 sm:mx-1.5 select-none" 
+              className="relative z-10 w-[1px] h-4 sm:h-4.5 bg-gradient-to-b from-transparent via-stone-400/80 to-transparent shrink-0 mx-0.5 sm:mx-1 select-none" 
               aria-hidden="true" 
             />
 
@@ -293,7 +293,7 @@ const Navbar = () => {
             <button 
               type="button"
               onClick={() => setIsCartOpen(true)}
-              className="relative p-2 text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer group"
+              className="relative p-1.5 text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer group"
               title="Cart"
               aria-label="Cart"
             >
