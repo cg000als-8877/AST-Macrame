@@ -285,16 +285,24 @@ export const CartWishlistProvider = ({ children }) => {
 
   // Wishlist actions
   const addToWishlist = (item) => {
-    const id = `${item.color || 'Black'}-${item.size || 'M'}`;
+    const isKids = item.productId === 'kids' || (item.title && item.title.toLowerCase().includes('kids'));
+    const isWomen = item.productId === 'women' || (item.title && (item.title.toLowerCase().includes('women') || item.title.toLowerCase().includes('waist')));
+    const resolvedProductId = isKids ? 'kids' : isWomen ? 'women' : 'adult';
+    const defaultTitle = isKids ? 'AST Handmade Macramé Kids Belt' : isWomen ? 'AST Women’s Handmade Macramé Waist Belt' : 'AST Handmade Macramé Belt';
+    const defaultBasePrice = isKids ? 600 : isWomen ? 590 : 850;
+    const defaultRegularPrice = isKids ? 850 : isWomen ? 750 : 1050;
+    const id = item.id || `${resolvedProductId !== 'adult' ? resolvedProductId + '-' : ''}${item.color || (isKids ? 'Neon Green' : isWomen ? 'Pink' : 'Black')}-${item.size || (isKids ? 'One' : isWomen ? '31"' : 'M')}`;
     const exists = wishlist.some(w => w.id === id);
     if (!exists) {
       const newItem = {
         id,
-        title: item.title || 'AST Handmade Macramé Belt',
-        color: item.color || 'Black',
-        size: item.size || 'M',
-        priceBDT: 850,
-        image: colorImageMap[item.color] || b1,
+        productId: resolvedProductId,
+        title: item.title || defaultTitle,
+        color: item.color || (isKids ? 'Neon Green' : isWomen ? 'Pink' : 'Black'),
+        size: item.size || (isKids ? 'One' : isWomen ? '31"' : 'M'),
+        priceBDT: item.priceBDT || defaultBasePrice,
+        regularPriceBDT: item.regularPriceBDT || defaultRegularPrice,
+        image: item.image || colorImageMap[item.color] || (isWomen ? wp1 : isKids ? '/AST Macrame Kids/Neon Green/1.webp' : b1),
         addedAt: Date.now()
       };
       setWishlist(prev => [newItem, ...prev]);
@@ -307,13 +315,17 @@ export const CartWishlistProvider = ({ children }) => {
     showToast('Removed from Wishlist');
   };
 
-  const isInWishlist = (color, size) => {
-    const id = `${color}-${size}`;
-    return wishlist.some(w => w.id === id);
+  const isInWishlist = (color, size, productId = 'adult') => {
+    const prefix = productId !== 'adult' ? `${productId}-` : '';
+    const id = `${prefix}${color}-${size}`;
+    return wishlist.some(w => w.id === id || (w.color === color && w.size === size && (w.productId || 'adult') === productId));
   };
 
   const toggleWishlist = (item) => {
-    const id = `${item.color || 'Black'}-${item.size || 'M'}`;
+    const isKids = item.productId === 'kids' || (item.title && item.title.toLowerCase().includes('kids'));
+    const isWomen = item.productId === 'women' || (item.title && (item.title.toLowerCase().includes('women') || item.title.toLowerCase().includes('waist')));
+    const resolvedProductId = isKids ? 'kids' : isWomen ? 'women' : 'adult';
+    const id = item.id || `${resolvedProductId !== 'adult' ? resolvedProductId + '-' : ''}${item.color || (isKids ? 'Neon Green' : isWomen ? 'Pink' : 'Black')}-${item.size || (isKids ? 'One' : isWomen ? '31"' : 'M')}`;
     if (wishlist.some(w => w.id === id)) {
       removeFromWishlist(id);
       return false;
@@ -326,10 +338,12 @@ export const CartWishlistProvider = ({ children }) => {
   // Cart actions
   const addToCart = (item, qty = 1) => {
     const isKids = item.productId === 'kids' || (item.title && item.title.toLowerCase().includes('kids'));
-    const defaultTitle = isKids ? 'AST Handmade Macramé Kids Belt' : 'AST Handmade Macramé Belt';
-    const defaultBasePrice = isKids ? 600 : 850;
-    const defaultRegularPrice = isKids ? 850 : 1050;
-    const id = item.id || `${isKids ? 'kids-' : ''}${item.color || 'Black'}-${item.size || (isKids ? 'One' : 'M')}`;
+    const isWomen = item.productId === 'women' || (item.title && (item.title.toLowerCase().includes('women') || item.title.toLowerCase().includes('waist')));
+    const resolvedProductId = isKids ? 'kids' : isWomen ? 'women' : 'adult';
+    const defaultTitle = isKids ? 'AST Handmade Macramé Kids Belt' : isWomen ? 'AST Women’s Handmade Macramé Waist Belt' : 'AST Handmade Macramé Belt';
+    const defaultBasePrice = isKids ? 600 : isWomen ? 590 : 850;
+    const defaultRegularPrice = isKids ? 850 : isWomen ? 750 : 1050;
+    const id = item.id || `${resolvedProductId !== 'adult' ? resolvedProductId + '-' : ''}${item.color || (isKids ? 'Neon Green' : isWomen ? 'Pink' : 'Black')}-${item.size || (isKids ? 'One' : isWomen ? '31"' : 'M')}`;
 
     setCart(prev => {
       const existingIndex = prev.findIndex(c => c.id === id);
@@ -343,14 +357,14 @@ export const CartWishlistProvider = ({ children }) => {
       } else {
         const newItem = {
           id,
-          productId: isKids ? 'kids' : 'adult',
+          productId: resolvedProductId,
           title: item.title || defaultTitle,
-          color: item.color || (isKids ? 'Neon Green' : 'Black'),
-          size: item.size || (isKids ? 'One' : 'M'),
+          color: item.color || (isKids ? 'Neon Green' : isWomen ? 'Pink' : 'Black'),
+          size: item.size || (isKids ? 'One' : isWomen ? '31"' : 'M'),
           quantity: qty,
           basePriceBDT: item.basePriceBDT || item.priceBDT || defaultBasePrice,
           regularPriceBDT: item.regularPriceBDT || defaultRegularPrice,
-          image: item.image || colorImageMap[item.color] || b1,
+          image: item.image || colorImageMap[item.color] || (isWomen ? wp1 : isKids ? '/AST Macrame Kids/Neon Green/1.webp' : b1),
           isRetail: !!item.isRetail,
           orderType: item.orderType || 'single',
           comboColor1: item.comboColor1,
@@ -484,6 +498,15 @@ export const CartWishlistProvider = ({ children }) => {
         unitPriceLocal,
         singleItemsCount,
         comboItemsCount,
+        adultSingleQty,
+        womenSingleQty,
+        kidsSingleQty,
+        adultComboQty,
+        womenComboQty,
+        kidsComboQty,
+        adultSampleQty,
+        womenSampleQty,
+        kidsSampleQty,
         singleSellingTotalBDT,
         retailRegularTotalBDT,
         retailSellingTotalBDT,

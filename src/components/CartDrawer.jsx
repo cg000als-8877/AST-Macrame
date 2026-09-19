@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShoppingBag, Plus, Minus, Trash2, ArrowRight, ShieldCheck, Sparkles, PackageCheck } from 'lucide-react';
-import { useCartWishlist } from '../context/CartWishlistContext';
+import { useCartWishlist, calculateTierPriceBDT, calculateWomenTierPriceBDT, calculateKidsTierPriceBDT } from '../context/CartWishlistContext';
 import { useStoreConfig } from '../context/StoreConfigContext';
 import SampleOrderDrawer from './SampleOrderDrawer';
 import RetailOrderModal from './RetailOrderModal';
@@ -21,6 +21,15 @@ const CartDrawer = () => {
     isRetailCart,
     singleItemsCount,
     comboItemsCount,
+    adultSingleQty,
+    womenSingleQty,
+    kidsSingleQty,
+    adultComboQty,
+    womenComboQty,
+    kidsComboQty,
+    adultSampleQty,
+    womenSampleQty,
+    kidsSampleQty,
     singleSellingTotalBDT,
     retailRegularTotalBDT,
     retailSellingTotalBDT,
@@ -170,18 +179,51 @@ const CartDrawer = () => {
                     {cart.map((item) => {
                       const isRetail = !!item.isRetail;
                       const isCombo = item.orderType === 'combo';
+                      const isKids = item.productId === 'kids' || (item.title && item.title.toLowerCase().includes('kids'));
+                      const isWomen = item.productId === 'women' || (item.title && (item.title.toLowerCase().includes('women') || item.title.toLowerCase().includes('waist')));
                       
-                      // Retail pricing (BDT) - Single belts dynamic tiered rate: 1 for 850, 2 for 1490, 3 for 2090, 4 for 2650, 5 for 3150
-                      const effectiveSingleUnitPrice = singleItemsCount > 0 ? Math.round(singleSellingTotalBDT / singleItemsCount) : 850;
-                      const retailUnitPrice = isCombo ? (item.basePriceBDT || 1490) : effectiveSingleUnitPrice;
-                      const retailRegularPrice = isCombo ? (item.regularPriceBDT || 2100) : (item.regularPriceBDT || 1050);
+                      // Retail pricing (BDT)
+                      let retailUnitPrice = item.basePriceBDT || 850;
+                      let retailRegularPrice = item.regularPriceBDT || 1050;
+
+                      if (isRetail) {
+                        if (isCombo) {
+                          retailUnitPrice = item.basePriceBDT || (isKids ? 1090 : isWomen ? 1080 : 1490);
+                          retailRegularPrice = item.regularPriceBDT || (isKids ? 1700 : isWomen ? 1500 : 2100);
+                        } else {
+                          if (isWomen) {
+                            retailUnitPrice = womenSingleQty > 0 ? Math.round(calculateWomenTierPriceBDT(womenSingleQty) / womenSingleQty) : (item.basePriceBDT || 590);
+                            retailRegularPrice = item.regularPriceBDT || 750;
+                          } else if (isKids) {
+                            retailUnitPrice = kidsSingleQty > 0 ? Math.round(calculateKidsTierPriceBDT(kidsSingleQty) / kidsSingleQty) : (item.basePriceBDT || 600);
+                            retailRegularPrice = item.regularPriceBDT || 850;
+                          } else {
+                            retailUnitPrice = adultSingleQty > 0 ? Math.round(calculateTierPriceBDT(adultSingleQty) / adultSingleQty) : (item.basePriceBDT || 850);
+                            retailRegularPrice = item.regularPriceBDT || 1050;
+                          }
+                        }
+                      }
+
                       const retailItemSavings = Math.max(0, retailRegularPrice - retailUnitPrice);
                       const retailItemTotal = retailUnitPrice * item.quantity;
                       const retailItemRegularTotal = retailRegularPrice * item.quantity;
 
                       // Sample pricing (Local currency)
-                      const sampleUnitPrice = Math.round(unitPriceLocal);
-                      const sampleRegularPrice = Math.round(850 * exchangeRate);
+                      let sampleUnitBDT = 850;
+                      let sampleRegularBDT = 850;
+                      if (isWomen) {
+                        sampleUnitBDT = womenSampleQty > 0 ? (calculateWomenTierPriceBDT(womenSampleQty) / womenSampleQty) : (item.basePriceBDT || 590);
+                        sampleRegularBDT = 750;
+                      } else if (isKids) {
+                        sampleUnitBDT = kidsSampleQty > 0 ? (calculateKidsTierPriceBDT(kidsSampleQty) / kidsSampleQty) : (item.basePriceBDT || 600);
+                        sampleRegularBDT = 850;
+                      } else {
+                        sampleUnitBDT = adultSampleQty > 0 ? (calculateTierPriceBDT(adultSampleQty) / adultSampleQty) : (item.basePriceBDT || 850);
+                        sampleRegularBDT = 850;
+                      }
+
+                      const sampleUnitPrice = Math.round(sampleUnitBDT * exchangeRate);
+                      const sampleRegularPrice = Math.round(sampleRegularBDT * exchangeRate);
                       const sampleItemSavings = Math.max(0, sampleRegularPrice - sampleUnitPrice);
                       const sampleItemTotal = sampleUnitPrice * item.quantity;
                       const sampleItemRegularTotal = sampleRegularPrice * item.quantity;
