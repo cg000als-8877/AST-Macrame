@@ -94,7 +94,7 @@ const Footer = () => {
               className="w-full h-auto object-contain max-w-[200px] sm:max-w-sm md:max-w-[380px]"
             />
           </div>
-          <p className="font-sans text-[12px] sm:text-[12.5px] md:text-[13px] text-cream/40 tracking-widest text-center leading-relaxed">
+          <p className="font-sans text-[9.5px] sm:text-[12px] md:text-[12.5px] text-cream/40 tracking-wider sm:tracking-widest text-center leading-relaxed">
             <span className="block sm:inline">© {new Date().getFullYear()} AST Handmade Macramé Belts.</span>
             <span className="block sm:inline sm:ml-1">All Rights Reserved.</span>
           </p>

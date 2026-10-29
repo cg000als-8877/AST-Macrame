@@ -69,7 +69,7 @@ const Navbar = () => {
     { 
       name: 'Wholesale & OEM', 
       path: '/sample-wholesale', 
-      subtitle: '100 pcs base MOQ · Private label'
+      subtitle: '100 pcs base MOQ, private label'
     },
   ];
 
@@ -351,10 +351,10 @@ const Navbar = () => {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 26, stiffness: 240 }}
-              className="relative w-[86%] max-w-[340px] bg-cream h-full shadow-2xl z-10 flex flex-col justify-between overflow-hidden"
+              className="relative w-[86%] max-w-[340px] bg-white h-full shadow-2xl z-10 flex flex-col justify-between overflow-hidden"
             >
               {/* Drawer Top Branding Header */}
-              <div className="p-4 border-b border-stone/20 flex items-center justify-between bg-white shrink-0">
+              <div className="p-4 sm:p-5 flex items-center justify-between bg-white shrink-0">
                 <div className="flex items-center gap-2.5">
                   <img 
                     src="/logo_black.png" 
@@ -382,16 +382,16 @@ const Navbar = () => {
               </div>
 
               {/* Scrollable Navigation Body */}
-              <div className="px-3 py-4 space-y-4 overflow-y-auto flex-1">
+              <div className="px-3 py-3 space-y-6 overflow-y-auto flex-1 bg-white">
                 {/* Primary Commerce Links */}
                 <div>
-                  <div className="px-2 mb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-dark-charcoal/50">
+                  <div className="px-3 mb-2">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-dark-charcoal/45">
                       Collections & Ordering
                     </span>
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="space-y-1">
                     {shopLinks.map((link) => {
                       const isActive = location.pathname === link.path;
                       return (
@@ -399,30 +399,28 @@ const Navbar = () => {
                           key={link.name}
                           to={link.path}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className={`group flex items-center justify-between p-2.5 rounded border transition-all ${
+                          className={`group flex items-center justify-between px-3 py-3 rounded-lg transition-colors ${
                             isActive 
-                              ? 'bg-[#131E33] border-[#131E33] text-white shadow-xs' 
-                              : 'bg-white border-stone/20 text-soft-black hover:border-stone/40 hover:shadow-xs'
+                              ? 'bg-stone/15 text-soft-black font-semibold' 
+                              : 'text-soft-black hover:bg-stone/10 active:bg-stone/15'
                           }`}
                         >
-                          <div className="flex flex-col pr-1.5 min-w-0">
+                          <div className="flex flex-col pr-2 min-w-0">
                             <span className="text-xs font-bold uppercase tracking-wider truncate">
                               {link.name}
                             </span>
                             {link.subtitle && (
-                              <span className={`text-[10.5px] font-normal leading-tight mt-0.5 truncate ${
-                                isActive ? 'text-white/70' : 'text-dark-charcoal/60'
+                              <span className={`text-[11px] font-normal leading-tight mt-0.5 truncate ${
+                                isActive ? 'text-soft-black/75' : 'text-dark-charcoal/60'
                               }`}>
                                 {link.subtitle}
                               </span>
                             )}
                           </div>
                           
-                          <div className={`w-5 h-5 rounded flex items-center justify-center shrink-0 transition-transform group-hover:translate-x-0.5 ${
-                            isActive ? 'bg-white/15 text-white' : 'bg-stone/10 text-dark-charcoal/60'
-                          }`}>
-                            <ChevronRight className="w-3.5 h-3.5" />
-                          </div>
+                          <ChevronRight className={`w-4 h-4 shrink-0 transition-transform group-hover:translate-x-0.5 ${
+                            isActive ? 'text-soft-black' : 'text-stone-400'
+                          }`} />
                         </Link>
                       );
                     })}
@@ -431,13 +429,13 @@ const Navbar = () => {
 
                 {/* Secondary Brand & Help Links */}
                 <div>
-                  <div className="px-2 mb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-dark-charcoal/50">
+                  <div className="px-3 mb-2">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-dark-charcoal/45">
                       The Atelier
                     </span>
                   </div>
 
-                  <div className="bg-white rounded border border-stone/20 divide-y divide-stone/15 overflow-hidden">
+                  <div className="space-y-1">
                     {brandLinks.map((link) => {
                       const isActive = location.pathname === link.path;
                       return (
@@ -445,14 +443,16 @@ const Navbar = () => {
                           key={link.name}
                           to={link.path}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className={`flex items-center justify-between px-3.5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                          className={`group flex items-center justify-between px-3 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-colors ${
                             isActive
                               ? 'bg-stone/15 text-soft-black font-bold'
-                              : 'text-soft-black/85 hover:bg-stone/10 hover:text-soft-black'
+                              : 'text-soft-black/85 font-medium hover:bg-stone/10 hover:text-soft-black active:bg-stone/15'
                           }`}
                         >
                           <span>{link.name}</span>
-                          <ChevronRight className="w-3 h-3 text-stone-400" />
+                          <ChevronRight className={`w-3.5 h-3.5 shrink-0 transition-transform group-hover:translate-x-0.5 ${
+                            isActive ? 'text-soft-black' : 'text-stone-400'
+                          }`} />
                         </Link>
                       );
                     })}
@@ -461,33 +461,31 @@ const Navbar = () => {
               </div>
 
               {/* Drawer Footer with Direct WhatsApp & Compact Policies */}
-              <div className="p-3.5 border-t border-stone/20 bg-white shrink-0 space-y-2.5">
+              <div className="p-4 bg-white shrink-0 space-y-3">
                 <a
                   href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20have%20an%20inquiry."
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full flex items-center justify-center gap-2 bg-[#25D366] text-white py-2.5 px-3 rounded text-xs font-bold uppercase tracking-wider hover:brightness-105 active:scale-[0.99] transition-all shadow-xs"
+                  className="w-full flex items-center justify-center gap-2 bg-[#25D366] text-white py-3 px-4 rounded-lg text-xs font-bold uppercase tracking-wider hover:brightness-105 active:scale-[0.99] transition-all"
                 >
                   <MessageCircle className="w-4 h-4 fill-white" />
                   <span>Chat on WhatsApp</span>
                 </a>
 
-                <div className="flex items-center justify-center gap-3 text-[10.5px] text-dark-charcoal/60 font-medium pt-1">
-                  {legalLinks.map((link, idx) => (
-                    <React.Fragment key={link.path}>
-                      <Link 
-                        to={link.path} 
-                        onClick={() => setIsMobileMenuOpen(false)} 
-                        className="hover:text-soft-black transition-colors"
-                      >
-                        {link.name}
-                      </Link>
-                      {idx < legalLinks.length - 1 && <span className="text-stone-300">·</span>}
-                    </React.Fragment>
+                <div className="flex items-center justify-center gap-4 text-[11px] text-dark-charcoal/60 font-medium pt-1">
+                  {legalLinks.map((link) => (
+                    <Link 
+                      key={link.path}
+                      to={link.path} 
+                      onClick={() => setIsMobileMenuOpen(false)} 
+                      className="hover:text-soft-black transition-colors"
+                    >
+                      {link.name}
+                    </Link>
                   ))}
                 </div>
 
-                <div className="pt-2 border-t border-stone/15 flex items-center justify-between text-[10px] text-dark-charcoal/50">
+                <div className="pt-1 flex items-center justify-between text-[10px] text-dark-charcoal/45">
                   <span>100% Handcrafted Cotton</span>
                   <span>Chattogram, BD</span>
                 </div>
