@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Menu, X, Search, ChevronRight, Phone, ArrowLeft } from 'lucide-react';
+import { ShoppingCart, Menu, X, Search, ChevronRight, Phone, ArrowLeft, MessageCircle } from 'lucide-react';
 import { useCartWishlist } from '../context/CartWishlistContext';
 
 const Navbar = () => {
@@ -50,18 +50,48 @@ const Navbar = () => {
     { name: 'Contact', path: '/contact' }
   ];
 
-  const allDrawerLinks = [
-    { name: 'Home', path: '/', badge: null },
-    { name: 'Products Gallery', path: '/products', badge: 'All 5 Colors' },
-    { name: 'Sample Order', path: '/sample-order', badge: 'Global Delivery' },
-    { name: 'Retail (Bangladesh)', path: '/retail', badge: 'Cash on Delivery' },
-    { name: 'Wholesale & OEM', path: '/sample-wholesale', badge: 'B2B Manufacturing' },
-    { name: 'Our Story', path: '/about', badge: null },
-    { name: 'FAQs', path: '/faq', badge: null },
-    { name: 'Contact Us', path: '/contact', badge: null },
-    { name: 'Terms & Conditions', path: '/terms', badge: null },
-    { name: 'Privacy Policy', path: '/privacy', badge: null },
-    { name: 'Refund Policy', path: '/refund', badge: null }
+  const shopLinks = [
+    { 
+      name: 'Retail Store', 
+      path: '/retail', 
+      subtitle: 'Cash on delivery nationwide',
+      badge: 'COD Available',
+      badgeColor: 'bg-emerald-500/10 text-emerald-700 border-emerald-500/20'
+    },
+    { 
+      name: 'Products Gallery', 
+      path: '/products', 
+      subtitle: 'Adult, Women & Kids collections',
+      badge: 'All 3 Lines',
+      badgeColor: 'bg-stone/15 text-dark-charcoal/80 border-stone/20'
+    },
+    { 
+      name: 'Sample Orders', 
+      path: '/sample-order', 
+      subtitle: 'Worldwide air express for brands',
+      badge: 'Global Dispatch',
+      badgeColor: 'bg-stone/15 text-dark-charcoal/80 border-stone/20'
+    },
+    { 
+      name: 'Wholesale & OEM', 
+      path: '/sample-wholesale', 
+      subtitle: '100 pcs base MOQ · Private label',
+      badge: 'B2B Bulk',
+      badgeColor: 'bg-terracotta/10 text-terracotta border-terracotta/25'
+    },
+  ];
+
+  const brandLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Our Story', path: '/about' },
+    { name: 'FAQs', path: '/faq' },
+    { name: 'Contact Support', path: '/contact' }
+  ];
+
+  const legalLinks = [
+    { name: 'Terms', path: '/terms' },
+    { name: 'Privacy', path: '/privacy' },
+    { name: 'Refund Policy', path: '/refund' }
   ];
 
   const handleSearchSubmit = (e) => {
@@ -329,72 +359,157 @@ const Navbar = () => {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 26, stiffness: 240 }}
-              className="relative w-[85%] max-w-sm bg-cream h-full shadow-2xl z-10 flex flex-col justify-between overflow-y-auto"
+              className="relative w-[86%] max-w-[340px] bg-cream h-full shadow-2xl z-10 flex flex-col justify-between overflow-hidden"
             >
-              <div>
-                {/* Drawer Header */}
-                <div className="p-4 border-b border-stone/20 flex items-center justify-between bg-white/50">
-                  <div className="flex items-center gap-2">
-                    <img 
-                      src="/logo_black.png" 
-                      alt="AST Logo" 
-                      className="h-7 w-auto object-contain"
-                    />
-                    <span className="font-serif font-bold text-soft-black text-sm tracking-wide">
+              {/* Drawer Top Branding Header */}
+              <div className="p-4 border-b border-stone/20 flex items-center justify-between bg-white shrink-0">
+                <div className="flex items-center gap-2.5">
+                  <img 
+                    src="/logo_black.png" 
+                    alt="AST Logo" 
+                    className="h-7 w-auto object-contain"
+                  />
+                  <div className="flex flex-col">
+                    <span className="font-serif font-bold text-soft-black text-sm tracking-wide leading-none">
                       AST Macramé
+                    </span>
+                    <span className="text-[9.5px] uppercase tracking-[0.16em] text-terracotta font-semibold mt-0.5">
+                      Artisan Woven Studio
+                    </span>
+                  </div>
+                </div>
+
+                <button 
+                  type="button"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-8 h-8 rounded-full bg-stone/10 hover:bg-stone/20 text-soft-black flex items-center justify-center transition-colors cursor-pointer"
+                  aria-label="Close Menu"
+                >
+                  <X className="w-4 h-4 stroke-[2]" />
+                </button>
+              </div>
+
+              {/* Scrollable Navigation Body */}
+              <div className="px-3 py-4 space-y-4 overflow-y-auto flex-1">
+                {/* Primary Commerce Links */}
+                <div>
+                  <div className="px-2 mb-2">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-dark-charcoal/50">
+                      Collections & Ordering
                     </span>
                   </div>
 
-                  <button 
-                    type="button"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="p-1.5 text-soft-black/60 hover:text-soft-black rounded hover:bg-stone/10 transition-colors cursor-pointer"
-                    aria-label="Close Menu"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
+                  <div className="space-y-1.5">
+                    {shopLinks.map((link) => {
+                      const isActive = location.pathname === link.path;
+                      return (
+                        <Link
+                          key={link.name}
+                          to={link.path}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className={`group flex items-center justify-between p-2.5 rounded border transition-all ${
+                            isActive 
+                              ? 'bg-[#131E33] border-[#131E33] text-white shadow-xs' 
+                              : 'bg-white border-stone/20 text-soft-black hover:border-stone/40 hover:shadow-xs'
+                          }`}
+                        >
+                          <div className="flex flex-col pr-1.5 min-w-0">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-xs font-bold uppercase tracking-wider truncate">
+                                {link.name}
+                              </span>
+                              {link.badge && (
+                                <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border whitespace-nowrap leading-none ${
+                                  isActive
+                                    ? 'bg-white/20 text-white border-white/25'
+                                    : link.badgeColor || 'bg-stone/15 text-dark-charcoal/80 border-stone/20'
+                                }`}>
+                                  {link.badge}
+                                </span>
+                              )}
+                            </div>
+                            {link.subtitle && (
+                              <span className={`text-[10px] font-normal leading-tight mt-0.5 truncate ${
+                                isActive ? 'text-white/70' : 'text-dark-charcoal/60'
+                              }`}>
+                                {link.subtitle}
+                              </span>
+                            )}
+                          </div>
+                          
+                          <div className={`w-5 h-5 rounded flex items-center justify-center shrink-0 transition-transform group-hover:translate-x-0.5 ${
+                            isActive ? 'bg-white/15 text-white' : 'bg-stone/10 text-dark-charcoal/60'
+                          }`}>
+                            <ChevronRight className="w-3.5 h-3.5" />
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
 
-                {/* Navigation Links List */}
-                <div className="py-2 px-3 space-y-1">
-                  {allDrawerLinks.map((link) => {
-                    const isActive = location.pathname === link.path;
-                    return (
-                      <Link
-                        key={link.name}
-                        to={link.path}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className={`flex items-center justify-between px-3.5 py-2.5 rounded text-xs font-bold uppercase tracking-wider transition-all ${
-                          isActive 
-                            ? 'bg-[#131E33] text-white shadow-xs' 
-                            : 'text-soft-black/85 hover:bg-stone/10 hover:text-soft-black'
-                        }`}
-                      >
-                        <span>{link.name}</span>
-                        <div className="flex items-center gap-2">
-                          {link.badge && (
-                            <span className={`text-[9px] font-semibold px-2 py-0.5 rounded-full ${
-                              isActive ? 'bg-white/20 text-white' : 'bg-stone/15 text-dark-charcoal/70'
-                            }`}>
-                              {link.badge}
-                            </span>
-                          )}
-                          <ChevronRight className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-stone-400'}`} />
-                        </div>
-                      </Link>
-                    );
-                  })}
+                {/* Secondary Brand & Help Links */}
+                <div>
+                  <div className="px-2 mb-2">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-dark-charcoal/50">
+                      The Atelier
+                    </span>
+                  </div>
+
+                  <div className="bg-white rounded border border-stone/20 divide-y divide-stone/15 overflow-hidden">
+                    {brandLinks.map((link) => {
+                      const isActive = location.pathname === link.path;
+                      return (
+                        <Link
+                          key={link.name}
+                          to={link.path}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className={`flex items-center justify-between px-3.5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                            isActive
+                              ? 'bg-stone/15 text-soft-black font-bold'
+                              : 'text-soft-black/85 hover:bg-stone/10 hover:text-soft-black'
+                          }`}
+                        >
+                          <span>{link.name}</span>
+                          <ChevronRight className="w-3 h-3 text-stone-400" />
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
 
-              {/* Drawer Footer info */}
-              <div className="p-4 border-t border-stone/20 bg-white/40">
-                <p className="text-[11px] text-dark-charcoal/60 text-center font-medium">
-                  Premium Handmade Macramé Belts
-                </p>
-                <p className="text-[10px] text-dark-charcoal/40 text-center mt-1">
-                  Chattogram, Bangladesh
-                </p>
+              {/* Drawer Footer with Direct WhatsApp & Compact Policies */}
+              <div className="p-3.5 border-t border-stone/20 bg-white shrink-0 space-y-2.5">
+                <a
+                  href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20have%20an%20inquiry."
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full flex items-center justify-center gap-2 bg-[#25D366] text-white py-2.5 px-3 rounded text-xs font-bold uppercase tracking-wider hover:brightness-105 active:scale-[0.99] transition-all shadow-xs"
+                >
+                  <MessageCircle className="w-4 h-4 fill-white" />
+                  <span>Chat on WhatsApp</span>
+                </a>
+
+                <div className="flex items-center justify-center gap-3 text-[10.5px] text-dark-charcoal/60 font-medium pt-1">
+                  {legalLinks.map((link, idx) => (
+                    <React.Fragment key={link.path}>
+                      <Link 
+                        to={link.path} 
+                        onClick={() => setIsMobileMenuOpen(false)} 
+                        className="hover:text-soft-black transition-colors"
+                      >
+                        {link.name}
+                      </Link>
+                      {idx < legalLinks.length - 1 && <span className="text-stone-300">·</span>}
+                    </React.Fragment>
+                  ))}
+                </div>
+
+                <div className="pt-2 border-t border-stone/15 flex items-center justify-between text-[10px] text-dark-charcoal/50">
+                  <span>100% Handcrafted Cotton</span>
+                  <span>Chattogram, BD</span>
+                </div>
               </div>
             </motion.div>
           </div>
