@@ -74,7 +74,7 @@ const Navbar = () => {
     }
   };
 
-  const navClass = `fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-300 top-0 sm:top-2 md:top-2.5 w-full sm:w-[95%] md:w-[92%] max-w-6xl bg-white sm:bg-[#FAF7F2] border-b sm:border border-stone/20 rounded-none sm:rounded-[4px] overflow-hidden ${
+  const navClass = `fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-300 top-0 sm:top-2 md:top-2.5 w-full sm:w-[95%] md:w-[92%] max-w-6xl bg-white sm:bg-white/95 sm:backdrop-blur-md border-b sm:border border-stone/20 rounded-none sm:rounded-[4px] overflow-hidden ${
     isScrolled 
       ? 'shadow-md sm:shadow-lg' 
       : 'shadow-xs sm:shadow-md'
