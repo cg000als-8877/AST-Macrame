@@ -54,30 +54,22 @@ const Navbar = () => {
     { 
       name: 'Retail Store', 
       path: '/retail', 
-      subtitle: 'Cash on delivery nationwide',
-      badge: 'COD Available',
-      badgeColor: 'bg-emerald-500/10 text-emerald-700 border-emerald-500/20'
+      subtitle: 'Cash on delivery nationwide'
     },
     { 
       name: 'Products Gallery', 
       path: '/products', 
-      subtitle: 'Adult, Women & Kids collections',
-      badge: 'All 3 Lines',
-      badgeColor: 'bg-stone/15 text-dark-charcoal/80 border-stone/20'
+      subtitle: 'Adult, Women & Kids collections'
     },
     { 
       name: 'Sample Orders', 
       path: '/sample-order', 
-      subtitle: 'Worldwide air express for brands',
-      badge: 'Global Dispatch',
-      badgeColor: 'bg-stone/15 text-dark-charcoal/80 border-stone/20'
+      subtitle: 'Worldwide air express for brands'
     },
     { 
       name: 'Wholesale & OEM', 
       path: '/sample-wholesale', 
-      subtitle: '100 pcs base MOQ · Private label',
-      badge: 'B2B Bulk',
-      badgeColor: 'bg-terracotta/10 text-terracotta border-terracotta/25'
+      subtitle: '100 pcs base MOQ · Private label'
     },
   ];
 
@@ -414,22 +406,11 @@ const Navbar = () => {
                           }`}
                         >
                           <div className="flex flex-col pr-1.5 min-w-0">
-                            <div className="flex items-center gap-1.5">
-                              <span className="text-xs font-bold uppercase tracking-wider truncate">
-                                {link.name}
-                              </span>
-                              {link.badge && (
-                                <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border whitespace-nowrap leading-none ${
-                                  isActive
-                                    ? 'bg-white/20 text-white border-white/25'
-                                    : link.badgeColor || 'bg-stone/15 text-dark-charcoal/80 border-stone/20'
-                                }`}>
-                                  {link.badge}
-                                </span>
-                              )}
-                            </div>
+                            <span className="text-xs font-bold uppercase tracking-wider truncate">
+                              {link.name}
+                            </span>
                             {link.subtitle && (
-                              <span className={`text-[10px] font-normal leading-tight mt-0.5 truncate ${
+                              <span className={`text-[10.5px] font-normal leading-tight mt-0.5 truncate ${
                                 isActive ? 'text-white/70' : 'text-dark-charcoal/60'
                               }`}>
                                 {link.subtitle}

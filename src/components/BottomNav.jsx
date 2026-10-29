@@ -64,7 +64,14 @@ const BottomNav = () => {
   const cartLabelClass = isOverFooter ? 'text-[#131E33]' : 'text-white';
 
   return (
-    <div className="block sm:hidden fixed bottom-3 inset-x-0 mx-auto w-[96%] max-w-[440px] z-50 pointer-events-auto select-none transition-all duration-300">
+    <>
+      {/* Progressive Gradient Blur Under Mobile Bottom Nav */}
+      <div 
+        aria-hidden="true" 
+        className="mobile-bottom-nav-gradient-blur"
+      />
+
+      <div className="block sm:hidden fixed bottom-3 inset-x-0 mx-auto w-[96%] max-w-[440px] z-50 pointer-events-auto select-none transition-all duration-300">
       <div className="relative w-full h-[56px] flex items-center justify-center">
         
         {/* Pill Container SVG with adaptive background fill */}
@@ -167,6 +174,7 @@ const BottomNav = () => {
 
       </div>
     </div>
+    </>
   );
 };
 

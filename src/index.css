@@ -303,3 +303,41 @@ div[class*="bg-white"][class*="hover:border"]:hover {
   border-color: rgba(184, 176, 165, 0.28) !important;
 }
 
+/* ================= PROGRESSIVE MOBILE BOTTOM NAV GRADIENT BLUR ================= */
+.mobile-bottom-nav-gradient-blur {
+  pointer-events: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 115px;
+  z-index: 40; /* Sits directly beneath BottomNav z-50 */
+  display: block;
+  background: transparent !important;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 50%,
+    rgba(0, 0, 0, 0.65) 75%,
+    rgba(0, 0, 0, 0.2) 90%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 50%,
+    rgba(0, 0, 0, 0.65) 75%,
+    rgba(0, 0, 0, 0.2) 90%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+@media (min-width: 640px) {
+  .mobile-bottom-nav-gradient-blur {
+    display: none !important;
+  }
+}
+
+

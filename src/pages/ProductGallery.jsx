@@ -63,14 +63,14 @@ const ProductGallery = () => {
         </p>
 
         {/* Category Pill Filters */}
-        <div className="mt-5 flex items-center justify-start sm:justify-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar whitespace-nowrap px-1 pb-1 max-w-full">
+        <div className="mt-4 sm:mt-5 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-2 max-w-full">
           <button
             type="button"
             onClick={() => setSelectedCategory('all')}
-            className={`px-2.5 sm:px-4 py-1 sm:py-2 rounded text-[10px] sm:text-xs font-normal uppercase tracking-wider transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+            className={`px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
               selectedCategory === 'all'
                 ? 'bg-soft-black text-white shadow-xs'
-                : 'bg-white border border-stone/20 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black'
+                : 'bg-white border border-stone/25 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black shadow-2xs'
             }`}
           >
             All Products ({ALL_GALLERY_ITEMS.length})
@@ -78,10 +78,10 @@ const ProductGallery = () => {
           <button
             type="button"
             onClick={() => setSelectedCategory('adult')}
-            className={`px-2.5 sm:px-4 py-1 sm:py-2 rounded text-[10px] sm:text-xs font-normal uppercase tracking-wider transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+            className={`px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
               selectedCategory === 'adult'
                 ? 'bg-soft-black text-white shadow-xs'
-                : 'bg-white border border-stone/20 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black'
+                : 'bg-white border border-stone/25 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black shadow-2xs'
             }`}
           >
             Adult Unisex ({PRODUCTS.adult.colors.length})
@@ -89,10 +89,10 @@ const ProductGallery = () => {
           <button
             type="button"
             onClick={() => setSelectedCategory('women')}
-            className={`px-2.5 sm:px-4 py-1 sm:py-2 rounded text-[10px] sm:text-xs font-normal uppercase tracking-wider transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+            className={`px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
               selectedCategory === 'women'
                 ? 'bg-soft-black text-white shadow-xs'
-                : 'bg-white border border-stone/20 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black'
+                : 'bg-white border border-stone/25 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black shadow-2xs'
             }`}
           >
             Women's Waist Belt ({PRODUCTS.women.colors.length})
@@ -100,10 +100,10 @@ const ProductGallery = () => {
           <button
             type="button"
             onClick={() => setSelectedCategory('kids')}
-            className={`px-2.5 sm:px-4 py-1 sm:py-2 rounded text-[10px] sm:text-xs font-normal uppercase tracking-wider transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+            className={`px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
               selectedCategory === 'kids'
                 ? 'bg-soft-black text-white shadow-xs'
-                : 'bg-white border border-stone/20 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black'
+                : 'bg-white border border-stone/25 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black shadow-2xs'
             }`}
           >
             Kids Collection ({PRODUCTS.kids.colors.length})
