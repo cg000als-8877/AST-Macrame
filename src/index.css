@@ -310,28 +310,14 @@ div[class*="bg-white"][class*="hover:border"]:hover {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 115px;
-  z-index: 40; /* Sits directly beneath BottomNav z-50 */
+  height: 78px;
+  z-index: 40;
   display: block;
   background: transparent !important;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  mask-image: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 1) 50%,
-    rgba(0, 0, 0, 0.65) 75%,
-    rgba(0, 0, 0, 0.2) 90%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 1) 50%,
-    rgba(0, 0, 0, 0.65) 75%,
-    rgba(0, 0, 0, 0.2) 90%,
-    rgba(0, 0, 0, 0) 100%
-  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 14px, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 14px, black 100%);
 }
 
 @media (min-width: 640px) {
