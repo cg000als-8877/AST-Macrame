@@ -8,7 +8,7 @@ const Footer = () => {
 
   return (
     <footer id="site-footer" className={`bg-[#131E33] text-cream pt-16 pb-28 sm:pb-8 ${isSeamlessPage ? 'border-t border-white/15 sm:border-t-0' : 'border-t border-white/15'}`}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-12">
         <div className="flex flex-col lg:grid lg:grid-cols-4 lg:gap-12 mb-0 md:mb-12 gap-6">
           
           <div className="lg:col-span-1 mb-12 lg:mb-0 flex flex-row items-center gap-4 lg:flex-col lg:items-start lg:gap-0">
@@ -24,33 +24,33 @@ const Footer = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-3 gap-x-2 gap-y-10 lg:grid-cols-4 lg:gap-8 lg:col-span-3">
+          <div className="grid grid-cols-[1fr_1.25fr_1fr] sm:grid-cols-3 lg:grid-cols-4 gap-x-1 sm:gap-x-4 lg:gap-8 lg:col-span-3">
             
-            <div className="flex flex-col items-center text-center border-r border-cream/10 pr-2 lg:border-none lg:pr-0 lg:items-start lg:text-left">
-              <h4 className="font-sans text-[11.5px] md:text-[13.5px] font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Company</h4>
+            <div className="flex flex-col items-center text-center border-r border-cream/15 pr-1.5 sm:pr-4 lg:border-none lg:pr-0 lg:items-start lg:text-left">
+              <h4 className="font-sans text-[11px] md:text-[13.5px] font-bold tracking-[0.12em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Company</h4>
               <ul className="flex flex-col space-y-2 md:space-y-3 items-center lg:items-start">
-                <li><Link to="/about" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Our Story</Link></li>
-                <li><Link to="/faq" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">FAQs</Link></li>
-                <li><Link to="/contact" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Contact</Link></li>
+                <li><Link to="/about" className="font-sans text-[11.5px] sm:text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Our Story</Link></li>
+                <li><Link to="/faq" className="font-sans text-[11.5px] sm:text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">FAQs</Link></li>
+                <li><Link to="/contact" className="font-sans text-[11.5px] sm:text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Contact</Link></li>
               </ul>
             </div>
             
-            <div className="flex flex-col items-center text-center border-r border-cream/10 px-2 lg:border-none lg:px-0 lg:items-start lg:text-left">
-              <h4 className="font-sans text-[11.5px] md:text-[13.5px] font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Services</h4>
+            <div className="flex flex-col items-center text-center border-r border-cream/15 px-1.5 sm:px-4 lg:border-none lg:px-0 lg:items-start lg:text-left">
+              <h4 className="font-sans text-[11px] md:text-[13.5px] font-bold tracking-[0.12em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Services</h4>
               <ul className="flex flex-col space-y-2 md:space-y-3 items-center lg:items-start">
-                <li><Link to="/products" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Products Gallery</Link></li>
-                <li><Link to="/retail" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Retail</Link></li>
-                <li><Link to="/sample-order" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Sample Order</Link></li>
-                <li><Link to="/sample-wholesale" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Wholesale<span className="hidden lg:inline"> Inquiry</span></Link></li>
+                <li><Link to="/products" className="font-sans text-[11.5px] sm:text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Products<span className="hidden min-[380px]:inline"> Gallery</span></Link></li>
+                <li><Link to="/retail" className="font-sans text-[11.5px] sm:text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Retail</Link></li>
+                <li><Link to="/sample-order" className="font-sans text-[11.5px] sm:text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Sample Order</Link></li>
+                <li><Link to="/sample-wholesale" className="font-sans text-[11.5px] sm:text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Wholesale<span className="hidden lg:inline"> Inquiry</span></Link></li>
               </ul>
             </div>
 
-            <div className="flex flex-col items-center text-center pl-2 lg:pl-0 lg:items-start lg:text-left">
-              <h4 className="font-sans text-[11.5px] md:text-[13.5px] font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Legal</h4>
+            <div className="flex flex-col items-center text-center pl-1.5 sm:pl-4 lg:pl-0 lg:items-start lg:text-left">
+              <h4 className="font-sans text-[11px] md:text-[13.5px] font-bold tracking-[0.12em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 text-cream/40 truncate">Legal</h4>
               <ul className="flex flex-col space-y-2 md:space-y-3 items-center lg:items-start">
-                <li><Link to="/terms" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Terms<span className="hidden lg:inline"> & Conditions</span></Link></li>
-                <li><Link to="/privacy" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Privacy<span className="hidden lg:inline"> Policy</span></Link></li>
-                <li><Link to="/refund" className="font-sans text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Refund<span className="hidden lg:inline"> Policy</span></Link></li>
+                <li><Link to="/terms" className="font-sans text-[11.5px] sm:text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Terms<span className="hidden lg:inline"> & Conditions</span></Link></li>
+                <li><Link to="/privacy" className="font-sans text-[11.5px] sm:text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Privacy<span className="hidden lg:inline"> Policy</span></Link></li>
+                <li><Link to="/refund" className="font-sans text-[11.5px] sm:text-[12.5px] md:text-[14.5px] text-cream/80 hover:text-warm-sand transition-colors block truncate">Refund<span className="hidden lg:inline"> Policy</span></Link></li>
               </ul>
             </div>
             
