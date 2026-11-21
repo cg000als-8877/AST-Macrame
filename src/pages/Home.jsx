@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 
 import mobileHeroImage from '../assets/mobile_hero.jpg';
+import mobileHeroWebp from '../assets/mobile_hero.webp';
 import comparisonDetailImg from '../assets/editorial/comparison_detail.jpg';
 import craftsmanshipDetailImg from '../assets/editorial/craftsmanship_detail.jpg';
 import craftsmanshipDetailMobileImg from '../assets/editorial/craftsmanship_detail_mobile.jpg';
@@ -174,16 +175,18 @@ const Home = () => {
       {/* HOME — SECTION 1: HERO SECTION */}
       <section className="relative w-full overflow-hidden bg-soft-black">
         <div className="w-full aspect-[2/3] md:aspect-[21/9] md:h-auto overflow-hidden bg-stone/20">
-          <img 
-            src="/hero.jpg" 
-            alt="AST Handmade Macramé Belts" 
-            className="hidden md:block w-full h-full object-cover object-center scale-[1.05] translate-y-[-2%]"
-          />
-          <img 
-            src={mobileHeroImage} 
-            alt="AST Handmade Macramé Belts Mobile" 
-            className="block md:hidden w-full h-full object-cover object-center"
-          />
+          <picture className="w-full h-full">
+            <source media="(max-width: 767px)" type="image/webp" srcSet={mobileHeroWebp} />
+            <source media="(max-width: 767px)" type="image/jpeg" srcSet={mobileHeroImage} />
+            <source media="(min-width: 768px)" type="image/webp" srcSet="/hero.webp" />
+            <img 
+              src="/hero.jpg" 
+              alt="AST Handmade Macramé Belts" 
+              fetchPriority="high"
+              decoding="async"
+              className="w-full h-full object-cover object-center scale-[1.05] translate-y-[-2%]"
+            />
+          </picture>
         </div>
         <div className="absolute inset-0 bg-soft-black/45 pointer-events-none" />
         
@@ -422,6 +425,7 @@ const Home = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.35 }}
+                    decoding="async"
                     className="w-full h-full object-cover object-center"
                   />
                 </AnimatePresence>
@@ -503,6 +507,7 @@ const Home = () => {
             alt="Detail is the Product - Macrame Close-up Knot and Brass Hardware" 
             className="w-full h-full object-cover object-center" 
             loading="lazy"
+            decoding="async"
           />
         </picture>
         
@@ -703,6 +708,7 @@ const Home = () => {
                   alt="Wholesale macrame belts production" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" 
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute top-2 left-2 sm:top-3 sm:left-3 w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg bg-soft-black/80 backdrop-blur-sm text-cream flex items-center justify-center">
                   <Factory className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -728,6 +734,7 @@ const Home = () => {
                   alt="Private label macrame belt custom branding" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" 
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute top-2 left-2 sm:top-3 sm:left-3 w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg bg-soft-black/80 backdrop-blur-sm text-cream flex items-center justify-center">
                   <Tag className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -753,6 +760,7 @@ const Home = () => {
                   alt="Custom colours and Pantone yarn development" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" 
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute top-2 left-2 sm:top-3 sm:left-3 w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg bg-soft-black/80 backdrop-blur-sm text-cream flex items-center justify-center">
                   <Palette className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -778,6 +786,7 @@ const Home = () => {
                   alt="Repeat orders and batch production quality control" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" 
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute top-2 left-2 sm:top-3 sm:left-3 w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg bg-soft-black/80 backdrop-blur-sm text-cream flex items-center justify-center">
                   <RefreshCw className="w-3 h-3 sm:w-4 sm:h-4" />

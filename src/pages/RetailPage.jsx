@@ -497,6 +497,7 @@ const RetailPage = () => {
                         className="w-full h-full object-cover object-center cursor-zoom-in select-none pointer-events-auto"
                         draggable="false"
                         loading={idx < 4 ? "eager" : "lazy"}
+                        decoding="async"
                       />
                     </div>
                   ))}
@@ -545,6 +546,8 @@ const RetailPage = () => {
                     alt={`Macrame Belt ${selectedColor} view ${idx + 1}`} 
                     onClick={() => setLightboxImage(img)}
                     className="absolute inset-0 w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700 cursor-zoom-in"
+                    loading={idx < 2 ? "eager" : "lazy"}
+                    decoding="async"
                   />
                   {idx === 0 && (
                     <div className="absolute bottom-3 left-3 pointer-events-none flex items-center gap-1.5 bg-black/50 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded-full font-medium tracking-wider shadow-sm z-10 opacity-75 group-hover:opacity-100 transition-opacity">
@@ -1046,6 +1049,8 @@ const RetailPage = () => {
                     src={comparisonImg} 
                     alt="Traditional Belt vs AST Macramé Comparison" 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute top-3 left-3 bg-red-600 text-white text-[9.5px] sm:text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg sm:rounded-none shadow-none">
                     ❌ Traditional Belt
@@ -1272,6 +1277,8 @@ const RetailPage = () => {
                   src={unboxingImg} 
                   alt="AST Macramé Premium Unboxing & Quality Guarantee" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute bottom-3 left-3 bg-emerald-800/90 text-white text-[9.5px] sm:text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg sm:rounded-none shadow-none">
                   100% Risk-Free Delivery

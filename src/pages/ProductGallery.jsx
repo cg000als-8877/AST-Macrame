@@ -159,7 +159,8 @@ const ProductGallery = () => {
                       src={item.displayImage || item.images[0]}
                       alt={item.productTitle}
                       className="w-full h-full object-contain p-2.5 sm:p-3 pointer-events-none group-hover:scale-105 transition-transform duration-500 drop-shadow-[0_8px_16px_rgba(0,0,0,0.10)]"
-                      loading="lazy"
+                      loading={idx < 4 ? "eager" : "lazy"}
+                      decoding="async"
                     />
                   </div>
 

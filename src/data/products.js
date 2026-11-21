@@ -37,16 +37,16 @@ import k5 from '../assets/products/Khaki/5.webp';
 import k6 from '../assets/products/Khaki/6.webp';
 
 // Isolated Display Images for Products Gallery (#F5F5F5 background)
-import b1Clean from '../assets/products/Black/1_clean.png';
-import n1Clean from '../assets/products/Navy/1_clean.png';
-import br1Clean from '../assets/products/Brown/1_clean.png';
-import m1Clean from '../assets/products/Maroon/1_clean.png';
-import k1Clean from '../assets/products/Khaki/1_clean.png';
+import b1Clean from '../assets/products/Black/1_clean.webp';
+import n1Clean from '../assets/products/Navy/1_clean.webp';
+import br1Clean from '../assets/products/Brown/1_clean.webp';
+import m1Clean from '../assets/products/Maroon/1_clean.webp';
+import k1Clean from '../assets/products/Khaki/1_clean.webp';
 
-import kidsNeonClean from '../assets/products/Kids/Neon/1_clean.png';
-import kidsNavyClean from '../assets/products/Kids/Navy/1_clean.png';
-import kidsRedClean from '../assets/products/Kids/Red/1_clean.png';
-import kidsBlackClean from '../assets/products/Kids/Black/1_clean.png';
+import kidsNeonClean from '../assets/products/Kids/Neon/1_clean.webp';
+import kidsNavyClean from '../assets/products/Kids/Navy/1_clean.webp';
+import kidsRedClean from '../assets/products/Kids/Red/1_clean.webp';
+import kidsBlackClean from '../assets/products/Kids/Black/1_clean.webp';
 
 // Women's Waist Belt Images (Original Studio Photos & Clean Display Images)
 import wp1 from '../assets/products/Women/Pink/1.webp';
@@ -55,13 +55,13 @@ import wp3 from '../assets/products/Women/Pink/3.webp';
 import wp4 from '../assets/products/Women/Pink/4.webp';
 import wp5 from '../assets/products/Women/Pink/5.webp';
 import wp6 from '../assets/products/Women/Pink/6.webp';
-import womenPinkClean from '../assets/products/Women/Pink/1_clean.png';
+import womenPinkClean from '../assets/products/Women/Pink/1_clean.webp';
 
 import wpu1 from '../assets/products/Women/Purple/1.webp';
 import wpu2 from '../assets/products/Women/Purple/2.webp';
 import wpu3 from '../assets/products/Women/Purple/3.webp';
 import wpu4 from '../assets/products/Women/Purple/4.webp';
-import womenPurpleClean from '../assets/products/Women/Purple/1_clean.png';
+import womenPurpleClean from '../assets/products/Women/Purple/1_clean.webp';
 
 // Kids Images (served from public folder for order pages)
 const kidsNeon = [
