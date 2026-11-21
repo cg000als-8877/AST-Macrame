@@ -63,50 +63,54 @@ const ProductGallery = () => {
         </p>
 
         {/* Category Pill Filters */}
-        <div className="mt-4 sm:mt-5 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-2 max-w-full">
+        <div className="mt-3.5 sm:mt-5 flex items-center justify-center gap-1 sm:gap-2 px-1 sm:px-2 max-w-full overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <button
             type="button"
             onClick={() => setSelectedCategory('all')}
-            className={`px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
+            className={`px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[9.5px] sm:text-xs font-semibold uppercase tracking-wide sm:tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 ${
               selectedCategory === 'all'
                 ? 'bg-soft-black text-white shadow-xs'
                 : 'bg-white border border-stone/25 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black shadow-2xs'
             }`}
           >
-            All Products ({ALL_GALLERY_ITEMS.length})
+            <span className="sm:hidden">All ({ALL_GALLERY_ITEMS.length})</span>
+            <span className="hidden sm:inline">All Products ({ALL_GALLERY_ITEMS.length})</span>
           </button>
           <button
             type="button"
             onClick={() => setSelectedCategory('adult')}
-            className={`px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
+            className={`px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[9.5px] sm:text-xs font-semibold uppercase tracking-wide sm:tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 ${
               selectedCategory === 'adult'
                 ? 'bg-soft-black text-white shadow-xs'
                 : 'bg-white border border-stone/25 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black shadow-2xs'
             }`}
           >
-            Adult Unisex ({PRODUCTS.adult.colors.length})
+            <span className="sm:hidden">Adult ({PRODUCTS.adult.colors.length})</span>
+            <span className="hidden sm:inline">Adult Unisex ({PRODUCTS.adult.colors.length})</span>
           </button>
           <button
             type="button"
             onClick={() => setSelectedCategory('women')}
-            className={`px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
+            className={`px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[9.5px] sm:text-xs font-semibold uppercase tracking-wide sm:tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 ${
               selectedCategory === 'women'
                 ? 'bg-soft-black text-white shadow-xs'
                 : 'bg-white border border-stone/25 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black shadow-2xs'
             }`}
           >
-            Women's Waist Belt ({PRODUCTS.women.colors.length})
+            <span className="sm:hidden">Women ({PRODUCTS.women.colors.length})</span>
+            <span className="hidden sm:inline">Women's Waist Belt ({PRODUCTS.women.colors.length})</span>
           </button>
           <button
             type="button"
             onClick={() => setSelectedCategory('kids')}
-            className={`px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
+            className={`px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[9.5px] sm:text-xs font-semibold uppercase tracking-wide sm:tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 ${
               selectedCategory === 'kids'
                 ? 'bg-soft-black text-white shadow-xs'
                 : 'bg-white border border-stone/25 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black shadow-2xs'
             }`}
           >
-            Kids Collection ({PRODUCTS.kids.colors.length})
+            <span className="sm:hidden">Kids ({PRODUCTS.kids.colors.length})</span>
+            <span className="hidden sm:inline">Kids Collection ({PRODUCTS.kids.colors.length})</span>
           </button>
         </div>
 
