@@ -5,11 +5,8 @@ import {
   Package, 
   ShieldCheck, 
   Palette, 
-  RefreshCw, 
   Check, 
   ChevronRight,
-  Tag,
-  Factory,
   Sparkles,
   MessageCircle,
   Mail,
@@ -710,9 +707,6 @@ const Home = () => {
                   loading="lazy"
                   decoding="async"
                 />
-                <div className="absolute top-2 left-2 sm:top-3 sm:left-3 w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg bg-soft-black/80 backdrop-blur-sm text-cream flex items-center justify-center">
-                  <Factory className="w-3 h-3 sm:w-4 sm:h-4" />
-                </div>
               </div>
               <div className="p-3 sm:p-6 flex flex-col flex-grow justify-between">
                 <div>
@@ -736,9 +730,6 @@ const Home = () => {
                   loading="lazy"
                   decoding="async"
                 />
-                <div className="absolute top-2 left-2 sm:top-3 sm:left-3 w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg bg-soft-black/80 backdrop-blur-sm text-cream flex items-center justify-center">
-                  <Tag className="w-3 h-3 sm:w-4 sm:h-4" />
-                </div>
               </div>
               <div className="p-3 sm:p-6 flex flex-col flex-grow justify-between">
                 <div>
@@ -762,9 +753,6 @@ const Home = () => {
                   loading="lazy"
                   decoding="async"
                 />
-                <div className="absolute top-2 left-2 sm:top-3 sm:left-3 w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg bg-soft-black/80 backdrop-blur-sm text-cream flex items-center justify-center">
-                  <Palette className="w-3 h-3 sm:w-4 sm:h-4" />
-                </div>
               </div>
               <div className="p-3 sm:p-6 flex flex-col flex-grow justify-between">
                 <div>
@@ -788,9 +776,6 @@ const Home = () => {
                   loading="lazy"
                   decoding="async"
                 />
-                <div className="absolute top-2 left-2 sm:top-3 sm:left-3 w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg bg-soft-black/80 backdrop-blur-sm text-cream flex items-center justify-center">
-                  <RefreshCw className="w-3 h-3 sm:w-4 sm:h-4" />
-                </div>
               </div>
               <div className="p-3 sm:p-6 flex flex-col flex-grow justify-between">
                 <div>
