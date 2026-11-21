@@ -936,21 +936,21 @@ const Home = () => {
             Request a sample or discuss your wholesale requirement with our production team.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center max-w-sm sm:max-w-none mx-auto w-full">
             <Link 
               to="/sample-order" 
-              className="relative overflow-hidden group w-full sm:w-auto bg-cream text-soft-black px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-warm-sand hover:shadow-2xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 shadow-xl text-center"
+              className="relative overflow-hidden group w-full sm:w-auto bg-cream text-soft-black px-6 sm:px-10 py-3.5 sm:py-4.5 text-xs font-bold uppercase tracking-[0.16em] sm:tracking-[0.2em] rounded hover:bg-warm-sand hover:shadow-2xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 shadow-xl text-center whitespace-nowrap"
             >
               <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
-              <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">REQUEST A SAMPLE</span>
+              <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.22em]">REQUEST A SAMPLE</span>
             </Link>
             
             <Link 
               to="/sample-wholesale" 
-              className="relative overflow-hidden group w-full sm:w-auto bg-transparent border border-cream/40 text-cream px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:border-cream hover:text-soft-black hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 text-center"
+              className="relative overflow-hidden group w-full sm:w-auto bg-transparent border border-cream/40 text-cream px-6 sm:px-10 py-3.5 sm:py-4.5 text-xs font-bold uppercase tracking-[0.16em] sm:tracking-[0.2em] rounded hover:border-cream hover:text-soft-black hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 text-center whitespace-nowrap"
             >
               <span className="absolute inset-0 bg-cream translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
-              <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">REQUEST A WHOLESALE QUOTE</span>
+              <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.22em]">WHOLESALE QUOTE</span>
             </Link>
           </div>
         </div>
