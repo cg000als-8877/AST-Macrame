@@ -1,7 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Menu, X, Search, ChevronRight, Phone, ArrowLeft, MessageCircle } from 'lucide-react';
+import { 
+  ShoppingCart, 
+  Menu, 
+  X, 
+  Search, 
+  ChevronRight, 
+  Phone, 
+  ArrowLeft, 
+  MessageCircle,
+  ShoppingBag,
+  Layers,
+  PackageCheck,
+  Briefcase,
+  Home,
+  BookOpen,
+  HelpCircle,
+  Headphones
+} from 'lucide-react';
 import { useCartWishlist } from '../context/CartWishlistContext';
 
 const Navbar = () => {
@@ -54,30 +71,35 @@ const Navbar = () => {
     { 
       name: 'Retail Store', 
       path: '/retail', 
-      subtitle: 'Cash on delivery nationwide'
+      subtitle: 'Cash on delivery nationwide',
+      icon: ShoppingBag,
+      badge: 'COD'
     },
     { 
       name: 'Products Gallery', 
       path: '/products', 
-      subtitle: 'Adult, Women & Kids collections'
+      subtitle: 'Adult, Women & Kids collections',
+      icon: Layers
     },
     { 
       name: 'Sample Orders', 
       path: '/sample-order', 
-      subtitle: 'Worldwide air express for brands'
+      subtitle: 'Worldwide air express for brands',
+      icon: PackageCheck
     },
     { 
       name: 'Wholesale & OEM', 
       path: '/sample-wholesale', 
-      subtitle: '100 pcs base MOQ, private label'
+      subtitle: '100 pcs base MOQ, private label',
+      icon: Briefcase
     },
   ];
 
   const brandLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Our Story', path: '/about' },
-    { name: 'FAQs', path: '/faq' },
-    { name: 'Contact Support', path: '/contact' }
+    { name: 'Home', path: '/', icon: Home },
+    { name: 'Our Story', path: '/about', icon: BookOpen },
+    { name: 'FAQs', path: '/faq', icon: HelpCircle },
+    { name: 'Contact Support', path: '/contact', icon: Headphones }
   ];
 
   const legalLinks = [
@@ -350,31 +372,35 @@ const Navbar = () => {
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
-              transition={{ type: 'spring', damping: 26, stiffness: 240 }}
-              className="relative w-[86%] max-w-[340px] bg-white h-full shadow-2xl z-10 flex flex-col justify-between overflow-hidden"
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-[85%] max-w-[340px] bg-cream h-full shadow-2xl z-10 flex flex-col justify-between overflow-hidden border-r border-stone/20"
             >
               {/* Drawer Top Branding Header */}
-              <div className="p-4 sm:p-5 flex items-center justify-between bg-white shrink-0">
-                <div className="flex items-center gap-2.5">
+              <div className="px-4 py-3.5 flex items-center justify-between bg-cream border-b border-stone/20 shrink-0">
+                <Link 
+                  to="/"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2.5 group"
+                >
                   <img 
                     src="/logo_black.png" 
                     alt="AST Logo" 
-                    className="h-7 w-auto object-contain"
+                    className="h-7 w-auto object-contain transition-transform group-hover:scale-105"
                   />
                   <div className="flex flex-col">
                     <span className="font-serif font-bold text-soft-black text-sm tracking-wide leading-none">
                       AST Macramé
                     </span>
-                    <span className="text-[9.5px] uppercase tracking-[0.16em] text-terracotta font-semibold mt-0.5">
+                    <span className="text-[9px] uppercase tracking-[0.2em] text-terracotta font-semibold mt-1">
                       Artisan Woven Studio
                     </span>
                   </div>
-                </div>
+                </Link>
 
                 <button 
                   type="button"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="w-8 h-8 rounded-full bg-stone/10 hover:bg-stone/20 text-soft-black flex items-center justify-center transition-colors cursor-pointer"
+                  className="w-8 h-8 rounded-full border border-stone/25 hover:border-soft-black/40 bg-white/70 hover:bg-white text-soft-black flex items-center justify-center transition-all cursor-pointer shadow-2xs"
                   aria-label="Close Menu"
                 >
                   <X className="w-4 h-4 stroke-[2]" />
@@ -382,44 +408,65 @@ const Navbar = () => {
               </div>
 
               {/* Scrollable Navigation Body */}
-              <div className="px-3 py-3 space-y-6 overflow-y-auto flex-1 bg-white">
+              <div className="px-3.5 py-4 space-y-5 overflow-y-auto flex-1 overscroll-contain">
                 {/* Primary Commerce Links */}
                 <div>
-                  <div className="px-3 mb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-dark-charcoal/45">
+                  <div className="flex items-center justify-between px-1 mb-2.5">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-terracotta">
                       Collections & Ordering
+                    </span>
+                    <span className="text-[9px] font-semibold text-dark-charcoal/40 uppercase tracking-wider">
+                      Explore
                     </span>
                   </div>
 
-                  <div className="space-y-1">
+                  <div className="space-y-2">
                     {shopLinks.map((link) => {
                       const isActive = location.pathname === link.path;
+                      const Icon = link.icon;
                       return (
                         <Link
                           key={link.name}
                           to={link.path}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className={`group flex items-center justify-between px-3 py-3 rounded-lg transition-colors ${
+                          className={`group relative flex items-center gap-3 p-2.5 rounded-xl border transition-all duration-200 ${
                             isActive 
-                              ? 'bg-stone/15 text-soft-black font-semibold' 
-                              : 'text-soft-black hover:bg-stone/10 active:bg-stone/15'
+                              ? 'bg-white border-terracotta/40 shadow-xs ring-1 ring-terracotta/20' 
+                              : 'bg-white/70 hover:bg-white border-stone/20 hover:border-stone/30 shadow-2xs'
                           }`}
                         >
-                          <div className="flex flex-col pr-2 min-w-0">
-                            <span className="text-xs font-bold uppercase tracking-wider truncate">
-                              {link.name}
-                            </span>
-                            {link.subtitle && (
-                              <span className={`text-[11px] font-normal leading-tight mt-0.5 truncate ${
-                                isActive ? 'text-soft-black/75' : 'text-dark-charcoal/60'
+                          {/* Left Icon Pill */}
+                          <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                            isActive 
+                              ? 'bg-terracotta text-white shadow-xs' 
+                              : 'bg-cream text-soft-black/75 group-hover:bg-soft-black group-hover:text-cream'
+                          }`}>
+                            <Icon className="w-4 h-4 stroke-[1.8]" />
+                          </div>
+
+                          {/* Content */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1.5">
+                              <span className={`text-xs font-bold uppercase tracking-wider truncate ${
+                                isActive ? 'text-terracotta' : 'text-soft-black'
                               }`}>
-                                {link.subtitle}
+                                {link.name}
                               </span>
+                              {link.badge && (
+                                <span className="text-[8.5px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 leading-none">
+                                  {link.badge}
+                                </span>
+                              )}
+                            </div>
+                            {link.subtitle && (
+                              <p className="text-[11px] font-normal leading-tight mt-0.5 truncate text-dark-charcoal/65">
+                                {link.subtitle}
+                              </p>
                             )}
                           </div>
                           
                           <ChevronRight className={`w-4 h-4 shrink-0 transition-transform group-hover:translate-x-0.5 ${
-                            isActive ? 'text-soft-black' : 'text-stone-400'
+                            isActive ? 'text-terracotta' : 'text-stone-400 group-hover:text-soft-black'
                           }`} />
                         </Link>
                       );
@@ -428,30 +475,39 @@ const Navbar = () => {
                 </div>
 
                 {/* Secondary Brand & Help Links */}
-                <div>
-                  <div className="px-3 mb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-dark-charcoal/45">
+                <div className="pt-2 border-t border-stone/15">
+                  <div className="px-1 mb-2">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-dark-charcoal/50">
                       The Atelier
                     </span>
                   </div>
 
-                  <div className="space-y-1">
+                  <div className="space-y-0.5">
                     {brandLinks.map((link) => {
                       const isActive = location.pathname === link.path;
+                      const Icon = link.icon;
                       return (
                         <Link
                           key={link.name}
                           to={link.path}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className={`group flex items-center justify-between px-3 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-colors ${
+                          className={`group flex items-center justify-between px-2.5 py-2 rounded-lg text-xs tracking-wider uppercase transition-all ${
                             isActive
-                              ? 'bg-stone/15 text-soft-black font-bold'
-                              : 'text-soft-black/85 font-medium hover:bg-stone/10 hover:text-soft-black active:bg-stone/15'
+                              ? 'text-terracotta font-bold'
+                              : 'text-dark-charcoal/75 font-medium hover:text-soft-black hover:bg-stone/5'
                           }`}
                         >
-                          <span>{link.name}</span>
+                          <div className="flex items-center gap-2.5">
+                            <Icon className={`w-4 h-4 shrink-0 transition-colors ${
+                              isActive ? 'text-terracotta' : 'text-stone-400 group-hover:text-soft-black'
+                            }`} />
+                            <span>{link.name}</span>
+                            {isActive && (
+                              <span className="w-1.5 h-1.5 rounded-full bg-terracotta shrink-0" />
+                            )}
+                          </div>
                           <ChevronRight className={`w-3.5 h-3.5 shrink-0 transition-transform group-hover:translate-x-0.5 ${
-                            isActive ? 'text-soft-black' : 'text-stone-400'
+                            isActive ? 'text-terracotta' : 'text-stone-400 group-hover:text-soft-black'
                           }`} />
                         </Link>
                       );
@@ -461,31 +517,37 @@ const Navbar = () => {
               </div>
 
               {/* Drawer Footer with Direct WhatsApp & Compact Policies */}
-              <div className="p-4 bg-white shrink-0 space-y-3">
+              <div className="p-4 bg-cream border-t border-stone/20 shrink-0 space-y-3">
                 <a
                   href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20have%20an%20inquiry."
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full flex items-center justify-center gap-2 bg-[#25D366] text-white py-3 px-4 rounded-lg text-xs font-bold uppercase tracking-wider hover:brightness-105 active:scale-[0.99] transition-all"
+                  className="w-full flex items-center justify-center gap-2.5 bg-soft-black hover:bg-stone-800 text-cream py-3 px-4 rounded-xl text-xs font-bold uppercase tracking-[0.14em] transition-all shadow-xs group"
                 >
-                  <MessageCircle className="w-4 h-4 fill-white" />
+                  <span className="w-5 h-5 rounded-full bg-[#25D366] text-white flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                    <svg viewBox="0 0 24 24" className="w-3 h-3 fill-current">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                    </svg>
+                  </span>
                   <span>Chat on WhatsApp</span>
                 </a>
 
-                <div className="flex items-center justify-center gap-4 text-[11px] text-dark-charcoal/60 font-medium pt-1">
-                  {legalLinks.map((link) => (
-                    <Link 
-                      key={link.path}
-                      to={link.path} 
-                      onClick={() => setIsMobileMenuOpen(false)} 
-                      className="hover:text-soft-black transition-colors"
-                    >
-                      {link.name}
-                    </Link>
+                <div className="flex items-center justify-center gap-3 text-[11px] text-dark-charcoal/60 font-medium pt-1">
+                  {legalLinks.map((link, idx) => (
+                    <React.Fragment key={link.path}>
+                      {idx > 0 && <span className="text-stone-300">•</span>}
+                      <Link 
+                        to={link.path} 
+                        onClick={() => setIsMobileMenuOpen(false)} 
+                        className="hover:text-soft-black transition-colors"
+                      >
+                        {link.name}
+                      </Link>
+                    </React.Fragment>
                   ))}
                 </div>
 
-                <div className="pt-1 flex items-center justify-between text-[10px] text-dark-charcoal/45">
+                <div className="pt-0.5 flex items-center justify-between text-[10px] text-dark-charcoal/50">
                   <span>100% Handcrafted Cotton</span>
                   <span>Chattogram, BD</span>
                 </div>
