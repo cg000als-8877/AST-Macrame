@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AuthProvider } from './context/AuthContext';
@@ -8,22 +8,23 @@ import Navbar from './components/Navbar';
 import BottomNav from './components/BottomNav';
 import Footer from './components/Footer';
 import CartDrawer from './components/CartDrawer';
-import Home from './pages/Home';
-import Product from './pages/Product';
-import SampleOrder from './pages/SampleOrder';
-import About from './pages/About';
-import SampleWholesale from './pages/SampleWholesale';
-import Contact from './pages/Contact';
-import RetailPage from './pages/RetailPage';
-import Terms from './pages/Terms';
-import Privacy from './pages/Privacy';
-import Refund from './pages/Refund';
-import FAQ from './pages/FAQ';
-import ProductGallery from './pages/ProductGallery';
-import AdminLogin from './pages/AdminLogin';
-import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import ThemeSwitcher from './components/ThemeSwitcher';
+
+// Code-split route components for high performance
+const Home = lazy(() => import('./pages/Home'));
+const SampleOrder = lazy(() => import('./pages/SampleOrder'));
+const About = lazy(() => import('./pages/About'));
+const SampleWholesale = lazy(() => import('./pages/SampleWholesale'));
+const Contact = lazy(() => import('./pages/Contact'));
+const RetailPage = lazy(() => import('./pages/RetailPage'));
+const Terms = lazy(() => import('./pages/Terms'));
+const Privacy = lazy(() => import('./pages/Privacy'));
+const Refund = lazy(() => import('./pages/Refund'));
+const FAQ = lazy(() => import('./pages/FAQ'));
+const ProductGallery = lazy(() => import('./pages/ProductGallery'));
+const AdminLogin = lazy(() => import('./pages/AdminLogin'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -111,7 +112,13 @@ const AppLayout = () => {
     <div className="flex flex-col bg-cream text-soft-black font-sans selection:bg-terracotta selection:text-cream min-h-screen">
       {!isAdmin && <Navbar />}
       <main className="flex-1">
-        <AnimatedRoutes />
+        <Suspense fallback={
+          <div className="min-h-[50vh] flex items-center justify-center">
+            <div className="w-8 h-8 border-2 border-stone/20 border-t-soft-black rounded-full animate-spin" />
+          </div>
+        }>
+          <AnimatedRoutes />
+        </Suspense>
       </main>
       {!isAdmin && <BottomNav />}
       {!isAdmin && <Footer />}
