@@ -98,7 +98,7 @@ const BottomNav = () => {
           <svg
             viewBox="0 0 400 48"
             preserveAspectRatio="none"
-            className="absolute inset-0 w-full h-full drop-shadow-[0_8px_24px_rgba(0,0,0,0.32)] transition-all duration-300"
+            className="absolute inset-0 w-full h-full transition-all duration-300"
           >
             <path
               d="M 24 0 L 166 0 C 176 0, 184 22, 200 22 C 216 22, 224 0, 234 0 L 376 0 A 24 24 0 0 1 400 24 A 24 24 0 0 1 376 48 L 24 48 A 24 24 0 0 1 0 24 A 24 24 0 0 1 24 0 Z"
@@ -115,7 +115,7 @@ const BottomNav = () => {
             <button
               type="button"
               onClick={() => setIsCartOpen(true)}
-              className={`relative w-9 h-9 rounded-full transition-all duration-300 shadow-md flex items-center justify-center cursor-pointer group active:scale-95 ${
+              className={`relative w-9 h-9 rounded-full transition-all duration-300 flex items-center justify-center cursor-pointer group active:scale-95 ${
                 isOverFooter 
                   ? 'bg-[#131E33] text-white border border-white/80 hover:bg-[#1a2845]' 
                   : 'bg-[#c3b091] text-[#131E33] border-0 hover:bg-[#b59e7a]'
@@ -125,7 +125,7 @@ const BottomNav = () => {
               <ShoppingCart className={`w-3.5 h-3.5 stroke-[2.3] group-hover:scale-105 transition-transform ${isOverFooter ? 'text-white' : 'text-[#131E33]'}`} />
               
               {/* Dynamic Cart Badge (thin stroke only when in footer menu) */}
-              <span className={`absolute -top-1 -right-1 text-[8px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-xs ${
+              <span className={`absolute -top-1 -right-1 text-[8px] font-black w-4 h-4 rounded-full flex items-center justify-center ${
                 isOverFooter 
                   ? 'bg-white text-[#131E33] border border-[#131E33]' 
                   : 'bg-[#131E33] text-white'

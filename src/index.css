@@ -294,14 +294,36 @@ a {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 78px;
+  height: 105px;
   z-index: 40;
   display: block;
   background: transparent !important;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  mask-image: linear-gradient(to bottom, transparent 0%, black 14px, black 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 14px, black 100%);
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.005) 8%,
+    rgba(0, 0, 0, 0.03) 18%,
+    rgba(0, 0, 0, 0.08) 28%,
+    rgba(0, 0, 0, 0.18) 40%,
+    rgba(0, 0, 0, 0.35) 54%,
+    rgba(0, 0, 0, 0.60) 68%,
+    rgba(0, 0, 0, 0.85) 82%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.005) 8%,
+    rgba(0, 0, 0, 0.03) 18%,
+    rgba(0, 0, 0, 0.08) 28%,
+    rgba(0, 0, 0, 0.18) 40%,
+    rgba(0, 0, 0, 0.35) 54%,
+    rgba(0, 0, 0, 0.60) 68%,
+    rgba(0, 0, 0, 0.85) 82%,
+    rgba(0, 0, 0, 1) 100%
+  );
 }
 
 @media (min-width: 640px) {

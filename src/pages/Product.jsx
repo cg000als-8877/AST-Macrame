@@ -549,15 +549,15 @@ const Product = () => {
                     </span>
                   )}
                 </div>
-                <div className="flex items-center h-[44px] sm:h-[46px] bg-white rounded-xl p-0.5 sm:p-1 shadow-2xs">
+                <div className="flex items-center h-[44px] sm:h-[46px] bg-white rounded-xl px-1.5">
                   <button
                     type="button"
                     onClick={() => handleQuantityUpdate(Math.max(1, quantity - 1))}
                     disabled={quantity <= 1}
-                    className="w-8 sm:w-10 h-full flex items-center justify-center text-soft-black hover:bg-stone/10 disabled:opacity-25 disabled:hover:bg-transparent rounded-lg transition-colors cursor-pointer shrink-0"
+                    className="w-8 sm:w-10 h-full flex items-center justify-center text-soft-black hover:text-terracotta active:scale-90 disabled:opacity-25 transition-all cursor-pointer shrink-0"
                     aria-label="Decrease quantity"
                   >
-                    <Minus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <Minus className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
                   </button>
                   <div className="flex-1 text-center font-serif text-sm sm:text-base font-semibold text-soft-black select-none">
                     {quantity}
@@ -565,10 +565,10 @@ const Product = () => {
                   <button
                     type="button"
                     onClick={() => handleQuantityUpdate(Math.min(20, quantity + 1))}
-                    className="w-8 sm:w-10 h-full flex items-center justify-center text-soft-black hover:bg-stone/10 rounded-lg transition-colors cursor-pointer shrink-0"
+                    className="w-8 sm:w-10 h-full flex items-center justify-center text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer shrink-0"
                     aria-label="Increase quantity"
                   >
-                    <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
                   </button>
                 </div>
               </div>

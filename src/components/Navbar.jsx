@@ -9,11 +9,7 @@ import {
   ChevronRight, 
   Phone, 
   ArrowLeft, 
-  MessageCircle,
-  Home,
-  BookOpen,
-  HelpCircle,
-  Headphones
+  MessageCircle
 } from 'lucide-react';
 import { useCartWishlist } from '../context/CartWishlistContext';
 
@@ -88,10 +84,10 @@ const Navbar = () => {
   ];
 
   const brandLinks = [
-    { name: 'Home', path: '/', icon: Home },
-    { name: 'Our Story', path: '/about', icon: BookOpen },
-    { name: 'FAQs', path: '/faq', icon: HelpCircle },
-    { name: 'Contact Support', path: '/contact', icon: Headphones }
+    { name: 'Home', path: '/' },
+    { name: 'Our Story', path: '/about' },
+    { name: 'FAQs', path: '/faq' },
+    { name: 'Contact Support', path: '/contact' }
   ];
 
   const legalLinks = [
@@ -131,12 +127,12 @@ const Navbar = () => {
           </div>
         )}
 
-        {/* 1. UNIVERSAL MOBILE TOP BAR (Burger + Logo on Left | Search + Cart on Right / Smooth Popup Search Bar) */}
+        {/* 1. UNIVERSAL MOBILE TOP BAR (Burger on Left | Center Logo | Search + Cart on Right) */}
         <div className="flex sm:hidden px-2.5 sm:px-4 h-[48px] items-center justify-between gap-1.5 w-full relative overflow-hidden">
-          {/* Base Mobile Bar: Left (Menu + Logo) | Right (Search + Cart) */}
+          {/* Base Mobile Bar */}
           <div className="flex items-center justify-between w-full h-full">
-            {/* Left: Burger Menu Button + Logo & Brand */}
-            <div className="flex items-center gap-1 shrink-0">
+            {/* Left: Burger Menu Button */}
+            <div className="flex items-center shrink-0 z-10">
               <button 
                 type="button"
                 onClick={() => setIsMobileMenuOpen(true)}
@@ -146,21 +142,23 @@ const Navbar = () => {
               >
                 <Menu className="w-5 h-5 stroke-[2.2]" />
               </button>
-
-              <Link to="/" className="flex items-center gap-1.5 active:scale-95 transition-transform shrink-0">
-                <img 
-                  src="/logo_black.png" 
-                  alt="AST Logo" 
-                  className="h-5.5 w-auto object-contain"
-                />
-                <span className="font-serif font-bold text-soft-black text-[12px] tracking-tight whitespace-nowrap">
-                  AST Macramé
-                </span>
-              </Link>
             </div>
 
+            {/* Center: AST Logo centered by overall viewport space from both sides */}
+            <Link 
+              to="/" 
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center active:scale-95 transition-transform z-10"
+              aria-label="AST Macramé Home"
+            >
+              <img 
+                src="/logo_black.png" 
+                alt="AST Logo" 
+                className="h-[30px] sm:h-8 w-auto object-contain"
+              />
+            </Link>
+
             {/* Right: Search Icon + Cart Icon (Same style, thickness, and height) */}
-            <div className="flex items-center gap-1 shrink-0">
+            <div className="flex items-center gap-1 shrink-0 z-10">
               {/* Search Icon Trigger */}
               <button
                 type="button"
@@ -193,7 +191,7 @@ const Navbar = () => {
           {/* Smooth Pop-up Search Bar Overlay (Only active in mobile view) */}
           <form
             onSubmit={handleSearchSubmit}
-            className={`absolute inset-0 bg-white z-20 px-2.5 flex items-center gap-2 w-full h-full transition-all duration-300 ease-out ${
+            className={`absolute inset-0 bg-white z-30 px-2.5 flex items-center gap-2 w-full h-full transition-all duration-300 ease-out ${
               isMobileSearchExpanded
                 ? 'opacity-100 translate-y-0 pointer-events-auto'
                 : 'opacity-0 -translate-y-full pointer-events-none'
@@ -339,17 +337,22 @@ const Navbar = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => setIsMobileMenuOpen(false)}
               className="fixed inset-0 bg-soft-black/60 backdrop-blur-xs"
             />
 
-            {/* Slide-out Menu Panel */}
+            {/* Slide-out Menu Panel (Ultra-smooth, buttery slow-motion glide) */}
             <motion.div 
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
-              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-[85%] max-w-[340px] bg-cream h-full shadow-lg z-10 flex flex-col justify-between overflow-hidden"
+              transition={{ 
+                type: 'tween',
+                duration: 0.6, 
+                ease: [0.16, 1, 0.3, 1] 
+              }}
+              className="relative w-[85%] max-w-[340px] bg-cream h-full z-10 flex flex-col justify-between overflow-hidden"
             >
               {/* Drawer Top Branding Header */}
               <div className="px-4 py-3.5 flex items-center justify-between bg-cream shrink-0">
@@ -376,7 +379,7 @@ const Navbar = () => {
                 <button 
                   type="button"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="w-8 h-8 rounded-full bg-white/80 hover:bg-white text-soft-black flex items-center justify-center transition-all cursor-pointer shadow-2xs"
+                  className="w-8 h-8 rounded-full bg-white/80 hover:bg-white text-soft-black flex items-center justify-center transition-all cursor-pointer"
                   aria-label="Close Menu"
                 >
                   <X className="w-4 h-4 stroke-[1.8]" />
@@ -406,8 +409,8 @@ const Navbar = () => {
                           onClick={() => setIsMobileMenuOpen(false)}
                           className={`group relative flex items-center justify-between px-3.5 py-3 rounded-xl transition-all duration-200 ${
                             isActive 
-                              ? 'bg-white shadow-2xs' 
-                              : 'bg-white/80 hover:bg-white shadow-2xs'
+                              ? 'bg-white' 
+                              : 'bg-white/80 hover:bg-white'
                           }`}
                         >
                           {/* Content */}
@@ -451,24 +454,18 @@ const Navbar = () => {
                   <div className="space-y-0.5">
                     {brandLinks.map((link) => {
                       const isActive = location.pathname === link.path;
-                      const Icon = link.icon;
                       return (
                         <Link
                           key={link.name}
                           to={link.path}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className={`group flex items-center justify-between px-2.5 py-2 rounded-xl text-[13px] tracking-normal transition-all ${
+                          className={`group flex items-center justify-between px-3 py-2.5 rounded-xl text-[13px] tracking-normal transition-all ${
                             isActive
                               ? 'text-terracotta font-bold'
                               : 'text-dark-charcoal/75 font-medium hover:text-soft-black hover:bg-stone/5'
                           }`}
                         >
-                          <div className="flex items-center gap-2.5">
-                            <Icon className={`w-4 h-4 shrink-0 transition-colors ${
-                              isActive ? 'text-terracotta' : 'text-stone-400 group-hover:text-soft-black'
-                            }`} />
-                            <span>{link.name}</span>
-                          </div>
+                          <span>{link.name}</span>
                           <ChevronRight className={`w-3.5 h-3.5 shrink-0 transition-transform group-hover:translate-x-0.5 ${
                             isActive ? 'text-terracotta' : 'text-stone-400 group-hover:text-soft-black'
                           }`} />
@@ -485,9 +482,9 @@ const Navbar = () => {
                   href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20have%20an%20inquiry."
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full flex items-center justify-center gap-2.5 bg-soft-black hover:bg-stone-800 text-cream py-3 px-4 rounded-xl text-xs font-bold uppercase tracking-[0.14em] transition-all shadow-xs group"
+                  className="w-full flex items-center justify-center gap-2.5 bg-soft-black hover:bg-stone-800 text-cream py-3 px-4 rounded-xl text-xs font-bold uppercase tracking-[0.14em] transition-all group"
                 >
-                  <span className="w-5 h-5 rounded-full bg-[#25D366] text-white flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                  <span className="w-5 h-5 rounded-full bg-[#25D366] text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                     <svg viewBox="0 0 24 24" className="w-3 h-3 fill-current">
                       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
                     </svg>

@@ -505,15 +505,15 @@ const SampleOrder = () => {
             {/* Action Buttons: Quantity Stepper (Left) + Add to Cart Button (Right) */}
             <div className="flex items-center gap-2 sm:gap-3 w-full mb-3 md:mb-4">
               {/* Quantity Stepper */}
-              <div className="flex items-center h-12 md:h-[52px] bg-white rounded-xl p-1 shrink-0">
+              <div className="flex items-center h-12 md:h-[52px] bg-white rounded-xl px-2 shrink-0">
                 <button
                   type="button"
                   onClick={() => handleQuantityUpdate(quantity - 1)}
                   disabled={quantity <= 1}
-                  className="w-8 md:w-9 h-full rounded-lg bg-stone/10 hover:bg-stone/20 text-soft-black font-bold flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0"
+                  className="w-8 md:w-9 h-full text-soft-black hover:text-terracotta active:scale-90 font-bold flex items-center justify-center transition-all disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer shrink-0"
                   aria-label="Decrease quantity"
                 >
-                  <Minus className="w-3.5 h-3.5" />
+                  <Minus className="w-3.5 h-3.5 stroke-[2.2]" />
                 </button>
                 <div className="w-8 md:w-10 text-center font-bold text-sm text-soft-black select-none">
                   {quantity}
@@ -522,10 +522,10 @@ const SampleOrder = () => {
                   type="button"
                   onClick={() => handleQuantityUpdate(quantity + 1)}
                   disabled={quantity >= 20}
-                  className="w-8 md:w-9 h-full rounded-lg bg-stone/10 hover:bg-stone/20 text-soft-black font-bold flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0"
+                  className="w-8 md:w-9 h-full text-soft-black hover:text-terracotta active:scale-90 font-bold flex items-center justify-center transition-all disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer shrink-0"
                   aria-label="Increase quantity"
                 >
-                  <Plus className="w-3.5 h-3.5" />
+                  <Plus className="w-3.5 h-3.5 stroke-[2.2]" />
                 </button>
               </div>
 

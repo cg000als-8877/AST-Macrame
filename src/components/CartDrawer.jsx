@@ -311,25 +311,25 @@ const CartDrawer = () => {
 
                             {/* Stepper */}
                             <div className="flex items-center justify-between mt-2 pt-1">
-                              <div className="flex items-center bg-stone/10 rounded-lg p-0.5">
+                              <div className="flex items-center bg-stone/10 rounded-lg px-1">
                                 <button
                                   type="button"
                                   onClick={() => updateCartQuantity(item.id, item.quantity - 1)}
-                                  className="w-6 h-6 flex items-center justify-center text-soft-black hover:bg-white rounded-md transition-colors cursor-pointer"
+                                  className="w-6 h-6 flex items-center justify-center text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer"
                                   aria-label="Decrease"
                                 >
-                                  <Minus className="w-3.5 h-3.5" />
+                                  <Minus className="w-3.5 h-3.5 stroke-[2.2]" />
                                 </button>
-                                <span className="w-7 text-center font-bold text-xs text-soft-black">
+                                <span className="w-7 text-center font-bold text-xs text-soft-black select-none">
                                   {item.quantity}
                                 </span>
                                 <button
                                   type="button"
                                   onClick={() => updateCartQuantity(item.id, item.quantity + 1)}
-                                  className="w-6 h-6 flex items-center justify-center text-soft-black hover:bg-white rounded-md transition-colors cursor-pointer"
+                                  className="w-6 h-6 flex items-center justify-center text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer"
                                   aria-label="Increase"
                                 >
-                                  <Plus className="w-3.5 h-3.5" />
+                                  <Plus className="w-3.5 h-3.5 stroke-[2.2]" />
                                 </button>
                               </div>
 
