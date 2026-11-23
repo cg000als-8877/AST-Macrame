@@ -808,7 +808,7 @@ const Product = () => {
               
               <h2 className="text-xl font-serif text-soft-black mb-5">Sizing Guide</h2>
               
-              <div className="w-full bg-stone/5 rounded-lg overflow-hidden mb-4">
+              <div className="w-full bg-stone/5 rounded-xl overflow-hidden mb-4">
                 <div className="grid grid-cols-3 bg-stone/10 py-2">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Size</span>
                   <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Waist</span>
@@ -826,7 +826,7 @@ const Product = () => {
                 </div>
               </div>
 
-              <div className="flex justify-between items-center px-4 py-3 bg-stone/5 rounded-lg mb-4">
+              <div className="flex justify-between items-center px-4 py-3 bg-stone/5 rounded-xl mb-4">
                  <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Belt Width</span>
                  <span className="text-xs font-semibold text-soft-black">1.5"</span>
               </div>
@@ -872,15 +872,31 @@ const Product = () => {
                 Evaluate our craftsmanship before placing a wholesale order.
               </p>
               
-              <div className="bg-stone/5 rounded-lg p-5 mb-4 shadow-sm">
-                <ul className="space-y-4 text-sm text-dark-charcoal list-disc list-outside ml-4 leading-relaxed">
-                  <li>Order up to 5 samples per design with discounted tiered pricing.</li>
-                  <li>Customize colors and sizes individually for each sample in a multi-pack.</li>
-                  <li><strong>Bangladesh:</strong> Cash on Delivery (COD) available.</li>
-                  <li><strong>International:</strong> Full advance payment required prior to shipping.</li>
-                  <li><strong>Reimbursement:</strong> Full sample cost is deducted from your subsequent confirmed bulk order invoice.</li>
-                  <li>Shipping charges are strictly non-refundable.</li>
-                </ul>
+              <div className="bg-stone/5 rounded-xl p-4 sm:p-5 mb-4 text-left space-y-2.5">
+                <div className="text-xs sm:text-sm text-dark-charcoal leading-relaxed flex items-start gap-2">
+                  <span className="text-terracotta font-bold shrink-0">—</span>
+                  <span>Order up to 5 samples per design with discounted tiered pricing.</span>
+                </div>
+                <div className="text-xs sm:text-sm text-dark-charcoal leading-relaxed flex items-start gap-2">
+                  <span className="text-terracotta font-bold shrink-0">—</span>
+                  <span>Customize colors and sizes individually for each sample in a multi-pack.</span>
+                </div>
+                <div className="text-xs sm:text-sm text-dark-charcoal leading-relaxed flex items-start gap-2">
+                  <span className="text-terracotta font-bold shrink-0">—</span>
+                  <span><strong>Bangladesh:</strong> Cash on Delivery (COD) available.</span>
+                </div>
+                <div className="text-xs sm:text-sm text-dark-charcoal leading-relaxed flex items-start gap-2">
+                  <span className="text-terracotta font-bold shrink-0">—</span>
+                  <span><strong>International:</strong> Full advance payment required prior to shipping.</span>
+                </div>
+                <div className="text-xs sm:text-sm text-dark-charcoal leading-relaxed flex items-start gap-2">
+                  <span className="text-terracotta font-bold shrink-0">—</span>
+                  <span><strong>Reimbursement:</strong> Full sample cost is deducted from your subsequent confirmed bulk order invoice.</span>
+                </div>
+                <div className="text-xs sm:text-sm text-dark-charcoal leading-relaxed flex items-start gap-2">
+                  <span className="text-terracotta font-bold shrink-0">—</span>
+                  <span>Shipping charges are strictly non-refundable.</span>
+                </div>
               </div>
               
               <p className="text-xs font-medium text-dark-charcoal/80 leading-relaxed text-center px-2">

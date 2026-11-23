@@ -270,7 +270,7 @@ const Contact = () => {
             </div>
             <a
               href="mailto:astmacrame@gmail.com?subject=Direct%20Inquiry%20for%20Saifuddin%20Sony"
-              className="px-2.5 py-1.5 rounded-lg bg-white text-soft-black text-[10px] font-bold uppercase tracking-wider shrink-0 flex items-center gap-1 shadow-2xs hover:bg-cream"
+              className="px-2.5 py-1.5 rounded-xl bg-white text-soft-black text-[10px] font-bold uppercase tracking-wider shrink-0 flex items-center gap-1 hover:bg-cream"
             >
               <Mail className="w-3 h-3 text-terracotta" />
               <span>Email</span>
@@ -292,7 +292,7 @@ const Contact = () => {
               href="https://wa.me/8801940689061?text=Hello%20Arfat,%20I%20have%20an%20export/wholesale%20inquiry."
               target="_blank"
               rel="noreferrer"
-              className="px-2.5 py-1.5 rounded-lg bg-[#25D366] text-white text-[10px] font-bold uppercase tracking-wider shrink-0 flex items-center gap-1 shadow-2xs"
+              className="px-2.5 py-1.5 rounded-xl bg-[#25D366] text-white text-[10px] font-bold uppercase tracking-wider shrink-0 flex items-center gap-1"
             >
               <MessageCircle className="w-3 h-3 fill-white" />
               <span>WhatsApp</span>
@@ -545,7 +545,7 @@ const Contact = () => {
           <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 justify-center items-center">
             <Link
               to="/faq"
-              className="w-full sm:w-auto bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded hover:bg-dark-charcoal transition-all shadow-sm inline-flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-dark-charcoal transition-all inline-flex items-center justify-center gap-2"
             >
               <span>Visit FAQ Page</span>
               <ArrowRight className="w-3.5 h-3.5" />

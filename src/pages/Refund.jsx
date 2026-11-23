@@ -236,14 +236,14 @@ const Refund = () => {
               href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20have%20an%20order%20issue%20with%20my%20unboxing%20video."
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto bg-terracotta text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded hover:bg-[#8F3A1F] transition-all shadow-sm inline-flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-terracotta text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-[#8F3A1F] transition-all inline-flex items-center justify-center gap-2"
             >
               <MessageCircle className="w-4 h-4" />
               <span>Submit Claim via WhatsApp</span>
             </a>
             <a
               href="mailto:astmacrame@gmail.com?subject=Defect%20Claim%20with%20Unboxing%20Video"
-              className="w-full sm:w-auto bg-white text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded hover:bg-soft-black hover:text-cream transition-all shadow-2xs inline-flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-white text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-soft-black hover:text-cream transition-all inline-flex items-center justify-center gap-2"
             >
               <Mail className="w-4 h-4" />
               <span>Email Video Link</span>

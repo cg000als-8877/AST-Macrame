@@ -228,7 +228,7 @@ const FAQ = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by keyword (e.g. COD, size, wash, exchange)..."
-              className="w-full pl-10 sm:pl-12 pr-10 py-2.5 sm:py-3.5 bg-white focus: text-xs sm:text-sm text-soft-black placeholder:text-dark-charcoal/40 outline-none transition-all rounded"
+              className="w-full pl-10 sm:pl-12 pr-10 py-2.5 sm:py-3.5 bg-white text-xs sm:text-sm text-soft-black placeholder:text-dark-charcoal/40 outline-none transition-all rounded-xl"
             />
             {searchQuery && (
               <button
@@ -248,7 +248,7 @@ const FAQ = () => {
         <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-3 mb-6 sm:mb-10 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <button
             onClick={() => { setSelectedCategory('all'); setSearchQuery(''); }}
-            className={`px-3.5 sm:px-5 py-2 text-[10.5px] sm:text-xs md:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all rounded cursor-pointer ${
+            className={`px-3.5 sm:px-5 py-2 text-[10.5px] sm:text-xs md:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all rounded-xl cursor-pointer ${
               selectedCategory === 'all'
                 ? 'bg-soft-black text-white'
                 : 'bg-white text-soft-black hover:bg-stone/10'
@@ -264,7 +264,7 @@ const FAQ = () => {
               <button
                 key={cat.id}
                 onClick={() => { setSelectedCategory(cat.id); setSearchQuery(''); }}
-                className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 text-[10.5px] sm:text-xs md:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all rounded cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 text-[10.5px] sm:text-xs md:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all rounded-xl cursor-pointer ${
                   isSelected
                     ? 'bg-soft-black text-white'
                     : 'bg-white text-soft-black hover:bg-stone/10'
@@ -365,7 +365,7 @@ const FAQ = () => {
             </p>
             <button
               onClick={() => { setSearchQuery(''); setSelectedCategory('all'); }}
-              className="relative overflow-hidden group px-5 py-2.5 bg-soft-black text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-dark-charcoal hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
+              className="relative overflow-hidden group px-5 py-2.5 bg-soft-black text-white text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-dark-charcoal hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
             >
               <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
               <span className="relative z-10">Reset Search Filter</span>
@@ -393,7 +393,7 @@ const FAQ = () => {
                 href="https://wa.me/8801940689061"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative overflow-hidden group inline-flex items-center gap-2 bg-[#25D366] text-white px-5 sm:px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider rounded hover:bg-[#1EBE5D] hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
+                className="relative overflow-hidden group inline-flex items-center gap-2 bg-[#25D366] text-white px-5 sm:px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl hover:bg-[#1EBE5D] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
               >
                 <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
                 <MessageCircle className="w-4 h-4 fill-current relative z-10" />
@@ -402,7 +402,7 @@ const FAQ = () => {
               
               <Link
                 to="/contact"
-                className="relative overflow-hidden group inline-flex items-center gap-2 bg-white/10 text-white hover: hover:text-soft-black hover:shadow-lg hover:-translate-y-0.5 px-5 sm:px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider rounded active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
+                className="relative overflow-hidden group inline-flex items-center gap-2 bg-white/10 text-white hover: hover:text-soft-black hover:-translate-y-0.5 px-5 sm:px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
               >
                 <span className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
                 <Mail className="w-4 h-4 relative z-10" />

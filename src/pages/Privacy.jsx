@@ -172,14 +172,14 @@ const Privacy = () => {
           <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 justify-center items-center">
             <a
               href="mailto:astmacrame@gmail.com?subject=Privacy%20and%20Data%20Request"
-              className="w-full sm:w-auto bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded hover:bg-dark-charcoal transition-all shadow-sm inline-flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-dark-charcoal transition-all inline-flex items-center justify-center gap-2"
             >
               <Mail className="w-4 h-4" />
               <span>Contact Data Desk</span>
             </a>
             <Link
               to="/contact"
-              className="w-full sm:w-auto bg-white text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded hover:bg-soft-black hover:text-cream transition-all shadow-2xs inline-flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-white text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-soft-black hover:text-cream transition-all inline-flex items-center justify-center gap-2"
             >
               <span>General Inquiries</span>
               <ArrowRight className="w-3.5 h-3.5" />

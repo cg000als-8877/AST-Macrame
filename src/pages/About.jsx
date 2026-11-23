@@ -161,14 +161,14 @@ const About = () => {
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   to="/products"
-                  className="bg-soft-black text-cream px-6 py-3.5 text-xs font-bold uppercase tracking-[0.18em] rounded hover:bg-dark-charcoal transition-all shadow-sm inline-flex items-center gap-2"
+                  className="bg-soft-black text-cream px-6 py-3.5 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-dark-charcoal transition-all inline-flex items-center gap-2"
                 >
                   <span>Explore Belts</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
                 <Link
                   to="/sample-wholesale"
-                  className="bg-white text-soft-black px-6 py-3.5 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-soft-black hover:text-cream transition-all shadow-2xs"
+                  className="bg-white text-soft-black px-6 py-3.5 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-soft-black hover:text-cream transition-all"
                 >
                   Wholesale &amp; Private Label
                 </Link>
@@ -302,7 +302,7 @@ const About = () => {
           <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 justify-center items-center">
             <Link 
               to="/sample-order" 
-              className="w-full sm:w-auto bg-cream text-soft-black px-8 sm:px-9 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-warm-sand transition-all shadow-md text-center"
+              className="w-full sm:w-auto bg-cream text-soft-black px-8 sm:px-9 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-warm-sand transition-all text-center"
             >
               Order Sample Belts
             </Link>

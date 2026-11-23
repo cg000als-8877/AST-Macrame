@@ -65,14 +65,14 @@
   --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-bengali: 'Noto Serif Bengali', serif;
   --radius-xs: 2px;
-  --radius-sm: 2px;
-  --radius: 4px;
-  --radius-md: 4px;
-  --radius-lg: 4px;
-  --radius-xl: 4px;
-  --radius-2xl: 4px;
-  --radius-3xl: 4px;
-  --radius-4xl: 4px;
+  --radius-sm: 4px;
+  --radius: 6px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+  --radius-2xl: 16px;
+  --radius-3xl: 22px;
+  --radius-4xl: 28px;
 }
 
 html {
@@ -238,80 +238,54 @@ body.modal-open [data-mobile-bottom-nav] {
   scrollbar-width: none;
 }
 
-/* ================= GLOBAL CORNER RADIUS SCALE (4px / 2px only) ================= */
+/* ================= GLOBAL LUXURY RADIUS & FLAT ARCHITECTURE SCALE ================= */
 
-/* Large & Medium Cards, Containers, Drawers, Modals (4px) */
+/* Macro Containers, Bento Grids, Stat Cards, Modals (16px) */
 .card-lg,
 .card-md,
 .stat-card,
-[class*="rounded-2xl"]:not(.rounded-full):not([data-swatch]):not([style*="borderRadius"]),
-[class*="rounded-3xl"]:not(.rounded-full):not([data-swatch]):not([style*="borderRadius"]),
-[class*="rounded-xl"]:not(.rounded-full):not([data-swatch]):not([style*="borderRadius"]),
-[class*="rounded-lg"]:not(.rounded-full):not([data-swatch]):not([style*="borderRadius"]),
-[class*="rounded-md"]:not(.rounded-full):not([data-swatch]):not([style*="borderRadius"]) {
-  border-radius: 4px !important;
+.bento-card {
+  border-radius: 16px;
 }
 
-/* Small Cards, Indicators, Micro Chips & Badges (2px) */
+/* Micro Badges, Tags, and Small Indicator Chips (4px) */
 .card-sm,
-[class*="rounded-sm"]:not(.rounded-full):not([data-swatch]):not([style*="borderRadius"]),
-[class*="rounded-xs"]:not(.rounded-full):not([data-swatch]):not([style*="borderRadius"]) {
-  border-radius: 2px !important;
+.badge:not(.rounded-full) {
+  border-radius: 4px;
 }
 
-/* Micro badges, tags, and small indicator chips (2px) */
-.badge:not(.rounded-full),
-span[class*="text-[8."][class*="rounded"]:not(.rounded-full),
-span[class*="text-[9px]"][class*="rounded"]:not(.rounded-full),
-span[class*="text-[10px]"][class*="rounded"]:not(.rounded-full),
-span[class*="text-[11px]"][class*="rounded"]:not(.rounded-full) {
-  border-radius: 2px !important;
-}
-
-/* Form Inputs, Selects, and Textareas (4px) */
+/* Form Inputs, Selects, and Textareas (10px - Tactile Luxury) */
 input:not([type="checkbox"]):not([type="radio"]):not(.rounded-full),
 select:not(.rounded-full),
 textarea:not(.rounded-full) {
-  border-radius: 4px !important;
+  border-radius: 10px;
 }
 
-/* Buttons (4px), preserving circular swatches */
-button:not(.rounded-full):not([data-swatch]):not([style*="backgroundColor"]):not([style*="background-color"]),
-.btn {
-  border-radius: 4px !important;
+/* Buttons & Interactive Controls (10px - Tactile Luxury), preserving circular swatches & icon circles */
+button:not(.rounded-full):not([data-swatch]):not([style*="backgroundColor"]):not([style*="background-color"]):not([class*="rounded-none"]):not([class*="rounded-md"]):not([class*="rounded-sm"]),
+.btn:not(.rounded-full):not([class*="rounded-none"]):not([class*="rounded-md"]):not([class*="rounded-sm"]) {
+  border-radius: 10px;
 }
 
-/* ================= DAY-MODE CARD ELEVATION & CONTRAST ================= */
-
-/* Wholesale page zero-shadow & flat architecture enforcement */
-.wholesale-page,
-.wholesale-page *,
-.wholesale-page div,
-.wholesale-page article,
-.wholesale-page section,
-.wholesale-page button,
-.wholesale-page a {
+/* ================= STRICT FLAT ARCHITECTURE (ZERO DROP SHADOWS) ================= */
+*,
+*::before,
+*::after {
   box-shadow: none !important;
 }
 
-/* Elevated white card system - provides a delicate, tactile lift over the warm linen canvas */
 .card-elevated,
 .stat-card,
 .card-lg,
 .card-md,
-div[class*="bg-white"][class*="rounded-"],
-article[class*="bg-white"][class*="rounded-"],
-section[class*="bg-white"][class*="rounded-"] {
-  box-shadow: 0 1px 3px 0 rgba(28, 40, 65, 0.04), 0 2px 6px -1px rgba(28, 40, 65, 0.02);
+.bento-card,
+div[class*="bg-white"],
+article[class*="bg-white"],
+section[class*="bg-white"],
+button,
+a {
+  box-shadow: none !important;
 }
-
-/* Subtle elevation on hover for interactive cards */
-div[class*="bg-white"][class*="hover:shadow"]:hover,
-div[class*="bg-white"][class*="hover:bg-cream"]:hover {
-  box-shadow: 0 4px 14px -2px rgba(28, 40, 65, 0.08), 0 2px 6px -1px rgba(28, 40, 65, 0.03);
-}
-
-/* Flat clean card definition on white surfaces */
 
 /* ================= PROGRESSIVE MOBILE BOTTOM NAV GRADIENT BLUR ================= */
 .mobile-bottom-nav-gradient-blur {

@@ -262,14 +262,14 @@ const CartDrawer = () => {
 
                             {/* Detail Specifications */}
                             {isCombo ? (
-                              <div className="text-[11px] text-dark-charcoal/75 my-1 space-y-0.5 bg-stone-50 p-1.5 rounded-lg">
+                              <div className="text-[11px] text-dark-charcoal/75 my-1 space-y-0.5 bg-stone-50 p-1.5 rounded-xl">
                                 <div>1st: <strong className="text-soft-black">{item.comboColor1} ({item.comboSize1})</strong></div>
                                 <div>2nd: <strong className="text-soft-black">{item.comboColor2} ({item.comboSize2})</strong></div>
                               </div>
                             ) : (
                               <div className="flex items-center gap-2 text-[11px] text-dark-charcoal/70 my-1">
                                 <span>Color: <strong className="text-soft-black">{item.color}</strong></span>
-                                <span>•</span>
+                                <span className="text-stone-300">|</span>
                                 <span>Size: <strong className="text-soft-black">{item.size}</strong></span>
                               </div>
                             )}
@@ -311,14 +311,14 @@ const CartDrawer = () => {
 
                             {/* Stepper */}
                             <div className="flex items-center justify-between mt-2 pt-1">
-                              <div className="flex items-center bg-stone/10 rounded p-0.5">
+                              <div className="flex items-center bg-stone/10 rounded-lg p-0.5">
                                 <button
                                   type="button"
                                   onClick={() => updateCartQuantity(item.id, item.quantity - 1)}
-                                  className="w-6 h-6 flex items-center justify-center text-soft-black hover:bg-white rounded transition-colors cursor-pointer"
+                                  className="w-6 h-6 flex items-center justify-center text-soft-black hover:bg-white rounded-md transition-colors cursor-pointer"
                                   aria-label="Decrease"
                                 >
-                                  <Minus className="w-3 h-3" />
+                                  <Minus className="w-3.5 h-3.5" />
                                 </button>
                                 <span className="w-7 text-center font-bold text-xs text-soft-black">
                                   {item.quantity}
@@ -326,10 +326,10 @@ const CartDrawer = () => {
                                 <button
                                   type="button"
                                   onClick={() => updateCartQuantity(item.id, item.quantity + 1)}
-                                  className="w-6 h-6 flex items-center justify-center text-soft-black hover:bg-white rounded transition-colors cursor-pointer"
+                                  className="w-6 h-6 flex items-center justify-center text-soft-black hover:bg-white rounded-md transition-colors cursor-pointer"
                                   aria-label="Increase"
                                 >
-                                  <Plus className="w-3 h-3" />
+                                  <Plus className="w-3.5 h-3.5" />
                                 </button>
                               </div>
 
@@ -496,7 +496,7 @@ const CartDrawer = () => {
                     <button
                       type="button"
                       onClick={handleOpenRetailCheckout}
-                      className="relative overflow-hidden group w-full flex items-center justify-center gap-1.5 bg-terracotta hover:bg-muted-burgundy hover:shadow-lg hover:-translate-y-0.5 text-cream py-3.5 px-4 rounded text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md active:translate-y-0 active:scale-[0.99] cursor-pointer"
+                      className="relative overflow-hidden group w-full flex items-center justify-center gap-1.5 bg-terracotta hover:bg-muted-burgundy hover:-translate-y-0.5 text-cream py-3.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 active:translate-y-0 active:scale-[0.99] cursor-pointer"
                     >
                       <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
                       <PackageCheck className="w-4 h-4 shrink-0 relative z-10" />
@@ -507,7 +507,7 @@ const CartDrawer = () => {
                     <button
                       type="button"
                       onClick={handleOpenSampleCheckout}
-                      className="relative overflow-hidden group w-full flex items-center justify-center gap-1.5 bg-soft-black hover:bg-dark-charcoal hover:shadow-lg hover:-translate-y-0.5 text-cream py-3.5 px-4 rounded text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md active:translate-y-0 active:scale-[0.99] cursor-pointer"
+                      className="relative overflow-hidden group w-full flex items-center justify-center gap-1.5 bg-soft-black hover:bg-dark-charcoal hover:-translate-y-0.5 text-cream py-3.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 active:translate-y-0 active:scale-[0.99] cursor-pointer"
                     >
                       <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
                       <span className="truncate relative z-10 transition-all duration-300 group-hover:tracking-widest">Proceed to Sample Order</span>

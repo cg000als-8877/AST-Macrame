@@ -8,7 +8,7 @@ import {
   ChevronRight, 
   ShieldCheck, 
   Truck, 
-  Sparkles, 
+  PackageCheck,
   ArrowRight, 
   Search,
   Check
@@ -133,12 +133,12 @@ const ProductGallery = () => {
       {/* Main Gallery Grid */}
       <section className="max-w-[1480px] mx-auto px-3 sm:px-6 lg:px-8">
         {filteredCatalog.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-3xl p-8 max-w-md mx-auto shadow-xs">
+          <div className="text-center py-16 bg-white rounded-2xl p-8 max-w-md mx-auto">
             <p className="font-serif text-lg font-bold text-soft-black mb-2">No belts found for "{searchQuery}"</p>
             <p className="text-xs text-dark-charcoal/70 mb-4">Try searching for Black, Navy, Brown, Maroon, Khaki, Neon Green, or Red.</p>
             <button
               onClick={() => { setSelectedCategory('all'); setSearchParams({}); }}
-              className="bg-soft-black text-white px-5 py-2.5 rounded text-xs font-bold uppercase tracking-wider hover:bg-terracotta transition-colors cursor-pointer"
+              className="bg-soft-black text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-terracotta transition-colors cursor-pointer"
             >
               View All Products
             </button>
@@ -155,7 +155,7 @@ const ProductGallery = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.35, delay: idx * 0.04 }}
-                  className="bg-white rounded-2xl lg:rounded-2xl xl:rounded-3xl shadow-2xs hover:shadow-lg transition-all flex flex-col justify-between group overflow-hidden"
+                  className="bg-white rounded-2xl transition-all flex flex-col justify-between group overflow-hidden"
                 >
                   {/* 1. Flush Edge-to-Edge Image Container with Premium #F5F5F5 background & natural shadow */}
                   <div className="relative w-full aspect-square bg-[#F5F5F5] overflow-hidden select-none flex items-center justify-center">
@@ -229,7 +229,7 @@ const ProductGallery = () => {
                       {/* ORDER SAMPLE CTA -> Deep link to /sample-order */}
                       <Link
                         to={`/sample-order?product=${item.productId}&color=${encodeURIComponent(item.colorName.toLowerCase())}`}
-                        className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded bg-[#EAE4DC] text-soft-black hover:bg-soft-black hover:text-cream hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-semibold sm:font-bold uppercase tracking-wide sm:tracking-wider transition-all duration-300 flex items-center justify-center cursor-pointer shadow-2xs"
+                        className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded-xl bg-[#EAE4DC] text-soft-black hover:bg-soft-black hover:text-cream hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-semibold sm:font-bold uppercase tracking-wide sm:tracking-wider transition-all duration-300 flex items-center justify-center cursor-pointer"
                         title="Order sample on the Sample Order page"
                       >
                         <span className="transition-all duration-300">Order Sample</span>
@@ -239,7 +239,7 @@ const ProductGallery = () => {
                       <div>
                         <Link
                           to={`/retail?product=${item.productId}&color=${encodeURIComponent(item.colorName.toLowerCase())}`}
-                          className="relative overflow-hidden group w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded bg-terracotta hover:bg-[#131E33] hover:shadow-md hover:shadow-terracotta/25 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-cream text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-medium sm:font-bold uppercase tracking-wide sm:tracking-wider transition-all duration-300 shadow-xs flex items-center justify-center cursor-pointer"
+                          className="relative overflow-hidden group w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded-xl bg-terracotta hover:bg-[#131E33] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-cream text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-medium sm:font-bold uppercase tracking-wide sm:tracking-wider transition-all duration-300 flex items-center justify-center cursor-pointer"
                           title="Order on the Retail page"
                         >
                           <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
@@ -261,7 +261,7 @@ const ProductGallery = () => {
 
       {/* Value Proposition & Wholesale Teaser */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-12 mt-12 sm:mt-16 text-center">
-        <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-10">
+        <div className="bg-white rounded-2xl p-6 sm:p-10">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8 text-left">
             
             <div className="flex items-start gap-3 p-3 rounded-xl bg-[#FAF8F5]">
@@ -275,7 +275,7 @@ const ProductGallery = () => {
             </div>
 
             <div className="flex items-start gap-3 p-3 rounded-xl bg-[#FAF8F5]">
-              <Sparkles className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
+              <PackageCheck className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
               <div>
                 <h4 className="text-xs sm:text-sm font-bold text-soft-black">Multi-Belt Discounts</h4>
                 <p className="text-[11px] text-dark-charcoal/75 leading-relaxed mt-0.5">
@@ -299,7 +299,7 @@ const ProductGallery = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               to="/retail"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-terracotta hover:bg-muted-burgundy text-white px-7 py-3.5 rounded text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-95"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-terracotta hover:bg-muted-burgundy text-white px-7 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95"
             >
               <span>Explore Retail Multi-Buy Combos</span>
               <ArrowRight className="w-4 h-4" />
@@ -307,7 +307,7 @@ const ProductGallery = () => {
 
             <Link
               to="/sample-wholesale"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-soft-black hover:bg-dark-charcoal text-white px-7 py-3.5 rounded text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-95"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-soft-black hover:bg-dark-charcoal text-white px-7 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95"
             >
               <span>Wholesale & OEM Specifications</span>
               <ArrowRight className="w-4 h-4" />
@@ -352,7 +352,7 @@ const ProductGallery = () => {
                 <button
                   type="button"
                   onClick={() => setActiveGuideTab('adult')}
-                  className={`px-3 py-1.5 rounded text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                     activeGuideTab === 'adult' ? 'bg-soft-black text-white' : 'bg-stone/10 text-soft-black/80'
                   }`}
                 >
@@ -361,7 +361,7 @@ const ProductGallery = () => {
                 <button
                   type="button"
                   onClick={() => setActiveGuideTab('women')}
-                  className={`px-3 py-1.5 rounded text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                     activeGuideTab === 'women' ? 'bg-soft-black text-white' : 'bg-stone/10 text-soft-black/80'
                   }`}
                 >
@@ -370,7 +370,7 @@ const ProductGallery = () => {
                 <button
                   type="button"
                   onClick={() => setActiveGuideTab('kids')}
-                  className={`px-3 py-1.5 rounded text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                     activeGuideTab === 'kids' ? 'bg-soft-black text-white' : 'bg-stone/10 text-soft-black/80'
                   }`}
                 >

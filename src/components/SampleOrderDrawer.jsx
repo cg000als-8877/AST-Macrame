@@ -270,7 +270,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                   <button 
                     type="button"
                     onClick={onClose} 
-                    className="w-full max-w-[200px] bg-soft-black text-cream px-6 py-3.5 text-xs font-bold uppercase tracking-wider rounded hover:bg-terracotta transition-colors shadow-md mx-auto cursor-pointer"
+                    className="w-full max-w-[200px] bg-soft-black text-cream px-6 py-3.5 text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-terracotta transition-colors mx-auto cursor-pointer"
                   >
                     Close
                   </button>
@@ -476,7 +476,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                         <button 
                           type="submit" 
                           disabled={isSubmitting} 
-                          className="relative overflow-hidden group w-full bg-soft-black text-cream px-4 py-3.5 text-xs font-bold uppercase tracking-wider rounded hover:bg-terracotta hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 shadow-md disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                          className="relative overflow-hidden group w-full bg-soft-black text-cream px-4 py-3.5 text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-terracotta hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                         >
                           <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
                           <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.18em]">
@@ -499,7 +499,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                             <Lock className="w-3 h-3 text-emerald-700 shrink-0" />
                             <span>256-bit SSL Encrypted</span>
                           </div>
-                          <span>•</span>
+                          <span className="text-stone-300">|</span>
                           <div className="flex items-center gap-1 font-medium">
                             <ShieldCheck className="w-3 h-3 text-[#1C2841] shrink-0" />
                             <span>Direct Workshop Dispatch</span>

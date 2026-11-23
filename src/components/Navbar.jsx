@@ -131,119 +131,103 @@ const Navbar = () => {
           </div>
         )}
 
-        {/* 1. UNIVERSAL MOBILE TOP BAR (Burger + Logo + Search + Cart / Expanded Full-Width Search) */}
-        <div className="flex sm:hidden px-2.5 sm:px-4 h-[48px] items-center justify-between gap-1.5 w-full relative">
-          <AnimatePresence mode="wait">
-            {isMobileSearchExpanded ? (
-              <motion.form
-                key="expanded-search"
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.18, ease: "easeOut" }}
-                onSubmit={handleSearchSubmit}
-                className="flex items-center gap-2 w-full h-full"
+        {/* 1. UNIVERSAL MOBILE TOP BAR (Burger + Logo on Left | Search + Cart on Right / Smooth Popup Search Bar) */}
+        <div className="flex sm:hidden px-2.5 sm:px-4 h-[48px] items-center justify-between gap-1.5 w-full relative overflow-hidden">
+          {/* Base Mobile Bar: Left (Menu + Logo) | Right (Search + Cart) */}
+          <div className="flex items-center justify-between w-full h-full">
+            {/* Left: Burger Menu Button + Logo & Brand */}
+            <div className="flex items-center gap-1 shrink-0">
+              <button 
+                type="button"
+                onClick={() => setIsMobileMenuOpen(true)}
+                className="p-1.5 text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer"
+                aria-label="Open Navigation Menu"
+                title="Menu"
               >
-                <div className="relative flex-1 flex items-center bg-stone/15 focus-within:bg-stone/20 rounded-full px-3 py-1.5 text-xs transition-colors shadow-inner">
-                  <Search className="w-4 h-4 text-terracotta shrink-0 mr-2" />
-                  <input
-                    ref={searchInputRef}
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search macramé belts, colors..."
-                    className="w-full bg-transparent text-xs text-soft-black placeholder:text-dark-charcoal/50 focus:outline-none"
-                  />
-                  {searchQuery && (
-                    <button
-                      type="button"
-                      onClick={() => setSearchQuery('')}
-                      className="p-1 text-dark-charcoal/50 hover:text-soft-black cursor-pointer shrink-0"
-                      aria-label="Clear search"
-                    >
-                      <X className="w-3.5 h-3.5" />
-                    </button>
-                  )}
-                </div>
+                <Menu className="w-5 h-5 stroke-[2.2]" />
+              </button>
+
+              <Link to="/" className="flex items-center gap-1.5 active:scale-95 transition-transform shrink-0">
+                <img 
+                  src="/logo_black.png" 
+                  alt="AST Logo" 
+                  className="h-5.5 w-auto object-contain"
+                />
+                <span className="font-serif font-bold text-soft-black text-[12px] tracking-tight whitespace-nowrap">
+                  AST Macramé
+                </span>
+              </Link>
+            </div>
+
+            {/* Right: Search Icon + Cart Icon (Same style, thickness, and height) */}
+            <div className="flex items-center gap-1 shrink-0">
+              {/* Search Icon Trigger */}
+              <button
+                type="button"
+                onClick={() => setIsMobileSearchExpanded(true)}
+                className="relative p-1.5 text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer"
+                aria-label="Search belts"
+                title="Search"
+              >
+                <Search className="w-5 h-5 stroke-[2]" />
+              </button>
+
+              {/* Cart Button with Badge */}
+              <button 
+                type="button"
+                onClick={() => setIsCartOpen(true)}
+                className="relative p-1.5 text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer" 
+                aria-label="Shopping Cart"
+                title="Cart"
+              >
+                <ShoppingCart className="w-5 h-5 stroke-[2]" />
+                {totalCartQuantity > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 bg-terracotta text-white text-[8.5px] font-black w-4 h-4 rounded-full flex items-center justify-center leading-none">
+                    {totalCartQuantity}
+                  </span>
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Smooth Pop-up Search Bar Overlay (Only active in mobile view) */}
+          <form
+            onSubmit={handleSearchSubmit}
+            className={`absolute inset-0 bg-white z-20 px-2.5 flex items-center gap-2 w-full h-full transition-all duration-300 ease-out ${
+              isMobileSearchExpanded
+                ? 'opacity-100 translate-y-0 pointer-events-auto'
+                : 'opacity-0 -translate-y-full pointer-events-none'
+            }`}
+          >
+            <div className="relative flex-1 flex items-center bg-[#FAF7F2] focus-within:bg-[#F2EDE4] rounded-xl px-3 py-1.5 text-xs transition-colors">
+              <Search className="w-4 h-4 text-terracotta stroke-[2] shrink-0 mr-2" />
+              <input
+                ref={searchInputRef}
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search macramé belts, colors..."
+                className="w-full bg-transparent text-xs text-soft-black placeholder:text-dark-charcoal/50 focus:outline-none"
+              />
+              {searchQuery && (
                 <button
                   type="button"
-                  onClick={() => setIsMobileSearchExpanded(false)}
-                  className="text-[11px] font-bold text-terracotta uppercase tracking-wider px-1.5 py-1 active:scale-95 transition-all shrink-0 cursor-pointer"
+                  onClick={() => setSearchQuery('')}
+                  className="p-1 text-dark-charcoal/50 hover:text-soft-black cursor-pointer shrink-0"
+                  aria-label="Clear search"
                 >
-                  Cancel
+                  <X className="w-3.5 h-3.5 stroke-[2]" />
                 </button>
-              </motion.form>
-            ) : (
-              <motion.div
-                key="normal-bar"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.15 }}
-                className="flex items-center justify-between gap-1.5 w-full h-full"
-              >
-                {/* Left: Burger Menu Button + Logo & Brand */}
-                <div className="flex items-center gap-1 shrink-0">
-                  <button 
-                    type="button"
-                    onClick={() => setIsMobileMenuOpen(true)}
-                    className="p-1.5 text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer"
-                    aria-label="Open Navigation Menu"
-                    title="Menu"
-                  >
-                    <Menu className="w-5 h-5 stroke-[2.2]" />
-                  </button>
-
-                  <Link to="/" className="flex items-center gap-1.5 active:scale-95 transition-transform shrink-0">
-                    <img 
-                      src="/logo_black.png" 
-                      alt="AST Logo" 
-                      className="h-5.5 w-auto object-contain"
-                    />
-                    <span className="font-serif font-bold text-soft-black text-[12px] tracking-tight whitespace-nowrap">
-                      AST Macramé
-                    </span>
-                  </Link>
-                </div>
-
-                {/* Center: Search Bar with Icon and Demo Placeholder (Click to expand) */}
-                <div 
-                  onClick={() => setIsMobileSearchExpanded(true)}
-                  className="flex-1 min-w-0 mx-1 cursor-pointer"
-                >
-                  <div className="relative w-full flex items-center bg-stone/15 hover:bg-stone/20 rounded-full px-2.5 py-1 text-xs transition-colors">
-                    <Search className="w-3.5 h-3.5 text-dark-charcoal/50 shrink-0 mr-1.5" />
-                    <input 
-                      type="text"
-                      value={searchQuery}
-                      readOnly
-                      placeholder="Search belts..." 
-                      className="w-full bg-transparent text-[11px] text-soft-black placeholder:text-dark-charcoal/50 focus:outline-none truncate pointer-events-none" 
-                      aria-label="Search belts"
-                    />
-                  </div>
-                </div>
-
-                {/* Right: Cart Button with Badge */}
-                <div className="flex items-center shrink-0">
-                  <button 
-                    type="button"
-                    onClick={() => setIsCartOpen(true)}
-                    className="relative p-1.5 text-soft-black hover:text-terracotta active:scale-90 transition-all cursor-pointer" 
-                    aria-label="Shopping Cart"
-                    title="Cart"
-                  >
-                    <ShoppingCart className="w-5 h-5 stroke-[2]" />
-                    {totalCartQuantity > 0 && (
-                      <span className="absolute -top-0.5 -right-0.5 bg-terracotta text-white text-[8.5px] font-black w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-xs">
-                        {totalCartQuantity}
-                      </span>
-                    )}
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsMobileSearchExpanded(false)}
+              className="text-[11px] font-bold text-terracotta uppercase tracking-wider px-2 py-1 active:scale-95 transition-all shrink-0 cursor-pointer"
+            >
+              Cancel
+            </button>
+          </form>
         </div>
 
         {/* 2. DESKTOP NAVBAR (Hidden on mobile) */}
@@ -266,9 +250,9 @@ const Navbar = () => {
                     )}
                     <Link 
                       to={link.path}
-                      className={`relative px-2.5 py-1.5 md:px-3 text-xs md:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded  transition-all duration-200 ${
+                      className={`relative px-2.5 py-1.5 md:px-3 text-xs md:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded-xl transition-all duration-200 ${
                         isActive 
-                          ? 'text-soft-black bg-[#FAF7F2]  shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02]' 
+                          ? 'text-soft-black bg-[#FAF7F2] scale-[1.02]' 
                           : ' text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
                       }`}
                     >
@@ -306,9 +290,9 @@ const Navbar = () => {
                     )}
                     <Link 
                       to={link.path}
-                      className={`relative px-2.5 py-1.5 md:px-3 text-xs md:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded  transition-all duration-200 ${
+                      className={`relative px-2.5 py-1.5 md:px-3 text-xs md:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded-xl transition-all duration-200 ${
                         isActive 
-                          ? 'text-soft-black bg-[#FAF7F2]  shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02]' 
+                          ? 'text-soft-black bg-[#FAF7F2] scale-[1.02]' 
                           : ' text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
                       }`}
                     >
@@ -473,7 +457,7 @@ const Navbar = () => {
                           key={link.name}
                           to={link.path}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className={`group flex items-center justify-between px-2.5 py-2 rounded-lg text-[13px] tracking-normal transition-all ${
+                          className={`group flex items-center justify-between px-2.5 py-2 rounded-xl text-[13px] tracking-normal transition-all ${
                             isActive
                               ? 'text-terracotta font-bold'
                               : 'text-dark-charcoal/75 font-medium hover:text-soft-black hover:bg-stone/5'
@@ -514,7 +498,7 @@ const Navbar = () => {
                 <div className="flex items-center justify-center gap-3 text-[11px] text-dark-charcoal/60 font-medium pt-1">
                   {legalLinks.map((link, idx) => (
                     <React.Fragment key={link.path}>
-                      {idx > 0 && <span className="text-stone-300">•</span>}
+                      {idx > 0 && <span className="text-stone-300">|</span>}
                       <Link 
                         to={link.path} 
                         onClick={() => setIsMobileMenuOpen(false)} 

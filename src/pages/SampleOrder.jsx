@@ -505,12 +505,12 @@ const SampleOrder = () => {
             {/* Action Buttons: Quantity Stepper (Left) + Add to Cart Button (Right) */}
             <div className="flex items-center gap-2 sm:gap-3 w-full mb-3 md:mb-4">
               {/* Quantity Stepper */}
-              <div className="flex items-center h-12 md:h-[52px] bg-white rounded p-1 shrink-0">
+              <div className="flex items-center h-12 md:h-[52px] bg-white rounded-xl p-1 shrink-0">
                 <button
                   type="button"
                   onClick={() => handleQuantityUpdate(quantity - 1)}
                   disabled={quantity <= 1}
-                  className="w-8 md:w-9 h-full rounded bg-stone/10 hover:bg-stone/20 text-soft-black font-bold flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0"
+                  className="w-8 md:w-9 h-full rounded-lg bg-stone/10 hover:bg-stone/20 text-soft-black font-bold flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0"
                   aria-label="Decrease quantity"
                 >
                   <Minus className="w-3.5 h-3.5" />
@@ -522,7 +522,7 @@ const SampleOrder = () => {
                   type="button"
                   onClick={() => handleQuantityUpdate(quantity + 1)}
                   disabled={quantity >= 20}
-                  className="w-8 md:w-9 h-full rounded bg-stone/10 hover:bg-stone/20 text-soft-black font-bold flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0"
+                  className="w-8 md:w-9 h-full rounded-lg bg-stone/10 hover:bg-stone/20 text-soft-black font-bold flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0"
                   aria-label="Increase quantity"
                 >
                   <Plus className="w-3.5 h-3.5" />
@@ -533,7 +533,7 @@ const SampleOrder = () => {
               <button 
                 type="button"
                 onClick={handleAddToCart}
-                className="relative overflow-hidden group flex-1 h-12 md:h-[52px] flex items-center justify-center gap-2 md:gap-2.5 bg-soft-black text-cream px-4 md:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded hover:bg-dark-charcoal hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 shadow-md cursor-pointer"
+                className="relative overflow-hidden group flex-1 h-12 md:h-[52px] flex items-center justify-center gap-2 md:gap-2.5 bg-soft-black text-cream px-4 md:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-dark-charcoal hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
               >
                 {/* Shimmer Light Sweep on Hover */}
                 <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
@@ -682,7 +682,7 @@ const SampleOrder = () => {
               
               <h2 className="text-xl font-serif text-soft-black mb-5">{activeProduct.sizeGuide?.title || 'Sizing Guide'}</h2>
               
-              <div className="w-full bg-stone/5 rounded-lg overflow-hidden mb-4">
+              <div className="w-full bg-stone/5 rounded-xl overflow-hidden mb-4">
                 <div className="grid grid-cols-3 bg-stone/10 py-2">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Size</span>
                   <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Waist</span>
@@ -697,7 +697,7 @@ const SampleOrder = () => {
                 ))}
               </div>
 
-              <div className="flex justify-between items-center px-4 py-3 bg-stone/5 rounded-lg mb-4">
+              <div className="flex justify-between items-center px-4 py-3 bg-stone/5 rounded-xl mb-4">
                  <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Belt Width</span>
                  <span className="text-xs font-semibold text-soft-black">{activeProduct.sizeGuide?.width || '1.5"'}</span>
               </div>
@@ -743,7 +743,7 @@ const SampleOrder = () => {
               </p>
 
               {/* Monochromatic Policy Sections */}
-              <div className="w-full bg-stone/5 rounded-lg p-4 sm:p-4.5 text-left space-y-3.5 mb-4">
+              <div className="w-full bg-stone/5 rounded-xl p-4 sm:p-4.5 text-left space-y-3.5 mb-4">
                 
                 {/* 1. 100% Rebate */}
                 <div className="flex items-start gap-3">

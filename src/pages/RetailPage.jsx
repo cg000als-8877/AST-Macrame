@@ -596,10 +596,10 @@ const RetailPage = () => {
                 <button 
                   type="button"
                   onClick={() => setOrderType('single')}
-                  className={`flex-1 py-2 md:py-2.5 px-3 text-xs font-bold uppercase tracking-wider rounded  transition-all duration-300 cursor-pointer ${
+                  className={`flex-1 py-2 md:py-2.5 px-3 text-xs font-bold uppercase tracking-wider rounded-xl transition-all duration-300 cursor-pointer ${
                     orderType === 'single'
-                      ? 'bg-soft-black text-cream  shadow-xs'
-                      : 'bg-white text-soft-black  '
+                      ? 'bg-soft-black text-cream'
+                      : 'bg-white text-soft-black'
                   }`}
                 >
                   Single Product
@@ -607,10 +607,10 @@ const RetailPage = () => {
                 <button 
                   type="button"
                   onClick={() => setOrderType('combo')}
-                  className={`flex-1 py-2 md:py-2.5 px-3 text-xs font-bold uppercase tracking-wider rounded  transition-all duration-300 cursor-pointer ${
+                  className={`flex-1 py-2 md:py-2.5 px-3 text-xs font-bold uppercase tracking-wider rounded-xl transition-all duration-300 cursor-pointer ${
                     orderType === 'combo'
-                      ? 'bg-soft-black text-cream  shadow-xs'
-                      : 'bg-white text-soft-black  '
+                      ? 'bg-soft-black text-cream'
+                      : 'bg-white text-soft-black'
                   }`}
                 >
                   Combo (2 Belts)
@@ -679,10 +679,10 @@ const RetailPage = () => {
                             key={size}
                             type="button"
                             onClick={() => setSelectedSize(size)}
-                            className={`min-w-[36px] h-9 md:h-10 px-2.5 rounded  text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
+                            className={`min-w-[36px] h-9 md:h-10 px-2.5 rounded-md text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                               isSelected
-                                ? 'bg-soft-black text-cream  shadow-xs'
-                                : 'bg-white text-soft-black  '
+                                ? 'bg-soft-black text-cream'
+                                : 'bg-white text-soft-black'
                             }`}
                           >
                             {size}
@@ -718,7 +718,7 @@ const RetailPage = () => {
 
                 <div className="space-y-4">
                   {/* Belt 1 */}
-                  <div className="flex flex-row justify-start items-end gap-3 sm:gap-5 md:gap-6 w-full p-3 sm:p-3.5 rounded bg-white/50">
+                  <div className="flex flex-row justify-start items-end gap-3 sm:gap-5 md:gap-6 w-full p-3 sm:p-3.5 rounded-xl bg-white/50">
                     {/* Belt 1 Color */}
                     <div>
                       <span className="block text-[10px] md:text-xs font-bold tracking-wider uppercase text-soft-black mb-2">
@@ -756,10 +756,10 @@ const RetailPage = () => {
                               key={size}
                               type="button"
                               onClick={() => setComboSize1(size)}
-                              className={`min-w-[32px] h-8 sm:h-9 md:h-10 px-2 rounded  text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
+                              className={`min-w-[32px] h-8 sm:h-9 md:h-10 px-2 rounded-md text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                                 isSelected
-                                  ? 'bg-soft-black text-cream  shadow-xs'
-                                  : 'bg-white text-soft-black  '
+                                  ? 'bg-soft-black text-cream'
+                                  : 'bg-white text-soft-black'
                               }`}
                             >
                               {size}
@@ -771,7 +771,7 @@ const RetailPage = () => {
                   </div>
 
                   {/* Belt 2 */}
-                  <div className="flex flex-row justify-start items-end gap-3 sm:gap-5 md:gap-6 w-full p-3 sm:p-3.5 rounded bg-white/50">
+                  <div className="flex flex-row justify-start items-end gap-3 sm:gap-5 md:gap-6 w-full p-3 sm:p-3.5 rounded-xl bg-white/50">
                     {/* Belt 2 Color */}
                     <div>
                       <span className="block text-[10px] md:text-xs font-bold tracking-wider uppercase text-soft-black mb-2">
@@ -809,10 +809,10 @@ const RetailPage = () => {
                               key={size}
                               type="button"
                               onClick={() => setComboSize2(size)}
-                              className={`min-w-[32px] h-8 sm:h-9 md:h-10 px-2 rounded  text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
+                              className={`min-w-[32px] h-8 sm:h-9 md:h-10 px-2 rounded-md text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                                 isSelected
-                                  ? 'bg-soft-black text-cream  shadow-xs'
-                                  : 'bg-white text-soft-black  '
+                                  ? 'bg-soft-black text-cream'
+                                  : 'bg-white text-soft-black'
                               }`}
                             >
                               {size}
@@ -1062,11 +1062,11 @@ const RetailPage = () => {
                 {/* MOBILE VIEW ONLY: Side-by-side tabs to switch between the 3 comparison points */}
                 <div className="block lg:hidden">
                   {/* 3 Mobile Tabs */}
-                  <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#EAE5DA] rounded mb-3 shadow-none">
+                  <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#EAE5DA] rounded-xl mb-3 shadow-none">
                     <button
                       type="button"
                       onClick={() => setComparisonTab(0)}
-                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded text-center cursor-pointer ${
+                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded-xl text-center cursor-pointer ${
                         comparisonTab === 0
                           ? 'bg-soft-black text-white shadow-none'
                           : 'bg-transparent text-dark-charcoal hover:bg-white/40'
@@ -1078,7 +1078,7 @@ const RetailPage = () => {
                     <button
                       type="button"
                       onClick={() => setComparisonTab(1)}
-                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded text-center cursor-pointer ${
+                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded-xl text-center cursor-pointer ${
                         comparisonTab === 1
                           ? 'bg-soft-black text-white shadow-none'
                           : 'bg-transparent text-dark-charcoal hover:bg-white/40'
@@ -1090,7 +1090,7 @@ const RetailPage = () => {
                     <button
                       type="button"
                       onClick={() => setComparisonTab(2)}
-                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded text-center cursor-pointer ${
+                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded-xl text-center cursor-pointer ${
                         comparisonTab === 2
                           ? 'bg-soft-black text-white shadow-none'
                           : 'bg-transparent text-dark-charcoal hover:bg-white/40'
@@ -1649,11 +1649,11 @@ const RetailPage = () => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 80, opacity: 0 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed bottom-[84px] sm:bottom-8 inset-x-2.5 sm:inset-x-8 z-40 max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto bg-cotton-white/95 backdrop-blur-md px-3 sm:px-8 py-2 sm:py-3.5 rounded-xl sm:rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.18)] font-sans"
+            className="fixed bottom-[84px] sm:bottom-8 inset-x-2.5 sm:inset-x-8 z-40 max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto bg-cotton-white/95 backdrop-blur-md px-3 sm:px-8 py-2 sm:py-3.5 rounded-xl sm:rounded-2xl font-sans"
           >
             <div className="flex items-center justify-between gap-2 sm:gap-6 w-full">
               <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
-                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-stone/10 rounded-lg overflow-hidden shrink-0">
+                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-stone/10 rounded-xl overflow-hidden shrink-0">
                   <img 
                     src={images[0]} 
                     alt={activeProduct.title} 
@@ -1672,7 +1672,7 @@ const RetailPage = () => {
                       ৳ {currentRegularPrice.toLocaleString()}
                     </span>
                     <span className="text-dark-charcoal/60 truncate font-medium text-[9.5px] sm:text-xs">
-                      {orderType === 'single' ? `• ${selectedColor} (${selectedSize})` : `• Combo (2 Belts)`}
+                      {orderType === 'single' ? `— ${selectedColor} (${selectedSize})` : `— Combo (2 Belts)`}
                     </span>
                   </div>
                 </div>
@@ -1683,7 +1683,7 @@ const RetailPage = () => {
                 {/* ORDER NOW Button */}
                 <button
                   onClick={handleStickyOrderClick}
-                  className="bg-[#1C2841] hover:bg-[#131E33] text-white px-3 sm:px-6 py-1.5 sm:py-2.5 text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wider sm:tracking-[0.15em] rounded-lg sm:rounded-xl transition-all shadow-sm sm:shadow-md active:scale-[0.98] flex items-center gap-1 sm:gap-2 cursor-pointer"
+                  className="bg-[#1C2841] hover:bg-[#131E33] text-white px-3 sm:px-6 py-1.5 sm:py-2.5 text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wider sm:tracking-[0.15em] rounded-xl transition-all active:scale-[0.98] flex items-center gap-1 sm:gap-2 cursor-pointer"
                 >
                   <span className="font-bold whitespace-nowrap">ORDER NOW</span>
                   <ArrowUp className="w-3 h-3 sm:w-4 sm:h-4 animate-arrow-up shrink-0" />
@@ -1693,10 +1693,10 @@ const RetailPage = () => {
                 <button
                   type="button"
                   onClick={handleAddToCartClick}
-                  className={`w-7.5 h-7.5 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center rounded-lg sm:rounded-xl transition-all duration-200 cursor-pointer ${
+                  className={`w-7.5 h-7.5 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center rounded-xl transition-all duration-200 cursor-pointer ${
                     isCartedAnimation
-                      ? 'text-white bg-emerald-600 scale-105 shadow-sm'
-                      : 'bg-white text-soft-black hover:bg-soft-black hover:text-cream shadow-xs active:scale-95'
+                      ? 'text-white bg-emerald-600 scale-105'
+                      : 'bg-white text-soft-black hover:bg-soft-black hover:text-cream active:scale-95'
                   }`}
                   title="Add to Cart"
                   aria-label="Add to Cart"
