@@ -50,9 +50,9 @@ const WishlistDrawer = () => {
             className="relative w-[75vw] sm:w-full sm:max-w-md bg-cream h-[100dvh] shadow-2xl z-10 flex flex-col overflow-hidden overscroll-contain"
           >
             {/* Header */}
-            <div className="px-5 py-4 bg-cream border-b border-stone/15 flex items-center justify-between shadow-2xs">
+            <div className="px-5 py-4 bg-cream  flex items-center justify-between shadow-2xs">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-rose-50 border border-rose-200/80 flex items-center justify-center text-rose-500">
+                <div className="w-8 h-8 rounded-full bg-rose-50  flex items-center justify-center text-rose-500">
                   <Heart className="w-4 h-4 fill-rose-500" />
                 </div>
                 <div>
@@ -76,7 +76,7 @@ const WishlistDrawer = () => {
             <div className="flex-1 overflow-y-auto p-4 md:p-5 space-y-3">
               {wishlist.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-center px-4 py-12">
-                  <div className="w-16 h-16 rounded-full bg-white border border-stone/15 flex items-center justify-center text-dark-charcoal/40 mb-4 shadow-xs">
+                  <div className="w-16 h-16 rounded-full bg-white  flex items-center justify-center text-dark-charcoal/40 mb-4 shadow-xs">
                     <Heart className="w-7 h-7 stroke-[1.5]" />
                   </div>
                   <h3 className="font-serif text-lg font-bold text-soft-black mb-1">Your Wishlist is Empty</h3>
@@ -102,9 +102,9 @@ const WishlistDrawer = () => {
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95 }}
-                      className="bg-white border border-stone/15 rounded-2xl p-3.5 shadow-2xs flex items-center gap-3.5 group hover:border-stone/30 transition-all"
+                      className="bg-white  rounded-2xl p-3.5 shadow-2xs flex items-center gap-3.5 group  transition-all"
                     >
-                      <div className="w-16 h-16 rounded-xl overflow-hidden bg-stone/5 border border-stone/10 shrink-0">
+                      <div className="w-16 h-16 rounded-xl overflow-hidden bg-stone/5  shrink-0">
                         <img
                           src={item.image}
                           alt={item.color}
@@ -154,7 +154,7 @@ const WishlistDrawer = () => {
 
             {/* Footer */}
             {wishlist.length > 0 && (
-              <div className="p-4 bg-white border-t border-stone/15 flex items-center justify-between gap-3">
+              <div className="p-4 bg-white  flex items-center justify-between gap-3">
                 <Link
                   to="/product"
                   onClick={() => setIsWishlistOpen(false)}

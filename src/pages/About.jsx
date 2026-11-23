@@ -55,7 +55,7 @@ const About = () => {
     <div className="w-full bg-cream min-h-screen pt-20 sm:pt-22 md:pt-24 pb-16 md:pb-24 selection:bg-terracotta selection:text-white">
       
       {/* 1. HERO SECTION */}
-      <section className="relative px-4 sm:px-6 lg:px-12 pb-12 sm:pb-16 border-b border-stone/15">
+      <section className="relative px-4 sm:px-6 lg:px-12 pb-12 sm:pb-16 ">
         <div className="max-w-4xl mx-auto text-center">
           
           <motion.div
@@ -67,8 +67,8 @@ const About = () => {
               OUR STORY &amp; ARTISAN PURPOSE
             </span>
             
-            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-semibold uppercase tracking-tight text-soft-black mb-3 sm:mb-5 leading-tight">
-              HANDMADE HERITAGE, MODERN ACCESSORY CRAFT
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-semibold tracking-tight text-soft-black mb-3 sm:mb-5 leading-tight">
+              Handmade Heritage, Modern Accessory Craft
             </h1>
             
             <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light max-w-2xl mx-auto leading-relaxed">
@@ -80,15 +80,15 @@ const About = () => {
       </section>
 
       {/* 2. THREE CORE PILLARS MATRIX */}
-      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-12 border-b border-stone/15 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-12  bg-white">
         <div className="max-w-6xl mx-auto">
           
           <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
             <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-1.5 sm:mb-2">
               WHY WE EXIST
             </span>
-            <h2 className="text-xl sm:text-3xl md:text-4xl font-serif font-semibold uppercase text-soft-black tracking-tight">
-              THE THREE PILLARS OF AST
+            <h2 className="text-xl sm:text-3xl md:text-4xl font-serif font-semibold text-soft-black tracking-tight">
+              The Three Pillars of AST
             </h2>
           </div>
 
@@ -102,7 +102,7 @@ const About = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="bg-[#FAF7F2] border border-[#E8E0D2] rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:border-soft-black/40 hover:shadow-md transition-all duration-300"
+                  className="bg-[#FAF7F2] rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:bg-white hover:shadow-md transition-all duration-300"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
@@ -131,7 +131,7 @@ const About = () => {
       </section>
 
       {/* 3. STORY & HERITAGE DETAIL */}
-      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-12 border-b border-stone/15 bg-cream">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-12  bg-cream">
         <div className="max-w-6xl mx-auto">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
@@ -168,7 +168,7 @@ const About = () => {
                 </Link>
                 <Link
                   to="/sample-wholesale"
-                  className="bg-white border border-stone/30 text-soft-black px-6 py-3.5 text-xs font-bold uppercase tracking-[0.18em] rounded hover:border-soft-black hover:bg-soft-black hover:text-cream transition-all shadow-2xs"
+                  className="bg-white text-soft-black px-6 py-3.5 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-soft-black hover:text-cream transition-all shadow-2xs"
                 >
                   Wholesale &amp; Private Label
                 </Link>
@@ -177,20 +177,20 @@ const About = () => {
 
             {/* Right Column: Workshop Stats Card */}
             <div className="lg:col-span-5">
-              <div className="bg-white border border-stone/20 rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-sm">
-                <div className="flex items-center gap-3 pb-4 mb-5 border-b border-stone/15">
+              <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-sm">
+                <div className="flex items-center gap-3 pb-4 mb-5 ">
                   <div className="w-10 h-10 rounded-xl bg-terracotta text-cream flex items-center justify-center shrink-0">
                     <Award className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-serif font-semibold text-base text-soft-black uppercase">
+                    <h3 className="font-serif font-semibold text-base text-soft-black">
                       Workshop Standards
                     </h3>
                     <span className="text-[11px] text-dark-charcoal/60 font-medium">Factsheet &amp; Credentials</span>
                   </div>
                 </div>
 
-                <div className="divide-y divide-stone/15">
+                <div className="space-y-1">
                   {highlights.map((item, idx) => (
                     <div key={idx} className="py-3 flex items-center justify-between gap-3 text-xs sm:text-sm">
                       <span className="text-dark-charcoal/70 font-light">{item.label}</span>
@@ -207,7 +207,7 @@ const About = () => {
       </section>
 
       {/* 4. LEADERSHIP & TEAM */}
-      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-12 border-b border-stone/15 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-12  bg-white">
         <div className="max-w-5xl mx-auto">
           
           <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
@@ -222,7 +222,7 @@ const About = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             
             {/* Saifuddin Sony */}
-            <div className="bg-[#FAF7F2] border border-[#E8E0D2] rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-between hover:border-soft-black/40 transition-all">
+            <div className="bg-[#FAF7F2] rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-between hover:bg-white hover:shadow-md transition-all">
               <div>
                 <div className="flex items-center gap-3.5 mb-4">
                   <div className="w-12 h-12 rounded-full bg-soft-black text-cream flex items-center justify-center font-serif text-lg font-semibold shrink-0">
@@ -238,7 +238,7 @@ const About = () => {
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-stone/20 flex items-center justify-between text-xs">
+              <div className="mt-6 pt-2 flex items-center justify-between text-xs">
                 <span className="text-dark-charcoal/60 font-light">Based in Chattogram</span>
                 <a 
                   href="mailto:astmacrame@gmail.com?subject=Inquiry%20for%20Saifuddin%20Sony"
@@ -250,7 +250,7 @@ const About = () => {
             </div>
 
             {/* Arfat Risve */}
-            <div className="bg-[#FAF7F2] border border-[#E8E0D2] rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-between hover:border-soft-black/40 transition-all">
+            <div className="bg-[#FAF7F2] rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-between hover:bg-white hover:shadow-md transition-all">
               <div>
                 <div className="flex items-center gap-3.5 mb-4">
                   <div className="w-12 h-12 rounded-full bg-terracotta text-cream flex items-center justify-center font-serif text-lg font-semibold shrink-0">
@@ -266,7 +266,7 @@ const About = () => {
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-stone/20 flex items-center justify-between text-xs">
+              <div className="mt-6 pt-2 flex items-center justify-between text-xs">
                 <span className="text-dark-charcoal/60 font-light">International Inquiries</span>
                 <a 
                   href="https://wa.me/8801940689061?text=Hello%20Arfat,%20I%20would%20like%20to%20discuss%20an%20export%20inquiry."
@@ -291,8 +291,8 @@ const About = () => {
             READY TO COLLABORATE?
           </span>
           
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-cream tracking-tight mb-3 sm:mb-4">
-            DISCOVER THE AST MACRAMÉ STANDARD
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold text-cream tracking-tight mb-3 sm:mb-4">
+            Discover the AST Macramé Standard
           </h2>
           
           <p className="text-xs sm:text-base md:text-lg text-cream/80 font-light mb-8 sm:mb-10 max-w-xl mx-auto leading-relaxed">
@@ -311,7 +311,7 @@ const About = () => {
               href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20am%20interested%20in%20collaborating."
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto bg-transparent border border-cream/40 text-cream px-8 sm:px-9 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:border-cream hover:bg-cream hover:text-soft-black transition-all inline-flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-white/10 text-cream px-8 sm:px-9 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-cream hover:text-soft-black transition-all inline-flex items-center justify-center gap-2"
             >
               <MessageCircle className="w-4 h-4" />
               <span>Chat on WhatsApp</span>

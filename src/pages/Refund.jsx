@@ -92,7 +92,7 @@ const Refund = () => {
     <div className="w-full bg-cream min-h-screen pt-20 sm:pt-22 md:pt-24 pb-16 md:pb-24 selection:bg-terracotta selection:text-white">
       
       {/* 1. HERO SECTION */}
-      <section className="relative px-4 sm:px-6 lg:px-12 pb-12 sm:pb-16 border-b border-stone/15">
+      <section className="relative px-4 sm:px-6 lg:px-12 pb-12 sm:pb-16">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -115,7 +115,7 @@ const Refund = () => {
       </section>
 
       {/* 2. UNBOXING VIDEO WARNING CARD (MANDATORY REQUIREMENT) */}
-      <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-12 bg-white border-b border-stone/15">
+      <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-12 bg-white">
         <div className="max-w-4xl mx-auto">
           
           <motion.div
@@ -123,15 +123,15 @@ const Refund = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="bg-[#FAF7F2] border-2 border-terracotta/40 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm"
+            className="bg-[#FAF7F2] rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm"
           >
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-terracotta/20">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4">
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-xl bg-terracotta text-cream flex items-center justify-center shrink-0">
                   <Video className="w-6 h-6" />
                 </div>
                 <div>
-                  <h2 className="text-lg sm:text-2xl font-serif font-semibold uppercase text-soft-black">
+                  <h2 className="text-lg sm:text-2xl font-serif font-semibold text-soft-black">
                     Mandatory Unboxing Video Protocol
                   </h2>
                   <span className="text-xs text-terracotta font-semibold uppercase tracking-wider block">Required for all defect &amp; transit damage claims</span>
@@ -146,8 +146,8 @@ const Refund = () => {
               To guarantee total transparency and prevent disputed claims, <strong>a single, unedited unboxing video is mandatory</strong> for any refund, replacement, or missing-item claim. Without this video, no claim can be approved.
             </p>
 
-            <div className="bg-white/80 border border-stone/20 rounded-xl p-4 sm:p-6">
-              <h3 className="text-xs sm:text-sm font-serif font-semibold uppercase text-soft-black mb-3.5 flex items-center gap-2">
+            <div className="bg-white/80 rounded-xl p-4 sm:p-6">
+              <h3 className="text-xs sm:text-sm font-serif font-semibold text-soft-black mb-3.5 flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-terracotta" />
                 <span>Unboxing Recording Checklist:</span>
               </h3>
@@ -169,7 +169,7 @@ const Refund = () => {
       </section>
 
       {/* 3. POLICY DETAILS LIST */}
-      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-12 bg-[#FAF7F2] border-b border-stone/15">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-12 bg-[#FAF7F2]">
         <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
           
           <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
@@ -190,14 +190,14 @@ const Refund = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
-                className="bg-white border border-stone/20 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm hover:border-soft-black/40 transition-all"
+                className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm transition-all"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4 border-b border-stone/15">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-soft-black text-cream flex items-center justify-center shrink-0">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold uppercase text-soft-black">
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold text-soft-black">
                       {policy.title}
                     </h3>
                   </div>
@@ -218,13 +218,13 @@ const Refund = () => {
 
       {/* 4. CLAIM INITIATION BANNER */}
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-12 bg-white">
-        <div className="max-w-4xl mx-auto bg-[#FAF7F2] border border-[#E8E0D2] rounded-2xl sm:rounded-3xl p-8 sm:p-10 md:p-12 text-center">
+        <div className="max-w-4xl mx-auto bg-[#FAF7F2] rounded-2xl sm:rounded-3xl p-8 sm:p-10 md:p-12 text-center">
           <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
             NEED TO SUBMIT A CLAIM?
           </span>
           
-          <h2 className="text-xl sm:text-3xl font-serif font-semibold uppercase text-soft-black mb-3">
-            WE ARE HERE TO RESOLVE ISSUES QUICKLY
+          <h2 className="text-xl sm:text-3xl font-serif font-semibold text-soft-black mb-3">
+            We Are Here to Resolve Issues Quickly
           </h2>
           
           <p className="text-xs sm:text-base text-dark-charcoal/80 font-light mb-8 max-w-xl mx-auto leading-relaxed">
@@ -243,7 +243,7 @@ const Refund = () => {
             </a>
             <a
               href="mailto:astmacrame@gmail.com?subject=Defect%20Claim%20with%20Unboxing%20Video"
-              className="w-full sm:w-auto bg-white border border-stone/30 text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded hover:border-soft-black hover:bg-soft-black hover:text-cream transition-all shadow-2xs inline-flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-white text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded hover:bg-soft-black hover:text-cream transition-all shadow-2xs inline-flex items-center justify-center gap-2"
             >
               <Mail className="w-4 h-4" />
               <span>Email Video Link</span>

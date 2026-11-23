@@ -99,7 +99,7 @@ const Terms = () => {
     <div className="w-full bg-cream min-h-screen pt-20 sm:pt-22 md:pt-24 pb-16 md:pb-24 selection:bg-terracotta selection:text-white">
       
       {/* 1. HERO SECTION */}
-      <section className="relative px-4 sm:px-6 lg:px-12 pb-12 sm:pb-16 border-b border-stone/15">
+      <section className="relative px-4 sm:px-6 lg:px-12 pb-12 sm:pb-16">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -122,7 +122,7 @@ const Terms = () => {
       </section>
 
       {/* 2. TERMS CARDS LIST */}
-      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-12 bg-white border-b border-stone/15">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-12 bg-white">
         <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
           
           {sections.map((section, idx) => {
@@ -134,14 +134,14 @@ const Terms = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
-                className="bg-[#FAF7F2] border border-[#E8E0D2] rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 hover:border-soft-black/40 hover:shadow-md transition-all"
+                className="bg-[#FAF7F2] rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 hover:shadow-md transition-all"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4 border-b border-stone/20">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-soft-black text-cream flex items-center justify-center shrink-0">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <h2 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold uppercase text-soft-black">
+                    <h2 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold text-soft-black">
                       {section.title}
                     </h2>
                   </div>
@@ -162,13 +162,13 @@ const Terms = () => {
 
       {/* 3. ASSISTANCE BANNER */}
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-12 bg-cream">
-        <div className="max-w-4xl mx-auto bg-white border border-stone/20 rounded-2xl sm:rounded-3xl p-8 sm:p-10 md:p-12 text-center shadow-sm">
+        <div className="max-w-4xl mx-auto bg-white rounded-2xl sm:rounded-3xl p-8 sm:p-10 md:p-12 text-center shadow-sm">
           <div className="w-12 h-12 rounded-full bg-terracotta/10 text-terracotta flex items-center justify-center mx-auto mb-4">
             <HelpCircle className="w-6 h-6" />
           </div>
           
-          <h2 className="text-xl sm:text-3xl font-serif font-semibold uppercase text-soft-black mb-3">
-            NEED CLARIFICATION ON OUR TERMS?
+          <h2 className="text-xl sm:text-3xl font-serif font-semibold text-soft-black mb-3">
+            Need Clarification on Our Terms?
           </h2>
           
           <p className="text-xs sm:text-base text-dark-charcoal/80 font-light mb-8 max-w-xl mx-auto leading-relaxed">
@@ -187,7 +187,7 @@ const Terms = () => {
               href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20have%20a%20question%20about%20your%20terms."
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto bg-white border border-stone/30 text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded hover:border-soft-black hover:bg-soft-black hover:text-cream transition-all shadow-2xs inline-flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-white text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded hover:bg-soft-black hover:text-cream transition-all shadow-2xs inline-flex items-center justify-center gap-2"
             >
               <MessageCircle className="w-4 h-4" />
               <span>Ask on WhatsApp</span>

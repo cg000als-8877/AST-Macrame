@@ -39,7 +39,7 @@ import k6 from '../assets/products/Khaki/6.webp';
 import { useCartWishlist } from '../context/CartWishlistContext';
 
 const Accordion = ({ title, isOpen, onClick, children }) => (
-  <div className="border-b border-stone/15 last:border-b-0 sm:border-stone/30 sm:last:border-b">
+  <div className="bg-[#FAF7F2] rounded-2xl mb-2.5 overflow-hidden">
     <button 
       onClick={onClick}
       className="w-full py-3.5 px-3.5 sm:px-0 flex justify-between items-center text-left cursor-pointer group select-none"
@@ -363,8 +363,8 @@ const Product = () => {
                     onClick={() => scrollToDot(idx)}
                     className={`relative aspect-square w-[calc((100%-5*0.375rem)/6)] shrink-0 overflow-hidden transition-all duration-300 rounded-[4px] cursor-pointer ${
                       activeIndex === idx
-                        ? 'border border-soft-black/80 shadow-xs'
-                        : 'border border-black/[0.08] hover:border-black/20'
+                        ? 'ring-2 ring-soft-black shadow-xs'
+                        : 'hover:opacity-90'
                     }`}
                     aria-label={`Select product image ${idx + 1}`}
                   >
@@ -435,19 +435,19 @@ const Product = () => {
 
                 {/* Dynamic Tier Savings Badge / Note */}
                 {quantity > 1 ? (
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50/90 border border-emerald-200/80 rounded-full text-emerald-800 text-[11px] md:text-xs font-semibold tracking-wide mt-1">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-800 rounded-full text-emerald-800 text-[11px] md:text-xs font-semibold tracking-wide mt-1">
                     <span>🔥</span>
                     <span>Buy {quantity} & Save {currencySymbol}{Math.round(savingsLocal).toLocaleString()} ({Math.round((savingsBDT / regularPriceBDT) * 100)}% OFF applied)</span>
                   </div>
                 ) : (
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-terracotta/10 border border-terracotta/20 rounded-full text-terracotta text-[11px] font-medium tracking-wide mt-1">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-terracotta/10 text-terracotta rounded-full text-terracotta text-[11px] font-medium tracking-wide mt-1">
                     <span>💡</span>
                     <span>Buy 2 or more to get bulk tier discount (Save up to ৳160/pc)</span>
                   </div>
                 )}
               </div>
               
-              <hr className="border-t border-stone/20 my-3.5 w-full" />
+              <div className="my-3.5 w-full" />
               
               <div className="flex justify-start">
                 <button 
@@ -484,7 +484,7 @@ const Product = () => {
                       aria-label={`Select color ${color.name}`}
                     >
                       <span
-                        className="block w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-black/10 shadow-inner"
+                        className="block w-7 h-7 sm:w-8 sm:h-8 rounded-full shadow-inner"
                         style={{ backgroundColor: color.hex }}
                       />
                     </button>
@@ -524,10 +524,10 @@ const Product = () => {
                       key={s.label}
                       type="button"
                       onClick={() => handleSizeChange(s.label)}
-                      className={`h-[44px] sm:h-[46px] px-1 sm:px-3 rounded-xl border text-center transition-all duration-200 cursor-pointer flex flex-col items-center justify-center ${
+                      className={`h-[44px] sm:h-[46px] px-1 sm:px-3 rounded-xl  text-center transition-all duration-200 cursor-pointer flex flex-col items-center justify-center ${
                         selectedSize === s.label
-                          ? 'bg-soft-black text-cream border-soft-black shadow-sm font-bold'
-                          : 'bg-white text-soft-black border-stone/20 hover:border-soft-black/40 font-medium'
+                          ? 'bg-soft-black text-cream  shadow-sm font-bold'
+                          : 'bg-white text-soft-black  hover: font-medium'
                       }`}
                     >
                       <span className="text-xs font-bold leading-none mb-0.5">{s.label}</span>
@@ -544,12 +544,12 @@ const Product = () => {
                     Quantity
                   </span>
                   {quantity > 1 && (
-                    <span className="text-[9px] sm:text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 sm:px-2 py-0.5 rounded-full border border-emerald-200/50 truncate max-w-[70px] sm:max-w-none text-right">
+                    <span className="text-[9px] sm:text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 sm:px-2 py-0.5 rounded-full /50 truncate max-w-[70px] sm:max-w-none text-right">
                       Tier Rate
                     </span>
                   )}
                 </div>
-                <div className="flex items-center h-[44px] sm:h-[46px] bg-white border border-stone/20 rounded-xl p-0.5 sm:p-1 shadow-2xs">
+                <div className="flex items-center h-[44px] sm:h-[46px] bg-white rounded-xl p-0.5 sm:p-1 shadow-2xs">
                   <button
                     type="button"
                     onClick={() => handleQuantityUpdate(Math.max(1, quantity - 1))}
@@ -575,7 +575,7 @@ const Product = () => {
             </div>
 
             {/* Quick Volume Pricing Tier Shortcuts */}
-            <div className="mb-4 p-3 bg-stone/5 border border-stone/15 rounded-2xl">
+            <div className="mb-4 p-3 bg-stone/5 rounded-2xl">
               <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-dark-charcoal/80 mb-2">
                 <span>Volume Discount Pricing</span>
                 <span className="text-terracotta font-semibold">Tier Rate Applied</span>
@@ -591,10 +591,10 @@ const Product = () => {
                     key={tier.q}
                     type="button"
                     onClick={() => handleQuantityUpdate(tier.q)}
-                    className={`py-1.5 px-1 rounded-xl border text-center transition-all cursor-pointer ${
+                    className={`py-1.5 px-1 rounded-xl  text-center transition-all cursor-pointer ${
                       quantity === tier.q
-                        ? 'bg-soft-black text-cream border-soft-black shadow-xs ring-1 ring-soft-black'
-                        : 'bg-white text-soft-black border-stone/15 hover:border-stone/40'
+                        ? 'bg-soft-black text-cream  shadow-xs ring-1 ring-soft-black'
+                        : 'bg-white text-soft-black  '
                     }`}
                   >
                     <div className="text-[10px] font-bold">{tier.label}</div>
@@ -611,8 +611,8 @@ const Product = () => {
 
             {/* Multi-Piece Customizer when quantity > 1 (Allows choosing all 5 colors + 3 M / 2 L) */}
             {quantity > 1 && (
-              <div className="mb-5 bg-white border border-stone/20 rounded-2xl p-3.5 md:p-4 shadow-2xs">
-                <div className="flex items-center justify-between flex-wrap gap-2 mb-3 pb-2.5 border-b border-stone/10">
+              <div className="mb-5 bg-white rounded-2xl p-3.5 md:p-4 shadow-2xs">
+                <div className="flex items-center justify-between flex-wrap gap-2 mb-3 pb-2.5">
                   <div>
                     <span className="text-xs font-bold uppercase tracking-wider text-soft-black block">
                       Customize Sample Pieces ({quantity} Belts)
@@ -626,7 +626,7 @@ const Product = () => {
                     <button
                       type="button"
                       onClick={handleSetAllColorsMixPreset}
-                      className="px-2.5 py-1 rounded-xl bg-terracotta/10 hover:bg-terracotta/20 text-terracotta border border-terracotta/30 text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                      className="px-2.5 py-1 rounded-xl bg-terracotta/10 hover:bg-terracotta/20 text-terracotta /30 text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
                     >
                       🌈 1 of Each Color Mix
                     </button>
@@ -635,7 +635,7 @@ const Product = () => {
 
                 <div className="space-y-2 max-h-[240px] overflow-y-auto pr-1">
                   {customizedPieces.slice(0, quantity).map((piece, idx) => (
-                    <div key={idx} className="flex items-center justify-between gap-2 p-2 bg-stone/5 border border-stone/10 rounded-xl">
+                    <div key={idx} className="flex items-center justify-between gap-2 p-2 bg-stone/5 rounded-xl">
                       <span className="text-[11px] font-bold text-soft-black shrink-0 w-16">
                         Piece #{idx + 1}:
                       </span>
@@ -647,8 +647,8 @@ const Product = () => {
                             key={c.name}
                             type="button"
                             onClick={() => handleIndividualPieceColorChange(idx, c.name)}
-                            className={`w-5 h-5 rounded-full border transition-all cursor-pointer ${
-                              piece.color === c.name ? 'ring-2 ring-soft-black ring-offset-1 scale-110' : 'border-black/10 opacity-70 hover:opacity-100'
+                            className={`w-5 h-5 rounded-full  transition-all cursor-pointer ${
+                              piece.color === c.name ? 'ring-2 ring-soft-black ring-offset-1 scale-110' : ' opacity-70 hover:opacity-100'
                             }`}
                             style={{ backgroundColor: c.hex }}
                             title={c.name}
@@ -663,10 +663,10 @@ const Product = () => {
                             key={sz}
                             type="button"
                             onClick={() => handleIndividualPieceSizeChange(idx, sz)}
-                            className={`w-6 h-6 rounded-md text-[10px] font-bold border transition-all cursor-pointer ${
+                            className={`w-6 h-6 rounded-md text-[10px] font-bold  transition-all cursor-pointer ${
                               piece.size === sz
-                                ? 'bg-soft-black text-cream border-soft-black'
-                                : 'bg-white text-soft-black border-stone/20 hover:border-soft-black/40'
+                                ? 'bg-soft-black text-cream '
+                                : 'bg-white text-soft-black  hover:'
                             }`}
                           >
                             {sz}
@@ -705,7 +705,7 @@ const Product = () => {
                 <button
                   type="button"
                   onClick={handleAddToCartClick}
-                  className="px-4 py-4 md:py-4.5 bg-white border border-stone/30 text-soft-black hover:border-soft-black hover:bg-stone/5 text-[11px] md:text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-2xs cursor-pointer flex items-center gap-1.5"
+                  className="px-4 py-4 md:py-4.5 bg-white text-soft-black hover: hover:bg-stone/5 text-[11px] md:text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-2xs cursor-pointer flex items-center gap-1.5"
                   title="Add to Cart"
                 >
                   <ShoppingBag className="w-4 h-4" />
@@ -715,14 +715,14 @@ const Product = () => {
               
               <Link 
                 to="/contact" 
-                className="w-full flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 py-3.5 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-soft-black/5 transition-colors"
+                className="w-full flex items-center justify-center bg-white text-soft-black px-8 py-3.5 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-xl shadow-2xs hover:bg-[#FAF7F2] transition-colors"
               >
                 Wholesale Inquiry
               </Link>
             </div>
 
             {/* Expandable Accordions - Card View on Mobile */}
-            <div className="bg-white sm:bg-transparent border border-stone/20 sm:border-t sm:border-x-0 sm:border-b-0 sm:border-stone/30 p-2 sm:p-0 rounded-2xl sm:rounded-none overflow-hidden shadow-xs sm:shadow-none mb-6 sm:mb-0">
+            <div className="bg-white sm:bg-transparent sm: sm:-0 sm:-0 sm: p-2 sm:p-0 rounded-2xl sm:rounded-none overflow-hidden shadow-xs sm:shadow-none mb-6 sm:mb-0">
               <Accordion 
                 title="Description" 
                 isOpen={!!openAccordions['description']} 
@@ -795,7 +795,7 @@ const Product = () => {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-white border border-stone/20 w-full max-w-sm p-6 relative z-10 shadow-2xl rounded-xl text-center"
+              className="bg-white w-full max-w-sm p-6 relative z-10 shadow-2xl rounded-xl text-center"
             >
               <button 
                 onClick={() => setIsSizeGuideOpen(false)}
@@ -808,13 +808,13 @@ const Product = () => {
               
               <h2 className="text-xl font-serif text-soft-black mb-5">Sizing Guide</h2>
               
-              <div className="w-full bg-stone/5 rounded-lg border border-stone/10 overflow-hidden mb-4">
-                <div className="grid grid-cols-3 bg-stone/10 border-b border-stone/10 py-2">
+              <div className="w-full bg-stone/5 rounded-lg overflow-hidden mb-4">
+                <div className="grid grid-cols-3 bg-stone/10 py-2">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Size</span>
                   <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Waist</span>
                   <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Length</span>
                 </div>
-                <div className="grid grid-cols-3 py-3 border-b border-stone/10/50">
+                <div className="grid grid-cols-3 py-3 /50">
                   <span className="text-sm font-semibold text-soft-black">M</span>
                   <span className="text-sm text-soft-black/80">32–35"</span>
                   <span className="text-sm text-soft-black/80">38"</span>
@@ -826,7 +826,7 @@ const Product = () => {
                 </div>
               </div>
 
-              <div className="flex justify-between items-center px-4 py-3 bg-stone/5 rounded-lg border border-stone/10 mb-4">
+              <div className="flex justify-between items-center px-4 py-3 bg-stone/5 rounded-lg mb-4">
                  <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Belt Width</span>
                  <span className="text-xs font-semibold text-soft-black">1.5"</span>
               </div>
@@ -854,7 +854,7 @@ const Product = () => {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-white border border-stone/20 w-full max-w-md p-6 relative z-10 shadow-2xl rounded-xl"
+              className="bg-white w-full max-w-md p-6 relative z-10 shadow-2xl rounded-xl"
             >
               <button 
                 onClick={() => setIsSamplePolicyOpen(false)}
@@ -872,7 +872,7 @@ const Product = () => {
                 Evaluate our craftsmanship before placing a wholesale order.
               </p>
               
-              <div className="bg-stone/5 rounded-lg border border-stone/10 p-5 mb-4 shadow-sm">
+              <div className="bg-stone/5 rounded-lg p-5 mb-4 shadow-sm">
                 <ul className="space-y-4 text-sm text-dark-charcoal list-disc list-outside ml-4 leading-relaxed">
                   <li>Order up to 5 samples per design with discounted tiered pricing.</li>
                   <li>Customize colors and sizes individually for each sample in a multi-pack.</li>
@@ -945,11 +945,11 @@ const Product = () => {
                       </TransformComponent>
                       
                       {/* Zoom Controls (Desktop & Mobile) */}
-                      <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-3 sm:gap-5 z-[110] bg-black/75 backdrop-blur-md px-4 sm:px-6 py-2 rounded-full border border-white/20 shadow-2xl">
+                      <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-3 sm:gap-5 z-[110] bg-black/75 backdrop-blur-md px-4 sm:px-6 py-2 rounded-full shadow-2xl">
                         <button onClick={() => zoomOut()} className="text-white/80 hover:text-white hover:scale-110 transition-all p-1 cursor-pointer" title="Zoom Out">
                           <ZoomOut className="w-4 h-4 sm:w-5 sm:h-5" />
                         </button>
-                        <button onClick={() => resetTransform()} className="flex items-center gap-1.5 text-[10px] sm:text-xs text-white/90 font-mono uppercase tracking-widest hover:text-white hover:scale-105 transition-all px-2.5 py-0.5 border-x border-white/25 cursor-pointer" title="Reset View">
+                        <button onClick={() => resetTransform()} className="flex items-center gap-1.5 text-[10px] sm:text-xs text-white/90 font-mono uppercase tracking-widest hover:text-white hover:scale-105 transition-all px-2.5 py-0.5 /25 cursor-pointer" title="Reset View">
                           <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                           <span>Reset</span>
                         </button>
@@ -977,10 +977,10 @@ const Product = () => {
                   <button 
                     key={idx}
                     onClick={() => { setLightboxImage(img); setZoomLevel(1); }}
-                    className={`w-12 h-12 sm:w-14 sm:h-14 aspect-square shrink-0 rounded-none overflow-hidden border-2 transition-all cursor-pointer ${
+                    className={`w-12 h-12 sm:w-14 sm:h-14 aspect-square shrink-0 rounded-none overflow-hidden  transition-all cursor-pointer ${
                       lightboxImage === img 
-                        ? 'border-terracotta scale-105 shadow-md opacity-100' 
-                        : 'border-transparent opacity-50 hover:opacity-80'
+                        ? ' scale-105 shadow-md opacity-100' 
+                        : 'ransparent opacity-50 hover:opacity-80'
                     }`}
                     aria-label={`View thumbnail ${idx + 1}`}
                   >
@@ -999,7 +999,7 @@ const Product = () => {
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-6 right-6 z-[200] bg-soft-black text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs font-medium border border-white/10 backdrop-blur-md"
+            className="fixed bottom-6 right-6 z-[200] bg-soft-black text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs font-medium /10 backdrop-blur-md"
           >
             <Heart className="w-4 h-4 fill-rose-500 text-rose-500" />
             <span>{wishlistToast}</span>
@@ -1014,8 +1014,12 @@ const Product = () => {
           quantity,
           selectedColor: customizedPieces[0]?.color || selectedColor,
           selectedSize: customizedPieces[0]?.size || selectedSize,
-          selectedColors: customizedPieces.slice(0, quantity).map(p => p.color),
-          selectedSizes: customizedPieces.slice(0, quantity).map(p => p.size),
+          selectedColors: !isCustomizingMultiPieces || quantity === 1
+            ? Array(quantity).fill(selectedColor)
+            : customizedPieces.slice(0, quantity).map(p => p.color),
+          selectedSizes: !isCustomizingMultiPieces || quantity === 1
+            ? Array(quantity).fill(selectedSize)
+            : customizedPieces.slice(0, quantity).map(p => p.size),
           unitPriceLocal,
           shippingCostLocal: currentShipping.costLocal,
           shippingCarrier: currentShipping.carrier,
@@ -1042,7 +1046,7 @@ const Product = () => {
               
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
                 <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                     </svg>
@@ -1067,7 +1071,7 @@ const Product = () => {
               
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
                 <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
                       <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
@@ -1094,7 +1098,7 @@ const Product = () => {
               
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
                 <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                     </svg>
@@ -1115,32 +1119,6 @@ const Product = () => {
           </div>
         </div>
       </section>
-
-      {/* Sample Order Checkout Drawer */}
-      <SampleOrderDrawer
-        isOpen={isOrderFormOpen}
-        onClose={() => setIsOrderFormOpen(false)}
-        orderDetails={{
-          quantity,
-          selectedColor,
-          selectedSize,
-          selectedColors: !isCustomizingMultiPieces || quantity === 1
-            ? Array(quantity).fill(selectedColor)
-            : customizedPieces.slice(0, quantity).map(p => p.color),
-          selectedSizes: !isCustomizingMultiPieces || quantity === 1
-            ? Array(quantity).fill(selectedSize)
-            : customizedPieces.slice(0, quantity).map(p => p.size),
-          unitPriceLocal,
-          shippingCostLocal,
-          totalPriceLocal,
-          savingsLocal,
-          currencySymbol,
-          localCurrency,
-          userCountry,
-          userCountryCode,
-          userCallingCode
-        }}
-      />
     </div>
   );
 };

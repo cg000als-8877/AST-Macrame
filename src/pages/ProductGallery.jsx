@@ -70,7 +70,7 @@ const ProductGallery = () => {
             className={`px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[9.5px] sm:text-xs font-semibold uppercase tracking-wide sm:tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 ${
               selectedCategory === 'all'
                 ? 'bg-soft-black text-white shadow-xs'
-                : 'bg-white border border-stone/25 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black shadow-2xs'
+                : 'bg-white text-soft-black/80 hover:bg-[#FAF7F2] hover:text-soft-black shadow-2xs'
             }`}
           >
             <span className="sm:hidden">All ({ALL_GALLERY_ITEMS.length})</span>
@@ -82,7 +82,7 @@ const ProductGallery = () => {
             className={`px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[9.5px] sm:text-xs font-semibold uppercase tracking-wide sm:tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 ${
               selectedCategory === 'adult'
                 ? 'bg-soft-black text-white shadow-xs'
-                : 'bg-white border border-stone/25 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black shadow-2xs'
+                : 'bg-white text-soft-black/80 hover:bg-[#FAF7F2] hover:text-soft-black shadow-2xs'
             }`}
           >
             <span className="sm:hidden">Adult ({PRODUCTS.adult.colors.length})</span>
@@ -94,7 +94,7 @@ const ProductGallery = () => {
             className={`px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[9.5px] sm:text-xs font-semibold uppercase tracking-wide sm:tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 ${
               selectedCategory === 'women'
                 ? 'bg-soft-black text-white shadow-xs'
-                : 'bg-white border border-stone/25 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black shadow-2xs'
+                : 'bg-white text-soft-black/80 hover:bg-[#FAF7F2] hover:text-soft-black shadow-2xs'
             }`}
           >
             <span className="sm:hidden">Women ({PRODUCTS.women.colors.length})</span>
@@ -106,7 +106,7 @@ const ProductGallery = () => {
             className={`px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[9.5px] sm:text-xs font-semibold uppercase tracking-wide sm:tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 ${
               selectedCategory === 'kids'
                 ? 'bg-soft-black text-white shadow-xs'
-                : 'bg-white border border-stone/25 text-soft-black/80 hover:border-soft-black/40 hover:text-soft-black shadow-2xs'
+                : 'bg-white text-soft-black/80 hover:bg-[#FAF7F2] hover:text-soft-black shadow-2xs'
             }`}
           >
             <span className="sm:hidden">Kids ({PRODUCTS.kids.colors.length})</span>
@@ -133,7 +133,7 @@ const ProductGallery = () => {
       {/* Main Gallery Grid */}
       <section className="max-w-[1480px] mx-auto px-3 sm:px-6 lg:px-8">
         {filteredCatalog.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-3xl border border-stone/15 p-8 max-w-md mx-auto">
+          <div className="text-center py-16 bg-white rounded-3xl p-8 max-w-md mx-auto shadow-xs">
             <p className="font-serif text-lg font-bold text-soft-black mb-2">No belts found for "{searchQuery}"</p>
             <p className="text-xs text-dark-charcoal/70 mb-4">Try searching for Black, Navy, Brown, Maroon, Khaki, Neon Green, or Red.</p>
             <button
@@ -155,7 +155,7 @@ const ProductGallery = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.35, delay: idx * 0.04 }}
-                  className="bg-white rounded-2xl lg:rounded-2xl xl:rounded-3xl shadow-2xs hover:shadow-lg transition-all flex flex-col justify-between group overflow-hidden border border-stone/15"
+                  className="bg-white rounded-2xl lg:rounded-2xl xl:rounded-3xl shadow-2xs hover:shadow-lg transition-all flex flex-col justify-between group overflow-hidden"
                 >
                   {/* 1. Flush Edge-to-Edge Image Container with Premium #F5F5F5 background & natural shadow */}
                   <div className="relative w-full aspect-square bg-[#F5F5F5] overflow-hidden select-none flex items-center justify-center">
@@ -194,12 +194,12 @@ const ProductGallery = () => {
                       </div>
 
                       {/* 3. Single Color Display + Available Sizes */}
-                      <div className="pt-1.5 sm:pt-2.5 border-t border-stone/15 mb-2.5 sm:mb-4 flex items-center justify-between gap-1">
+                      <div className="pt-1.5 sm:pt-2.5 mb-2.5 sm:mb-4 flex items-center justify-between gap-1">
                         
                         {/* Left: Color Swatch + Label */}
                         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                           <div 
-                            className="w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full border border-soft-black/30 shadow-2xs shrink-0" 
+                            className="w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full shadow-2xs shrink-0" 
                             style={{ backgroundColor: item.hex }} 
                           />
                           <span className="text-[10px] sm:text-sm lg:text-xs xl:text-sm font-normal sm:font-bold text-soft-black uppercase tracking-wider">
@@ -213,7 +213,7 @@ const ProductGallery = () => {
                           {item.sizes.map((sz) => (
                             <span
                               key={sz}
-                              className="px-1.5 h-5 sm:h-7 rounded-md bg-[#FAF8F5] text-dark-charcoal/90 border border-stone/25 text-[9.5px] sm:text-xs font-normal sm:font-bold flex items-center justify-center select-none shadow-2xs"
+                              className="px-1.5 h-5 sm:h-7 rounded-md bg-[#FAF8F5] text-dark-charcoal/90 text-[9.5px] sm:text-xs font-normal sm:font-bold flex items-center justify-center select-none shadow-2xs"
                               title={`Size ${sz} Available`}
                             >
                               {sz}
@@ -229,10 +229,10 @@ const ProductGallery = () => {
                       {/* ORDER SAMPLE CTA -> Deep link to /sample-order */}
                       <Link
                         to={`/sample-order?product=${item.productId}&color=${encodeURIComponent(item.colorName.toLowerCase())}`}
-                        className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded border border-soft-black/80 bg-white text-soft-black hover:bg-soft-black hover:text-cream hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-medium sm:font-bold uppercase tracking-wide sm:tracking-wider transition-all duration-200 flex items-center justify-center cursor-pointer shadow-2xs"
+                        className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded bg-[#EAE4DC] text-soft-black hover:bg-soft-black hover:text-cream hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-semibold sm:font-bold uppercase tracking-wide sm:tracking-wider transition-all duration-300 flex items-center justify-center cursor-pointer shadow-2xs"
                         title="Order sample on the Sample Order page"
                       >
-                        <span className="transition-all duration-200">Order Sample</span>
+                        <span className="transition-all duration-300">Order Sample</span>
                       </Link>
 
                       {/* ORDER RETAIL CTA -> Deep link to /retail */}
@@ -261,13 +261,13 @@ const ProductGallery = () => {
 
       {/* Value Proposition & Wholesale Teaser */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-12 mt-12 sm:mt-16 text-center">
-        <div className="bg-white border border-stone/20 rounded-2xl sm:rounded-3xl p-6 sm:p-10">
+        <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-10">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8 text-left">
             
             <div className="flex items-start gap-3 p-3 rounded-xl bg-[#FAF8F5]">
               <ShieldCheck className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
               <div>
-                <h4 className="text-xs sm:text-sm font-bold uppercase text-soft-black">Open-Box Inspection</h4>
+                <h4 className="text-xs sm:text-sm font-bold text-soft-black">Open-Box Inspection</h4>
                 <p className="text-[11px] text-dark-charcoal/75 leading-relaxed mt-0.5">
                   Check your macramé belt in front of courier before paying on Cash on Delivery.
                 </p>
@@ -277,7 +277,7 @@ const ProductGallery = () => {
             <div className="flex items-start gap-3 p-3 rounded-xl bg-[#FAF8F5]">
               <Sparkles className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
               <div>
-                <h4 className="text-xs sm:text-sm font-bold uppercase text-soft-black">Multi-Belt Discounts</h4>
+                <h4 className="text-xs sm:text-sm font-bold text-soft-black">Multi-Belt Discounts</h4>
                 <p className="text-[11px] text-dark-charcoal/75 leading-relaxed mt-0.5">
                   Save instantly on 2-belt combos and sample volume tiered evaluation packs.
                 </p>
@@ -287,7 +287,7 @@ const ProductGallery = () => {
             <div className="flex items-start gap-3 p-3 rounded-xl bg-[#FAF8F5]">
               <Truck className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
               <div>
-                <h4 className="text-xs sm:text-sm font-bold uppercase text-soft-black">Express Courier</h4>
+                <h4 className="text-xs sm:text-sm font-bold text-soft-black">Express Courier</h4>
                 <p className="text-[11px] text-dark-charcoal/75 leading-relaxed mt-0.5">
                   Fast delivery across all 64 districts in Bangladesh and tracked worldwide air shipping.
                 </p>
@@ -331,7 +331,7 @@ const ProductGallery = () => {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-white border border-stone/20 w-full max-w-md p-6 relative z-10 shadow-2xl rounded-2xl text-center"
+              className="bg-white w-full max-w-md p-6 relative z-10 shadow-2xl rounded-2xl text-center"
             >
               <button 
                 type="button"
@@ -380,13 +380,13 @@ const ProductGallery = () => {
 
               {activeGuideTab === 'adult' && (
                 <>
-                  <div className="w-full bg-[#FAF8F5] rounded-xl border border-stone/15 overflow-hidden mb-4 text-xs">
+                  <div className="w-full bg-[#FAF8F5] rounded-xl overflow-hidden mb-4 text-xs">
                     <div className="grid grid-cols-3 bg-stone/10 py-2.5 font-bold uppercase tracking-wider text-dark-charcoal">
                       <span>Size</span>
                       <span>Waist Fit</span>
                       <span>Total Length</span>
                     </div>
-                    <div className="grid grid-cols-3 py-3 border-b border-stone/10">
+                    <div className="grid grid-cols-3 py-3">
                       <span className="font-bold text-soft-black">M</span>
                       <span className="text-soft-black/80">32–35 in</span>
                       <span className="text-soft-black/80">38 in</span>
@@ -398,7 +398,7 @@ const ProductGallery = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center px-4 py-2.5 bg-[#FAF8F5] rounded-xl border border-stone/15 mb-4 text-xs">
+                  <div className="flex justify-between items-center px-4 py-2.5 bg-[#FAF8F5] rounded-xl mb-4 text-xs">
                     <span className="font-bold uppercase tracking-wider text-dark-charcoal">Width</span>
                     <span className="font-bold text-soft-black">1.5"</span>
                   </div>
@@ -407,13 +407,13 @@ const ProductGallery = () => {
 
               {activeGuideTab === 'women' && (
                 <>
-                  <div className="w-full bg-[#FAF8F5] rounded-xl border border-stone/15 overflow-hidden mb-4 text-xs">
+                  <div className="w-full bg-[#FAF8F5] rounded-xl overflow-hidden mb-4 text-xs">
                     <div className="grid grid-cols-3 bg-stone/10 py-2.5 font-bold uppercase tracking-wider text-dark-charcoal">
                       <span>Size</span>
                       <span>Waist Fit</span>
                       <span>Total Length</span>
                     </div>
-                    <div className="grid grid-cols-3 py-3 border-b border-stone/10">
+                    <div className="grid grid-cols-3 py-3">
                       <span className="font-bold text-soft-black">31"</span>
                       <span className="text-soft-black/80">24–30 in</span>
                       <span className="text-soft-black/80">31 in</span>
@@ -425,7 +425,7 @@ const ProductGallery = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center px-4 py-2.5 bg-[#FAF8F5] rounded-xl border border-stone/15 mb-4 text-xs">
+                  <div className="flex justify-between items-center px-4 py-2.5 bg-[#FAF8F5] rounded-xl mb-4 text-xs">
                     <span className="font-bold uppercase tracking-wider text-dark-charcoal">Width &amp; Closure</span>
                     <span className="font-bold text-soft-black">2" • Adjustable Tie</span>
                   </div>
@@ -434,7 +434,7 @@ const ProductGallery = () => {
 
               {activeGuideTab === 'kids' && (
                 <>
-                  <div className="w-full bg-[#FAF8F5] rounded-xl border border-stone/15 overflow-hidden mb-4 text-xs">
+                  <div className="w-full bg-[#FAF8F5] rounded-xl overflow-hidden mb-4 text-xs">
                     <div className="grid grid-cols-3 bg-stone/10 py-2.5 font-bold uppercase tracking-wider text-dark-charcoal">
                       <span>Size</span>
                       <span>Waist Fit</span>
@@ -447,7 +447,7 @@ const ProductGallery = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center px-4 py-2.5 bg-[#FAF8F5] rounded-xl border border-stone/15 mb-4 text-xs">
+                  <div className="flex justify-between items-center px-4 py-2.5 bg-[#FAF8F5] rounded-xl mb-4 text-xs">
                     <span className="font-bold uppercase tracking-wider text-dark-charcoal">Width</span>
                     <span className="font-bold text-soft-black">1 1/4"</span>
                   </div>

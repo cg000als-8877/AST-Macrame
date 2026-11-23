@@ -52,7 +52,7 @@ const AdminLogin = () => {
 
   return (
     <div className="min-h-screen bg-[#F4F1EA] flex flex-col items-center justify-center p-4 font-sans text-soft-black select-none">
-      <div className="w-full max-w-md bg-white border border-[#DDD8CE] p-7 sm:p-9 rounded-2xl shadow-xl">
+      <div className="w-full max-w-md bg-white p-7 sm:p-9 rounded-2xl shadow-xl">
         
         {/* Brand Header */}
         <div className="text-center mb-6">
@@ -69,14 +69,14 @@ const AdminLogin = () => {
 
         {/* Error / Alert */}
         {error && (
-          <div className="mb-5 p-3.5 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl flex items-start gap-2.5">
+          <div className="mb-5 p-3.5 bg-red-50 text-red-700 text-xs rounded-xl flex items-start gap-2.5">
             <AlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
             <span className="leading-snug">{error}</span>
           </div>
         )}
 
         {resetSent && (
-          <div className="mb-5 p-3.5 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl flex items-start gap-2.5">
+          <div className="mb-5 p-3.5 bg-emerald-50 text-emerald-800 text-xs rounded-xl flex items-start gap-2.5">
             <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
             <span className="leading-snug">Password reset link sent to your email. Check your inbox!</span>
           </div>
@@ -95,7 +95,7 @@ const AdminLogin = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@astmacrame.com"
-                className="w-full bg-[#FAF8F5] border border-[#DDD8CE] rounded-xl px-3.5 py-3 pl-10 text-sm focus:outline-none focus:border-soft-black focus:ring-1 focus:ring-soft-black/10 transition-all text-soft-black"
+                className="w-full bg-[#FAF8F5] rounded-xl px-3.5 py-3 pl-10 text-sm focus:outline-none focus:bg-white focus:ring-1 focus:ring-soft-black/10 transition-all text-soft-black"
               />
               <Mail className="w-4 h-4 text-dark-charcoal/40 absolute left-3.5 top-3.5" />
             </div>
@@ -121,7 +121,7 @@ const AdminLogin = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full bg-[#FAF8F5] border border-[#DDD8CE] rounded-xl px-3.5 py-3 pl-10 pr-10 text-sm focus:outline-none focus:border-soft-black focus:ring-1 focus:ring-soft-black/10 transition-all text-soft-black"
+                className="w-full bg-[#FAF8F5] rounded-xl px-3.5 py-3 pl-10 pr-10 text-sm focus:outline-none focus:bg-white focus:ring-1 focus:ring-soft-black/10 transition-all text-soft-black"
               />
               <Lock className="w-4 h-4 text-dark-charcoal/40 absolute left-3.5 top-3.5" />
               <button
@@ -144,7 +144,7 @@ const AdminLogin = () => {
         </form>
 
         {/* Security Trust Note */}
-        <div className="mt-6 pt-5 border-t border-[#EAE5DB] text-center flex items-center justify-center gap-2 text-[11px] text-dark-charcoal/60">
+        <div className="mt-6 pt-5 text-center flex items-center justify-center gap-2 text-[11px] text-dark-charcoal/60">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
           <span>Secured by Firebase Enterprise Authentication</span>
         </div>

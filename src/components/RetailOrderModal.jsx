@@ -509,7 +509,7 @@ const RetailOrderModal = ({
     <AnimatePresence>
       {isOpen && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-3 lg:p-4 overflow-hidden overscroll-contain"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-0 md:p-3 lg:p-4 overflow-hidden overscroll-contain"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -532,7 +532,7 @@ const RetailOrderModal = ({
             exit={{ opacity: 0, y: 16 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
             className={`w-full h-[100dvh] md:h-auto md:max-h-[96vh] max-w-6xl px-2.5 py-4 sm:px-5 sm:py-6 md:px-8 lg:px-12 md:py-8 rounded-none md:rounded-3xl overflow-y-auto overscroll-contain relative flex flex-col ${
-              isSuccess ? 'bg-transparent shadow-none items-center justify-start md:justify-center' : 'bg-[#FAF8F5] shadow-2xl md:block border border-stone/20'
+              isSuccess ? 'bg-transparent shadow-none items-center justify-start md:justify-center' : 'bg-[#FAF8F5] shadow-2xl md:block  '
             }`}
           >
             {!isSubmitting && !isSuccess && (
@@ -549,7 +549,7 @@ const RetailOrderModal = ({
             {isSuccess && (
               <button 
                 onClick={onClose}
-                className="fixed top-4 right-4 md:top-6 md:right-6 w-9 h-9 rounded-full bg-black/10 hover:bg-black/20 text-soft-black flex items-center justify-center backdrop-blur-md transition-all z-30 cursor-pointer border border-black/10 shadow-sm"
+                className="fixed top-4 right-4 md:top-6 md:right-6 w-9 h-9 rounded-full bg-black/10 hover:bg-black/20 text-soft-black flex items-center justify-center backdrop-blur-md transition-all z-30 cursor-pointer -black/10 shadow-sm"
                 aria-label="Close receipt"
               >
                 <X size={18} />
@@ -561,7 +561,7 @@ const RetailOrderModal = ({
               /* Realistic Loading Animation */
               <div className="py-16 md:py-24 flex flex-col items-center justify-center text-center">
                 <div className="relative w-16 h-16 mb-5 flex items-center justify-center">
-                  <div className="w-14 h-14 rounded-full border-3 border-stone/20 border-t-[#1C2841] animate-spin" />
+                  <div className="w-14 h-14 rounded-full -3 -[#1C2841] animate-spin" />
                   <img src="/logo_black.png" alt="AST" className="h-4 w-auto absolute opacity-70" />
                 </div>
                 <h3 className="text-base sm:text-lg font-serif font-bold text-soft-black mb-1.5">
@@ -575,7 +575,7 @@ const RetailOrderModal = ({
               <div className="py-2 md:py-4 flex flex-col items-center justify-center w-full max-w-sm sm:max-w-md mx-auto">
                 
                 {/* 1. "YOUR ORDER IS CONFIRMED" Banner ABOVE the receipt */}
-                <div className="flex items-center justify-center gap-1.5 mb-3 select-none bg-emerald-50 text-emerald-800 border border-emerald-200/80 px-3.5 py-1.5 rounded-full shadow-xs">
+                <div className="flex items-center justify-center gap-1.5 mb-3 select-none bg-emerald-50 text-emerald-800 px-3.5 py-1.5 rounded-full shadow-xs">
                   <div className="w-4 h-4 rounded-full bg-emerald-600 flex items-center justify-center shadow-xs shrink-0">
                     <Check className="w-3 h-3 text-white stroke-[3]" />
                   </div>
@@ -587,10 +587,10 @@ const RetailOrderModal = ({
                 {/* 2. Unbreakable Clean Receipt Card */}
                 <div 
                   ref={receiptRef}
-                  className="w-full bg-white border border-[#DDD8CE] p-4 sm:p-5 rounded-2xl sm:rounded-none shadow-2xl font-sans text-soft-black text-left select-text relative flex flex-col gap-3.5"
+                  className="w-full bg-white p-4 sm:p-5 rounded-2xl sm:rounded-none shadow-2xl font-sans text-soft-black text-left select-text relative flex flex-col gap-3.5"
                 >
                   {/* Top Brand & Invoice Header */}
-                  <div className="flex items-start justify-between border-b border-[#E8E4DB] pb-3">
+                  <div className="flex items-start justify-between pb-3">
                     <div>
                       <img 
                         src="/logo_black.png" 
@@ -605,7 +605,7 @@ const RetailOrderModal = ({
                       </p>
                     </div>
                     <div className="text-right">
-                      <span className="inline-block bg-[#FAF8F5] text-soft-black border border-[#DDD8CE] text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-1">
+                      <span className="inline-block bg-[#FAF8F5] text-soft-black text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-1">
                         CASH ON DELIVERY
                       </span>
                       <div className="text-[11.5px] font-mono font-bold text-soft-black leading-tight">{orderReceipt.orderId}</div>
@@ -614,7 +614,7 @@ const RetailOrderModal = ({
                   </div>
 
                   {/* Customer Delivery Details Box */}
-                  <div className="bg-[#FAF8F5] p-3 rounded-xl sm:rounded-none border border-[#EBE7DF] text-xs">
+                  <div className="bg-[#FAF8F5] p-3 rounded-xl sm:rounded-none text-xs">
                     <div className="text-[9px] font-bold uppercase tracking-widest text-terracotta mb-1 flex items-center gap-1">
                       <MapPin className="w-3 h-3 text-terracotta shrink-0" />
                       <span>Delivery Information</span>
@@ -628,7 +628,7 @@ const RetailOrderModal = ({
                       {orderReceipt.address}
                     </div>
                     {orderReceipt.note && (
-                      <div className="mt-1.5 pt-1.5 border-t border-[#E5E0D6] text-[10.5px] text-dark-charcoal/70 italic">
+                      <div className="mt-1.5 pt-1.5 text-[10.5px] text-dark-charcoal/70 italic">
                         <strong>Customer Note:</strong> {orderReceipt.note}
                       </div>
                     )}
@@ -641,9 +641,9 @@ const RetailOrderModal = ({
                     </div>
                     <div className="space-y-1.5">
                       {orderReceipt.items.map((item, idx) => (
-                        <div key={idx} className="flex items-center justify-between p-2 sm:p-2.5 bg-white border border-[#EBE7DF] rounded-xl sm:rounded-none">
+                        <div key={idx} className="flex items-center justify-between p-2 sm:p-2.5 bg-white rounded-xl sm:rounded-none">
                           <div className="flex items-center gap-2.5 min-w-0">
-                            <div className="w-9 h-9 rounded-lg sm:rounded-none bg-stone/10 border border-stone/20 overflow-hidden shrink-0">
+                            <div className="w-9 h-9 rounded-lg sm:rounded-none bg-stone/10 overflow-hidden shrink-0">
                               <img 
                                 src={colorImages[item.color] || colorImages[item.color?.split(' ')[0]] || '/logo_black.png'} 
                                 alt={item.color} 
@@ -677,7 +677,7 @@ const RetailOrderModal = ({
                   </div>
 
                   {/* Financial & Delivery Breakdown */}
-                  <div className="border-t border-[#E8E4DB] pt-2.5 space-y-1 text-[11.5px]">
+                  <div className="pt-2.5 space-y-1 text-[11.5px]">
                     <div className="flex justify-between text-dark-charcoal/80">
                       <span>Subtotal</span>
                       <span className="font-semibold text-soft-black">৳ {orderReceipt.productCost.toLocaleString()}</span>
@@ -686,7 +686,7 @@ const RetailOrderModal = ({
                       <span>Delivery Fee (All over Bangladesh):</span>
                       <span className="font-semibold text-soft-black">৳ {orderReceipt.deliveryCost.toLocaleString()}</span>
                     </div>
-                    <div className="flex justify-between items-center pt-2 mt-1 border-t border-[#E8E4DB] bg-[#FAF8F5] p-2.5 sm:p-3 rounded-xl sm:rounded-none border border-[#EBE7DF]">
+                    <div className="flex justify-between items-center pt-2 mt-1 bg-[#FAF8F5] p-2.5 sm:p-3 rounded-xl sm:rounded-none">
                       <div>
                         <span className="block text-[9.5px] font-bold uppercase tracking-wider text-dark-charcoal/70">
                           Total Payable Amount (COD)
@@ -702,12 +702,12 @@ const RetailOrderModal = ({
                   </div>
 
                   {/* Order Processing & Delivery Notice */}
-                  <div className="bg-[#FAF8F5] border border-[#EBE7DF] rounded-lg sm:rounded-none p-2.5 text-[10.5px] text-dark-charcoal/85 leading-relaxed text-center">
+                  <div className="bg-[#FAF8F5] rounded-lg sm:rounded-none p-2.5 text-[10.5px] text-dark-charcoal/85 leading-relaxed text-center">
                     📦 Your order is now being processed and will soon be handed over to the courier. The rider will call you before attempting delivery.
                   </div>
 
                   {/* WhatsApp Info Text */}
-                  <div className="pt-2 border-t border-[#E8E4DB] flex items-center justify-center gap-1.5 text-xs text-dark-charcoal/90">
+                  <div className="pt-2 flex items-center justify-center gap-1.5 text-xs text-dark-charcoal/90">
                     <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-[#25D366] shrink-0">
                       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
                     </svg>
@@ -770,7 +770,7 @@ const RetailOrderModal = ({
                     <input 
                       type="text" 
                       name="name" 
-                      className="w-full bg-white border border-[#D1CCC0] rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:border-soft-black focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]" 
+                      className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus: focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]" 
                       placeholder="Your Full Name" 
                       required 
                     />
@@ -779,7 +779,7 @@ const RetailOrderModal = ({
                     <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-1">
                       Phone / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px]">মোবাইল নম্বর</span> {!phoneFilled && <span className="text-red-500 font-normal italic normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
                     </label>
-                    <div className="relative flex items-center w-full bg-white border border-[#D1CCC0] rounded-xl overflow-hidden focus-within:border-soft-black focus-within:ring-1 focus-within:ring-soft-black/10 transition-all min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                    <div className="relative flex items-center w-full bg-white rounded-xl overflow-hidden focus-within: focus-within:ring-1 focus-within:ring-soft-black/10 transition-all min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
                       <span className="pl-3.5 text-[13px] md:text-[15px] text-dark-charcoal/70 font-medium">+88</span>
                       <input 
                         type="tel" 
@@ -797,7 +797,7 @@ const RetailOrderModal = ({
                     <div className="relative">
                       <select 
                         name="district" 
-                        className="w-full bg-white border border-[#D1CCC0] rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:border-soft-black focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] appearance-none pr-8 font-bengali min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)] cursor-pointer" 
+                        className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus: focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] appearance-none pr-8 font-bengali min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)] cursor-pointer" 
                         required
                         value={selectedDistrictId}
                         onChange={(e) => setSelectedDistrictId(e.target.value)}
@@ -819,7 +819,7 @@ const RetailOrderModal = ({
                     <div className="relative">
                       <select 
                         name="thana" 
-                        className="w-full bg-white border border-[#D1CCC0] rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:border-soft-black focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] appearance-none pr-8 font-bengali min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)] cursor-pointer" 
+                        className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus: focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] appearance-none pr-8 font-bengali min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)] cursor-pointer" 
                         value={selectedUpazilaName}
                         onChange={(e) => setSelectedUpazilaName(e.target.value)}
                         disabled={!selectedDistrictId}
@@ -846,7 +846,7 @@ const RetailOrderModal = ({
                         e.target.style.height = 'auto';
                         e.target.style.height = `${e.target.scrollHeight}px`;
                       }}
-                      className="w-full bg-white border border-[#D1CCC0] rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:border-soft-black focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] resize-none overflow-hidden min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]" 
+                      className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus: focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] resize-none overflow-hidden min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]" 
                       placeholder="House/Flat, Road, Area/Village" 
                       required
                     ></textarea>
@@ -863,7 +863,7 @@ const RetailOrderModal = ({
                         e.target.style.height = 'auto';
                         e.target.style.height = `${e.target.scrollHeight}px`;
                       }}
-                      className="w-full bg-white border border-[#D1CCC0] rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:border-soft-black focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] resize-none overflow-hidden min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]" 
+                      className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus: focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] resize-none overflow-hidden min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]" 
                       placeholder="Any custom instructions..."
                     ></textarea>
                   </div>
@@ -871,7 +871,7 @@ const RetailOrderModal = ({
                   {/* Mobile Submit Button & Checkbox */}
                   <div className="md:hidden pt-4 mt-4 w-full flex flex-col gap-3">
                     {formError && (
-                      <div className="bg-red-50 border border-red-200 text-red-700 px-3.5 py-2.5 text-[11px] rounded-xl flex items-center gap-2">
+                      <div className="bg-red-50 -red-200 text-red-700 px-3.5 py-2.5 text-[11px] rounded-xl flex items-center gap-2">
                         <span className="shrink-0 text-red-500 font-bold">⚠️</span>
                         <span className="font-bengali font-medium leading-tight">{formError}</span>
                       </div>
@@ -925,8 +925,8 @@ const RetailOrderModal = ({
 
                   <div className="order-1 md:order-2 flex flex-col h-full mb-4 md:mb-0">
                   {/* Order Summary Card */}
-                  <div className="bg-white border border-[#D1CCC0] rounded-2xl p-3.5 sm:p-4 md:p-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)] overflow-hidden">
-                    <h3 className="text-[9px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-2 md:mb-4 border-b border-[#E5E0D6] pb-1.5 md:pb-3">Order Summary</h3>
+                  <div className="bg-white rounded-2xl p-3.5 sm:p-4 md:p-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)] overflow-hidden">
+                    <h3 className="text-[9px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-2 md:mb-4 pb-1.5 md:pb-3">Order Summary</h3>
                     
                     {cartItems && cartItems.length > 0 ? (
                       <div className="space-y-2 mb-3 md:mb-4 max-h-48 overflow-y-auto pr-1">
@@ -939,8 +939,8 @@ const RetailOrderModal = ({
                           )}
                         </div>
                         {cartItems.map((item, idx) => (
-                          <div key={idx} className="flex items-center gap-2.5 p-2 rounded-xl bg-[#FAF8F5] border border-[#E5E0D6]">
-                            <div className="w-10 h-10 shrink-0 bg-stone/10 rounded-lg overflow-hidden border border-[#E5E0D6]">
+                          <div key={idx} className="flex items-center gap-2.5 p-2 rounded-xl bg-[#FAF8F5]">
+                            <div className="w-10 h-10 shrink-0 bg-stone/10 rounded-lg overflow-hidden">
                               <img 
                                 src={item.image || colorImages[item.color] || colorImages[item.comboColor1] || '/logo_black.png'} 
                                 alt={item.color || item.title} 
@@ -966,7 +966,7 @@ const RetailOrderModal = ({
                       </div>
                     ) : orderType === 'single' ? (
                       <div className="flex items-center gap-3 md:gap-4 mb-3 md:mb-4">
-                        <div className="w-12 h-12 md:w-16 md:h-16 shrink-0 bg-stone/10 rounded-xl overflow-hidden border border-[#E5E0D6]">
+                        <div className="w-12 h-12 md:w-16 md:h-16 shrink-0 bg-stone/10 rounded-xl overflow-hidden">
                           <img src={colorImages[selectedColor]} alt={selectedColor} className="w-full h-full object-cover mix-blend-multiply" />
                         </div>
                         <div className="flex flex-col">
@@ -977,14 +977,14 @@ const RetailOrderModal = ({
                     ) : (
                       <div className="flex flex-col gap-2 md:gap-3 mb-3 md:mb-4">
                         <span className="text-[11px] md:text-sm font-bold text-soft-black">Combo Pack (2 Belts)</span>
-                        <div className="flex items-center gap-3 md:gap-4 p-2 rounded-xl bg-[#FAF8F5] border border-[#E5E0D6]">
-                          <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 bg-stone/10 rounded-lg overflow-hidden border border-[#E5E0D6]">
+                        <div className="flex items-center gap-3 md:gap-4 p-2 rounded-xl bg-[#FAF8F5]">
+                          <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 bg-stone/10 rounded-lg overflow-hidden">
                             <img src={colorImages[comboColor1]} alt={comboColor1} className="w-full h-full object-cover mix-blend-multiply" />
                           </div>
                           <span className="text-[10px] md:text-xs text-dark-charcoal/80 tracking-normal">Belt 1: {comboColor1} ({comboSize1})</span>
                         </div>
-                        <div className="flex items-center gap-3 md:gap-4 p-2 rounded-xl bg-[#FAF8F5] border border-[#E5E0D6]">
-                          <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 bg-stone/10 rounded-lg overflow-hidden border border-[#E5E0D6]">
+                        <div className="flex items-center gap-3 md:gap-4 p-2 rounded-xl bg-[#FAF8F5]">
+                          <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 bg-stone/10 rounded-lg overflow-hidden">
                             <img src={colorImages[comboColor2]} alt={comboColor2} className="w-full h-full object-cover mix-blend-multiply" />
                           </div>
                           <span className="text-[10px] md:text-xs text-dark-charcoal/80 tracking-normal">Belt 2: {comboColor2} ({comboSize2})</span>
@@ -992,7 +992,7 @@ const RetailOrderModal = ({
                       </div>
                     )}
 
-                    <div className="space-y-1.5 md:space-y-2 mt-3 md:mt-4 pt-3 md:pt-4 border-t border-[#E5E0D6]">
+                    <div className="space-y-1.5 md:space-y-2 mt-3 md:mt-4 pt-3 md:pt-4">
                       <div className="flex justify-between items-center text-[11px] md:text-xs text-dark-charcoal/80">
                         <span>Subtotal</span>
                         <span className="font-medium">৳ {productCost.toLocaleString()}</span>
@@ -1010,7 +1010,7 @@ const RetailOrderModal = ({
                         <span className="font-semibold text-soft-black">৳ {deliveryCost.toLocaleString()}</span>
                       </div>
 
-                      <div className="flex justify-between items-center mt-3 md:mt-4 pt-3 md:pt-4 border-t border-[#E5E0D6]">
+                      <div className="flex justify-between items-center mt-3 md:mt-4 pt-3 md:pt-4">
                         <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-soft-black">Total</span>
                         <span className="text-base md:text-xl font-serif font-bold text-terracotta">৳ {totalCost.toLocaleString()}</span>
                       </div>
@@ -1020,7 +1020,7 @@ const RetailOrderModal = ({
                   {/* Desktop Submit Button & Checkbox */}
                   <div className="hidden md:flex flex-col pt-4 mt-auto gap-3">
                     {formError && (
-                      <div className="bg-red-50 border border-red-200 text-red-700 px-3.5 py-2.5 text-xs rounded-xl flex items-center gap-2">
+                      <div className="bg-red-50 -red-200 text-red-700 px-3.5 py-2.5 text-xs rounded-xl flex items-center gap-2">
                         <span className="shrink-0 text-red-500 font-bold">⚠️</span>
                         <span className="font-bengali font-medium leading-tight">{formError}</span>
                       </div>

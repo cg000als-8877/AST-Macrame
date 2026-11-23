@@ -10,10 +10,6 @@ import {
   Phone, 
   ArrowLeft, 
   MessageCircle,
-  ShoppingBag,
-  Layers,
-  PackageCheck,
-  Briefcase,
   Home,
   BookOpen,
   HelpCircle,
@@ -72,26 +68,22 @@ const Navbar = () => {
       name: 'Retail Store', 
       path: '/retail', 
       subtitle: 'Cash on delivery nationwide',
-      icon: ShoppingBag,
       badge: 'COD'
     },
     { 
       name: 'Products Gallery', 
       path: '/products', 
-      subtitle: 'Adult, Women & Kids collections',
-      icon: Layers
+      subtitle: 'Adult, Women & Kids collections'
     },
     { 
       name: 'Sample Orders', 
       path: '/sample-order', 
-      subtitle: 'Worldwide air express for brands',
-      icon: PackageCheck
+      subtitle: 'Worldwide air express for brands'
     },
     { 
       name: 'Wholesale & OEM', 
       path: '/sample-wholesale', 
-      subtitle: '100 pcs base MOQ, private label',
-      icon: Briefcase
+      subtitle: '100 pcs base MOQ, private label'
     },
   ];
 
@@ -118,7 +110,7 @@ const Navbar = () => {
     }
   };
 
-  const navClass = `fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-300 top-0 sm:top-2 md:top-2.5 w-full sm:w-[95%] md:w-[92%] max-w-6xl bg-white sm:bg-white/95 sm:backdrop-blur-md border-b sm:border border-stone/20 rounded-none sm:rounded-[4px] overflow-hidden ${
+  const navClass = `fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-300 top-0 sm:top-2 md:top-2.5 w-full sm:w-[95%] md:w-[92%] max-w-6xl bg-white sm:bg-white/95 sm:backdrop-blur-md rounded-none sm:rounded-[4px] overflow-hidden ${
     isScrolled 
       ? 'shadow-md sm:shadow-lg' 
       : 'shadow-xs sm:shadow-md'
@@ -152,7 +144,7 @@ const Navbar = () => {
                 onSubmit={handleSearchSubmit}
                 className="flex items-center gap-2 w-full h-full"
               >
-                <div className="relative flex-1 flex items-center bg-stone/15 border border-stone/25 focus-within:border-terracotta rounded-full px-3 py-1.5 text-xs transition-colors shadow-inner">
+                <div className="relative flex-1 flex items-center bg-stone/15 focus-within:bg-stone/20 rounded-full px-3 py-1.5 text-xs transition-colors shadow-inner">
                   <Search className="w-4 h-4 text-terracotta shrink-0 mr-2" />
                   <input
                     ref={searchInputRef}
@@ -219,7 +211,7 @@ const Navbar = () => {
                   onClick={() => setIsMobileSearchExpanded(true)}
                   className="flex-1 min-w-0 mx-1 cursor-pointer"
                 >
-                  <div className="relative w-full flex items-center bg-stone/15 hover:bg-stone/20 border border-stone/20 rounded-full px-2.5 py-1 text-xs transition-colors">
+                  <div className="relative w-full flex items-center bg-stone/15 hover:bg-stone/20 rounded-full px-2.5 py-1 text-xs transition-colors">
                     <Search className="w-3.5 h-3.5 text-dark-charcoal/50 shrink-0 mr-1.5" />
                     <input 
                       type="text"
@@ -274,10 +266,10 @@ const Navbar = () => {
                     )}
                     <Link 
                       to={link.path}
-                      className={`relative px-2.5 py-1.5 md:px-3 text-xs md:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
+                      className={`relative px-2.5 py-1.5 md:px-3 text-xs md:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded  transition-all duration-200 ${
                         isActive 
-                          ? 'text-soft-black bg-[#FAF7F2] border-white/70 shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02]' 
-                          : 'border-transparent text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
+                          ? 'text-soft-black bg-[#FAF7F2]  shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02]' 
+                          : ' text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
                       }`}
                     >
                       {link.name}
@@ -314,10 +306,10 @@ const Navbar = () => {
                     )}
                     <Link 
                       to={link.path}
-                      className={`relative px-2.5 py-1.5 md:px-3 text-xs md:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded border transition-all duration-200 ${
+                      className={`relative px-2.5 py-1.5 md:px-3 text-xs md:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded  transition-all duration-200 ${
                         isActive 
-                          ? 'text-soft-black bg-[#FAF7F2] border-white/70 shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02]' 
-                          : 'border-transparent text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
+                          ? 'text-soft-black bg-[#FAF7F2]  shadow-[2px_3px_7px_rgba(0,0,0,0.07),-2px_-2px_6px_rgba(255,255,255,0.95)] scale-[1.02]' 
+                          : ' text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
                       }`}
                     >
                       {link.name}
@@ -373,10 +365,10 @@ const Navbar = () => {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-[85%] max-w-[340px] bg-cream h-full shadow-2xl z-10 flex flex-col justify-between overflow-hidden border-r border-stone/20"
+              className="relative w-[85%] max-w-[340px] bg-cream h-full shadow-lg z-10 flex flex-col justify-between overflow-hidden"
             >
               {/* Drawer Top Branding Header */}
-              <div className="px-4 py-3.5 flex items-center justify-between bg-cream border-b border-stone/20 shrink-0">
+              <div className="px-4 py-3.5 flex items-center justify-between bg-cream shrink-0">
                 <Link 
                   to="/"
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -400,10 +392,10 @@ const Navbar = () => {
                 <button 
                   type="button"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="w-8 h-8 rounded-full border border-stone/25 hover:border-soft-black/40 bg-white/70 hover:bg-white text-soft-black flex items-center justify-center transition-all cursor-pointer shadow-2xs"
+                  className="w-8 h-8 rounded-full bg-white/80 hover:bg-white text-soft-black flex items-center justify-center transition-all cursor-pointer shadow-2xs"
                   aria-label="Close Menu"
                 >
-                  <X className="w-4 h-4 stroke-[2]" />
+                  <X className="w-4 h-4 stroke-[1.8]" />
                 </button>
               </div>
 
@@ -423,37 +415,27 @@ const Navbar = () => {
                   <div className="space-y-2">
                     {shopLinks.map((link) => {
                       const isActive = location.pathname === link.path;
-                      const Icon = link.icon;
                       return (
                         <Link
                           key={link.name}
                           to={link.path}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className={`group relative flex items-center gap-3 p-2.5 rounded-xl border transition-all duration-200 ${
+                          className={`group relative flex items-center justify-between px-3.5 py-3 rounded-xl transition-all duration-200 ${
                             isActive 
-                              ? 'bg-white border-terracotta/40 shadow-xs ring-1 ring-terracotta/20' 
-                              : 'bg-white/70 hover:bg-white border-stone/20 hover:border-stone/30 shadow-2xs'
+                              ? 'bg-white shadow-2xs' 
+                              : 'bg-white/80 hover:bg-white shadow-2xs'
                           }`}
                         >
-                          {/* Left Icon Pill */}
-                          <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-                            isActive 
-                              ? 'bg-terracotta text-white shadow-xs' 
-                              : 'bg-cream text-soft-black/75 group-hover:bg-soft-black group-hover:text-cream'
-                          }`}>
-                            <Icon className="w-4 h-4 stroke-[1.8]" />
-                          </div>
-
                           {/* Content */}
-                          <div className="flex-1 min-w-0">
+                          <div className="flex-1 min-w-0 pr-2">
                             <div className="flex items-center gap-1.5">
-                              <span className={`text-xs font-bold uppercase tracking-wider truncate ${
+                              <span className={`text-[13px] font-semibold tracking-normal truncate ${
                                 isActive ? 'text-terracotta' : 'text-soft-black'
                               }`}>
                                 {link.name}
                               </span>
                               {link.badge && (
-                                <span className="text-[8.5px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 leading-none">
+                                <span className="text-[8.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#1C2841] text-white leading-none">
                                   {link.badge}
                                 </span>
                               )}
@@ -475,7 +457,7 @@ const Navbar = () => {
                 </div>
 
                 {/* Secondary Brand & Help Links */}
-                <div className="pt-2 border-t border-stone/15">
+                <div className="pt-2">
                   <div className="px-1 mb-2">
                     <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-dark-charcoal/50">
                       The Atelier
@@ -491,7 +473,7 @@ const Navbar = () => {
                           key={link.name}
                           to={link.path}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className={`group flex items-center justify-between px-2.5 py-2 rounded-lg text-xs tracking-wider uppercase transition-all ${
+                          className={`group flex items-center justify-between px-2.5 py-2 rounded-lg text-[13px] tracking-normal transition-all ${
                             isActive
                               ? 'text-terracotta font-bold'
                               : 'text-dark-charcoal/75 font-medium hover:text-soft-black hover:bg-stone/5'
@@ -502,9 +484,6 @@ const Navbar = () => {
                               isActive ? 'text-terracotta' : 'text-stone-400 group-hover:text-soft-black'
                             }`} />
                             <span>{link.name}</span>
-                            {isActive && (
-                              <span className="w-1.5 h-1.5 rounded-full bg-terracotta shrink-0" />
-                            )}
                           </div>
                           <ChevronRight className={`w-3.5 h-3.5 shrink-0 transition-transform group-hover:translate-x-0.5 ${
                             isActive ? 'text-terracotta' : 'text-stone-400 group-hover:text-soft-black'
@@ -517,7 +496,7 @@ const Navbar = () => {
               </div>
 
               {/* Drawer Footer with Direct WhatsApp & Compact Policies */}
-              <div className="p-4 bg-cream border-t border-stone/20 shrink-0 space-y-3">
+              <div className="p-4 bg-cream shrink-0 space-y-3">
                 <a
                   href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20have%20an%20inquiry."
                   target="_blank"

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, ChevronDown, Plus, Minus, X, Ruler, ZoomIn, ZoomOut, RotateCcw, AlignLeft, Layers, Truck, AlertCircle, Droplets, Sparkles, Leaf, Banknote, ArrowUp, Check, ShieldCheck, RefreshCw, MessageCircle, Zap, PackageCheck, ShoppingCart } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown, Plus, Minus, X, Ruler, ZoomIn, ZoomOut, RotateCcw, AlignLeft, Layers, Truck, AlertCircle, Droplets, Leaf, Banknote, ArrowUp, Check, ShieldCheck, RefreshCw, MessageCircle, Zap, PackageCheck, ShoppingCart } from 'lucide-react';
 import RetailOrderModal from '../components/RetailOrderModal';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { useStoreConfig } from '../context/StoreConfigContext';
@@ -45,7 +45,7 @@ import comparisonImg from '../assets/editorial/comparison_detail.jpg';
 import unboxingImg from '../assets/editorial/unboxing_guarantee.jpg';
 
 const Accordion = ({ title, isOpen, onClick, children }) => (
-  <div className="border-b border-stone/15 last:border-b-0 sm:border-stone/30 sm:last:border-b">
+  <div className="sm:">
     <button 
       onClick={onClick}
       className="w-full py-3.5 px-3.5 sm:px-0 flex justify-between items-center text-left cursor-pointer group select-none"
@@ -154,6 +154,14 @@ const RetailPage = () => {
     setActiveIndex(0);
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [searchParams]);
+
+  // Lock body scroll and notify BottomNav when Size Guide or Care Guide modal is open
+  useEffect(() => {
+    if (isSizeGuideOpen || isCareGuideOpen) {
+      document.body.classList.add('modal-open');
+      return () => document.body.classList.remove('modal-open');
+    }
+  }, [isSizeGuideOpen, isCareGuideOpen]);
 
   const currentSinglePrice = activeProductId === 'adult' 
     ? (storeConfig?.singlePrice ?? activeProduct.singlePriceBDT) 
@@ -441,7 +449,7 @@ const RetailPage = () => {
     <>
       {isForeignUser && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-soft-black/80 backdrop-blur-sm p-4">
-          <div className="bg-cream rounded-none p-6 md:p-8 max-w-sm md:max-w-md w-full text-center shadow-2xl border border-stone/10">
+          <div className="bg-cream rounded-none p-6 md:p-8 max-w-sm md:max-w-md w-full text-center shadow-2xl">
               <div className="w-14 h-14 md:w-16 md:h-16 bg-red-100 text-red-600 rounded-none flex items-center justify-center mx-auto mb-4 md:mb-5">
                 <svg className="w-7 h-7 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -588,10 +596,10 @@ const RetailPage = () => {
                 <button 
                   type="button"
                   onClick={() => setOrderType('single')}
-                  className={`flex-1 py-2 md:py-2.5 px-3 text-xs font-bold uppercase tracking-wider rounded border transition-all duration-300 cursor-pointer ${
+                  className={`flex-1 py-2 md:py-2.5 px-3 text-xs font-bold uppercase tracking-wider rounded  transition-all duration-300 cursor-pointer ${
                     orderType === 'single'
-                      ? 'bg-soft-black text-cream border-soft-black shadow-xs'
-                      : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
+                      ? 'bg-soft-black text-cream  shadow-xs'
+                      : 'bg-white text-soft-black  '
                   }`}
                 >
                   Single Product
@@ -599,10 +607,10 @@ const RetailPage = () => {
                 <button 
                   type="button"
                   onClick={() => setOrderType('combo')}
-                  className={`flex-1 py-2 md:py-2.5 px-3 text-xs font-bold uppercase tracking-wider rounded border transition-all duration-300 cursor-pointer ${
+                  className={`flex-1 py-2 md:py-2.5 px-3 text-xs font-bold uppercase tracking-wider rounded  transition-all duration-300 cursor-pointer ${
                     orderType === 'combo'
-                      ? 'bg-soft-black text-cream border-soft-black shadow-xs'
-                      : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
+                      ? 'bg-soft-black text-cream  shadow-xs'
+                      : 'bg-white text-soft-black  '
                   }`}
                 >
                   Combo (2 Belts)
@@ -646,7 +654,7 @@ const RetailPage = () => {
                           key={color.name}
                           type="button"
                           onClick={() => handleColorChange(color.name)}
-                          className={`w-9 h-9 md:w-10 md:h-10 rounded-full border-2 transition-all duration-300 shrink-0 cursor-pointer ${selectedColor === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
+                          className={`w-9 h-9 md:w-10 md:h-10 rounded-full transition-all duration-300 shrink-0 cursor-pointer ${selectedColor === color.name ? 'ring-2 ring-soft-black ring-offset-2' : 'opacity-70 hover:opacity-100'}`}
                           aria-label={`Select ${color.name}`}
                         >
                           <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
@@ -671,10 +679,10 @@ const RetailPage = () => {
                             key={size}
                             type="button"
                             onClick={() => setSelectedSize(size)}
-                            className={`min-w-[36px] h-9 md:h-10 px-2.5 rounded border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
+                            className={`min-w-[36px] h-9 md:h-10 px-2.5 rounded  text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                               isSelected
-                                ? 'bg-soft-black text-cream border-soft-black shadow-xs'
-                                : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
+                                ? 'bg-soft-black text-cream  shadow-xs'
+                                : 'bg-white text-soft-black  '
                             }`}
                           >
                             {size}
@@ -710,7 +718,7 @@ const RetailPage = () => {
 
                 <div className="space-y-4">
                   {/* Belt 1 */}
-                  <div className="flex flex-row justify-start items-end gap-3 sm:gap-5 md:gap-6 w-full p-3 sm:p-3.5 rounded border border-stone/20 bg-white/50">
+                  <div className="flex flex-row justify-start items-end gap-3 sm:gap-5 md:gap-6 w-full p-3 sm:p-3.5 rounded bg-white/50">
                     {/* Belt 1 Color */}
                     <div>
                       <span className="block text-[10px] md:text-xs font-bold tracking-wider uppercase text-soft-black mb-2">
@@ -722,7 +730,7 @@ const RetailPage = () => {
                             key={color.name}
                             type="button"
                             onClick={() => { setComboColor1(color.name); handleColorChange(color.name); }}
-                            className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full border-2 transition-all duration-300 shrink-0 cursor-pointer ${comboColor1 === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
+                            className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full transition-all duration-300 shrink-0 cursor-pointer ${comboColor1 === color.name ? 'ring-2 ring-soft-black ring-offset-2' : 'opacity-70 hover:opacity-100'}`}
                             title={color.name}
                             aria-label={`Belt 1 ${color.name}`}
                           >
@@ -748,10 +756,10 @@ const RetailPage = () => {
                               key={size}
                               type="button"
                               onClick={() => setComboSize1(size)}
-                              className={`min-w-[32px] h-8 sm:h-9 md:h-10 px-2 rounded border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
+                              className={`min-w-[32px] h-8 sm:h-9 md:h-10 px-2 rounded  text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                                 isSelected
-                                  ? 'bg-soft-black text-cream border-soft-black shadow-xs'
-                                  : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
+                                  ? 'bg-soft-black text-cream  shadow-xs'
+                                  : 'bg-white text-soft-black  '
                               }`}
                             >
                               {size}
@@ -763,7 +771,7 @@ const RetailPage = () => {
                   </div>
 
                   {/* Belt 2 */}
-                  <div className="flex flex-row justify-start items-end gap-3 sm:gap-5 md:gap-6 w-full p-3 sm:p-3.5 rounded border border-stone/20 bg-white/50">
+                  <div className="flex flex-row justify-start items-end gap-3 sm:gap-5 md:gap-6 w-full p-3 sm:p-3.5 rounded bg-white/50">
                     {/* Belt 2 Color */}
                     <div>
                       <span className="block text-[10px] md:text-xs font-bold tracking-wider uppercase text-soft-black mb-2">
@@ -775,7 +783,7 @@ const RetailPage = () => {
                             key={color.name}
                             type="button"
                             onClick={() => { setComboColor2(color.name); handleColorChange(color.name); }}
-                            className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full border-2 transition-all duration-300 shrink-0 cursor-pointer ${comboColor2 === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
+                            className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full transition-all duration-300 shrink-0 cursor-pointer ${comboColor2 === color.name ? 'ring-2 ring-soft-black ring-offset-2' : 'opacity-70 hover:opacity-100'}`}
                             title={color.name}
                             aria-label={`Belt 2 ${color.name}`}
                           >
@@ -801,10 +809,10 @@ const RetailPage = () => {
                               key={size}
                               type="button"
                               onClick={() => setComboSize2(size)}
-                              className={`min-w-[32px] h-8 sm:h-9 md:h-10 px-2 rounded border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
+                              className={`min-w-[32px] h-8 sm:h-9 md:h-10 px-2 rounded  text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                                 isSelected
-                                  ? 'bg-soft-black text-cream border-soft-black shadow-xs'
-                                  : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
+                                  ? 'bg-soft-black text-cream  shadow-xs'
+                                  : 'bg-white text-soft-black  '
                               }`}
                             >
                               {size}
@@ -831,14 +839,14 @@ const RetailPage = () => {
                     type="button"
                     onClick={() => setIsOrderFormOpen(true)}
                     disabled={!isOrderReady}
-                    className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center bg-terracotta text-cream px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded transition-all duration-300 shadow-md ${
+                    className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center bg-[#1C2841] text-white px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-xl transition-all duration-300 shadow-md ${
                       !isOrderReady 
                         ? 'opacity-50 cursor-not-allowed' 
-                        : 'hover:bg-muted-burgundy hover:shadow-lg hover:shadow-terracotta/25 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] cursor-pointer'
+                        : 'hover:bg-[#131E33] hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] cursor-pointer'
                     }`}
                   >
                     {/* Shimmer Light Sweep on Hover */}
-                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
                     <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.22em]">{orderButtonContent}</span>
                   </button>
 
@@ -847,17 +855,14 @@ const RetailPage = () => {
                     type="button"
                     onClick={handleAddToCartClick}
                     disabled={!isOrderReady}
-                    className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded border transition-all duration-300 ${
+                    className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-xl transition-all duration-300 ${
                       isCartedAnimation
-                        ? 'border-emerald-600 bg-emerald-50 text-emerald-700 scale-[1.01] shadow-sm'
-                        : 'bg-transparent border-soft-black text-soft-black hover:border-soft-black hover:text-cream hover:shadow-md hover:shadow-black/20 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] cursor-pointer'
+                        ? 'bg-emerald-600 text-white scale-[1.01] shadow-md'
+                        : 'bg-white text-soft-black shadow-xs hover:bg-soft-black hover:text-cream hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] cursor-pointer'
                     } ${!isOrderReady ? 'opacity-50 cursor-not-allowed' : ''}`}
                     title="Add to Cart"
                     aria-label="Add to Cart"
                   >
-                    {!isCartedAnimation && (
-                      <span className="absolute inset-0 bg-soft-black translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
-                    )}
                     <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.22em]">
                       {isCartedAnimation ? 'ADDED TO CART!' : 'ADD TO CART'}
                     </span>
@@ -869,10 +874,9 @@ const RetailPage = () => {
                   href="https://wa.me/8801940689061"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative overflow-hidden group w-full h-[48px] md:h-[52px] flex items-center justify-center bg-transparent border border-soft-black text-soft-black px-8 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded hover:border-[#25D366] hover:text-white hover:shadow-md hover:shadow-[#25D366]/25 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
+                  className="relative overflow-hidden group w-full h-[48px] md:h-[52px] flex items-center justify-center bg-[#25D366] text-white px-8 text-xs font-bold uppercase tracking-[0.2em] rounded-xl shadow-xs hover:bg-[#20BD5A] hover:shadow-md hover:shadow-[#25D366]/25 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
                 >
-                  <span className="absolute inset-0 bg-[#25D366] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
-                  <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5 mr-2 md:mr-3 fill-current relative z-10 transition-transform duration-300 group-hover:scale-115 group-hover:rotate-12">
+                  <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5 mr-2 md:mr-3 fill-current relative z-10 transition-transform duration-300 group-hover:scale-110">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
                   </svg>
                   <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">WHATSAPP</span>
@@ -884,7 +888,7 @@ const RetailPage = () => {
             </div>
 
             {/* Expandable Accordions - Card View on Mobile */}
-            <div className="bg-white sm:bg-transparent border-0 sm:border-t sm:border-x-0 sm:border-b-0 sm:border-stone/30 p-2 sm:p-0 rounded-2xl sm:rounded-none overflow-hidden shadow-none mb-0">
+            <div className="bg-white sm:bg-transparent -0 sm: p-2 sm:p-0 rounded-2xl sm:rounded-none overflow-hidden shadow-none mb-0">
               <Accordion 
                 title={
                   <div className="flex items-center gap-3">
@@ -992,18 +996,9 @@ const RetailPage = () => {
               </Accordion>
             </div>
 
-            {/* Compact Artisan Craftsmanship Note - 10px Top/Bottom Gap */}
-            <div className="mt-2.5 px-3.5 py-2.5 sm:px-4 sm:py-2.5 bg-white border-0 rounded-2xl sm:rounded-none shadow-none">
-              <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-1.5 mb-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-terracotta flex items-center gap-1">
-                  <Sparkles className="w-3 h-3" /> Artisan Craftsmanship
-                </span>
-                <span className="text-[9.5px] font-semibold uppercase tracking-wider text-dark-charcoal/60">
-                  Hand-Knotted in BD
-                </span>
-              </div>
-              
-              <div className="grid grid-cols-3 gap-2 text-center divide-x divide-[#EAE6DF]">
+            {/* Compact Craftsmanship Metrics */}
+            <div className="mt-2.5 px-3.5 py-3 sm:px-4 sm:py-3.5 bg-white rounded-2xl sm:rounded-none shadow-none">
+              <div className="grid grid-cols-3 gap-2 text-center">
                 <div className="px-1">
                   <span className="block text-sm sm:text-base font-bold text-soft-black leading-tight">1,400+</span>
                   <span className="text-[9.5px] uppercase tracking-wider text-dark-charcoal/70 block mt-0.5 font-medium">Hand Knots</span>
@@ -1027,11 +1022,11 @@ const RetailPage = () => {
       {/* 1. COMPARISON SECTION (ABOVE) - Shown for Adult Belt only */}
       {/* ========================================================================= */}
       {activeProductId === 'adult' && (
-        <section className="w-full bg-[#F5F1E8] border-t border-b border-[#E5E0D6] py-8 sm:py-10 md:py-16 mt-2 sm:mt-6 md:mt-12 font-sans">
+        <section className="w-full bg-[#F5F1E8] py-8 sm:py-10 md:py-16 mt-2 sm:mt-6 md:mt-12 font-sans">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
             
             {/* Section Header */}
-            <div className="mb-6 md:mb-10 text-center md:text-left border-b border-[#E0DCD3] pb-4">
+            <div className="mb-6 md:mb-10 text-center md:text-left pb-4">
               <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-terracotta block mb-1">
                 Engineered For Comfort & Durability
               </span>
@@ -1044,7 +1039,7 @@ const RetailPage = () => {
               
               {/* Image: Stays above on mobile, on the left on desktop */}
               <div className="lg:col-span-5 relative group">
-                <div className="relative overflow-hidden rounded-2xl sm:rounded-none border-0 bg-white aspect-[4/3] sm:aspect-[4/3] lg:aspect-auto lg:h-[440px] shadow-none">
+                <div className="relative overflow-hidden rounded-2xl sm:rounded-none bg-white aspect-[4/3] sm:aspect-[4/3] lg:aspect-auto lg:h-[440px] shadow-none">
                   <img 
                     src={comparisonImg} 
                     alt="Traditional Belt vs AST Macramé Comparison" 
@@ -1052,11 +1047,11 @@ const RetailPage = () => {
                     loading="lazy"
                     decoding="async"
                   />
-                  <div className="absolute top-3 left-3 bg-red-600 text-white text-[9.5px] sm:text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg sm:rounded-none shadow-none">
-                    ❌ Traditional Belt
+                  <div className="absolute top-2.5 left-2.5 bg-[#1A1A1A]/85 backdrop-blur-md text-stone-300 text-[8px] sm:text-[8.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md select-none">
+                    Traditional Belt
                   </div>
-                  <div className="absolute top-3 right-3 bg-emerald-700 text-white text-[9.5px] sm:text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg sm:rounded-none shadow-none">
-                    ✅ AST Macramé
+                  <div className="absolute top-2.5 right-2.5 bg-[#1C2841]/95 backdrop-blur-md text-white text-[8px] sm:text-[8.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md select-none">
+                    AST Macramé
                   </div>
                 </div>
               </div>
@@ -1067,7 +1062,7 @@ const RetailPage = () => {
                 {/* MOBILE VIEW ONLY: Side-by-side tabs to switch between the 3 comparison points */}
                 <div className="block lg:hidden">
                   {/* 3 Mobile Tabs */}
-                  <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#EAE5DA] rounded mb-3 border-0 shadow-none">
+                  <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#EAE5DA] rounded mb-3 shadow-none">
                     <button
                       type="button"
                       onClick={() => setComparisonTab(0)}
@@ -1114,19 +1109,29 @@ const RetailPage = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -6 }}
                         transition={{ duration: 0.15 }}
-                        className="bg-white p-4 rounded-2xl sm:rounded-none border-0 shadow-none"
+                        className="bg-white p-4 rounded-2xl shadow-none"
                       >
-                        <h3 className="text-xs font-bold uppercase tracking-wider text-soft-black mb-2.5 pb-1.5 border-b border-[#EAE6DF]">
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-soft-black mb-2.5 pb-1.5">
                           Dynamic Waist Comfort vs Rigid Pinching
                         </h3>
                         <div className="space-y-2 text-[11px]">
-                          <div className="p-2.5 bg-red-50/70 border-0 rounded-xl sm:rounded-none shadow-none">
-                            <span className="font-bold block text-red-700 uppercase text-[9.5px] mb-0.5">❌ Traditional Leather / Faux</span>
-                            Stiff & unyielding structure pinches your abdomen when sitting or after heavy meals.
+                          <div className="p-3 bg-[#F5F2EB] rounded-xl">
+                            <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[9.5px] tracking-wider">
+                              <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[8.5px] font-bold shrink-0">✕</span>
+                              <span>Traditional Leather / Faux</span>
+                            </div>
+                            <p className="text-dark-charcoal/75 leading-relaxed">
+                              Stiff & unyielding structure pinches your abdomen when sitting or after heavy meals.
+                            </p>
                           </div>
-                          <div className="p-2.5 bg-emerald-50/90 border-0 rounded-xl sm:rounded-none shadow-none">
-                            <span className="font-bold block text-emerald-800 uppercase text-[9.5px] mb-0.5">✅ AST Hand-Knotted Macramé</span>
-                            Natural knot matrix breathes and flexes dynamically with your waist's natural movement.
+                          <div className="p-3 bg-[#FAF7F2] rounded-xl">
+                            <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[9.5px] tracking-wider">
+                              <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[8.5px] font-bold shrink-0">✓</span>
+                              <span>AST Hand-Knotted Macramé</span>
+                            </div>
+                            <p className="text-soft-black leading-relaxed font-normal">
+                              Natural knot matrix breathes and flexes dynamically with your waist's natural movement.
+                            </p>
                           </div>
                         </div>
                       </motion.div>
@@ -1139,19 +1144,29 @@ const RetailPage = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -6 }}
                         transition={{ duration: 0.15 }}
-                        className="bg-white p-4 rounded-2xl sm:rounded-none border-0 shadow-none"
+                        className="bg-white p-4 rounded-2xl shadow-none"
                       >
-                        <h3 className="text-xs font-bold uppercase tracking-wider text-soft-black mb-2.5 pb-1.5 border-b border-[#EAE6DF]">
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-soft-black mb-2.5 pb-1.5">
                           Millimeter Precision vs 5 Fixed Holes
                         </h3>
                         <div className="space-y-2 text-[11px]">
-                          <div className="p-2.5 bg-red-50/70 border-0 rounded-xl sm:rounded-none shadow-none">
-                            <span className="font-bold block text-red-700 uppercase text-[9.5px] mb-0.5">❌ Traditional Punch Holes</span>
-                            Only 5 fixed holes spaced 1 inch apart — always either 1 inch too tight or 1 inch too loose.
+                          <div className="p-3 bg-[#F5F2EB] rounded-xl">
+                            <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[9.5px] tracking-wider">
+                              <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[8.5px] font-bold shrink-0">✕</span>
+                              <span>Traditional Punch Holes</span>
+                            </div>
+                            <p className="text-dark-charcoal/75 leading-relaxed">
+                              Only 5 fixed holes spaced 1 inch apart — always either 1 inch too tight or 1 inch too loose.
+                            </p>
                           </div>
-                          <div className="p-2.5 bg-emerald-50/90 border-0 rounded-xl sm:rounded-none shadow-none">
-                            <span className="font-bold block text-emerald-800 uppercase text-[9.5px] mb-0.5">✅ AST Infinite Adjustment</span>
-                            Insert prong through any knot anywhere along the belt for 100% millimeter-precise fit.
+                          <div className="p-3 bg-[#FAF7F2] rounded-xl">
+                            <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[9.5px] tracking-wider">
+                              <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[8.5px] font-bold shrink-0">✓</span>
+                              <span>AST Infinite Adjustment</span>
+                            </div>
+                            <p className="text-soft-black leading-relaxed font-normal">
+                              Insert prong through any knot anywhere along the belt for 100% millimeter-precise fit.
+                            </p>
                           </div>
                         </div>
                       </motion.div>
@@ -1164,19 +1179,29 @@ const RetailPage = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -6 }}
                         transition={{ duration: 0.15 }}
-                        className="bg-white p-4 rounded-2xl sm:rounded-none border-0 shadow-none"
+                        className="bg-white p-4 rounded-2xl shadow-none"
                       >
-                        <h3 className="text-xs font-bold uppercase tracking-wider text-soft-black mb-2.5 pb-1.5 border-b border-[#EAE6DF]">
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-soft-black mb-2.5 pb-1.5">
                           Bangladesh Monsoon & Climate Durability
                         </h3>
                         <div className="space-y-2 text-[11px]">
-                          <div className="p-2.5 bg-red-50/70 border-0 rounded-xl sm:rounded-none shadow-none">
-                            <span className="font-bold block text-red-700 uppercase text-[9.5px] mb-0.5">❌ Faux Leather Peeling</span>
-                            Traps body sweat & heat, cracking and peeling into messy flakes in BD monsoon humidity.
+                          <div className="p-3 bg-[#F5F2EB] rounded-xl">
+                            <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[9.5px] tracking-wider">
+                              <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[8.5px] font-bold shrink-0">✕</span>
+                              <span>Faux Leather Peeling</span>
+                            </div>
+                            <p className="text-dark-charcoal/75 leading-relaxed">
+                              Traps body sweat & heat, cracking and peeling into messy flakes in BD monsoon humidity.
+                            </p>
                           </div>
-                          <div className="p-2.5 bg-emerald-50/90 border-0 rounded-xl sm:rounded-none shadow-none">
-                            <span className="font-bold block text-emerald-800 uppercase text-[9.5px] mb-0.5">✅ 100% Combed Cotton</span>
-                            Naturally breathable organic cotton cord and rust-proof zinc alloy hardware built for years of wear.
+                          <div className="p-3 bg-[#FAF7F2] rounded-xl">
+                            <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[9.5px] tracking-wider">
+                              <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[8.5px] font-bold shrink-0">✓</span>
+                              <span>100% Combed Cotton</span>
+                            </div>
+                            <p className="text-soft-black leading-relaxed font-normal">
+                              Naturally breathable organic cotton cord and rust-proof zinc alloy hardware built for years of wear.
+                            </p>
                           </div>
                         </div>
                       </motion.div>
@@ -1186,59 +1211,89 @@ const RetailPage = () => {
 
                 {/* DESKTOP VIEW: All 3 Comparison Cards */}
                 <div className="hidden lg:block space-y-3.5">
-                  <div className="bg-white p-5 rounded-none border-0 shadow-none">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="w-2 h-2 rounded-none bg-emerald-500"></span>
+                  <div className="bg-white p-5 rounded-2xl shadow-none">
+                    <div className="flex items-center gap-2.5 mb-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#1C2841] shrink-0" />
                       <h3 className="text-sm font-bold uppercase tracking-wider text-soft-black">
                         Dynamic Waist Comfort vs Rigid Pinching
                       </h3>
                     </div>
                     <div className="grid grid-cols-2 gap-3 text-xs mt-2.5">
-                      <div className="p-3 bg-red-50/70 border-0 rounded-none shadow-none">
-                        <span className="font-bold block text-red-700 uppercase text-[10px] mb-1">❌ Traditional Leather</span>
-                        Stiff structure pinches your waist and abdomen when sitting or after meals.
+                      <div className="p-3.5 bg-[#F5F2EB] rounded-xl">
+                        <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[10px] tracking-wider">
+                          <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[8.5px] font-bold shrink-0">✕</span>
+                          <span>Traditional Leather</span>
+                        </div>
+                        <p className="text-dark-charcoal/75 leading-relaxed text-[11.5px]">
+                          Stiff structure pinches your waist and abdomen when sitting or after meals.
+                        </p>
                       </div>
-                      <div className="p-3 bg-emerald-50/90 border-0 rounded-none shadow-none">
-                        <span className="font-bold block text-emerald-800 uppercase text-[10px] mb-1">✅ AST Hand-Knotted</span>
-                        Natural interlocking knot matrix breathes and flexes dynamically with your waist.
+                      <div className="p-3.5 bg-[#FAF7F2] rounded-xl">
+                        <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[10px] tracking-wider">
+                          <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[8.5px] font-bold shrink-0">✓</span>
+                          <span>AST Hand-Knotted</span>
+                        </div>
+                        <p className="text-soft-black leading-relaxed font-normal text-[11.5px]">
+                          Natural interlocking knot matrix breathes and flexes dynamically with your waist.
+                        </p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-white p-5 rounded-none border-0 shadow-none">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="w-2 h-2 rounded-none bg-emerald-500"></span>
+                  <div className="bg-white p-5 rounded-2xl shadow-none">
+                    <div className="flex items-center gap-2.5 mb-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#1C2841] shrink-0" />
                       <h3 className="text-sm font-bold uppercase tracking-wider text-soft-black">
                         Millimeter Fit Precision (No Hole Constraints)
                       </h3>
                     </div>
                     <div className="grid grid-cols-2 gap-3 text-xs mt-2.5">
-                      <div className="p-3 bg-red-50/70 border-0 rounded-none shadow-none">
-                        <span className="font-bold block text-red-700 uppercase text-[10px] mb-1">❌ Traditional Holes</span>
-                        Limited to 5 fixed punch holes spaced 1 inch apart — always either too tight or too loose.
+                      <div className="p-3.5 bg-[#F5F2EB] rounded-xl">
+                        <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[10px] tracking-wider">
+                          <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[8.5px] font-bold shrink-0">✕</span>
+                          <span>Traditional Holes</span>
+                        </div>
+                        <p className="text-dark-charcoal/75 leading-relaxed text-[11.5px]">
+                          Limited to 5 fixed punch holes spaced 1 inch apart — always either too tight or too loose.
+                        </p>
                       </div>
-                      <div className="p-3 bg-emerald-50/90 border-0 rounded-none shadow-none">
-                        <span className="font-bold block text-emerald-800 uppercase text-[10px] mb-1">✅ Infinite Adjustment</span>
-                        Insert the buckle prong through any knot anywhere along the belt for millimeter-precise fit.
+                      <div className="p-3.5 bg-[#FAF7F2] rounded-xl">
+                        <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[10px] tracking-wider">
+                          <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[8.5px] font-bold shrink-0">✓</span>
+                          <span>Infinite Adjustment</span>
+                        </div>
+                        <p className="text-soft-black leading-relaxed font-normal text-[11.5px]">
+                          Insert the buckle prong through any knot anywhere along the belt for millimeter-precise fit.
+                        </p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-white p-5 rounded-none border-0 shadow-none">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="w-2 h-2 rounded-none bg-emerald-500"></span>
+                  <div className="bg-white p-5 rounded-2xl shadow-none">
+                    <div className="flex items-center gap-2.5 mb-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#1C2841] shrink-0" />
                       <h3 className="text-sm font-bold uppercase tracking-wider text-soft-black">
                         Built for Bangladesh Humidity & Monsoon
                       </h3>
                     </div>
                     <div className="grid grid-cols-2 gap-3 text-xs mt-2.5">
-                      <div className="p-3 bg-red-50/70 border-0 rounded-none shadow-none">
-                        <span className="font-bold block text-red-700 uppercase text-[10px] mb-1">❌ Faux Leather Cracking</span>
-                        Traps sweat and heat, peeling apart into messy flakes within months in tropical humidity.
+                      <div className="p-3.5 bg-[#F5F2EB] rounded-xl">
+                        <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[10px] tracking-wider">
+                          <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[8.5px] font-bold shrink-0">✕</span>
+                          <span>Faux Leather Cracking</span>
+                        </div>
+                        <p className="text-dark-charcoal/75 leading-relaxed text-[11.5px]">
+                          Traps sweat and heat, peeling apart into messy flakes within months in tropical humidity.
+                        </p>
                       </div>
-                      <div className="p-3 bg-emerald-50/90 border-0 rounded-none shadow-none">
-                        <span className="font-bold block text-emerald-800 uppercase text-[10px] mb-1">✅ 100% Combed Cotton</span>
-                        Naturally breathable organic cotton cord and rust-proof zinc alloy hardware that lasts for years.
+                      <div className="p-3.5 bg-[#FAF7F2] rounded-xl">
+                        <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[10px] tracking-wider">
+                          <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[8.5px] font-bold shrink-0">✓</span>
+                          <span>100% Combed Cotton</span>
+                        </div>
+                        <p className="text-soft-black leading-relaxed font-normal text-[11.5px]">
+                          Naturally breathable organic cotton cord and rust-proof zinc alloy hardware that lasts for years.
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -1255,11 +1310,11 @@ const RetailPage = () => {
       {/* ========================================================================= */}
       {/* 2. GUARANTEE SECTION (BELOW) - Shown for BOTH Adult & Kids */}
       {/* ========================================================================= */}
-      <section className="w-full bg-[#FAF8F5] border-b border-[#E5E0D6] py-10 md:py-16 font-sans">
+      <section className="w-full bg-[#FAF8F5] py-10 md:py-16 font-sans">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           
           {/* Section Header */}
-          <div className="mb-6 md:mb-10 text-center md:text-left border-b border-[#E0DCD3] pb-4">
+          <div className="mb-6 md:mb-10 text-center md:text-left pb-4">
             <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-terracotta block mb-1">
               Zero Risk Cash On Delivery
             </span>
@@ -1272,7 +1327,7 @@ const RetailPage = () => {
             
             {/* Left: Unboxing Image */}
             <div className="lg:col-span-5 relative group">
-              <div className="relative overflow-hidden rounded-2xl sm:rounded-none border-0 bg-white aspect-[4/3] sm:aspect-[4/3] lg:aspect-auto lg:h-[380px] shadow-none">
+              <div className="relative overflow-hidden rounded-2xl bg-white aspect-[4/3] sm:aspect-[4/3] lg:aspect-auto lg:h-[380px] shadow-none">
                 <img 
                   src={unboxingImg} 
                   alt="AST Macramé Premium Unboxing & Quality Guarantee" 
@@ -1280,7 +1335,7 @@ const RetailPage = () => {
                   loading="lazy"
                   decoding="async"
                 />
-                <div className="absolute bottom-3 left-3 bg-emerald-800/90 text-white text-[9.5px] sm:text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg sm:rounded-none shadow-none">
+                <div className="absolute bottom-3 left-3 bg-[#1C2841] text-white text-[9.5px] sm:text-[10px] font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-xl shadow-md">
                   100% Risk-Free Delivery
                 </div>
               </div>
@@ -1288,32 +1343,28 @@ const RetailPage = () => {
 
             {/* Right: 2 Big Trust Guarantee Pillars */}
             <div className="lg:col-span-7 space-y-4">
-              <div className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-none border-0 shadow-none flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl sm:rounded-none bg-emerald-100 flex items-center justify-center shrink-0 text-emerald-700 mt-0.5">
-                  <PackageCheck className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-sm sm:text-base font-bold text-soft-black uppercase tracking-wider mb-1">
-                    Open-Box Inspection in Front of Rider
-                  </h3>
-                  <p className="text-xs sm:text-[13px] text-dark-charcoal/80 leading-relaxed font-normal">
-                    You are welcome to unbox and check the belt weave, buckle finish, and size in front of the courier before handing over payment. Zero risk, total transparency.
-                  </p>
-                </div>
+              <div className="bg-white p-5 sm:p-6 rounded-2xl shadow-none">
+                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-terracotta block mb-1.5">
+                  Doorstep Verification
+                </span>
+                <h3 className="text-sm sm:text-base font-bold text-soft-black uppercase tracking-wider mb-2">
+                  Open-Box Inspection in Front of Rider
+                </h3>
+                <p className="text-xs sm:text-[13px] text-dark-charcoal/80 leading-relaxed font-normal">
+                  You are welcome to unbox and check the belt weave, buckle finish, and size in front of the courier before handing over payment. Zero risk, total transparency.
+                </p>
               </div>
 
-              <div className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-none border-0 shadow-none flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl sm:rounded-none bg-amber-100 flex items-center justify-center shrink-0 text-amber-700 mt-0.5">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-sm sm:text-base font-bold text-soft-black uppercase tracking-wider mb-1">
-                    Solid Anti-Rust Alloy Hardware
-                  </h3>
-                  <p className="text-xs sm:text-[13px] text-dark-charcoal/80 leading-relaxed font-normal">
-                    Every buckle is cast in high-density zinc alloy with a protective matte finish, guaranteed against rust or tarnishing in Bangladesh's monsoon climate.
-                  </p>
-                </div>
+              <div className="bg-white p-5 sm:p-6 rounded-2xl shadow-none">
+                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-terracotta block mb-1.5">
+                  Hardware Guarantee
+                </span>
+                <h3 className="text-sm sm:text-base font-bold text-soft-black uppercase tracking-wider mb-2">
+                  Solid Anti-Rust Alloy Hardware
+                </h3>
+                <p className="text-xs sm:text-[13px] text-dark-charcoal/80 leading-relaxed font-normal">
+                  Every buckle is cast in high-density zinc alloy with a protective matte finish, guaranteed against rust or tarnishing in Bangladesh's monsoon climate.
+                </p>
               </div>
             </div>
 
@@ -1323,116 +1374,145 @@ const RetailPage = () => {
       </section>
       
       {/* Size Guide Modal */}
-      <AnimatePresence>
-        {isSizeGuideOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
+      {isSizeGuideOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-3.5 sm:p-4 overflow-y-auto overscroll-contain">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setIsSizeGuideOpen(false)}
+            className="absolute inset-0 bg-black/75 backdrop-blur-md"
+          />
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.96, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="bg-white w-full max-w-md p-5 sm:p-7 relative z-10 shadow-2xl rounded-3xl text-center overflow-hidden my-auto"
+          >
+            <button 
+              type="button"
               onClick={() => setIsSizeGuideOpen(false)}
-              className="absolute inset-0 bg-soft-black/50"
-            />
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.15, ease: "easeOut" }}
-              className="bg-white border border-stone/20 w-full max-w-sm p-6 relative z-10 shadow-2xl rounded-2xl text-center"
+              className="w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center text-soft-black transition-colors cursor-pointer absolute top-3.5 right-3.5 sm:top-5 sm:right-5"
+              title="Close"
             >
-              <button 
-                onClick={() => setIsSizeGuideOpen(false)}
-                className="absolute top-4 right-4 text-soft-black/40 hover:text-soft-black transition-colors cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
-              
-              <img src="/logo_black.png" alt="AST Logo" className="h-5 w-auto mx-auto mb-4 object-contain opacity-80" />
-              
-              <h2 className="text-xl font-serif text-soft-black mb-3 font-semibold">{activeProduct.sizeGuide?.title || 'Sizing Guide'}</h2>
-              
-              <div className="w-full bg-stone/5 rounded-xl border border-stone/10 overflow-hidden mb-4 text-xs">
-                <div className="grid grid-cols-3 bg-stone/10 border-b border-stone/10 py-2.5 font-bold uppercase tracking-wider text-dark-charcoal">
-                  <span>Size</span>
-                  <span>Waist Fit</span>
-                  <span>Length</span>
+              <X size={18} />
+            </button>
+            
+            <img src="/logo_black.png" alt="AST Logo" className="h-5 w-auto mx-auto mb-2 object-contain opacity-80 select-none" />
+            
+            <h2 className="text-xl sm:text-2xl font-serif text-soft-black mb-1 font-semibold">
+              {activeProduct.sizeGuide?.title || 'Sizing Guide'}
+            </h2>
+            <p className="text-[11px] sm:text-xs text-dark-charcoal/65 font-normal mb-4">
+              Unisex Macramé Weave — Pin-Anywhere Micro-Adjustable Fit
+            </p>
+            
+            {/* Sizing Table */}
+            <div className="w-full bg-[#FAF7F2] rounded-2xl overflow-hidden mb-3 shadow-2xs text-xs sm:text-[13px]">
+              <div className="grid grid-cols-3 bg-[#F2EDE4]/80 py-2 px-3 text-[10.5px] font-bold uppercase tracking-wider text-dark-charcoal/70">
+                <span>Size</span>
+                <span>Waist Fit</span>
+                <span>Length</span>
+              </div>
+              {activeProduct.sizeGuide?.rows.map((row, rIdx) => (
+                <div 
+                  key={rIdx} 
+                  className="grid grid-cols-3 items-center py-2.5 px-3 text-dark-charcoal/85"
+                >
+                  <span className="font-bold text-soft-black text-sm">{row.size}</span>
+                  <span>{row.waist}</span>
+                  <span>{row.length}</span>
                 </div>
-                {activeProduct.sizeGuide?.rows.map((row, rIdx) => (
-                  <div key={rIdx} className={`grid grid-cols-3 py-3 ${rIdx !== (activeProduct.sizeGuide?.rows.length - 1) ? 'border-b border-stone/10/50' : ''}`}>
-                    <span className="font-bold text-soft-black">{row.size}</span>
-                    <span className="text-soft-black/80">{row.waist}</span>
-                    <span className="text-soft-black/80">{row.length}</span>
-                  </div>
-                ))}
+              ))}
+            </div>
+
+            {/* Stacked Dimensions - One Under Another */}
+            <div className="flex flex-col gap-2 mb-3 text-left">
+              <div className="bg-[#FAF7F2] rounded-2xl p-3 shadow-2xs">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-dark-charcoal/60 block mb-0.5">
+                  Belt Width
+                </span>
+                <div className="text-sm font-bold text-soft-black">
+                  {activeProduct.sizeGuide?.width || '1.5"'} <span className="text-[11px] font-normal text-dark-charcoal/60">(38 mm)</span>
+                </div>
+                <p className="text-[10.5px] text-dark-charcoal/70 mt-0.5 leading-snug">
+                  Fits standard pant &amp; denim belt loops
+                </p>
               </div>
 
-              <div className="flex justify-between items-center px-4 py-3 bg-stone/5 rounded-xl border border-stone/10 mb-4 text-xs">
-                 <span className="font-bold uppercase tracking-wider text-dark-charcoal">Belt Dimensions</span>
-                 <span className="font-semibold text-soft-black">{activeProduct.dimensionsText}</span>
+              <div className="bg-[#FAF7F2] rounded-2xl p-3 shadow-2xs">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-dark-charcoal/60 block mb-0.5">
+                  Adjustability
+                </span>
+                <div className="text-sm font-bold text-soft-black">
+                  Pin-Anywhere
+                </div>
+                <p className="text-[10.5px] text-dark-charcoal/70 mt-0.5 leading-snug">
+                  Micro-adjustable along the woven braid
+                </p>
               </div>
-              
-              <p className="italic font-light text-dark-charcoal/70 text-[11px] leading-relaxed px-2">
-                {activeProduct.sizeGuide?.note || '* Our macramé weave is naturally flexible, offering a comfortable, pin-anywhere fit.'}
-              </p>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+            </div>
+            
+            {/* Sizing Tip - Neutral Tone, Zero AI Icons, Zero Green */}
+            <div className="bg-[#FAF7F2] rounded-2xl p-3 text-left text-[11px] leading-relaxed text-dark-charcoal/75 shadow-2xs">
+              <strong className="font-bold text-soft-black block mb-0.5">Fit Tip:</strong>
+              Choose your usual trouser waist size. Without fixed punch holes, the buckle prong inserts smoothly through any point in the macramé cord for a precise, comfortable fit.
+            </div>
+          </motion.div>
+        </div>
+      )}
 
       {/* Care Guide Modal */}
-      <AnimatePresence>
-        {isCareGuideOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
+      {isCareGuideOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-3.5 sm:p-4 overflow-y-auto overscroll-contain">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setIsCareGuideOpen(false)}
+            className="absolute inset-0 bg-black/75 backdrop-blur-md"
+          />
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.96, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="bg-white w-full max-w-md p-5 sm:p-7 relative z-10 shadow-2xl rounded-3xl text-center max-h-[90vh] overflow-y-auto my-auto"
+          >
+            <button 
+              type="button"
               onClick={() => setIsCareGuideOpen(false)}
-              className="absolute inset-0 bg-soft-black/50"
-            />
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.15, ease: "easeOut" }}
-              className="bg-white border border-stone/20 w-full max-w-md p-5 sm:p-6 relative z-10 shadow-2xl rounded-2xl text-center max-h-[90vh] overflow-y-auto"
+              className="w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center text-soft-black transition-colors cursor-pointer absolute top-3.5 right-3.5 sm:top-5 sm:right-5"
+              title="Close"
             >
-              <button 
-                onClick={() => setIsCareGuideOpen(false)}
-                className="absolute top-4 right-4 text-soft-black/40 hover:text-soft-black transition-colors cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
-              
-              <img src="/logo_black.png" alt="AST Logo" className="h-5 w-auto mx-auto mb-3 object-contain opacity-80" />
-              
-              <h2 className="text-xl md:text-2xl font-serif text-soft-black mb-1 font-semibold">{activeProduct.careGuide?.title || 'Care Guide'}</h2>
-              <p className="text-xs font-light text-terracotta uppercase tracking-[0.15em] mb-4">Keep it clean. Keep it natural.</p>
-              
-              <div className="w-full bg-stone/5 rounded-xl border border-stone/10 p-4 mb-4 text-left text-xs leading-relaxed text-soft-black/85">
-                {activeProduct.careGuide?.points ? (
-                  <ul className="space-y-2.5">
-                    {activeProduct.careGuide.points.map((point, idx) => (
-                      <li key={idx} className="flex items-start gap-2.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-1.5 shrink-0" />
-                        <span className="leading-snug">{point}</span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  activeProduct.careGuide?.instructions
-                )}
-              </div>
+              <X size={18} />
+            </button>
+            
+            <img src="/logo_black.png" alt="AST Logo" className="h-5 w-auto mx-auto mb-2.5 object-contain opacity-80 select-none" />
+            
+            <h2 className="text-xl sm:text-2xl font-serif text-soft-black mb-1 font-semibold">{activeProduct.careGuide?.title || 'Care Guide'}</h2>
+            <p className="text-[10.5px] font-medium text-terracotta uppercase tracking-[0.15em] mb-4">Keep it clean. Keep it natural.</p>
+            
+            <div className="w-full bg-[#FAF7F2] rounded-2xl p-4 sm:p-5 mb-4 text-left text-xs leading-relaxed text-soft-black/85 shadow-2xs">
+              {activeProduct.careGuide?.points ? (
+                <ul className="space-y-2.5">
+                  {activeProduct.careGuide.points.map((point, idx) => (
+                    <li key={idx} className="flex items-start gap-2.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-1.5 shrink-0" />
+                      <span className="leading-relaxed">{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                activeProduct.careGuide?.instructions
+              )}
+            </div>
 
-              <p className="text-[11px] text-soft-black/60 italic font-light">
-                Handcrafted to age beautifully with proper care.
-              </p>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+            <p className="text-[11px] text-soft-black/60 italic font-light">
+              Handcrafted to age beautifully with proper care.
+            </p>
+          </motion.div>
+        </div>
+      )}
 
       {/* Lightbox Modal */}
       {lightboxImage && (
@@ -1487,7 +1567,7 @@ const RetailPage = () => {
                     </TransformComponent>
                     
                     {/* Zoom In, Zoom Out & Reset Controls (Visible on Both Desktop & Mobile) */}
-                    <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-3 sm:gap-5 z-[110] bg-black/75 backdrop-blur-md px-4 sm:px-6 py-2 rounded-full border border-white/20 shadow-2xl">
+                    <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-3 sm:gap-5 z-[110] bg-black/75 backdrop-blur-md px-4 sm:px-6 py-2 rounded-full shadow-2xl">
                       <button 
                         onClick={() => zoomOut()} 
                         className="text-white/80 hover:text-white hover:scale-110 transition-all p-1 cursor-pointer flex items-center justify-center"
@@ -1497,7 +1577,7 @@ const RetailPage = () => {
                       </button>
                       <button 
                         onClick={() => resetTransform()} 
-                        className="flex items-center gap-1.5 text-[10px] sm:text-xs text-white/90 font-mono uppercase tracking-widest hover:text-white hover:scale-105 transition-all px-2.5 py-0.5 border-x border-white/25 cursor-pointer"
+                        className="flex items-center gap-1.5 text-[10px] sm:text-xs text-white/90 font-mono uppercase tracking-widest hover:text-white hover:scale-105 transition-all px-2.5 py-0.5 cursor-pointer"
                         title="Reset View"
                       >
                         <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -1531,10 +1611,10 @@ const RetailPage = () => {
                 <button 
                   key={idx}
                   onClick={() => { setLightboxImage(img); setZoomLevel(1); }}
-                  className={`w-12 h-12 sm:w-14 sm:h-14 aspect-square shrink-0 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
+                  className={`w-12 h-12 sm:w-14 sm:h-14 aspect-square shrink-0 rounded-lg overflow-hidden  transition-all cursor-pointer ${
                     lightboxImage === img 
-                      ? 'border-terracotta scale-105 shadow-md opacity-100' 
-                      : 'border-transparent opacity-50 hover:opacity-80'
+                      ? ' scale-105 shadow-md opacity-100' 
+                      : 'opacity-50 hover:opacity-80'
                   }`}
                   aria-label={`View image ${idx + 1}`}
                 >
@@ -1569,70 +1649,62 @@ const RetailPage = () => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 80, opacity: 0 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed bottom-[86px] sm:bottom-8 inset-x-3.5 sm:inset-x-8 z-40 max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto bg-cotton-white/95 backdrop-blur-md border border-stone/25 px-4 sm:px-8 py-2.5 sm:py-3.5 rounded-2xl sm:rounded-none shadow-[0_12px_40px_rgba(0,0,0,0.22)] font-sans"
+            className="fixed bottom-[84px] sm:bottom-8 inset-x-2.5 sm:inset-x-8 z-40 max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto bg-cotton-white/95 backdrop-blur-md px-3 sm:px-8 py-2 sm:py-3.5 rounded-xl sm:rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.18)] font-sans"
           >
-            <div className="flex items-center justify-between gap-3 sm:gap-6 w-full">
-              <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-stone/10 rounded-lg overflow-hidden shrink-0 border border-stone/20">
+            <div className="flex items-center justify-between gap-2 sm:gap-6 w-full">
+              <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-stone/10 rounded-lg overflow-hidden shrink-0">
                   <img 
                     src={images[0]} 
                     alt={activeProduct.title} 
                     className="w-full h-full object-cover mix-blend-multiply" 
                   />
                 </div>
-                <div className="flex flex-col min-w-0">
-                  <span className="text-xs sm:text-sm md:text-base font-bold text-soft-black truncate">
+                <div className="flex flex-col min-w-0 justify-center">
+                  <span className="text-[11px] sm:text-sm md:text-base font-bold text-soft-black truncate leading-tight">
                     {activeProduct.title}
                   </span>
-                  <div className="flex items-center gap-2 text-[10px] sm:text-xs md:text-sm">
-                    <span className="text-terracotta font-bold text-sm sm:text-base">
+                  <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs md:text-sm mt-0.5 leading-none">
+                    <span className="text-terracotta font-bold text-xs sm:text-base whitespace-nowrap">
                       ৳ {currentPrice.toLocaleString()}
                     </span>
-                    <span className="text-red-500 line-through text-[10px] sm:text-xs hidden sm:inline">
+                    <span className="text-stone-400 line-through text-[10px] sm:text-xs hidden sm:inline whitespace-nowrap">
                       ৳ {currentRegularPrice.toLocaleString()}
                     </span>
-                    <span className="text-dark-charcoal/60 truncate font-medium">
-                      {orderType === 'single' ? `• ${selectedColor} (${selectedSize})` : `• Combo Pack (2 Belts)`}
+                    <span className="text-dark-charcoal/60 truncate font-medium text-[9.5px] sm:text-xs">
+                      {orderType === 'single' ? `• ${selectedColor} (${selectedSize})` : `• Combo (2 Belts)`}
                     </span>
                   </div>
                 </div>
               </div>
 
               {/* Action Buttons: Order Now (Left) + Add to Cart Outline Icon (Right) */}
-              <div className="flex items-center gap-2 shrink-0">
-                {/* Circling Stroke Light Beam Border: ORDER NOW */}
-                <div className="relative p-[1.5px] overflow-hidden rounded shadow-md shrink-0 group">
-                  <div 
-                    className="absolute -top-[100%] -left-[100%] w-[300%] h-[300%] animate-border-beam pointer-events-none"
-                    style={{
-                      background: 'conic-gradient(from 0deg, transparent 0deg, transparent 240deg, #60A5FA 320deg, #FFFFFF 360deg)'
-                    }}
-                  />
-                  <button
-                    onClick={handleStickyOrderClick}
-                    className="relative z-10 bg-[#1C2841] hover:bg-[#131E33] text-white px-4 sm:px-6 py-2 sm:py-2.5 text-[11px] sm:text-xs md:text-sm font-bold uppercase tracking-[0.15em] rounded transition-all active:scale-[0.98] flex items-center gap-1.5 sm:gap-2 cursor-pointer"
-                  >
-                    <span className="font-bold tracking-widest whitespace-nowrap">ORDER NOW</span>
-                    <ArrowUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-arrow-up" />
-                  </button>
-                </div>
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                {/* ORDER NOW Button */}
+                <button
+                  onClick={handleStickyOrderClick}
+                  className="bg-[#1C2841] hover:bg-[#131E33] text-white px-3 sm:px-6 py-1.5 sm:py-2.5 text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wider sm:tracking-[0.15em] rounded-lg sm:rounded-xl transition-all shadow-sm sm:shadow-md active:scale-[0.98] flex items-center gap-1 sm:gap-2 cursor-pointer"
+                >
+                  <span className="font-bold whitespace-nowrap">ORDER NOW</span>
+                  <ArrowUp className="w-3 h-3 sm:w-4 sm:h-4 animate-arrow-up shrink-0" />
+                </button>
 
                 {/* ADD TO CART (Icon only, no text) */}
                 <button
                   type="button"
                   onClick={handleAddToCartClick}
-                  className={`w-9 h-9 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center rounded border transition-all duration-200 cursor-pointer ${
+                  className={`w-7.5 h-7.5 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center rounded-lg sm:rounded-xl transition-all duration-200 cursor-pointer ${
                     isCartedAnimation
-                      ? 'border-emerald-600 text-emerald-600 bg-transparent scale-105'
-                      : 'bg-transparent border-soft-black text-soft-black hover:bg-soft-black hover:text-cream active:scale-95'
+                      ? 'text-white bg-emerald-600 scale-105 shadow-sm'
+                      : 'bg-white text-soft-black hover:bg-soft-black hover:text-cream shadow-xs active:scale-95'
                   }`}
                   title="Add to Cart"
                   aria-label="Add to Cart"
                 >
                   {isCartedAnimation ? (
-                    <Check className="w-4 h-4 stroke-[2.5]" />
+                    <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
                   ) : (
-                    <ShoppingCart className="w-4 h-4 stroke-[1.8]" />
+                    <ShoppingCart className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[1.8]" />
                   )}
                 </button>
               </div>

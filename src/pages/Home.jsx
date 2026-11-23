@@ -11,7 +11,8 @@ import {
   MessageCircle,
   Mail,
   Plus,
-  Minus
+  Minus,
+  ArrowRight
 } from 'lucide-react';
 
 import mobileHeroImage from '../assets/mobile_hero.jpg';
@@ -34,45 +35,42 @@ import b2bRepeatOrdersImg from '../assets/b2b/repeat_orders.jpg';
 const wholesaleFeatures = [
   {
     id: 'moq',
-    title: 'LOW MOQ',
+    title: 'Low MOQ',
     metric: '100',
     metricLabel: 'Base MOQ',
     desc: 'Start your first production run with accessible minimums.',
     tag: 'Flexible MOQ',
     icon: Package,
     bg: 'bg-[#FAF7F2]',
-    border: 'border-[#E8E0D2]',
-    iconBg: 'bg-soft-black text-cream',
+        iconBg: 'bg-soft-black text-cream',
     metricColor: 'text-soft-black',
     metricLabelColor: 'text-dark-charcoal/50',
     tagDot: 'bg-emerald-600',
   },
   {
     id: 'sample',
-    title: 'SAMPLE FIRST',
+    title: 'Sample First',
     metric: '5–7d',
     metricLabel: 'Sample Time',
     desc: 'Approve product & weave quality before bulk production.',
     tag: 'Sample Dispatch',
     icon: ShieldCheck,
     bg: 'bg-[#FAF2EE]',
-    border: 'border-[#ECDAD0]',
-    iconBg: 'bg-terracotta text-cream',
+        iconBg: 'bg-terracotta text-cream',
     metricColor: 'text-terracotta',
     metricLabelColor: 'text-terracotta/70',
     tagDot: 'bg-emerald-600',
   },
   {
     id: 'custom',
-    title: 'CUSTOM READY',
+    title: 'Custom Ready',
     metric: '25–35d',
     metricLabel: 'Production',
     desc: 'Bespoke colours, branding & packaging available.',
     tag: 'Private Label',
     icon: Palette,
     bg: 'bg-[#F1F5F2]',
-    border: 'border-[#D7E2D8]',
-    iconBg: 'bg-[#2D3A30] text-cream',
+        iconBg: 'bg-[#2D3A30] text-cream',
     metricColor: 'text-[#2D3A30]',
     metricLabelColor: 'text-[#2D3A30]/70',
     tagDot: 'bg-emerald-600',
@@ -193,10 +191,10 @@ const Home = () => {
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="text-3xl sm:text-5xl lg:text-6xl font-serif font-semibold uppercase text-cream tracking-tight leading-tight mb-3 md:mb-4"
+              className="text-3xl sm:text-5xl lg:text-6xl font-serif font-semibold text-cream tracking-tight leading-tight mb-3 md:mb-4"
             >
-              CRAFTED FOR <br className="hidden md:block"/>
-              THE EXTRAORDINARY
+              Crafted for <br className="hidden md:block"/>
+              the Extraordinary
             </motion.h1>
             
             <motion.p 
@@ -227,15 +225,15 @@ const Home = () => {
       </section>
 
       {/* HOME — SECTION 2: MADE FOR WHOLESALE */}
-      <section className="py-16 md:py-24 bg-white border-b border-stone/15 overflow-hidden">
+      <section className="py-16 md:py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-0 sm:px-8 lg:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12 md:mb-16 px-4">
             <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
               SUPPLY CHAIN & PRODUCTION
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight">
-              MADE FOR WHOLESALE
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold text-soft-black tracking-tight leading-tight">
+              Made for Wholesale
             </h2>
           </div>
 
@@ -246,7 +244,7 @@ const Home = () => {
               return (
                 <div 
                   key={feat.id}
-                  className={`${feat.bg} ${feat.border} border rounded-2xl p-6 md:p-8 lg:p-10 flex flex-col justify-between hover:border-soft-black/40 hover:shadow-lg transition-all duration-300`}
+                  className={`${feat.bg} rounded-2xl p-6 md:p-8 lg:p-10 flex flex-col justify-between hover:shadow-md transition-all duration-300`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4 md:mb-6">
@@ -262,14 +260,14 @@ const Home = () => {
                         </span>
                       </div>
                     </div>
-                    <h3 className="text-base lg:text-lg font-serif font-bold text-soft-black uppercase tracking-wide mb-2 leading-tight">
+                    <h3 className="text-base lg:text-lg font-serif font-semibold text-soft-black tracking-normal mb-2 leading-tight">
                       {feat.title}
                     </h3>
                     <p className="text-xs md:text-sm text-dark-charcoal/80 font-light leading-relaxed">
                       {feat.desc}
                     </p>
                   </div>
-                  <div className="mt-5 pt-4 border-t border-stone/15 flex items-center gap-2 text-xs font-semibold text-soft-black">
+                  <div className="mt-5 pt-3 flex items-center gap-2 text-xs font-semibold text-soft-black">
                     <span className={`w-1.5 h-1.5 rounded-full ${feat.tagDot} flex-shrink-0`}></span>
                     <span className="truncate">{feat.tag}</span>
                   </div>
@@ -341,7 +339,7 @@ const Home = () => {
                         setActiveWholesaleIdx((prev) => (prev - 1 + wholesaleFeatures.length) % wholesaleFeatures.length);
                       }
                     }}
-                    className={`absolute w-[80vw] max-w-[300px] h-full ${feat.bg} ${feat.border} border rounded-2xl p-5 flex flex-col justify-between select-none cursor-grab active:cursor-grabbing`}
+                    className={`absolute w-[80vw] max-w-[300px] h-full ${feat.bg} rounded-2xl p-5 flex flex-col justify-between select-none cursor-grab active:cursor-grabbing shadow-xs`}
                     style={{
                       touchAction: 'pan-y'
                     }}
@@ -365,14 +363,14 @@ const Home = () => {
                           </span>
                         </div>
                       </div>
-                      <h3 className="text-sm font-serif font-bold text-soft-black uppercase tracking-wide mb-1 leading-tight">
+                      <h3 className="text-sm font-serif font-semibold text-soft-black tracking-normal mb-1 leading-tight">
                         {feat.title}
                       </h3>
                       <p className="text-[11.5px] text-dark-charcoal/80 font-light leading-relaxed">
                         {feat.desc}
                       </p>
                     </div>
-                    <div className="mt-3 pt-2.5 border-t border-stone/15 flex items-center justify-between text-[10px] font-semibold text-soft-black">
+                    <div className="mt-3 pt-2 flex items-center justify-between text-[10px] font-semibold text-soft-black">
                       <div className="flex items-center gap-1.5">
                         <span className={`w-1.5 h-1.5 rounded-full ${feat.tagDot} flex-shrink-0`}></span>
                         <span className="truncate">{feat.tag}</span>
@@ -405,93 +403,271 @@ const Home = () => {
 
         </div>
       </section>
-      {/* HOME — SECTION 3: THE PRODUCT */}
-      <section className="pt-0 pb-16 md:py-24 bg-cream overflow-hidden">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+      {/* HOME — SECTION 3: THE PRODUCT (REDESIGNED: SEPARATE MOBILE & PC VIEWS) */}
+      <section className="bg-cream overflow-hidden">
+        
+        {/* ========================================================
+            MOBILE VIEW (Modern, Flat, No Outer Shape, No Shadow)
+            ======================================================== */}
+        <div className="md:hidden px-4 pt-4 pb-12 space-y-4">
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            
-            <div className="lg:col-span-6 -mx-5 sm:mx-0">
-              <div className="relative rounded-none sm:rounded-3xl overflow-hidden bg-white sm:border sm:border-stone/20 aspect-square">
-                <AnimatePresence mode="wait">
-                  <motion.img
-                    key={productColors[selectedColorIdx].id}
-                    src={productColors[selectedColorIdx].img}
-                    alt={`AST Macrame Belt in ${productColors[selectedColorIdx].name}`}
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.35 }}
-                    decoding="async"
-                    className="w-full h-full object-cover object-center"
-                  />
-                </AnimatePresence>
-                
-                <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-gradient-to-r from-[#DFB76C] via-[#F6E7BE] to-[#C99A45] text-soft-black text-[9px] sm:text-[11px] font-sans font-extrabold uppercase tracking-[0.18em] sm:tracking-[0.2em] px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full flex items-center gap-1 sm:gap-1.5 border border-[#F6E7BE]/80 shadow-xs">
-                  <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-soft-black" />
-                  <span>PREMIUM</span>
-                </div>
+          {/* 1. Immersive Product Visual Canvas (Exact 1:1, Zero Badges, Zero Text, No Crop, No Shadow) */}
+          <div className="relative rounded-2xl overflow-hidden bg-white aspect-square">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={productColors[selectedColorIdx].id}
+                src={productColors[selectedColorIdx].img}
+                alt={`AST Macramé Belt in ${productColors[selectedColorIdx].name}`}
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.28, ease: "easeOut" }}
+                decoding="async"
+                className="w-full h-full object-cover object-center"
+              />
+            </AnimatePresence>
+          </div>
+
+          {/* 2. Product Narrative */}
+          <div className="space-y-4">
+            <div>
+              <div className="mb-1">
+                <span className="text-[9.5px] font-semibold uppercase tracking-[0.25em] text-terracotta block">
+                  Core Accessory
+                </span>
+              </div>
+
+              <h2 className="text-2xl font-serif font-semibold text-soft-black tracking-tight leading-snug">
+                AST Macramé Handmade Belt
+              </h2>
+
+              <p className="text-xs text-dark-charcoal/75 font-light leading-relaxed mt-1.5">
+                Hand-knotted by master artisans in Chattogram using dense 100% natural cotton cord. Features pin-anywhere open weave with zero fixed holes for millimeter precision comfort.
+              </p>
+            </div>
+
+            {/* 3. Colorway Selector (Clean, Organic, Zero Shape Holders, Zero Dots, Zero Strokes) */}
+            <div className="space-y-2.5 pt-1">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold text-soft-black">
+                  Color: <span className="font-serif italic font-bold text-terracotta text-sm ml-0.5">{productColors[selectedColorIdx].name}</span>
+                </span>
+                <span className="text-[10px] font-medium text-dark-charcoal/60 tracking-wider uppercase">
+                  5 Shades Available
+                </span>
+              </div>
+
+              {/* 5 Clean Rectangular Swatches without any background shape holder */}
+              <div className="grid grid-cols-5 gap-2">
+                {productColors.map((color, idx) => {
+                  const isSelected = selectedColorIdx === idx;
+                  return (
+                    <button
+                      key={color.id}
+                      type="button"
+                      onClick={() => setSelectedColorIdx(idx)}
+                      className="flex flex-col items-center gap-1.5 transition-all duration-200 cursor-pointer group"
+                      aria-label={`Select ${color.name} color`}
+                    >
+                      {/* Pure rectangular color block */}
+                      <div
+                        className={`w-full h-11 rounded-xl transition-all duration-200 ${
+                          isSelected
+                            ? 'scale-104 brightness-100'
+                            : 'opacity-70 group-hover:opacity-100 brightness-95'
+                        }`}
+                        style={{ backgroundColor: color.hex }}
+                      />
+                      <span className={`text-[10px] tracking-tight transition-colors ${
+                        isSelected
+                          ? 'font-bold text-soft-black'
+                          : 'font-normal text-dark-charcoal/65 group-hover:text-dark-charcoal'
+                      }`}>
+                        {color.name}
+                      </span>
+                      {/* Flat active indicator bar (0 strokes, 0 dots) */}
+                      <div className={`h-0.5 rounded-full transition-all duration-200 ${
+                        isSelected ? 'w-4 bg-soft-black' : 'w-0 opacity-0'
+                      }`} />
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            <div className="lg:col-span-6 flex flex-col justify-center">
-              <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
-                CORE ACCESSORY
-              </span>
-              
-              <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-3">
-                AST MACRAMÉ HANDMADE BELT
-              </h2>
-              
-              <div className="inline-flex items-center gap-2 bg-soft-black text-cream px-3 py-1 rounded-md text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-4 w-fit">
-                100% Cotton
-              </div>
-
-              <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light leading-relaxed mb-6 sm:mb-8">
-                A handcrafted macramé belt developed for fashion brands, boutiques and wholesale buyers.
-              </p>
-
-              <div className="mb-8 pt-4 border-t border-stone/25">
-                <span className="block text-xs font-bold uppercase tracking-wider text-soft-black mb-4">
-                  Available in 5 colours: <span className="font-serif italic text-dark-charcoal/70 normal-case">{productColors[selectedColorIdx].name}</span>
-                </span>
-                
-                <div className="grid grid-cols-5 gap-2 sm:gap-3">
-                  {productColors.map((color, idx) => (
-                    <button
-                      key={color.id}
-                      onClick={() => setSelectedColorIdx(idx)}
-                      className={`flex flex-col items-center p-2 rounded border transition-all duration-200 cursor-pointer ${
-                        selectedColorIdx === idx 
-                          ? 'border-soft-black bg-white shadow-xs' 
-                          : 'border-stone/25 bg-white/40 hover:bg-white hover:border-stone/40'
-                      }`}
-                    >
-                      <div 
-                        className="w-6 h-6 sm:w-8 sm:h-8 rounded-full mb-1.5 border border-stone/20" 
-                        style={{ backgroundColor: color.hex }} 
-                      />
-                      <span className="text-[9px] sm:text-[10px] font-mono uppercase text-dark-charcoal font-semibold truncate w-full text-center">
-                        {color.name}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <Link 
-                to="/sample-order" 
-                className="relative overflow-hidden group bg-soft-black text-cream px-8 py-4 sm:py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-dark-charcoal hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 text-center inline-flex items-center justify-center gap-2"
+            {/* 4. Action CTAs (Short, Single-line, No Price, No Multi-line break) */}
+            <div className="space-y-2 pt-2">
+              {/* Primary CTA: Direct Retail Purchase */}
+              <Link
+                to={`/retail?product=adult&color=${encodeURIComponent(productColors[selectedColorIdx].name.toLowerCase())}`}
+                className="w-full bg-soft-black text-cream py-3.5 px-5 rounded-xl text-xs font-bold uppercase tracking-[0.16em] hover:bg-dark-charcoal active:scale-[0.99] transition-all flex items-center justify-between whitespace-nowrap group"
               >
-                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
-                <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">VIEW PRODUCT DETAILS</span>
-                <ChevronRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 relative z-10" />
+                <span>Shop Retail</span>
+                <ArrowRight className="w-4 h-4 text-cream/70 group-hover:translate-x-1 transition-transform shrink-0" />
+              </Link>
+
+              {/* Secondary CTA: Wholesale & Bulk Sourcing */}
+              <Link
+                to="/wholesale"
+                className="w-full bg-white text-soft-black py-3.5 px-5 rounded-xl text-xs font-bold uppercase tracking-[0.16em] hover:bg-[#FAF7F2] active:scale-[0.99] transition-all flex items-center justify-between whitespace-nowrap group text-left"
+              >
+                <span>Wholesale &amp; Bulk</span>
+                <ChevronRight className="w-4 h-4 text-stone-400 group-hover:translate-x-1 transition-transform shrink-0" />
               </Link>
             </div>
 
           </div>
-
         </div>
+
+        {/* ========================================================
+            PC / DESKTOP VIEW (Luxury Studio Showcase, Separate UI)
+            ======================================================== */}
+        <div className="hidden md:block max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-24">
+          <div className="grid grid-cols-12 gap-10 lg:gap-16 items-center">
+            
+            {/* Left: Product Visual Stage (No strokes, soft depth) */}
+            <div className="col-span-6">
+              <div className="relative rounded-3xl overflow-hidden bg-[#FAF6F0] p-4 lg:p-6 shadow-sm">
+                <div className="relative rounded-2xl overflow-hidden bg-white aspect-square shadow-xs">
+                  <AnimatePresence mode="wait">
+                    <motion.img
+                      key={productColors[selectedColorIdx].id}
+                      src={productColors[selectedColorIdx].img}
+                      alt={`AST Macrame Belt in ${productColors[selectedColorIdx].name}`}
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.35 }}
+                      decoding="async"
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </AnimatePresence>
+
+                  {/* Minimal Luxury Floating Chip */}
+                  <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md text-soft-black text-xs font-semibold uppercase tracking-[0.2em] px-3.5 py-1.5 rounded-full shadow-2xs">
+                    Hand-Braided Atelier Edition
+                  </div>
+
+                  {/* Bottom Color Summary Chip */}
+                  <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-md rounded-2xl p-3.5 shadow-sm flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-terracotta block">
+                        Selected Finish
+                      </span>
+                      <span className="text-sm font-serif font-semibold text-soft-black">
+                        {productColors[selectedColorIdx].name} Cord
+                      </span>
+                    </div>
+                    <span className="text-xs font-semibold text-dark-charcoal/70 bg-[#F4EFEA] px-3 py-1 rounded-full">
+                      100% Natural Cotton
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Editorial Narrative & Controls */}
+            <div className="col-span-6 flex flex-col justify-center space-y-6">
+              <div>
+                <span className="text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2">
+                  SIGNATURE ACCESSORY
+                </span>
+                
+                <h2 className="text-3xl lg:text-4xl xl:text-5xl font-serif font-semibold text-soft-black tracking-tight leading-tight mb-3">
+                  AST Macramé Handmade Belt
+                </h2>
+                
+                <p className="text-sm lg:text-base text-dark-charcoal/80 font-light leading-relaxed max-w-xl">
+                  A specialized macramé belt hand-knotted by Bangladeshi artisans from dense, 100% natural cotton cord and fitted with solid alloy hardware. The open-grid knot architecture allows prong insertion at any point for seamless, micro-adjustable waist comfort.
+                </p>
+              </div>
+
+              {/* 3 Spec Badges (No strokes, soft capsules) */}
+              <div className="flex flex-wrap gap-2">
+                <span className="bg-[#FAF2EE] text-terracotta text-xs font-semibold px-3.5 py-1.5 rounded-full shadow-2xs">
+                  100% Cotton Braiding
+                </span>
+                <span className="bg-[#F1F5F2] text-[#2D3A30] text-xs font-semibold px-3.5 py-1.5 rounded-full shadow-2xs">
+                  Infinite Pin-Anywhere Sizing
+                </span>
+                <span className="bg-[#FAF7F2] text-soft-black text-xs font-semibold px-3.5 py-1.5 rounded-full shadow-2xs">
+                  Solid Anti-Rust Alloy
+                </span>
+              </div>
+
+              {/* Color Selector (ZERO DOTS, ZERO STROKES — Solid Swatches with Centered Name in PC View) */}
+              <div className="bg-[#FAF7F2] rounded-2xl p-5 shadow-2xs space-y-3.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-[0.18em] text-soft-black">
+                    Available in 5 Colorways
+                  </span>
+                  <span className="text-sm font-serif italic text-dark-charcoal/70">
+                    {productColors[selectedColorIdx].name}
+                  </span>
+                </div>
+                
+                {/* 5 Solid Color Swatch Tiles with Name in Center */}
+                <div className="grid grid-cols-5 gap-2.5">
+                  {productColors.map((color, idx) => {
+                    const isSelected = selectedColorIdx === idx;
+                    const isLight = color.name === 'Khaki';
+                    return (
+                      <button
+                        key={color.id}
+                        type="button"
+                        onClick={() => setSelectedColorIdx(idx)}
+                        className={`h-12 lg:h-13 rounded-xl flex items-center justify-center transition-all duration-200 cursor-pointer text-center relative ${
+                          isSelected
+                            ? 'scale-[1.04] opacity-100 shadow-md z-10'
+                            : 'opacity-65 hover:opacity-90 hover:scale-[1.01] shadow-2xs'
+                        }`}
+                        style={{ backgroundColor: color.hex }}
+                        aria-label={`Select ${color.name} colorway`}
+                      >
+                        <span className={`text-[11px] lg:text-xs tracking-wider uppercase ${
+                          isSelected ? 'font-bold' : 'font-medium'
+                        } ${
+                          isLight ? 'text-soft-black' : 'text-white'
+                        }`}>
+                          {color.name}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Dual Actions: Retail & Wholesale (Short, Single-line, No Price, No Multi-line break) */}
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <Link
+                  to={`/retail?product=adult&color=${encodeURIComponent(productColors[selectedColorIdx].name.toLowerCase())}`}
+                  className="flex-1 bg-soft-black text-cream px-6 py-4 rounded-xl text-xs font-bold uppercase tracking-[0.16em] shadow-md hover:bg-dark-charcoal active:scale-[0.99] transition-all text-center inline-flex items-center justify-center gap-2 whitespace-nowrap group"
+                >
+                  <span>Shop Retail</span>
+                  <ArrowRight className="w-4 h-4 text-cream/70 group-hover:translate-x-1 transition-transform" />
+                </Link>
+
+                <Link
+                  to="/wholesale"
+                  className="flex-1 bg-white text-soft-black px-6 py-4 rounded-xl text-xs font-bold uppercase tracking-[0.16em] shadow-2xs hover:bg-[#FAF7F2] active:scale-[0.99] transition-all text-center inline-flex items-center justify-center gap-2 whitespace-nowrap group"
+                >
+                  <span>Wholesale &amp; Bulk</span>
+                  <ChevronRight className="w-4 h-4 text-stone-400 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+
+              {/* Trust Points */}
+              <div className="flex items-center gap-4 text-xs text-dark-charcoal/70 pt-1 font-medium">
+                <span>✓ Cash on Delivery</span>
+                <span>✓ Open-Box Inspection</span>
+                <span>✓ Nationwide 24–48h</span>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
       </section>
 
       {/* HOME — SECTION 4: DETAIL IS THE PRODUCT */}
@@ -501,7 +677,7 @@ const Home = () => {
           <source media="(max-width: 767px)" srcSet={craftsmanshipDetailMobileImg} />
           <img 
             src={craftsmanshipDetailImg} 
-            alt="Detail is the Product - Macrame Close-up Knot and Brass Hardware" 
+            alt="AST Macramé Belt Lifestyle Fit - Hand-Knotted Cotton Macramé Belt on Model" 
             className="w-full h-full object-cover object-center" 
             loading="lazy"
             decoding="async"
@@ -518,8 +694,8 @@ const Home = () => {
             <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-warm-sand block mb-2 sm:mb-3">
               MATERIAL & CRAFTSMANSHIP
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-white tracking-tight leading-tight mb-2 sm:mb-4">
-              DETAIL IS THE PRODUCT
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold text-white tracking-tight leading-tight mb-2 sm:mb-4">
+              Detail is the Product
             </h2>
             <p className="text-xs sm:text-base md:text-lg text-cream/85 font-light max-w-xl mx-auto leading-relaxed">
               Every millimeter is knotted by skilled artisans using premium 100% natural cotton cord and solid alloy hardware.
@@ -528,12 +704,12 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
             
-            <div className="bg-soft-black/70 backdrop-blur-md border border-white/20 p-5 sm:p-6 rounded-2xl flex items-start gap-4 hover:border-warm-sand/50 transition-colors">
+            <div className="bg-soft-black/80 backdrop-blur-md p-5 sm:p-6 rounded-2xl flex items-start gap-4 hover:bg-soft-black/95 transition-colors shadow-xs">
               <div className="w-8 h-8 rounded-full bg-warm-sand text-soft-black flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
                 <Check className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="text-xs sm:text-base lg:text-lg font-serif font-bold uppercase text-white mb-1 leading-snug">
+                <h4 className="text-xs sm:text-base lg:text-lg font-serif font-semibold text-white mb-1 leading-snug">
                   100% Cotton
                 </h4>
                 <p className="text-[10.5px] sm:text-xs md:text-sm text-cream/75 font-light leading-snug sm:leading-relaxed">
@@ -542,12 +718,12 @@ const Home = () => {
               </div>
             </div>
 
-            <div className="bg-soft-black/70 backdrop-blur-md border border-white/20 p-5 sm:p-6 rounded-2xl flex items-start gap-4 hover:border-warm-sand/50 transition-colors">
+            <div className="bg-soft-black/80 backdrop-blur-md p-5 sm:p-6 rounded-2xl flex items-start gap-4 hover:bg-soft-black/95 transition-colors shadow-xs">
               <div className="w-8 h-8 rounded-full bg-warm-sand text-soft-black flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
                 <Check className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="text-xs sm:text-base lg:text-lg font-serif font-bold uppercase text-white mb-1 leading-snug">
+                <h4 className="text-xs sm:text-base lg:text-lg font-serif font-semibold text-white mb-1 leading-snug">
                   Handmade macramé construction
                 </h4>
                 <p className="text-[10.5px] sm:text-xs md:text-sm text-cream/75 font-light leading-snug sm:leading-relaxed">
@@ -556,12 +732,12 @@ const Home = () => {
               </div>
             </div>
 
-            <div className="bg-soft-black/70 backdrop-blur-md border border-white/20 p-5 sm:p-6 rounded-2xl flex items-start gap-4 hover:border-warm-sand/50 transition-colors">
+            <div className="bg-soft-black/80 backdrop-blur-md p-5 sm:p-6 rounded-2xl flex items-start gap-4 hover:bg-soft-black/95 transition-colors shadow-xs">
               <div className="w-8 h-8 rounded-full bg-warm-sand text-soft-black flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
                 <Check className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="text-xs sm:text-base lg:text-lg font-serif font-bold uppercase text-white mb-1 leading-snug">
+                <h4 className="text-xs sm:text-base lg:text-lg font-serif font-semibold text-white mb-1 leading-snug">
                   Metal buckle
                 </h4>
                 <p className="text-[10.5px] sm:text-xs md:text-sm text-cream/75 font-light leading-snug sm:leading-relaxed">
@@ -570,12 +746,12 @@ const Home = () => {
               </div>
             </div>
 
-            <div className="bg-soft-black/70 backdrop-blur-md border border-white/20 p-5 sm:p-6 rounded-2xl flex items-start gap-4 hover:border-warm-sand/50 transition-colors">
+            <div className="bg-soft-black/80 backdrop-blur-md p-5 sm:p-6 rounded-2xl flex items-start gap-4 hover:bg-soft-black/95 transition-colors shadow-xs">
               <div className="w-8 h-8 rounded-full bg-warm-sand text-soft-black flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
                 <Check className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="text-xs sm:text-base lg:text-lg font-serif font-bold uppercase text-white mb-1 leading-snug">
+                <h4 className="text-xs sm:text-base lg:text-lg font-serif font-semibold text-white mb-1 leading-snug">
                   Multiple colour options
                 </h4>
                 <p className="text-[10.5px] sm:text-xs md:text-sm text-cream/75 font-light leading-snug sm:leading-relaxed">
@@ -584,12 +760,12 @@ const Home = () => {
               </div>
             </div>
 
-            <div className="bg-soft-black/70 backdrop-blur-md border border-white/20 p-5 sm:p-6 rounded-2xl flex items-start gap-4 hover:border-warm-sand/50 transition-colors md:col-span-2 lg:col-span-2">
+            <div className="bg-soft-black/80 backdrop-blur-md p-5 sm:p-6 rounded-2xl flex items-start gap-4 hover:bg-soft-black/95 transition-colors shadow-xs md:col-span-2 lg:col-span-2">
               <div className="w-8 h-8 rounded-full bg-warm-sand text-soft-black flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
                 <Check className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="text-xs sm:text-base lg:text-lg font-serif font-bold uppercase text-white mb-1 leading-snug">
+                <h4 className="text-xs sm:text-base lg:text-lg font-serif font-semibold text-white mb-1 leading-snug">
                   Designed for repeat production
                 </h4>
                 <p className="text-[10.5px] sm:text-xs md:text-sm text-cream/75 font-light leading-snug sm:leading-relaxed">
@@ -611,8 +787,8 @@ const Home = () => {
             <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
               SOURCING WORKFLOW
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
-              4 STEPS, START TO FINISH
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
+              Four Steps, Start to Finish
             </h2>
             <p className="text-xs sm:text-base text-dark-charcoal/80 font-light max-w-xl mx-auto leading-relaxed">
               Every order is tailored to your brand. Production schedules and shipping timelines are confirmed upfront with your custom quote.
@@ -623,12 +799,12 @@ const Home = () => {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-5 lg:gap-6">
             
             {/* Step 1 */}
-            <div className="bg-[#FAF7F2] border border-[#E8E0D2] rounded-xl sm:rounded-2xl p-3.5 sm:p-6 lg:p-7 flex flex-col items-center text-center hover:border-soft-black/40 hover:shadow-md transition-all duration-300 group">
+            <div className="bg-[#FAF7F2] rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 flex flex-col items-center text-center hover:bg-white hover:shadow-sm transition-all duration-300 group">
               <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-soft-black text-cream flex items-center justify-center font-serif font-bold text-xs sm:text-base mb-2.5 sm:mb-4 shadow-sm group-hover:bg-terracotta transition-colors duration-300 shrink-0">
                 1
               </div>
-              <h3 className="text-xs sm:text-base lg:text-lg font-serif font-bold text-soft-black uppercase tracking-wide mb-1 sm:mb-2 leading-tight">
-                SHARE YOUR VISION
+              <h3 className="text-xs sm:text-base lg:text-lg font-serif font-semibold text-soft-black tracking-normal mb-1 sm:mb-2 leading-tight">
+                Share Your Vision
               </h3>
               <p className="text-[10.5px] sm:text-xs md:text-sm text-dark-charcoal/75 font-light leading-snug sm:leading-relaxed">
                 Tell us your idea — custom cord colours, buckle finish, private branding, and target quantity.
@@ -636,12 +812,12 @@ const Home = () => {
             </div>
 
             {/* Step 2 */}
-            <div className="bg-[#FAF7F2] border border-[#E8E0D2] rounded-xl sm:rounded-2xl p-3.5 sm:p-6 lg:p-7 flex flex-col items-center text-center hover:border-soft-black/40 hover:shadow-md transition-all duration-300 group">
+            <div className="bg-[#FAF7F2] rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 flex flex-col items-center text-center hover:bg-white hover:shadow-sm transition-all duration-300 group">
               <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-soft-black text-cream flex items-center justify-center font-serif font-bold text-xs sm:text-base mb-2.5 sm:mb-4 shadow-sm group-hover:bg-terracotta transition-colors duration-300 shrink-0">
                 2
               </div>
-              <h3 className="text-xs sm:text-base lg:text-lg font-serif font-bold text-soft-black uppercase tracking-wide mb-1 sm:mb-2 leading-tight">
-                RECEIVE A QUOTE
+              <h3 className="text-xs sm:text-base lg:text-lg font-serif font-semibold text-soft-black tracking-normal mb-1 sm:mb-2 leading-tight">
+                Receive a Quote
               </h3>
               <p className="text-[10.5px] sm:text-xs md:text-sm text-dark-charcoal/75 font-light leading-snug sm:leading-relaxed">
                 We confirm exact unit manufacturing costs, sample development fees, and global express shipping options.
@@ -649,12 +825,12 @@ const Home = () => {
             </div>
 
             {/* Step 3 */}
-            <div className="bg-[#FAF7F2] border border-[#E8E0D2] rounded-xl sm:rounded-2xl p-3.5 sm:p-6 lg:p-7 flex flex-col items-center text-center hover:border-soft-black/40 hover:shadow-md transition-all duration-300 group">
+            <div className="bg-[#FAF7F2] rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 flex flex-col items-center text-center hover:bg-white hover:shadow-sm transition-all duration-300 group">
               <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-soft-black text-cream flex items-center justify-center font-serif font-bold text-xs sm:text-base mb-2.5 sm:mb-4 shadow-sm group-hover:bg-terracotta transition-colors duration-300 shrink-0">
                 3
               </div>
-              <h3 className="text-xs sm:text-base lg:text-lg font-serif font-bold text-soft-black uppercase tracking-wide mb-1 sm:mb-2 leading-tight">
-                SAMPLE APPROVAL
+              <h3 className="text-xs sm:text-base lg:text-lg font-serif font-semibold text-soft-black tracking-normal mb-1 sm:mb-2 leading-tight">
+                Sample Approval
               </h3>
               <p className="text-[10.5px] sm:text-xs md:text-sm text-dark-charcoal/75 font-light leading-snug sm:leading-relaxed">
                 Our artisans handcraft a master physical sample for your touch, feel, and quality sign-off before bulk run.
@@ -662,12 +838,12 @@ const Home = () => {
             </div>
 
             {/* Step 4 */}
-            <div className="bg-[#FAF7F2] border border-[#E8E0D2] rounded-xl sm:rounded-2xl p-3.5 sm:p-6 lg:p-7 flex flex-col items-center text-center hover:border-soft-black/40 hover:shadow-md transition-all duration-300 group">
+            <div className="bg-[#FAF7F2] rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 flex flex-col items-center text-center hover:bg-white hover:shadow-sm transition-all duration-300 group">
               <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-soft-black text-cream flex items-center justify-center font-serif font-bold text-xs sm:text-base mb-2.5 sm:mb-4 shadow-sm group-hover:bg-terracotta transition-colors duration-300 shrink-0">
                 4
               </div>
-              <h3 className="text-xs sm:text-base lg:text-lg font-serif font-bold text-soft-black uppercase tracking-wide mb-1 sm:mb-2 leading-tight">
-                PRODUCTION & DISPATCH
+              <h3 className="text-xs sm:text-base lg:text-lg font-serif font-semibold text-soft-black tracking-normal mb-1 sm:mb-2 leading-tight">
+                Production &amp; Dispatch
               </h3>
               <p className="text-[10.5px] sm:text-xs md:text-sm text-dark-charcoal/75 font-light leading-snug sm:leading-relaxed">
                 Bulk hand-weaving commences under strict piece-by-piece QC and export packaging to your destination.
@@ -680,15 +856,15 @@ const Home = () => {
       </section>
 
       {/* HOME — SECTION 6: BUILT FOR BRANDS */}
-      <section className="py-16 md:py-24 bg-white border-y border-stone/15">
+      <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-3 sm:px-8 lg:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-14 md:mb-16">
             <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
               B2B PARTNERSHIP
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
-              BUILT FOR BRANDS
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
+              Built for Brands
             </h2>
             <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light max-w-xl mx-auto leading-relaxed">
               Tailored manufacturing solutions designed specifically for fashion labels, boutique owners, and global distributors.
@@ -698,7 +874,7 @@ const Home = () => {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             
             {/* 1. Wholesale */}
-            <div className="bg-cream/30 border border-stone/20 rounded-xl sm:rounded-2xl overflow-hidden flex flex-col hover:border-soft-black/40 hover:bg-cream/60 transition-colors duration-300 group">
+            <div className="bg-[#FAF7F2] rounded-xl sm:rounded-2xl overflow-hidden flex flex-col hover:bg-white hover:shadow-sm transition-all duration-300 group">
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-stone/10">
                 <img 
                   src={b2bWholesaleImg} 
@@ -710,7 +886,7 @@ const Home = () => {
               </div>
               <div className="p-3 sm:p-6 flex flex-col flex-grow justify-between">
                 <div>
-                  <h3 className="text-xs sm:text-base lg:text-lg font-serif font-bold text-soft-black uppercase tracking-wide mb-1 sm:mb-2 leading-tight">
+                  <h3 className="text-xs sm:text-base lg:text-lg font-serif font-semibold text-soft-black tracking-normal mb-1 sm:mb-2 leading-tight">
                     Wholesale
                   </h3>
                   <p className="text-[10.5px] sm:text-xs md:text-sm text-dark-charcoal/75 font-light leading-snug sm:leading-relaxed">
@@ -721,7 +897,7 @@ const Home = () => {
             </div>
 
             {/* 2. Private Label */}
-            <div className="bg-cream/30 border border-stone/20 rounded-xl sm:rounded-2xl overflow-hidden flex flex-col hover:border-soft-black/40 hover:bg-cream/60 transition-colors duration-300 group">
+            <div className="bg-[#FAF7F2] rounded-xl sm:rounded-2xl overflow-hidden flex flex-col hover:bg-white hover:shadow-sm transition-all duration-300 group">
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-stone/10">
                 <img 
                   src={b2bPrivateLabelImg} 
@@ -733,7 +909,7 @@ const Home = () => {
               </div>
               <div className="p-3 sm:p-6 flex flex-col flex-grow justify-between">
                 <div>
-                  <h3 className="text-xs sm:text-base lg:text-lg font-serif font-bold text-soft-black uppercase tracking-wide mb-1 sm:mb-2 leading-tight">
+                  <h3 className="text-xs sm:text-base lg:text-lg font-serif font-semibold text-soft-black tracking-normal mb-1 sm:mb-2 leading-tight">
                     Private Label
                   </h3>
                   <p className="text-[10.5px] sm:text-xs md:text-sm text-dark-charcoal/75 font-light leading-snug sm:leading-relaxed">
@@ -744,7 +920,7 @@ const Home = () => {
             </div>
 
             {/* 3. Custom Colours */}
-            <div className="bg-cream/30 border border-stone/20 rounded-xl sm:rounded-2xl overflow-hidden flex flex-col hover:border-soft-black/40 hover:bg-cream/60 transition-colors duration-300 group">
+            <div className="bg-[#FAF7F2] rounded-xl sm:rounded-2xl overflow-hidden flex flex-col hover:bg-white hover:shadow-sm transition-all duration-300 group">
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-stone/10">
                 <img 
                   src={b2bCustomColoursImg} 
@@ -756,7 +932,7 @@ const Home = () => {
               </div>
               <div className="p-3 sm:p-6 flex flex-col flex-grow justify-between">
                 <div>
-                  <h3 className="text-xs sm:text-base lg:text-lg font-serif font-bold text-soft-black uppercase tracking-wide mb-1 sm:mb-2 leading-tight">
+                  <h3 className="text-xs sm:text-base lg:text-lg font-serif font-semibold text-soft-black tracking-normal mb-1 sm:mb-2 leading-tight">
                     Custom Colours
                   </h3>
                   <p className="text-[10.5px] sm:text-xs md:text-sm text-dark-charcoal/75 font-light leading-snug sm:leading-relaxed">
@@ -767,7 +943,7 @@ const Home = () => {
             </div>
 
             {/* 4. Repeat Orders */}
-            <div className="bg-cream/30 border border-stone/20 rounded-xl sm:rounded-2xl overflow-hidden flex flex-col hover:border-soft-black/40 hover:bg-cream/60 transition-colors duration-300 group">
+            <div className="bg-[#FAF7F2] rounded-xl sm:rounded-2xl overflow-hidden flex flex-col hover:bg-white hover:shadow-sm transition-all duration-300 group">
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-stone/10">
                 <img 
                   src={b2bRepeatOrdersImg} 
@@ -779,7 +955,7 @@ const Home = () => {
               </div>
               <div className="p-3 sm:p-6 flex flex-col flex-grow justify-between">
                 <div>
-                  <h3 className="text-xs sm:text-base lg:text-lg font-serif font-bold text-soft-black uppercase tracking-wide mb-1 sm:mb-2 leading-tight">
+                  <h3 className="text-xs sm:text-base lg:text-lg font-serif font-semibold text-soft-black tracking-normal mb-1 sm:mb-2 leading-tight">
                     Repeat Orders
                   </h3>
                   <p className="text-[10.5px] sm:text-xs md:text-sm text-dark-charcoal/75 font-light leading-snug sm:leading-relaxed">
@@ -795,14 +971,14 @@ const Home = () => {
       </section>
 
       {/* HOME — SECTION 7: HAVE A REFERENCE IMAGE? */}
-      <section className="py-16 md:py-24 bg-cream border-t border-stone/15">
+      <section className="py-16 md:py-24 bg-cream">
         <div className="max-w-4xl mx-auto px-5 sm:px-8 lg:px-12 text-center">
           <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
             HAVE A REFERENCE IMAGE?
           </span>
           
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
-            SEND YOUR IDEA.<br className="hidden sm:inline" /> WE'LL MAP OUT THE NEXT STEP.
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
+            Send Your Idea.<br className="hidden sm:inline" /> We'll Map Out the Next Step.
           </h2>
           
           <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed">
@@ -823,7 +999,7 @@ const Home = () => {
             
             <a 
               href="mailto:astmacrame@gmail.com?subject=Custom%20Macrame%20Design%20/%20Reference%20Inquiry"
-              className="relative overflow-hidden group w-full sm:w-auto bg-transparent border border-soft-black/30 text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:border-soft-black hover:text-cream hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 inline-flex items-center justify-center gap-2.5"
+              className="relative overflow-hidden group w-full sm:w-auto bg-white text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl shadow-xs hover:bg-[#FAF7F2] hover:shadow-md active:scale-[0.99] transition-all duration-300 inline-flex items-center justify-center gap-2.5"
             >
               <span className="absolute inset-0 bg-soft-black translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
               <Mail className="w-4 h-4 transition-transform duration-300 group-hover:scale-110 relative z-10" />
@@ -834,22 +1010,22 @@ const Home = () => {
       </section>
 
       {/* HOME — SECTION 8: QUICK ANSWERS (FAQ ACCORDION) */}
-      <section className="py-16 md:py-24 bg-white border-t border-stone/15">
+      <section className="py-16 md:py-24 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
             <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
               GOT QUESTIONS?
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
-              QUICK ANSWERS
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
+              Frequently Asked Questions
             </h2>
             <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light max-w-xl mx-auto leading-relaxed">
               Find quick answers to common questions about sample orders, wholesale minimums, lead times, and global delivery.
             </p>
           </div>
 
-          <div className="max-w-3xl mx-auto border-t border-stone/20 divide-y divide-stone/20">
+          <div className="max-w-3xl mx-auto space-y-2.5">
             {quickFaqs.map((faq, idx) => {
               const isOpen = openFaqIdx === idx;
               return (
@@ -862,7 +1038,7 @@ const Home = () => {
                     <span className="text-base sm:text-lg md:text-xl font-serif font-medium text-soft-black group-hover:text-terracotta transition-colors pr-6">
                       {faq.q}
                     </span>
-                    <span className="w-8 h-8 rounded-full border border-stone/25 flex items-center justify-center text-soft-black group-hover:border-terracotta group-hover:text-terracotta transition-colors shrink-0">
+                    <span className="w-8 h-8 rounded-full bg-cream flex items-center justify-center text-soft-black group-hover:bg-terracotta group-hover:text-white transition-colors shrink-0">
                       {isOpen ? (
                         <Minus className="w-4 h-4" />
                       ) : (
@@ -913,8 +1089,8 @@ const Home = () => {
             START YOUR PARTNERSHIP
           </span>
           
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-cream tracking-tight leading-tight mb-2 sm:mb-4">
-            READY TO SOURCE AST?
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold text-cream tracking-tight leading-tight mb-2 sm:mb-4">
+            Ready to Source AST?
           </h2>
           
           <p className="text-xs sm:text-base md:text-lg text-cream/80 font-light mb-8 sm:mb-12 max-w-xl mx-auto leading-relaxed">
@@ -932,7 +1108,7 @@ const Home = () => {
             
             <Link 
               to="/sample-wholesale" 
-              className="relative overflow-hidden group w-full sm:w-auto bg-transparent border border-cream/40 text-cream px-6 sm:px-10 py-3.5 sm:py-4.5 text-xs font-bold uppercase tracking-[0.16em] sm:tracking-[0.2em] rounded hover:border-cream hover:text-soft-black hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 text-center whitespace-nowrap"
+              className="relative overflow-hidden group w-full sm:w-auto bg-white/10 text-cream px-6 sm:px-10 py-3.5 sm:py-4.5 text-xs font-bold uppercase tracking-[0.16em] sm:tracking-[0.2em] rounded-xl hover:bg-white hover:text-soft-black hover:shadow-xl active:scale-[0.99] transition-all duration-300 text-center whitespace-nowrap"
             >
               <span className="absolute inset-0 bg-cream translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
               <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.22em]">WHOLESALE QUOTE</span>

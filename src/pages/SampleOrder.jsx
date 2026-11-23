@@ -8,12 +8,12 @@ import { useCartWishlist, calculateTierPriceBDT } from '../context/CartWishlistC
 import { PRODUCTS, calculateAdultTierPriceBDT, calculateKidsTierPriceBDT } from '../data/products';
 
 const Accordion = ({ title, isOpen, onClick, children }) => (
-  <div className="border-b border-stone/15 last:border-b-0 sm:border-stone/30 sm:last:border-b">
+  <div className="bg-[#FAF7F2] rounded-2xl mb-3 last:mb-0 overflow-hidden p-4 sm:p-5 shadow-2xs transition-all">
     <button 
       onClick={onClick}
-      className="w-full py-3.5 px-3.5 sm:px-0 flex justify-between items-center text-left cursor-pointer group select-none"
+      className="w-full flex justify-between items-center text-left cursor-pointer group select-none"
     >
-      <span className="font-serif text-sm sm:text-base md:text-xl text-soft-black font-medium group-hover:text-terracotta transition-colors">{title}</span>
+      <span className="font-serif text-sm sm:text-base md:text-lg text-soft-black font-semibold group-hover:text-terracotta transition-colors">{title}</span>
       {isOpen ? <Minus className="w-4 h-4 md:w-5 md:h-5 text-soft-black/50" /> : <Plus className="w-4 h-4 md:w-5 md:h-5 text-soft-black/50" />}
     </button>
     <AnimatePresence>
@@ -24,7 +24,7 @@ const Accordion = ({ title, isOpen, onClick, children }) => (
           exit={{ height: 0, opacity: 0 }}
           className="overflow-hidden"
         >
-          <div className="pb-6 text-dark-charcoal/80 font-light text-sm">
+          <div className="pt-3.5 text-dark-charcoal/80 font-light text-xs sm:text-sm">
             {children}
           </div>
         </motion.div>
@@ -63,8 +63,8 @@ const SampleOrder = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [openAccordions, setOpenAccordions] = useState({
     description: true,
-    materials: false,
-    custom: false
+    materials: true,
+    custom: true
   });
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isSamplePolicyOpen, setIsSamplePolicyOpen] = useState(false);
@@ -295,7 +295,7 @@ const SampleOrder = () => {
       <div className="max-w-7xl mx-auto px-0 lg:px-12">
         
         {/* Product Hero & Details */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-3 sm:gap-y-5 lg:gap-y-0 lg:gap-x-10 items-start mb-16 sm:mb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-3 sm:gap-y-5 lg:gap-y-0 lg:gap-x-10 items-start mb-4 sm:mb-6 lg:mb-8">
           
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
@@ -451,7 +451,7 @@ const SampleOrder = () => {
                       key={color.name}
                       type="button"
                       onClick={() => handleColorChange(color.name)}
-                      className={`w-9 h-9 md:w-10 md:h-10 rounded-full border-2 transition-all duration-300 shrink-0 cursor-pointer ${selectedColor === color.name ? 'border-soft-black p-[2px]' : 'border-transparent'}`}
+                      className={`w-9 h-9 md:w-10 md:h-10 rounded-full transition-all duration-300 shrink-0 cursor-pointer ${selectedColor === color.name ? 'ring-2 ring-soft-black ring-offset-2' : 'opacity-70 hover:opacity-100'}`}
                       aria-label={`Select ${color.name}`}
                     >
                       <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
@@ -487,10 +487,10 @@ const SampleOrder = () => {
                         key={s}
                         type="button"
                         onClick={() => handleSizeChange(s)}
-                        className={`w-9 h-9 md:w-10 md:h-10 rounded border text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center ${
+                        className={`w-9 h-9 md:w-10 md:h-10 rounded  text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center ${
                           isSelected
-                            ? 'bg-soft-black text-cream border-soft-black shadow-xs'
-                            : 'bg-white text-soft-black border-stone/20 hover:border-stone/40'
+                            ? 'bg-soft-black text-cream  shadow-xs'
+                            : 'bg-white text-soft-black  '
                         }`}
                       >
                         {s}
@@ -505,7 +505,7 @@ const SampleOrder = () => {
             {/* Action Buttons: Quantity Stepper (Left) + Add to Cart Button (Right) */}
             <div className="flex items-center gap-2 sm:gap-3 w-full mb-3 md:mb-4">
               {/* Quantity Stepper */}
-              <div className="flex items-center h-12 md:h-[52px] bg-white border border-stone/20 rounded p-1 shrink-0">
+              <div className="flex items-center h-12 md:h-[52px] bg-white rounded p-1 shrink-0">
                 <button
                   type="button"
                   onClick={() => handleQuantityUpdate(quantity - 1)}
@@ -559,7 +559,7 @@ const SampleOrder = () => {
             </div>
 
             {/* Expandable Accordions */}
-            <div className="bg-white sm:bg-transparent border border-stone/20 sm:border-t sm:border-x-0 sm:border-b-0 sm:border-stone/30 p-2 sm:p-0 rounded-2xl sm:rounded-none overflow-hidden shadow-xs sm:shadow-none mb-6 sm:mb-0">
+            <div className="space-y-3 mb-0">
               <Accordion 
                 title={
                   <div className="flex items-center gap-2.5">
@@ -570,7 +570,7 @@ const SampleOrder = () => {
                 isOpen={!!openAccordions['description']} 
                 onClick={() => toggleAccordion('description')}
               >
-                <div className="space-y-2.5 text-sm md:text-base text-dark-charcoal/85 leading-relaxed font-light">
+                <div className="space-y-2.5 leading-relaxed font-light">
                   <p>
                     Expertly hand-knotted by skilled Bangladeshi artisans using 100% premium cotton cord. Designed to adapt naturally to your waist without the stiff discomfort of traditional belts, finished with a heavy-duty, anti-rust zinc-alloy buckle.
                   </p>
@@ -590,28 +590,28 @@ const SampleOrder = () => {
                 isOpen={!!openAccordions['materials']} 
                 onClick={() => toggleAccordion('materials')}
               >
-                <ul className="space-y-2 pt-1 text-sm md:text-base text-dark-charcoal/85 font-light">
-                  <li className="flex items-start">
-                    <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                    <span><strong className="font-semibold text-soft-black">Cord:</strong> 100% natural, eco-friendly high-grade braided cotton</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                    <span><strong className="font-semibold text-soft-black">Hardware:</strong> Rust-resistant metal pin buckle with matte brushed finish</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                    <span><strong className="font-semibold text-soft-black">Width:</strong> {activeProduct.sizeGuide?.width || '1.5"'} perfectly fits standard pant & denim loops</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                    <span><strong className="font-semibold text-soft-black">Flexibility:</strong> Micro-adjustable weave — fasten the buckle prong at any point along the belt for a custom fit</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                    <span><strong className="font-semibold text-soft-black">Origin:</strong> Proudly handcrafted in Bangladesh</span>
-                  </li>
-                </ul>
+                <div className="space-y-2.5 pt-0.5">
+                  <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
+                    <span className="font-semibold text-soft-black shrink-0 sm:w-24">Cord:</span>
+                    <span className="text-dark-charcoal/80 font-light">100% natural, eco-friendly high-grade braided cotton</span>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
+                    <span className="font-semibold text-soft-black shrink-0 sm:w-24">Hardware:</span>
+                    <span className="text-dark-charcoal/80 font-light">Rust-resistant metal pin buckle with matte brushed finish</span>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
+                    <span className="font-semibold text-soft-black shrink-0 sm:w-24">Width:</span>
+                    <span className="text-dark-charcoal/80 font-light">{activeProduct.sizeGuide?.width || '1.5"'} perfectly fits standard pant & denim loops</span>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
+                    <span className="font-semibold text-soft-black shrink-0 sm:w-24">Flexibility:</span>
+                    <span className="text-dark-charcoal/80 font-light">Micro-adjustable weave — fasten the buckle prong at any point along the belt for a custom fit</span>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
+                    <span className="font-semibold text-soft-black shrink-0 sm:w-24">Origin:</span>
+                    <span className="text-dark-charcoal/80 font-light">Proudly handcrafted in Bangladesh</span>
+                  </div>
+                </div>
               </Accordion>
 
               <Accordion 
@@ -624,28 +624,28 @@ const SampleOrder = () => {
                 isOpen={!!openAccordions['custom']} 
                 onClick={() => toggleAccordion('custom')}
               >
-                <div className="space-y-3 pt-1 text-sm md:text-base text-dark-charcoal/85 font-light">
-                  <p className="leading-relaxed">
+                <div className="space-y-3 pt-0.5">
+                  <p className="leading-relaxed text-dark-charcoal/80 font-light">
                     Our workshop provides complete OEM/ODM manufacturing and private-label customization for brands, boutiques, and corporate buyers:
                   </p>
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                      <span><strong className="font-semibold text-soft-black">Bespoke Colorways:</strong> Pantone-accurate color dyeing, multi-tone weave patterns, and seasonal palette runs.</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                      <span><strong className="font-semibold text-soft-black">Hardware & Logo Engraving:</strong> Custom buckle finishes (Matte Black, Antique Brass, Brushed Nickel, Gunmetal) with laser-engraved brand logos.</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                      <span><strong className="font-semibold text-soft-black">Custom Dimensions:</strong> Tailored widths (3.0 cm to 5.0 cm) and extended waist size gradings tailored to your demographic.</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-[0.55rem] mr-2.5 flex-shrink-0"></span>
-                      <span><strong className="font-semibold text-soft-black">Private Label & Packaging:</strong> Custom woven brand tags, embossed kraft gift boxes, organic cotton dust pouches, and retail-ready barcode hangtags.</span>
-                    </li>
-                  </ul>
+                  <div className="space-y-2.5 pt-0.5">
+                    <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
+                      <span className="font-semibold text-soft-black shrink-0 sm:w-38">Bespoke Colorways:</span>
+                      <span className="text-dark-charcoal/80 font-light">Pantone-accurate color dyeing, multi-tone weave patterns, and seasonal palette runs.</span>
+                    </div>
+                    <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
+                      <span className="font-semibold text-soft-black shrink-0 sm:w-38">Hardware & Logo:</span>
+                      <span className="text-dark-charcoal/80 font-light">Custom buckle finishes (Matte Black, Antique Brass, Brushed Nickel, Gunmetal) with laser-engraved brand logos.</span>
+                    </div>
+                    <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
+                      <span className="font-semibold text-soft-black shrink-0 sm:w-38">Custom Dimensions:</span>
+                      <span className="text-dark-charcoal/80 font-light">Tailored widths (3.0 cm to 5.0 cm) and extended waist size gradings tailored to your demographic.</span>
+                    </div>
+                    <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
+                      <span className="font-semibold text-soft-black shrink-0 sm:w-38">Private Label & Pack:</span>
+                      <span className="text-dark-charcoal/80 font-light">Custom woven brand tags, embossed kraft gift boxes, organic cotton dust pouches, and retail-ready barcode hangtags.</span>
+                    </div>
+                  </div>
                 </div>
               </Accordion>
             </div>
@@ -669,7 +669,7 @@ const SampleOrder = () => {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-white border border-stone/20 w-full max-w-sm p-6 relative z-10 shadow-2xl rounded-xl text-center"
+              className="bg-white w-full max-w-sm p-6 relative z-10 shadow-2xl rounded-xl text-center"
             >
               <button 
                 onClick={() => setIsSizeGuideOpen(false)}
@@ -682,14 +682,14 @@ const SampleOrder = () => {
               
               <h2 className="text-xl font-serif text-soft-black mb-5">{activeProduct.sizeGuide?.title || 'Sizing Guide'}</h2>
               
-              <div className="w-full bg-stone/5 rounded-lg border border-stone/10 overflow-hidden mb-4">
-                <div className="grid grid-cols-3 bg-stone/10 border-b border-stone/10 py-2">
+              <div className="w-full bg-stone/5 rounded-lg overflow-hidden mb-4">
+                <div className="grid grid-cols-3 bg-stone/10 py-2">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Size</span>
                   <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Waist</span>
                   <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Length</span>
                 </div>
                 {(activeProduct.sizeGuide?.rows || []).map((row, idx, arr) => (
-                  <div key={row.size} className={`grid grid-cols-3 py-3 ${idx < arr.length - 1 ? 'border-b border-stone/10/50' : ''}`}>
+                  <div key={row.size} className={`grid grid-cols-3 py-3 ${idx < arr.length - 1 ? '/50' : ''}`}>
                     <span className="text-sm font-semibold text-soft-black">{row.size}</span>
                     <span className="text-sm text-soft-black/80">{row.waist}</span>
                     <span className="text-sm text-soft-black/80">{row.length}</span>
@@ -697,7 +697,7 @@ const SampleOrder = () => {
                 ))}
               </div>
 
-              <div className="flex justify-between items-center px-4 py-3 bg-stone/5 rounded-lg border border-stone/10 mb-4">
+              <div className="flex justify-between items-center px-4 py-3 bg-stone/5 rounded-lg mb-4">
                  <span className="text-[10px] font-bold uppercase tracking-widest text-dark-charcoal">Belt Width</span>
                  <span className="text-xs font-semibold text-soft-black">{activeProduct.sizeGuide?.width || '1.5"'}</span>
               </div>
@@ -725,7 +725,7 @@ const SampleOrder = () => {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-white border border-stone/20 w-full max-w-md p-6 sm:p-7 relative z-10 shadow-2xl rounded-xl text-center max-h-[90vh] overflow-y-auto"
+              className="bg-white w-full max-w-md p-6 sm:p-7 relative z-10 shadow-2xl rounded-xl text-center max-h-[90vh] overflow-y-auto"
             >
               <button 
                 onClick={() => setIsSamplePolicyOpen(false)}
@@ -743,7 +743,7 @@ const SampleOrder = () => {
               </p>
 
               {/* Monochromatic Policy Sections */}
-              <div className="w-full bg-stone/5 rounded-lg border border-stone/10 p-4 sm:p-4.5 text-left space-y-3.5 mb-4">
+              <div className="w-full bg-stone/5 rounded-lg p-4 sm:p-4.5 text-left space-y-3.5 mb-4">
                 
                 {/* 1. 100% Rebate */}
                 <div className="flex items-start gap-3">
@@ -859,11 +859,11 @@ const SampleOrder = () => {
                       </TransformComponent>
                       
                       {/* Zoom Controls */}
-                      <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-3 sm:gap-5 z-[110] bg-black/75 backdrop-blur-md px-4 sm:px-6 py-2 rounded-full border border-white/20 shadow-2xl">
+                      <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-3 sm:gap-5 z-[110] bg-black/75 backdrop-blur-md px-4 sm:px-6 py-2 rounded-full shadow-2xl">
                         <button onClick={() => zoomOut()} className="text-white/80 hover:text-white hover:scale-110 transition-all p-1 cursor-pointer" title="Zoom Out">
                           <ZoomOut className="w-4 h-4 sm:w-5 sm:h-5" />
                         </button>
-                        <button onClick={() => resetTransform()} className="flex items-center gap-1.5 text-[10px] sm:text-xs text-white/90 font-mono uppercase tracking-widest hover:text-white hover:scale-105 transition-all px-2.5 py-0.5 border-x border-white/25 cursor-pointer" title="Reset View">
+                        <button onClick={() => resetTransform()} className="flex items-center gap-1.5 text-[10px] sm:text-xs text-white/90 font-mono uppercase tracking-widest hover:text-white hover:scale-105 transition-all px-2.5 py-0.5 /25 cursor-pointer" title="Reset View">
                           <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                           <span>Reset</span>
                         </button>
@@ -891,10 +891,10 @@ const SampleOrder = () => {
                   <button 
                     key={idx} 
                     onClick={() => setLightboxImage(img)}
-                    className={`w-12 h-12 sm:w-14 sm:h-14 aspect-square shrink-0 rounded-none overflow-hidden border-2 transition-all cursor-pointer ${
+                    className={`w-12 h-12 sm:w-14 sm:h-14 aspect-square shrink-0 rounded-none overflow-hidden transition-all cursor-pointer ${
                       lightboxImage === img 
-                        ? 'border-terracotta scale-105 shadow-md opacity-100' 
-                        : 'border-transparent opacity-50 hover:opacity-80'
+                        ? ' scale-105 shadow-md opacity-100' 
+                        : 'opacity-50 hover:opacity-80'
                     }`}
                     aria-label={`View thumbnail ${idx + 1}`}
                   >
@@ -907,7 +907,7 @@ const SampleOrder = () => {
       </AnimatePresence>
 
       {/* Features Grid */}
-      <section className="pt-12 md:pt-20 pb-8 md:pb-12 bg-cotton-white px-6">
+      <section className="pt-6 sm:pt-8 md:pt-12 pb-8 md:pb-12 bg-cotton-white px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8 w-full">
             
@@ -918,7 +918,7 @@ const SampleOrder = () => {
               
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
                 <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                     </svg>
@@ -943,7 +943,7 @@ const SampleOrder = () => {
               
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
                 <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
                       <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
@@ -970,7 +970,7 @@ const SampleOrder = () => {
               
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 flex flex-col justify-end">
                 <div className="flex items-center gap-3 md:gap-4 transform transition-transform duration-500 md:group-hover:-translate-y-2">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shrink-0">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                     </svg>

@@ -161,17 +161,17 @@ const InquiryModal = ({ isOpen, onClose, formType, orderDetails }) => {
                 >
                   <div>
                     <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Name</label>
-                    <input type="text" name="name" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Your Full Name" required />
+                    <input type="text" name="name" className="w-full bg-transparent py-1.5 md:py-1.5 focus:outline-none focus: transition-colors text-xs md:text-sm" placeholder="Your Full Name" required />
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     <div>
                       <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Company / Brand</label>
-                      <input type="text" name="company" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Your Brand Name" required />
+                      <input type="text" name="company" className="w-full bg-transparent py-1.5 md:py-1.5 focus:outline-none focus: transition-colors text-xs md:text-sm" placeholder="Your Brand Name" required />
                     </div>
                     <div>
                       <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Phone Number</label>
-                      <div className="flex border-b border-stone/50 focus-within:border-terracotta transition-colors">
+                      <div className="flex focus-within: transition-colors">
                         <select 
                           name="countryCode" 
                           value={selectedCountryCode}
@@ -191,19 +191,19 @@ const InquiryModal = ({ isOpen, onClose, formType, orderDetails }) => {
 
                   <div>
                     <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Email Address</label>
-                    <input type="email" name="email" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="email@example.com" required />
+                    <input type="email" name="email" className="w-full bg-transparent py-1.5 md:py-1.5 focus:outline-none focus: transition-colors text-xs md:text-sm" placeholder="email@example.com" required />
                   </div>
 
                   <div>
                     <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Shipping Address</label>
-                    <input type="text" name="address" className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm" placeholder="Full delivery address" required />
+                    <input type="text" name="address" className="w-full bg-transparent py-1.5 md:py-1.5 focus:outline-none focus: transition-colors text-xs md:text-sm" placeholder="Full delivery address" required />
                   </div>
 
                   {orderDetails && formType === 'sample' && (
-                    <div className="border-t border-b border-stone/10 py-4 md:py-5 mb-4">
+                    <div className="py-4 md:py-5 mb-4">
                       <h3 className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-3">Order Summary</h3>
                       
-                      <div className="bg-stone/5 rounded-lg border border-stone/10 p-4 mb-4">
+                      <div className="bg-stone/5 rounded-lg p-4 mb-4">
                         {orderDetails.quantity === 5 ? (
                           <div className="flex items-center gap-3">
                             <div className="flex-1">
@@ -215,7 +215,7 @@ const InquiryModal = ({ isOpen, onClose, formType, orderDetails }) => {
                           <div className="space-y-3">
                             {Array.from({ length: orderDetails.quantity }).map((_, idx) => (
                               <div key={idx} className="flex items-center gap-3">
-                                <div className="w-6 h-6 rounded-md shadow-sm border border-stone/20 overflow-hidden shrink-0">
+                                <div className="w-6 h-6 rounded-md shadow-sm overflow-hidden shrink-0">
                                   <img 
                                     src={colorImages[orderDetails.selectedColors[idx] || 'Black']} 
                                     alt={orderDetails.selectedColors[idx]} 
@@ -245,7 +245,7 @@ const InquiryModal = ({ isOpen, onClose, formType, orderDetails }) => {
                           <span>Estimated Shipping</span>
                           <span className="font-medium">{orderDetails.currencySymbol}{orderDetails.shippingCostLocal.toLocaleString()}</span>
                         </div>
-                        <div className="flex justify-between text-sm md:text-base text-soft-black font-bold pt-2 border-t border-stone/10 mt-2">
+                        <div className="flex justify-between text-sm md:text-base text-soft-black font-bold pt-2 mt-2">
                           <span>Total</span>
                           <span>{orderDetails.currencySymbol}{(orderDetails.totalPriceLocal + orderDetails.shippingCostLocal).toLocaleString()}</span>
                         </div>
@@ -258,7 +258,7 @@ const InquiryModal = ({ isOpen, onClose, formType, orderDetails }) => {
                     <textarea 
                       name="message"
                       rows="2" 
-                      className="w-full bg-transparent border-b border-stone/50 py-1.5 md:py-1.5 focus:outline-none focus:border-terracotta transition-colors text-xs md:text-sm resize-none" 
+                      className="w-full bg-transparent py-1.5 md:py-1.5 focus:outline-none focus: transition-colors text-xs md:text-sm resize-none" 
                       placeholder="Tell us about any specific requirements..."
                     ></textarea>
                     <p className="mt-2 md:mt-3 text-[10px] md:text-xs text-dark-charcoal/80 font-medium italic">

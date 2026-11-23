@@ -205,7 +205,7 @@ const FAQ = () => {
       {/* Hero Header */}
       <section className="relative px-4 sm:px-6 lg:px-12 py-8 sm:py-12 md:py-16 bg-stone/5">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-stone/20 text-terracotta text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] mb-3 sm:mb-4 rounded">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white text-terracotta text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] mb-3 sm:mb-4 rounded">
             <HelpCircle className="w-3.5 h-3.5" />
             <span>Help &amp; Knowledge Base</span>
           </div>
@@ -228,7 +228,7 @@ const FAQ = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by keyword (e.g. COD, size, wash, exchange)..."
-              className="w-full pl-10 sm:pl-12 pr-10 py-2.5 sm:py-3.5 bg-white border border-stone/30 focus:border-terracotta text-xs sm:text-sm text-soft-black placeholder:text-dark-charcoal/40 outline-none transition-all rounded"
+              className="w-full pl-10 sm:pl-12 pr-10 py-2.5 sm:py-3.5 bg-white focus: text-xs sm:text-sm text-soft-black placeholder:text-dark-charcoal/40 outline-none transition-all rounded"
             />
             {searchQuery && (
               <button
@@ -292,7 +292,7 @@ const FAQ = () => {
               return (
                 <div key={category.id} className="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-7 md:p-8">
                   {/* Category Header */}
-                  <div className="flex items-start gap-3.5 sm:gap-4 pb-4 sm:pb-6 border-b border-stone/10 mb-4 sm:mb-6">
+                  <div className="flex items-start gap-3.5 sm:gap-4 pb-4 sm:pb-6 mb-4 sm:mb-6">
                     <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-cream text-terracotta flex items-center justify-center shrink-0">
                       <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
@@ -307,7 +307,7 @@ const FAQ = () => {
                   </div>
 
                   {/* Questions in Category */}
-                  <div className="divide-y divide-stone/10">
+                  <div className="">
                     {category.matchedQuestions.map((item) => {
                       const itemKey = `${category.catIdx}-${item.qIdx}`;
                       const isOpen = !!openItems[itemKey];
@@ -339,7 +339,7 @@ const FAQ = () => {
                                 transition={{ duration: 0.22, ease: "easeInOut" }}
                                 className="overflow-hidden"
                               >
-                                <div className="pb-4 sm:pb-5 text-[11.5px] sm:text-xs md:text-sm text-dark-charcoal/85 leading-relaxed font-sans whitespace-pre-line border-l-2 border-terracotta/40 pl-3 sm:pl-4 my-1">
+                                <div className="pb-4 sm:pb-5 text-[11.5px] sm:text-xs md:text-sm text-dark-charcoal/85 leading-relaxed font-sans whitespace-pre-line -l-2 pl-3 sm:pl-4 my-1">
                                   {item.a}
                                 </div>
                               </motion.div>
@@ -402,7 +402,7 @@ const FAQ = () => {
               
               <Link
                 to="/contact"
-                className="relative overflow-hidden group inline-flex items-center gap-2 bg-white/10 text-white border border-white/20 hover:border-white hover:text-soft-black hover:shadow-lg hover:-translate-y-0.5 px-5 sm:px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider rounded active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
+                className="relative overflow-hidden group inline-flex items-center gap-2 bg-white/10 text-white hover: hover:text-soft-black hover:shadow-lg hover:-translate-y-0.5 px-5 sm:px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider rounded active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
               >
                 <span className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
                 <Mail className="w-4 h-4 relative z-10" />

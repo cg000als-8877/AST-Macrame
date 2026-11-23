@@ -2,25 +2,10 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { 
-  Package, 
-  ShieldCheck, 
-  Palette, 
-  RefreshCw, 
-  Check, 
-  ChevronRight, 
-  Tag, 
-  Factory, 
-  Sparkles, 
+  ArrowRight,
+  ArrowUpRight,
   MessageCircle, 
-  Mail, 
-  Plus, 
-  Minus,
-  Plane,
-  Box,
-  Layers,
-  FileCheck,
-  Sliders,
-  Award
+  Mail
 } from 'lucide-react';
 
 import InquiryModal from '../components/InquiryModal';
@@ -30,233 +15,355 @@ import b2bPrivateLabelImg from '../assets/b2b/private_label.jpg';
 import b2bCustomColoursImg from '../assets/b2b/custom_colours.jpg';
 import b2bRepeatOrdersImg from '../assets/b2b/repeat_orders.jpg';
 
+const pricingTiers = [
+  {
+    id: "tier-1",
+    tier: "TIER 01",
+    title: "Boutique & Launch Run",
+    range: "100 – 299 pcs",
+    moq: "100 pcs",
+    leadTime: "15–20 Days",
+    label: "Flexible Low MOQ",
+    description: "Designed for emerging labels, independent boutiques, and pilot collections testing macramé accessory demand.",
+    highlights: [
+      { key: "Colorways", val: "Up to 5 standard stock shades" },
+      { key: "Hardware", val: "Corrosion-resistant zinc alloy pin buckle" },
+      { key: "Packaging", val: "Individual protective bio-sleeve with silica pack" },
+      { key: "Sample Rebate", val: "100% sample cost credited against invoice" }
+    ],
+    popular: false
+  },
+  {
+    id: "tier-2",
+    tier: "TIER 02",
+    title: "Brand Collection",
+    range: "300 – 499 pcs",
+    moq: "300 pcs",
+    leadTime: "20–25 Days",
+    label: "Most Popular",
+    description: "Our signature tier for fashion labels scaling with custom private label woven tags and tailored color mixes.",
+    highlights: [
+      { key: "Branding", val: "Custom woven damask brand labels sewn into belt" },
+      { key: "Color Split", val: "Split production across up to 3 distinct colorways" },
+      { key: "Hardware", val: "Matte Black, Antique Brass, or Gunmetal finish" },
+      { key: "End-Tabs", val: "Custom debossed genuine leather or vegan PU" },
+      { key: "Sample Rebate", val: "100% sample cost credited against invoice" }
+    ],
+    popular: true
+  },
+  {
+    id: "tier-3",
+    tier: "TIER 03",
+    title: "Volume Retail Run",
+    range: "500 – 999 pcs",
+    moq: "500 pcs",
+    leadTime: "25–30 Days",
+    label: "Custom Pantone Included",
+    description: "Built for departmental stores and multi-door retailers requiring bespoke Pantone yarn dyeing and retail-ready packaging.",
+    highlights: [
+      { key: "Pantone Dyeing", val: "Custom lab-dip yarn dyeing to your TCX / TPX codes" },
+      { key: "Packaging", val: "Custom branded kraft retail boxes with UPC hangtags" },
+      { key: "Hardware", val: "Laser-engraved logo on buckle hardware" },
+      { key: "Logistics", val: "Priority express air cargo booking & direct customs clearance" },
+      { key: "Sample Rebate", val: "100% sample cost credited against invoice" }
+    ],
+    popular: false
+  },
+  {
+    id: "tier-4",
+    tier: "TIER 04",
+    title: "Enterprise / OEM",
+    range: "1,000+ pcs",
+    moq: "1,000+ pcs",
+    leadTime: "30–35 Days",
+    label: "Factory Contract",
+    description: "High-volume contract manufacturing with permanent dedicated artisan lines, custom buckle molds, and FOB sea palletizing.",
+    highlights: [
+      { key: "Unit Cost", val: "Lowest direct factory pricing" },
+      { key: "Custom Mold", val: "Bespoke buckle mold casting & custom dimensions" },
+      { key: "Fulfillment", val: "FOB Chattogram Seaport or CIF destination palletizing" },
+      { key: "Production Line", val: "Dedicated artisan knotting station for consistent output" },
+      { key: "Sample Rebate", val: "100% sample cost credited against invoice" }
+    ],
+    popular: false
+  }
+];
+
+const specCategories = {
+  cord: {
+    title: "100% Combed Cotton Yarn & Braiding",
+    subtitle: "High-density natural fibers knotted under consistent artisanal tension.",
+    specs: [
+      { label: "Material Composition", value: "100% Natural Combed Long-Staple Cotton" },
+      { label: "Cord Gauge / Diameter", value: "3.2mm – 4.5mm Multi-Ply Braided Cord" },
+      { label: "Knot Density", value: "1,400+ Hand-Tied Knots per finished belt" },
+      { label: "Weave Architecture", value: "Double-Diamond Stretch-Macramé" },
+      { label: "Tensile Strength", value: "Tested load capacity > 50 kg (zero deformation)" },
+      { label: "Handfeel & Texture", value: "Soft organic touch with structured, shape-retaining firmness" }
+    ]
+  },
+  hardware: {
+    title: "Buckles, Alloys & Electroplating",
+    subtitle: "Solid corrosion-resistant hardware engineered for smooth pinless fastening.",
+    specs: [
+      { label: "Base Alloy", value: "High-Grade Cast Zinc Alloy (Nickel-Safe)" },
+      { label: "Standard Finishes", value: "Matte Black, Antique Brass, Brushed Gunmetal, Polished Nickel" },
+      { label: "Surface Treatment", value: "Anti-tarnish electroplating and humidity-tested seal" },
+      { label: "Pinless Fastening", value: "Prong inserts smoothly through any point in the woven cord" },
+      { label: "Bespoke Branding", value: "Laser logo engraving or custom debossed buckle molds (MOQ 500)" }
+    ]
+  },
+  branding: {
+    title: "Private Label & Retail Packaging",
+    subtitle: "Complete retail-ready packaging and garment labeling tailored to your store.",
+    specs: [
+      { label: "Woven Brand Labels", value: "High-definition damask woven brand tags sewn into belt" },
+      { label: "Leather End-Tabs", value: "Genuine leather or vegan PU patches with blind deboss logo" },
+      { label: "Barcode Hangtags", value: "FSC certified kraft hangtags with UPC/EAN barcodes & pricing" },
+      { label: "Inner Protective Sleeves", value: "Individual bio-poly sleeves with silica moisture packs" },
+      { label: "Gift Box Packaging", value: "Custom foil-stamped rigid drawer boxes (optional add-on)" }
+    ]
+  },
+  dyeing: {
+    title: "Pantone TCX / TPX Color Development",
+    subtitle: "Custom seasonal shade matching with certified eco-friendly water-based dyes.",
+    specs: [
+      { label: "Color Standards", value: "Pantone Fashion, Home + Interiors (TCX / TPX)" },
+      { label: "Stock Colors", value: "Black, Midnight Navy, Espresso Brown, Maroon Wine, Desert Khaki" },
+      { label: "Lab-Dip Approval", value: "Physical yarn swatches dispatched via courier for client sign-off" },
+      { label: "Color Fastness", value: "Grade 4+ washing, light, and rubbing resistance" },
+      { label: "Dye Chemistry", value: "Azo-free, skin-safe, OEKO-TEX compliant water-based dyes" }
+    ]
+  }
+};
+
 const SampleWholesale = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('cord');
-
-  const pricingTiers = [
-    {
-      tier: "TIER 01",
-      title: "Boutique & Trial Run",
-      range: "100 – 299 pcs",
-      moq: "100 pieces",
-      leadTime: "15–20 Days",
-      features: [
-        "Choice of 5 standard stock colors",
-        "Standard alloy hardware",
-        "Individual protective poly packaging",
-        "100% sample cost credited on invoice"
-      ],
-      badge: "Flexible Low MOQ",
-      popular: false
-    },
-    {
-      tier: "TIER 02",
-      title: "Brand Collection",
-      range: "300 – 499 pcs",
-      moq: "300 pieces",
-      leadTime: "20–25 Days",
-      features: [
-        "Custom private label woven tags",
-        "Custom debossed leather end-tabs",
-        "Split across up to 3 colorways",
-        "Dedicated artisan production queue",
-        "100% sample cost credited on invoice"
-      ],
-      badge: "Most Popular",
-      popular: true
-    },
-    {
-      tier: "TIER 03",
-      title: "Volume Retail Run",
-      range: "500 – 999 pcs",
-      moq: "500 pieces",
-      leadTime: "25–30 Days",
-      features: [
-        "Bespoke Pantone yarn shade dyeing",
-        "Custom branded kraft retail boxes",
-        "Custom alloy buckle electroplating",
-        "Priority air/sea logistics booking",
-        "Master quality spec sheet archive"
-      ],
-      badge: "Custom Pantone Included",
-      popular: false
-    },
-    {
-      tier: "TIER 04",
-      title: "Enterprise / OEM",
-      range: "1,000+ pcs",
-      moq: "1,000+ pieces",
-      leadTime: "30–35 Days",
-      features: [
-        "Lowest factory unit pricing",
-        "Fully custom buckle mold casting",
-        "Barcode & retail hangtag application",
-        "FOB / CIF export carton palletizing",
-        "Permanent dedicated artisan line"
-      ],
-      badge: "Direct Factory Contract",
-      popular: false
-    }
-  ];
-
-  const specCategories = {
-    cord: {
-      title: "Yarn & Braiding Construction",
-      desc: "High-density natural cotton fibers crafted under standardized tension to ensure uniform width and prevent stretching.",
-      specs: [
-        { label: "Material Composition", value: "100% Combed Natural Cotton Yarn" },
-        { label: "Cord Gauge / Diameter", value: "3.0mm – 4.5mm Multi-Ply Cord" },
-        { label: "Weave Structure", value: "Double-Diamond Stretch-Macramé" },
-        { label: "Tensile Strength", value: "Tested for everyday high load (zero deform)" },
-        { label: "Handfeel", value: "Ultra-soft cotton touch with structured firmness" }
-      ]
-    },
-    hardware: {
-      title: "Buckles & Hardware Finishes",
-      desc: "Cast from corrosion-resistant zinc alloys, electroplated for durability and compatible with any pinless waist position.",
-      specs: [
-        { label: "Base Alloy", value: "High-Grade Cast Zinc Alloy" },
-        { label: "Standard Finishes", value: "Antique Brass, Matte Black, Brushed Gunmetal" },
-        { label: "Corrosion Treatment", value: "Anti-tarnish and humidity-tested coating" },
-        { label: "Pinless Fastening", value: "Prong inserts smoothly through any weave hole" },
-        { label: "OEM Customization", value: "Laser logo engraving or custom debossed molds" }
-      ]
-    },
-    branding: {
-      title: "Private Label & Custom Packaging",
-      desc: "Retail-ready packaging solutions tailored for boutiques, departmental stores, and e-commerce fulfillment.",
-      specs: [
-        { label: "End-Tabs & Accents", value: "Genuine Leather or Vegan PU debossed patches" },
-        { label: "Woven Labels", value: "High-definition damask woven brand labels" },
-        { label: "Hangtags & Barcodes", value: "FSC kraft hangtags with UPC/EAN barcodes" },
-        { label: "Inner Packaging", value: "Individual bio-poly sleeves with silica packs" },
-        { label: "Gift Box Packaging", value: "Custom foil-stamped rigid drawer boxes (optional)" }
-      ]
-    },
-    dyeing: {
-      title: "Pantone Color Matching",
-      desc: "We develop bespoke seasonal palettes with certified non-toxic textile dyes matching your brand's moodboard.",
-      specs: [
-        { label: "Color Standards", value: "Pantone Fashion, Home + Interiors (TCX / TPX)" },
-        { label: "Stock Colorways", value: "Black, Midnight Navy, Brown, Maroon, Khaki" },
-        { label: "Lab-Dip Approval", value: "Physical yarn swatches dispatched for sign-off" },
-        { label: "Color Fastness", value: "Grade 4+ washing and rubbing resistance" },
-        { label: "Dye Safety", value: "Azo-free, eco-friendly water-based dyes" }
-      ]
-    }
-  };
+  const [selectedMobileTier, setSelectedMobileTier] = useState(1); // 0, 1, 2, 3 (defaults to Tier 2: Brand Collection)
 
   return (
-    <div className="w-full bg-cream text-soft-black font-sans selection:bg-terracotta selection:text-white">
+    <div className="wholesale-page w-full bg-[#FAF8F5] text-soft-black font-sans selection:bg-terracotta selection:text-white">
       
-      {/* WHOLESALE — SECTION 1: HERO SECTION */}
-      <section className="relative w-full pt-28 md:pt-36 pb-16 md:pb-24 border-b border-stone/15 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+      {/* =========================================================================
+          SECTION 1: HERO SECTION
+          Engineered for screen size:
+          - Mobile (< 768px): Compact vertical flow, hero above fold, quick CTAs
+          - Tablet (768px - 1023px): Asymmetric 12-col grid, balanced copy & visual
+          - Laptop / Desktop (1024px+): Viewport-conscious editorial layout
+          ========================================================================= */}
+      <section className="relative w-full pt-24 sm:pt-28 md:pt-32 lg:pt-36 pb-12 sm:pb-16 md:pb-20 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* TABLET & DESKTOP VIEW (Visible on md: 768px and above) */}
+          <div className="hidden md:grid grid-cols-12 gap-8 lg:gap-12 xl:gap-16 items-center">
             
-            {/* Left Column: Heading, Subtitle & Fast Action */}
-            <div className="lg:col-span-7 flex flex-col justify-center text-left">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7 }}
-              >
-                <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
-                  DIRECT FACTORY SOURCING
-                </span>
-                
-                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-4 sm:mb-6">
-                  WHOLESALE & PRIVATE LABEL MANUFACTURING
-                </h1>
-                
-                <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light leading-relaxed mb-8 sm:mb-10 max-w-xl">
-                  We are Bangladesh's dedicated macramé accessory workshop. We supply fashion labels, e-commerce retailers, and boutique brands with low MOQs, transparent tiered pricing, and fast global export.
-                </p>
+            {/* Left 7 Columns: Editorial Headline, Factory Story & Immediate Actions */}
+            <div className="col-span-7 flex flex-col justify-center text-left">
+              <div className="inline-flex items-center px-3 py-1 bg-white rounded-full text-[10px] sm:text-[10.5px] font-bold uppercase tracking-[0.2em] text-terracotta w-fit mb-4 lg:mb-5">
+                Direct Bangladesh Workshop
+              </div>
+              
+              <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold text-soft-black tracking-tight leading-[1.08] mb-4 lg:mb-6">
+                Artisan Macramé Belts at Scale.
+              </h1>
+              
+              <p className="text-sm md:text-base xl:text-lg text-dark-charcoal/80 font-light leading-relaxed mb-6 lg:mb-8 max-w-xl">
+                We are Bangladesh’s dedicated macramé accessory workshop. We supply fashion houses, boutique retailers, and international private labels with transparent tier pricing, low 100-piece MOQs, and reliable worldwide freight.
+              </p>
 
-                {/* Primary CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 items-stretch sm:items-center mb-10 sm:mb-12">
-                  <Link 
-                    to="/sample-order" 
-                    className="relative overflow-hidden group bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-dark-charcoal hover:text-white hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 shadow-md text-center inline-flex items-center justify-center gap-2"
-                  >
-                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
-                    <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">ORDER SAMPLES ONLINE</span>
-                    <ChevronRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 relative z-10" />
-                  </Link>
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-3 lg:gap-4 mb-8 lg:mb-12">
+                <Link 
+                  to="/sample-order" 
+                  className="bg-soft-black text-cream px-6 sm:px-8 py-3.5 sm:py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-terracotta transition-colors flex items-center gap-2 group cursor-pointer"
+                >
+                  <span>Order Samples Online</span>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </Link>
 
-                  <a 
-                    href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20would%20like%20to%20request%20a%20wholesale%20quote."
-                    target="_blank"
-                    rel="noreferrer"
-                    className="relative overflow-hidden group bg-transparent border border-soft-black/30 text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:border-soft-black hover:text-cream hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 text-center inline-flex items-center justify-center gap-2"
-                  >
-                    <span className="absolute inset-0 bg-soft-black translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
-                    <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">REQUEST A CUSTOM QUOTE</span>
-                  </a>
+                <a 
+                  href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20would%20like%20to%20request%20a%20wholesale%20production%20quote."
+                  target="_blank"
+                  rel="noreferrer"
+                  className="bg-white text-soft-black px-6 sm:px-8 py-3.5 sm:py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-[#F2EDE4] transition-colors flex items-center gap-2 cursor-pointer"
+                >
+                  <MessageCircle className="w-4 h-4 text-terracotta" />
+                  <span>WhatsApp Quote</span>
+                </a>
+              </div>
+
+              {/* 4 Key Manufacturing Metrics (Flat pill layout, zero dots, zero strokes) */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 bg-white rounded-2xl p-4 lg:p-6">
+                <div>
+                  <span className="text-2xl lg:text-3xl font-serif font-bold text-soft-black block leading-none mb-1 lg:mb-1.5">
+                    100
+                  </span>
+                  <span className="text-[9.5px] lg:text-[10px] font-bold uppercase tracking-wider text-dark-charcoal/60 block">
+                    Base MOQ
+                  </span>
+                  <span className="text-[10px] lg:text-[10.5px] text-dark-charcoal/70 block mt-0.5">
+                    Flexible trial runs
+                  </span>
                 </div>
 
-                {/* 4 Stats Metric Bar */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 pt-8 border-t border-stone/20">
-                  <div>
-                    <span className="text-2xl sm:text-3xl font-serif font-bold text-soft-black block leading-none mb-1">
-                      100
-                    </span>
-                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-dark-charcoal/60">
-                      Base MOQ (Pcs)
-                    </span>
-                  </div>
-
-                  <div>
-                    <span className="text-2xl sm:text-3xl font-serif font-bold text-soft-black block leading-none mb-1">
-                      5–7d
-                    </span>
-                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-dark-charcoal/60">
-                      Sample Time
-                    </span>
-                  </div>
-
-                  <div>
-                    <span className="text-2xl sm:text-3xl font-serif font-bold text-soft-black block leading-none mb-1">
-                      25–35d
-                    </span>
-                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-dark-charcoal/60">
-                      Bulk Lead Time
-                    </span>
-                  </div>
-
-                  <div>
-                    <span className="text-2xl sm:text-3xl font-serif font-bold text-soft-black block leading-none mb-1">
-                      100%
-                    </span>
-                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-dark-charcoal/60">
-                      Sample Credit
-                    </span>
-                  </div>
+                <div>
+                  <span className="text-2xl lg:text-3xl font-serif font-bold text-soft-black block leading-none mb-1 lg:mb-1.5">
+                    5–7d
+                  </span>
+                  <span className="text-[9.5px] lg:text-[10px] font-bold uppercase tracking-wider text-dark-charcoal/60 block">
+                    Sample Dispatch
+                  </span>
+                  <span className="text-[10px] lg:text-[10.5px] text-dark-charcoal/70 block mt-0.5">
+                    Express air courier
+                  </span>
                 </div>
 
-              </motion.div>
+                <div>
+                  <span className="text-2xl lg:text-3xl font-serif font-bold text-soft-black block leading-none mb-1 lg:mb-1.5">
+                    20–30d
+                  </span>
+                  <span className="text-[9.5px] lg:text-[10px] font-bold uppercase tracking-wider text-dark-charcoal/60 block">
+                    Bulk Lead Time
+                  </span>
+                  <span className="text-[10px] lg:text-[10.5px] text-dark-charcoal/70 block mt-0.5">
+                    Air &amp; sea freight
+                  </span>
+                </div>
+
+                <div>
+                  <span className="text-2xl lg:text-3xl font-serif font-bold text-terracotta block leading-none mb-1 lg:mb-1.5">
+                    100%
+                  </span>
+                  <span className="text-[9.5px] lg:text-[10px] font-bold uppercase tracking-wider text-dark-charcoal/60 block">
+                    Sample Rebate
+                  </span>
+                  <span className="text-[10px] lg:text-[10.5px] text-dark-charcoal/70 block mt-0.5">
+                    Credited on bulk PO
+                  </span>
+                </div>
+              </div>
             </div>
 
-            {/* Right Column: Hero Image */}
-            <div className="lg:col-span-5">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="relative rounded-3xl overflow-hidden bg-white border border-stone/20 aspect-[4/5] shadow-xl"
-              >
+            {/* Right 5 Columns: Architectural Workshop Visual */}
+            <div className="col-span-5">
+              <div className="relative rounded-3xl overflow-hidden aspect-[4/5] bg-white">
                 <img 
                   src={wholesaleHeroImage} 
-                  alt="AST Macrame Wholesale Belts Sourcing Workshop"
+                  alt="AST Macrame Workshop Belt Production"
                   className="w-full h-full object-cover object-center"
                 />
-                <div className="absolute top-4 left-4 bg-gradient-to-r from-[#DFB76C] via-[#F6E7BE] to-[#C99A45] text-soft-black text-[10px] sm:text-[11px] font-sans font-extrabold uppercase tracking-[0.2em] px-3.5 py-1.5 rounded-full flex items-center gap-1.5 border border-[#F6E7BE]/80 shadow-sm">
-                  <Factory className="w-3.5 h-3.5 text-soft-black" />
-                  <span>DIRECT BANGLADESH FACTORY</span>
+                
+                {/* Floating Artisan Tag */}
+                <div className="absolute bottom-4 left-4 right-4 lg:bottom-6 lg:left-6 lg:right-6 bg-white/95 backdrop-blur-md p-3.5 lg:p-4 rounded-2xl">
+                  <span className="text-[9px] lg:text-[9.5px] font-bold uppercase tracking-[0.2em] text-terracotta block mb-1">
+                    Export Workshop, Dhaka, BD
+                  </span>
+                  <p className="text-[11px] lg:text-xs text-soft-black font-medium leading-snug">
+                    Over 50 skilled female artisans weaving 100% combed cotton accessories for European &amp; American fashion partners.
+                  </p>
                 </div>
-              </motion.div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* MOBILE VIEW (Visible on screens < md: phones) */}
+          <div className="block md:hidden text-left">
+            <div className="inline-flex items-center px-3 py-1 bg-white rounded-full text-[9.5px] font-bold uppercase tracking-[0.2em] text-terracotta mb-2.5">
+              Direct Workshop
+            </div>
+
+            <h1 className="text-2xl sm:text-3xl font-serif font-bold text-soft-black tracking-tight leading-[1.12] mb-2.5">
+              Artisan Macramé Belts at Scale.
+            </h1>
+
+            <p className="text-xs sm:text-sm text-dark-charcoal/80 font-light leading-relaxed mb-4">
+              Bangladesh’s dedicated cotton accessory workshop. 100-piece low MOQs, transparent tier pricing, custom private labeling, and express worldwide export.
+            </p>
+
+            {/* Hero Image Mobile */}
+            <div className="relative rounded-2xl overflow-hidden aspect-[16/10] bg-white mb-4">
+              <img 
+                src={wholesaleHeroImage} 
+                alt="AST Macrame Workshop Belt Production"
+                className="w-full h-full object-cover object-center"
+              />
+              <div className="absolute bottom-2.5 left-2.5 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider text-soft-black">
+                100% Hand-Braided in BD
+              </div>
+            </div>
+
+            {/* Mobile Actions */}
+            <div className="flex flex-col gap-2 mb-4">
+              <Link 
+                to="/sample-order" 
+                className="w-full bg-soft-black text-cream py-3.5 text-center text-xs font-bold uppercase tracking-[0.18em] rounded-xl flex items-center justify-center gap-2"
+              >
+                <span>Order Samples Online</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+
+              <a 
+                href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20would%20like%20to%20request%20a%20wholesale%20production%20quote."
+                target="_blank"
+                rel="noreferrer"
+                className="w-full bg-white text-soft-black py-3.5 text-center text-xs font-bold uppercase tracking-[0.18em] rounded-xl flex items-center justify-center gap-2"
+              >
+                <MessageCircle className="w-4 h-4 text-terracotta" />
+                <span>WhatsApp Quote</span>
+              </a>
+            </div>
+
+            {/* Mobile 4-Metric Grid */}
+            <div className="grid grid-cols-2 gap-2 bg-white rounded-2xl p-3">
+              <div className="p-1.5">
+                <span className="text-xl font-serif font-bold text-soft-black block leading-none mb-1">
+                  100
+                </span>
+                <span className="text-[9.5px] font-bold uppercase tracking-wider text-dark-charcoal/60 block">
+                  Base MOQ
+                </span>
+                <span className="text-[9.5px] text-dark-charcoal/70">
+                  Trial friendly
+                </span>
+              </div>
+
+              <div className="p-1.5">
+                <span className="text-xl font-serif font-bold text-soft-black block leading-none mb-1">
+                  5–7d
+                </span>
+                <span className="text-[9.5px] font-bold uppercase tracking-wider text-dark-charcoal/60 block">
+                  Sample Time
+                </span>
+                <span className="text-[9.5px] text-dark-charcoal/70">
+                  Air courier
+                </span>
+              </div>
+
+              <div className="p-1.5">
+                <span className="text-xl font-serif font-bold text-soft-black block leading-none mb-1">
+                  20–30d
+                </span>
+                <span className="text-[9.5px] font-bold uppercase tracking-wider text-dark-charcoal/60 block">
+                  Bulk Lead Time
+                </span>
+                <span className="text-[9.5px] text-dark-charcoal/70">
+                  Air &amp; sea export
+                </span>
+              </div>
+
+              <div className="p-1.5">
+                <span className="text-xl font-serif font-bold text-terracotta block leading-none mb-1">
+                  100%
+                </span>
+                <span className="text-[9.5px] font-bold uppercase tracking-wider text-dark-charcoal/60 block">
+                  Sample Credit
+                </span>
+                <span className="text-[9.5px] text-dark-charcoal/70">
+                  Credited on PO
+                </span>
+              </div>
             </div>
 
           </div>
@@ -264,326 +371,645 @@ const SampleWholesale = () => {
         </div>
       </section>
 
-      {/* WHOLESALE — SECTION 2: TIERED VOLUME PRODUCTION MATRIX */}
-      <section className="py-16 md:py-24 bg-white border-b border-stone/15">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+
+      {/* =========================================================================
+          SECTION 2: VOLUME PRODUCTION TIERS
+          Screen-Size Architecture:
+          - Desktop (lg: 1024px+): 4-column flat bento matrix
+          - Tablet (md: 768px - 1023px): 2x2 grid showing all 4 tiers simultaneously
+          - Mobile (phones < 768px): One-thumb segmented pill switcher (T01-T04)
+          Zero dots, zero strokes, zero shadows.
+          ========================================================================= */}
+      <section className="py-14 sm:py-18 md:py-20 lg:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
           
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
-            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
-              VOLUME PRODUCTION TIERS
+          <div className="max-w-3xl mb-10 sm:mb-12 lg:mb-16 text-left">
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-2.5">
+              Production Scaling Matrix
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
-              TIERED MANUFACTURING MATRIX
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-soft-black tracking-tight leading-tight mb-2 sm:mb-3">
+              Tiered Manufacturing Architecture
             </h2>
-            <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light max-w-xl mx-auto leading-relaxed">
-              Transparent scaling structure designed to support indie designers at launch and large retail chains on recurring bulk orders.
+            <p className="text-xs sm:text-sm md:text-base text-dark-charcoal/75 font-light leading-relaxed max-w-xl">
+              Transparent scaling from boutique trial runs to full-scale departmental retail batches. Every tier includes a 100% sample rebate on confirmation.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {pricingTiers.map((tier, idx) => (
+          {/* DESKTOP VIEW: 4-COLUMN FLAT BENTO GRID (Visible on lg: 1024px and above) */}
+          <div className="hidden lg:grid grid-cols-4 gap-4 xl:gap-5">
+            {pricingTiers.map((tier) => (
               <div 
-                key={idx}
-                className={`rounded-2xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 relative ${
+                key={tier.id}
+                className={`rounded-3xl p-6 xl:p-7 flex flex-col justify-between transition-colors ${
                   tier.popular 
-                    ? 'bg-[#FAF7F2] border-2 border-soft-black shadow-lg ring-1 ring-soft-black/20' 
-                    : 'bg-[#FAF7F2] border border-[#E8E0D2] hover:border-soft-black/40 hover:shadow-md'
+                    ? 'bg-[#1C2841] text-white' 
+                    : 'bg-[#FAF8F5] text-soft-black hover:bg-[#F4EFEA]'
                 }`}
               >
                 <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-terracotta">
+                  <div className="flex items-center justify-between mb-3.5 xl:mb-4">
+                    <span className={`text-[10px] font-mono font-bold uppercase tracking-widest ${
+                      tier.popular ? 'text-warm-sand' : 'text-terracotta'
+                    }`}>
                       {tier.tier}
                     </span>
-                    <span className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                      tier.popular ? 'bg-soft-black text-cream' : 'bg-stone/20 text-dark-charcoal/80'
+                    <span className={`text-[9px] xl:text-[9.5px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${
+                      tier.popular ? 'bg-white/15 text-white' : 'bg-white text-soft-black'
                     }`}>
-                      {tier.badge}
+                      {tier.label}
                     </span>
                   </div>
 
-                  <h3 className="text-base sm:text-lg font-serif font-semibold uppercase text-soft-black mb-1">
+                  <h3 className={`text-lg xl:text-xl font-serif font-bold mb-1.5 ${
+                    tier.popular ? 'text-white' : 'text-soft-black'
+                  }`}>
                     {tier.title}
                   </h3>
 
-                  <div className="my-4 py-3 border-y border-stone/20">
-                    <span className="text-xl sm:text-2xl font-serif font-bold text-soft-black block leading-none">
+                  <div className={`my-3.5 p-3.5 xl:p-4 rounded-2xl ${
+                    tier.popular ? 'bg-white/10' : 'bg-white'
+                  }`}>
+                    <div className="text-xl xl:text-2xl font-serif font-bold leading-none mb-1">
                       {tier.range}
-                    </span>
-                    <span className="text-[10.5px] text-dark-charcoal/60 font-medium block mt-1">
+                    </div>
+                    <span className={`text-[10.5px] xl:text-[11px] block ${
+                      tier.popular ? 'text-white/70' : 'text-dark-charcoal/65'
+                    }`}>
                       Lead Time: {tier.leadTime}
                     </span>
                   </div>
 
-                  <ul className="space-y-2.5 mb-6">
-                    {tier.features.map((feat, fIdx) => (
-                      <li key={fIdx} className="flex items-start gap-2 text-[11px] sm:text-xs text-dark-charcoal/80 font-light leading-snug">
-                        <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                        <span>{feat}</span>
-                      </li>
+                  <p className={`text-xs leading-relaxed font-light mb-5 xl:mb-6 ${
+                    tier.popular ? 'text-white/80' : 'text-dark-charcoal/75'
+                  }`}>
+                    {tier.description}
+                  </p>
+
+                  <div className="space-y-2.5 xl:space-y-3 mb-6 xl:mb-8">
+                    {tier.highlights.map((item, idx) => (
+                      <div key={idx} className="text-xs">
+                        <span className={`block text-[9.5px] xl:text-[10px] font-bold uppercase tracking-wider ${
+                          tier.popular ? 'text-warm-sand' : 'text-dark-charcoal/60'
+                        }`}>
+                          {item.key}
+                        </span>
+                        <span className={`font-medium leading-snug ${
+                          tier.popular ? 'text-white/95' : 'text-soft-black'
+                        }`}>
+                          {item.val}
+                        </span>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
 
                 <a 
-                  href={`https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20am%20interested%20in%20${encodeURIComponent(tier.tier + ' (' + tier.title + ' - ' + tier.range + ')')}%20wholesale%20production.`}
+                  href={`https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20am%20inquiring%20about%20${encodeURIComponent(tier.tier + ' (' + tier.title + ' - ' + tier.range + ')')}%20wholesale%20manufacturing.`}
                   target="_blank"
                   rel="noreferrer"
-                  className={`w-full py-3 text-center text-xs font-bold uppercase tracking-[0.15em] rounded transition-all block ${
+                  className={`w-full py-3.5 text-center text-xs font-bold uppercase tracking-[0.16em] rounded-xl transition-colors block cursor-pointer ${
                     tier.popular 
-                      ? 'bg-soft-black text-cream hover:bg-dark-charcoal' 
-                      : 'bg-white border border-stone/30 text-soft-black hover:border-soft-black hover:bg-soft-black hover:text-cream'
+                      ? 'bg-white text-[#1C2841] hover:bg-cream' 
+                      : 'bg-soft-black text-cream hover:bg-terracotta'
                   }`}
                 >
-                  SELECT TIER
+                  Select Tier
                 </a>
               </div>
             ))}
           </div>
 
-          <div className="mt-8 text-center">
-            <p className="text-xs text-dark-charcoal/60 italic">
-              * FOB Export pricing (USD) and domestic BDT commercial pricing available upon quotation. Custom quotes include freight estimation.
+          {/* TABLET VIEW: 2X2 GRID (Visible on md: 768px to 1023px) */}
+          <div className="hidden md:grid lg:hidden grid-cols-2 gap-4">
+            {pricingTiers.map((tier) => (
+              <div 
+                key={tier.id}
+                className={`rounded-3xl p-6 flex flex-col justify-between transition-colors ${
+                  tier.popular 
+                    ? 'bg-[#1C2841] text-white' 
+                    : 'bg-[#FAF8F5] text-soft-black'
+                }`}
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className={`text-[10px] font-mono font-bold uppercase tracking-widest ${
+                      tier.popular ? 'text-warm-sand' : 'text-terracotta'
+                    }`}>
+                      {tier.tier}
+                    </span>
+                    <span className={`text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${
+                      tier.popular ? 'bg-white/15 text-white' : 'bg-white text-soft-black'
+                    }`}>
+                      {tier.label}
+                    </span>
+                  </div>
+
+                  <h3 className={`text-xl font-serif font-bold mb-1 ${
+                    tier.popular ? 'text-white' : 'text-soft-black'
+                  }`}>
+                    {tier.title}
+                  </h3>
+
+                  <div className={`my-3.5 p-3.5 rounded-2xl ${
+                    tier.popular ? 'bg-white/10' : 'bg-white'
+                  }`}>
+                    <div className="text-2xl font-serif font-bold leading-none mb-1">
+                      {tier.range}
+                    </div>
+                    <span className={`text-[11px] block ${
+                      tier.popular ? 'text-white/70' : 'text-dark-charcoal/65'
+                    }`}>
+                      Lead Time: {tier.leadTime}
+                    </span>
+                  </div>
+
+                  <p className={`text-xs leading-relaxed font-light mb-5 ${
+                    tier.popular ? 'text-white/80' : 'text-dark-charcoal/75'
+                  }`}>
+                    {tier.description}
+                  </p>
+
+                  <div className="space-y-2.5 mb-6">
+                    {tier.highlights.map((item, idx) => (
+                      <div key={idx} className="text-xs">
+                        <span className={`block text-[9.5px] font-bold uppercase tracking-wider ${
+                          tier.popular ? 'text-warm-sand' : 'text-dark-charcoal/60'
+                        }`}>
+                          {item.key}
+                        </span>
+                        <span className={`font-medium leading-snug ${
+                          tier.popular ? 'text-white/95' : 'text-soft-black'
+                        }`}>
+                          {item.val}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <a 
+                  href={`https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20am%20inquiring%20about%20${encodeURIComponent(tier.tier + ' (' + tier.title + ' - ' + tier.range + ')')}%20wholesale%20manufacturing.`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`w-full py-3.5 text-center text-xs font-bold uppercase tracking-[0.16em] rounded-xl transition-colors block cursor-pointer ${
+                    tier.popular 
+                      ? 'bg-white text-[#1C2841]' 
+                      : 'bg-soft-black text-cream'
+                  }`}
+                >
+                  Select Tier
+                </a>
+              </div>
+            ))}
+          </div>
+
+          {/* MOBILE VIEW: SEGMENTED TIER SELECTOR (Visible on screens < md: phones) */}
+          <div className="block md:hidden">
+            {/* Segmented Tier Pills */}
+            <div className="grid grid-cols-4 gap-1.5 p-1.5 bg-[#FAF8F5] rounded-2xl mb-4">
+              {pricingTiers.map((t, idx) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => setSelectedMobileTier(idx)}
+                  className={`py-2.5 rounded-xl text-[10.5px] font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                    selectedMobileTier === idx 
+                      ? 'bg-soft-black text-cream' 
+                      : 'text-dark-charcoal/70 hover:text-soft-black'
+                  }`}
+                >
+                  T0{idx + 1}
+                </button>
+              ))}
+            </div>
+
+            {/* Active Tier Mobile Card */}
+            {(() => {
+              const activeTier = pricingTiers[selectedMobileTier];
+              return (
+                <div className={`rounded-3xl p-5 sm:p-6 text-left transition-colors ${
+                  activeTier.popular ? 'bg-[#1C2841] text-white' : 'bg-[#FAF8F5] text-soft-black'
+                }`}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className={`text-[10px] font-mono font-bold uppercase tracking-widest ${
+                      activeTier.popular ? 'text-warm-sand' : 'text-terracotta'
+                    }`}>
+                      {activeTier.tier}
+                    </span>
+                    <span className={`text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${
+                      activeTier.popular ? 'bg-white/15 text-white' : 'bg-white text-soft-black'
+                    }`}>
+                      {activeTier.label}
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl font-serif font-bold mb-1">
+                    {activeTier.title}
+                  </h3>
+
+                  <div className={`my-3 p-3.5 rounded-2xl ${
+                    activeTier.popular ? 'bg-white/10' : 'bg-white'
+                  }`}>
+                    <div className="text-2xl font-serif font-bold leading-none mb-1">
+                      {activeTier.range}
+                    </div>
+                    <span className={`text-[11px] block ${
+                      activeTier.popular ? 'text-white/70' : 'text-dark-charcoal/65'
+                    }`}>
+                      Lead Time: {activeTier.leadTime}
+                    </span>
+                  </div>
+
+                  <p className={`text-xs leading-relaxed font-light mb-4 ${
+                    activeTier.popular ? 'text-white/80' : 'text-dark-charcoal/75'
+                  }`}>
+                    {activeTier.description}
+                  </p>
+
+                  <div className="space-y-2.5 mb-5">
+                    {activeTier.highlights.map((item, idx) => (
+                      <div key={idx} className="text-xs">
+                        <span className={`block text-[9.5px] font-bold uppercase tracking-wider ${
+                          activeTier.popular ? 'text-warm-sand' : 'text-dark-charcoal/60'
+                        }`}>
+                          {item.key}
+                        </span>
+                        <span className={`font-medium leading-snug ${
+                          activeTier.popular ? 'text-white/95' : 'text-soft-black'
+                        }`}>
+                          {item.val}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <a 
+                    href={`https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20am%20inquiring%20about%20${encodeURIComponent(activeTier.tier + ' (' + activeTier.title + ' - ' + activeTier.range + ')')}%20wholesale%20manufacturing.`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`w-full py-3.5 text-center text-xs font-bold uppercase tracking-[0.16em] rounded-xl transition-colors block cursor-pointer ${
+                      activeTier.popular 
+                        ? 'bg-white text-[#1C2841]' 
+                        : 'bg-soft-black text-cream'
+                    }`}
+                  >
+                    Select {activeTier.tier}
+                  </a>
+                </div>
+              );
+            })()}
+          </div>
+
+          <p className="text-xs text-dark-charcoal/60 italic text-center mt-10">
+            FOB export shipping quotes (USD) and domestic commercial BDT pricing delivered within 2 hours.
+          </p>
+
+        </div>
+      </section>
+
+
+      {/* =========================================================================
+          SECTION 3: PHOTO-LED B2B MANUFACTURING CAPABILITIES
+          Using real workshop assets:
+          - b2bWholesaleImg (wholesale_production.jpg)
+          - b2bPrivateLabelImg (private_label.jpg)
+          - b2bCustomColoursImg (custom_colours.jpg)
+          - b2bRepeatOrdersImg (repeat_orders.jpg)
+          ========================================================================= */}
+      <section className="py-14 sm:py-18 md:py-20 lg:py-24 bg-[#FAF8F5]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          
+          <div className="max-w-3xl mb-10 sm:mb-12 lg:mb-16 text-left">
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-2.5">
+              Production Capabilities
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-soft-black tracking-tight leading-tight mb-2 sm:mb-3">
+              Crafted in Our Dedicated Workshop
+            </h2>
+            <p className="text-xs sm:text-sm md:text-base text-dark-charcoal/75 font-light leading-relaxed max-w-xl">
+              From raw 100% natural cotton cord to bespoke Pantone dyeing and private label branding, all steps are controlled under our strict quality assurance protocol.
             </p>
+          </div>
+
+          {/* Asymmetric 4-Card Photo Bento Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+            
+            {/* Capability 1: Artisan Knotting at Scale */}
+            <div className="bg-white rounded-3xl overflow-hidden flex flex-col justify-between">
+              <div className="aspect-[16/10] overflow-hidden bg-stone/10">
+                <img 
+                  src={b2bWholesaleImg} 
+                  alt="Artisan Knotting at Scale"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-5 sm:p-7 lg:p-8 text-left">
+                <span className="text-[9.5px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-terracotta block mb-1.5">
+                  01 / Hand-Knotted Construction
+                </span>
+                <h3 className="text-lg sm:text-xl lg:text-2xl font-serif font-bold text-soft-black mb-1.5 sm:mb-2">
+                  Artisan Knotting at Scale
+                </h3>
+                <p className="text-xs sm:text-sm text-dark-charcoal/80 font-light leading-relaxed">
+                  Every belt is hand-braided by experienced Bangladeshi artisans using rigid standardized weaving templates. Consistent diamond-knot tension prevents sagging and guarantees exact millimeter sizing across thousands of pieces.
+                </p>
+              </div>
+            </div>
+
+            {/* Capability 2: Bespoke Private Labeling & Hardware */}
+            <div className="bg-white rounded-3xl overflow-hidden flex flex-col justify-between">
+              <div className="aspect-[16/10] overflow-hidden bg-stone/10">
+                <img 
+                  src={b2bPrivateLabelImg} 
+                  alt="Private Labeling and Custom Hardware"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-5 sm:p-7 lg:p-8 text-left">
+                <span className="text-[9.5px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-terracotta block mb-1.5">
+                  02 / Custom Branding
+                </span>
+                <h3 className="text-lg sm:text-xl lg:text-2xl font-serif font-bold text-soft-black mb-1.5 sm:mb-2">
+                  Private Label &amp; Buckle Engraving
+                </h3>
+                <p className="text-xs sm:text-sm text-dark-charcoal/80 font-light leading-relaxed">
+                  We integrate your brand identity seamlessly: high-definition woven damask tags, custom debossed genuine leather end-patches, laser-engraved buckle hardware, and custom-cast buckle molds for signature hardware collections.
+                </p>
+              </div>
+            </div>
+
+            {/* Capability 3: Pantone TCX / TPX Yarn Dyeing */}
+            <div className="bg-white rounded-3xl overflow-hidden flex flex-col justify-between">
+              <div className="aspect-[16/10] overflow-hidden bg-stone/10">
+                <img 
+                  src={b2bCustomColoursImg} 
+                  alt="Pantone Color Matching and Lab Dip Dyeing"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-5 sm:p-7 lg:p-8 text-left">
+                <span className="text-[9.5px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-terracotta block mb-1.5">
+                  03 / Bespoke Color Matching
+                </span>
+                <h3 className="text-lg sm:text-xl lg:text-2xl font-serif font-bold text-soft-black mb-1.5 sm:mb-2">
+                  Pantone Lab-Dip Development
+                </h3>
+                <p className="text-xs sm:text-sm text-dark-charcoal/80 font-light leading-relaxed">
+                  Provide your seasonal Pantone TCX or TPX palette and our dye house formulates exact colorway lab-dips. Physical dyed cotton yarn swatches are express-shipped to your design studio for approval before bulk braiding begins.
+                </p>
+              </div>
+            </div>
+
+            {/* Capability 4: Export Packaging & Repeat Orders */}
+            <div className="bg-white rounded-3xl overflow-hidden flex flex-col justify-between">
+              <div className="aspect-[16/10] overflow-hidden bg-stone/10">
+                <img 
+                  src={b2bRepeatOrdersImg} 
+                  alt="Packaging and Export Logistics"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-5 sm:p-7 lg:p-8 text-left">
+                <span className="text-[9.5px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-terracotta block mb-1.5">
+                  04 / Retail-Ready Delivery
+                </span>
+                <h3 className="text-lg sm:text-xl lg:text-2xl font-serif font-bold text-soft-black mb-1.5 sm:mb-2">
+                  Export Cartons &amp; Global Logistics
+                </h3>
+                <p className="text-xs sm:text-sm text-dark-charcoal/80 font-light leading-relaxed">
+                  Each piece is rolled with a moisture-barrier bio sleeve and silica pack, boxed in heavy-duty 5-ply export master cartons with your custom destination marks. Shipped door-to-door via DHL/FedEx or palletized via Chattogram port.
+                </p>
+              </div>
+            </div>
+
           </div>
 
         </div>
       </section>
 
-      {/* WHOLESALE — SECTION 3: TECHNICAL OEM SPECIFICATION MATRIX */}
-      <section className="py-16 md:py-24 bg-cream border-b border-stone/15">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+
+      {/* =========================================================================
+          SECTION 4: TECHNICAL SPECIFICATIONS GUIDE
+          Interactive category tab switcher with clean flat spec sheet
+          Zero borders, zero dots, zero shadows.
+          ========================================================================= */}
+      <section className="py-14 sm:py-18 md:py-20 lg:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
           
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
-              TECHNICAL SPECIFICATIONS
+          <div className="max-w-3xl mb-10 sm:mb-12 lg:mb-16 text-left">
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-2.5">
+              Technical Documentation
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
-              OEM & CUSTOMIZATION GUIDE
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-soft-black tracking-tight leading-tight mb-2 sm:mb-3">
+              Materials &amp; Construction Specs
             </h2>
-            <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light max-w-xl mx-auto leading-relaxed">
-              Explore material standards, hardware options, branding methods, and lab-dip color development available for your brand.
+            <p className="text-xs sm:text-sm md:text-base text-dark-charcoal/75 font-light leading-relaxed max-w-xl">
+              Inspect technical standards across yarn fibers, alloy buckle plating, private label accessories, and dye chemistry.
             </p>
           </div>
 
-          {/* Interactive Specification Tabs */}
           <div className="max-w-4xl mx-auto">
-            
-            {/* Tab Buttons */}
-            <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:justify-center gap-2 sm:gap-3 mb-8">
+            {/* Category Tabs */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-5 sm:mb-6">
               {[
-                { id: 'cord', label: 'Yarn & Weave', icon: Layers },
-                { id: 'hardware', label: 'Buckles & Alloy', icon: Sliders },
-                { id: 'branding', label: 'Labels & Packaging', icon: Tag },
-                { id: 'dyeing', label: 'Pantone Dyeing', icon: Palette },
+                { id: 'cord', label: 'Yarn & Weave' },
+                { id: 'hardware', label: 'Buckles & Alloys' },
+                { id: 'branding', label: 'Private Label' },
+                { id: 'dyeing', label: 'Pantone Dyeing' }
               ].map((tab) => {
-                const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
                 return (
                   <button
                     key={tab.id}
+                    type="button"
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                    className={`py-3 sm:py-3.5 px-3 sm:px-4 rounded-2xl text-[11px] sm:text-xs font-bold uppercase tracking-wider text-center transition-colors cursor-pointer ${
                       isActive 
-                        ? 'bg-soft-black text-cream shadow-md scale-102' 
-                        : 'bg-white/80 border border-stone/30 text-dark-charcoal hover:bg-white hover:border-soft-black/40'
+                        ? 'bg-soft-black text-cream' 
+                        : 'bg-[#FAF8F5] text-dark-charcoal/75 hover:bg-[#F2EDE4]'
                     }`}
                   >
-                    <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-terracotta' : 'text-dark-charcoal/60'}`} />
                     <span>{tab.label}</span>
                   </button>
                 );
               })}
             </div>
 
-            {/* Active Tab Panel */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-                className="bg-white border border-stone/20 rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-sm"
-              >
-                <div className="mb-6 pb-6 border-b border-stone/15">
-                  <h3 className="text-xl sm:text-2xl font-serif font-semibold uppercase text-soft-black mb-2">
-                    {specCategories[activeTab].title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-dark-charcoal/80 font-light leading-relaxed">
-                    {specCategories[activeTab].desc}
-                  </p>
-                </div>
+            {/* Spec Panel */}
+            <div className="bg-[#FAF8F5] rounded-3xl p-5 sm:p-8 lg:p-10 text-left">
+              <div className="mb-5 sm:mb-6">
+                <h3 className="text-lg sm:text-xl lg:text-2xl font-serif font-bold text-soft-black mb-1">
+                  {specCategories[activeTab].title}
+                </h3>
+                <p className="text-xs sm:text-sm text-dark-charcoal/70 font-light">
+                  {specCategories[activeTab].subtitle}
+                </p>
+              </div>
 
-                <div className="divide-y divide-stone/15">
-                  {specCategories[activeTab].specs.map((item, idx) => (
-                    <div key={idx} className="py-3.5 sm:py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4">
-                      <span className="text-xs sm:text-sm font-semibold text-soft-black">
-                        {item.label}
-                      </span>
-                      <span className="text-xs sm:text-sm text-dark-charcoal/80 font-light sm:text-right">
-                        {item.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            </AnimatePresence>
+              <div className="space-y-2">
+                {specCategories[activeTab].specs.map((item, idx) => (
+                  <div 
+                    key={idx} 
+                    className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 sm:p-4 rounded-2xl bg-white text-xs sm:text-[13px] gap-1 sm:gap-4"
+                  >
+                    <span className="font-bold text-soft-black shrink-0">
+                      {item.label}
+                    </span>
+                    <span className="text-dark-charcoal/80 font-normal sm:text-right">
+                      {item.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
 
           </div>
 
         </div>
       </section>
 
-      {/* WHOLESALE — SECTION 4: 100% SAMPLE COST CREDIT POLICY */}
-      <section className="py-16 md:py-24 bg-white border-b border-stone/15">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+
+      {/* =========================================================================
+          SECTION 5: 100% SAMPLE COST CREDIT PROTOCOL
+          Clear 3-step visual timeline for risk-free brand sampling
+          ========================================================================= */}
+      <section className="py-14 sm:py-18 md:py-20 lg:py-24 bg-[#FAF8F5]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
           
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
-              ZERO-RISK SAMPLING
+          <div className="max-w-3xl mb-10 sm:mb-12 lg:mb-16 text-left">
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-2.5">
+              Risk-Free Evaluation
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
-              100% SAMPLE COST CREDIT
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-soft-black tracking-tight leading-tight mb-2 sm:mb-3">
+              100% Sample Rebate Protocol
             </h2>
-            <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light max-w-xl mx-auto leading-relaxed">
-              We believe in our craftsmanship. Experience knot density, finish quality, and comfort firsthand in your studio before bulk commitment.
+            <p className="text-xs sm:text-sm md:text-base text-dark-charcoal/75 font-light leading-relaxed max-w-xl">
+              We stand by our craftsmanship. Experience handfeel, knot density, and hardware finishing in your studio before committing to bulk volume.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto mb-10 lg:mb-12">
             
-            <div className="bg-[#FAF7F2] border border-[#E8E0D2] rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:border-soft-black/40 transition-colors">
+            {/* Step 1 */}
+            <div className="bg-white rounded-3xl p-6 sm:p-7 lg:p-8 text-left flex flex-col justify-between">
               <div>
-                <div className="w-10 h-10 rounded-full bg-soft-black text-cream flex items-center justify-center mb-4">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <h3 className="text-base sm:text-lg font-serif font-semibold uppercase text-soft-black mb-2">
-                  Full Invoice Deduction
+                <span className="text-2xl sm:text-3xl font-serif font-bold text-soft-black block mb-2.5 sm:mb-3">
+                  01
+                </span>
+                <h3 className="text-base sm:text-lg font-serif font-bold text-soft-black mb-1.5 sm:mb-2">
+                  Order Evaluation Sample
                 </h3>
                 <p className="text-xs sm:text-sm text-dark-charcoal/75 font-light leading-relaxed">
-                  The entire product cost of your sample order is deducted 100% directly from your first bulk manufacturing purchase invoice.
+                  Select your exact belt color and size directly through our online sample dispatch portal. Hand-knotted and dispatched within 5–7 days via express courier.
                 </p>
               </div>
             </div>
 
-            <div className="bg-[#FAF7F2] border border-[#E8E0D2] rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:border-soft-black/40 transition-colors">
+            {/* Step 2 */}
+            <div className="bg-white rounded-3xl p-6 sm:p-7 lg:p-8 text-left flex flex-col justify-between">
               <div>
-                <div className="w-10 h-10 rounded-full bg-terracotta text-cream flex items-center justify-center mb-4">
-                  <RefreshCw className="w-5 h-5" />
-                </div>
-                <h3 className="text-base sm:text-lg font-serif font-semibold uppercase text-soft-black mb-2">
-                  5–7 Day Fast Dispatch
+                <span className="text-2xl sm:text-3xl font-serif font-bold text-terracotta block mb-2.5 sm:mb-3">
+                  02
+                </span>
+                <h3 className="text-base sm:text-lg font-serif font-bold text-soft-black mb-1.5 sm:mb-2">
+                  Studio Review &amp; Sign-Off
                 </h3>
                 <p className="text-xs sm:text-sm text-dark-charcoal/75 font-light leading-relaxed">
-                  Samples are hand-braided and dispatched with express tracking and physical specification sheets for your design review.
+                  Inspect weave density, drape, and buckle feel in your studio. This piece acts as the approved Golden Sample that our workshop matches on your bulk run.
                 </p>
               </div>
             </div>
 
-            <div className="bg-[#FAF7F2] border border-[#E8E0D2] rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:border-soft-black/40 transition-colors">
+            {/* Step 3 */}
+            <div className="bg-white rounded-3xl p-6 sm:p-7 lg:p-8 text-left flex flex-col justify-between">
               <div>
-                <div className="w-10 h-10 rounded-full bg-[#2D3A30] text-cream flex items-center justify-center mb-4">
-                  <Check className="w-5 h-5" />
-                </div>
-                <h3 className="text-base sm:text-lg font-serif font-semibold uppercase text-soft-black mb-2">
-                  Pre-Bulk QC Sign-Off
+                <span className="text-2xl sm:text-3xl font-serif font-bold text-emerald-800 block mb-2.5 sm:mb-3">
+                  03
+                </span>
+                <h3 className="text-base sm:text-lg font-serif font-bold text-soft-black mb-1.5 sm:mb-2">
+                  100% Invoice Credit
                 </h3>
                 <p className="text-xs sm:text-sm text-dark-charcoal/75 font-light leading-relaxed">
-                  Your physical sample acts as the certified master golden sample for our workshop to match every single bulk piece against.
+                  Upon placing your first bulk order of 100+ units, the full product cost of your evaluation sample is automatically deducted from your bulk invoice.
                 </p>
               </div>
             </div>
 
           </div>
 
-          <div className="text-center mt-10 sm:mt-12">
+          <div className="text-center">
             <Link 
               to="/sample-order" 
-              className="bg-soft-black text-cream px-9 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-dark-charcoal transition-all shadow-md inline-block"
+              className="inline-flex items-center gap-2 bg-soft-black text-cream px-8 sm:px-9 py-3.5 sm:py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-terracotta transition-colors"
             >
-              ORDER PHYSICAL SAMPLES
+              <span>Order Evaluation Samples</span>
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
         </div>
       </section>
 
-      {/* WHOLESALE — SECTION 5: EXPORT LOGISTICS & PACKAGING */}
-      <section className="py-16 md:py-24 bg-cream border-b border-stone/15">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+
+      {/* =========================================================================
+          SECTION 6: EXPORT PACKAGING & MULTI-MODAL LOGISTICS
+          ========================================================= */}
+      <section className="py-14 sm:py-18 md:py-20 lg:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
           
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
-              GLOBAL FULFILLMENT
+          <div className="max-w-3xl mb-10 sm:mb-12 lg:mb-16 text-left">
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-2.5">
+              Fulfillment Infrastructure
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
-              PACKAGING & EXPORT LOGISTICS
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-soft-black tracking-tight leading-tight mb-2 sm:mb-3">
+              Packaging &amp; Worldwide Logistics
             </h2>
-            <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light max-w-xl mx-auto leading-relaxed">
-              Export-grade carton packaging and reliable multi-modal freight options directly from Chattogram & Dhaka, Bangladesh.
+            <p className="text-xs sm:text-sm md:text-base text-dark-charcoal/75 font-light leading-relaxed max-w-xl">
+              Export-grade carton packaging and multi-modal transit directly from Chattogram Seaport and Dhaka International Airport.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 max-w-5xl mx-auto">
             
-            <div className="bg-white border border-stone/20 rounded-2xl p-6 sm:p-8 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-soft-black text-cream flex items-center justify-center">
-                    <Box className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-serif font-semibold uppercase text-soft-black">
-                      Carton Packing Standards
-                    </h3>
-                    <span className="text-xs text-terracotta font-semibold">Retail-Ready & Protected</span>
-                  </div>
+            {/* Packaging Card */}
+            <div className="bg-[#FAF8F5] rounded-3xl p-6 sm:p-8 lg:p-9 text-left">
+              <h3 className="text-lg sm:text-xl font-serif font-bold text-soft-black mb-3">
+                Master Carton Specifications
+              </h3>
+              <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-[13px] text-dark-charcoal/80 leading-relaxed font-light">
+                <div className="p-3 bg-white rounded-xl">
+                  <strong className="font-bold text-soft-black block mb-0.5">Inner Protective Bio-Sleeve:</strong>
+                  Each belt is individually rolled with moisture-barrier film and an active silica gel pack.
                 </div>
-                <ul className="space-y-2.5 text-xs sm:text-sm text-dark-charcoal/80 font-light leading-relaxed">
-                  <li className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                    <span>Each belt is rolled and sealed in an individual moisture-proof bio poly sleeve with silica gel pack.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                    <span>Heavy-duty 5-ply export master cartons (typically 50 or 100 units per carton) with waterproof liner.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                    <span>Custom outer carton barcode labels, weight markings, and destination shipping marks.</span>
-                  </li>
-                </ul>
+                <div className="p-3 bg-white rounded-xl">
+                  <strong className="font-bold text-soft-black block mb-0.5">5-Ply Export Master Cartons:</strong>
+                  Heavy-duty corrugated master cartons (50 or 100 units per box) lined with waterproof poly sheets.
+                </div>
+                <div className="p-3 bg-white rounded-xl">
+                  <strong className="font-bold text-soft-black block mb-0.5">Custom Shipping Marks:</strong>
+                  Destination labels, EAN/UPC barcodes, net/gross weight, and client PO numbers applied.
+                </div>
               </div>
             </div>
 
-            <div className="bg-white border border-stone/20 rounded-2xl p-6 sm:p-8 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-terracotta text-cream flex items-center justify-center">
-                    <Plane className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-serif font-semibold uppercase text-soft-black">
-                      Worldwide Freight Options
-                    </h3>
-                    <span className="text-xs text-terracotta font-semibold">Door-to-Door & Port-to-Port</span>
-                  </div>
+            {/* Transit Modes Card */}
+            <div className="bg-[#FAF8F5] rounded-3xl p-6 sm:p-8 lg:p-9 text-left">
+              <h3 className="text-lg sm:text-xl font-serif font-bold text-soft-black mb-3">
+                Transit Options &amp; Export Ports
+              </h3>
+              <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-[13px] text-dark-charcoal/80 leading-relaxed font-light">
+                <div className="p-3 bg-white rounded-xl">
+                  <strong className="font-bold text-soft-black block mb-0.5">Express Air Courier (DHL / FedEx):</strong>
+                  3–5 business days door-to-door delivery with real-time customs tracking. Ideal for boutique orders.
                 </div>
-                <ul className="space-y-2.5 text-xs sm:text-sm text-dark-charcoal/80 font-light leading-relaxed">
-                  <li className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                    <span><strong>Express Air Courier (DHL / FedEx):</strong> 3–6 business days door-to-door delivery with full tracking.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                    <span><strong>Commercial Air Cargo:</strong> 5–8 days airport-to-airport for mid-size bulk shipments.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                    <span><strong>Sea Freight (FOB / CIF):</strong> Cost-effective palletized container shipping via Chattogram Seaport.</span>
-                  </li>
-                </ul>
+                <div className="p-3 bg-white rounded-xl">
+                  <strong className="font-bold text-soft-black block mb-0.5">Air Cargo (Airport-to-Airport):</strong>
+                  5–7 days transit via Dhaka International Airport (DAC) for medium-to-large bulk shipments.
+                </div>
+                <div className="p-3 bg-white rounded-xl">
+                  <strong className="font-bold text-soft-black block mb-0.5">Ocean Freight (FOB / CIF):</strong>
+                  Palletized full container (FCL) or less-than-container (LCL) freight via Chattogram Seaport.
+                </div>
               </div>
             </div>
 
@@ -592,83 +1018,56 @@ const SampleWholesale = () => {
         </div>
       </section>
 
-      {/* WHOLESALE — SECTION 6: DIRECT WHATSAPP & FAST CHAT */}
-      <section className="py-16 md:py-24 bg-cream border-b border-stone/15">
-        <div className="max-w-4xl mx-auto px-5 sm:px-8 lg:px-12 text-center">
-          <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
-            HAVE A REFERENCE IMAGE OR TECH PACK?
+
+      {/* =========================================================================
+          SECTION 7: DIRECT WORKSHOP CONTACT & TECH PACK INTAKE
+          Ultra-clean, deep navy flat banner with cream typography
+          ========================================================================= */}
+      <section className="py-16 sm:py-20 md:py-24 lg:py-28 pb-24 md:pb-24 lg:pb-28 bg-[#131E33] text-cream">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 text-center">
+          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-warm-sand block mb-2 sm:mb-3">
+            Direct Workshop Collaboration
           </span>
           
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-soft-black tracking-tight leading-tight mb-2 sm:mb-4">
-            SEND YOUR IDEA DIRECTLY TO OUR WORKSHOP
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-cream tracking-tight leading-tight mb-3 sm:mb-4">
+            Have a Tech Pack or Reference Design?
           </h2>
           
-          <p className="text-xs sm:text-base md:text-lg text-dark-charcoal/80 font-light max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed">
-            Have a sketch, moodboard, or reference link? Connect with our master artisan team on WhatsApp for immediate feedback and feasibility assessment.
+          <p className="text-xs sm:text-sm md:text-base text-cream/75 font-light max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed">
+            Send your sketches, moodboards, or custom dimensional specs directly to our production lead. We review feasibility and deliver quotes within 2 hours.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
             <a 
-              href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20would%20like%20to%20discuss%20a%20wholesale%20/%20custom%20OEM%20production%20project."
+              href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20have%20a%20tech%20pack%20/%20reference%20design%20to%20discuss%20for%20wholesale%20production."
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-dark-charcoal hover:text-white transition-all shadow-md hover:shadow-xl inline-flex items-center justify-center gap-2.5 group"
+              className="w-full sm:w-auto bg-cream text-soft-black px-8 sm:px-9 py-3.5 sm:py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-warm-sand transition-colors flex items-center justify-center gap-2.5 cursor-pointer"
             >
-              <MessageCircle className="w-4 h-4 transition-transform group-hover:scale-110" />
-              <span>CHAT ON WHATSAPP</span>
+              <MessageCircle className="w-4 h-4 text-soft-black" />
+              <span>WhatsApp Workshop</span>
             </a>
             
             <a 
-              href="mailto:astmacrame@gmail.com?subject=Wholesale%20OEM%20Manufacturing%20Inquiry"
-              className="w-full sm:w-auto bg-transparent border border-soft-black/30 text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-soft-black hover:text-cream hover:border-soft-black transition-all inline-flex items-center justify-center gap-2.5 group"
+              href="mailto:astmacrame@gmail.com?subject=Wholesale%20OEM%20Manufacturing%20Tech%20Pack"
+              className="w-full sm:w-auto bg-white/10 text-cream px-8 sm:px-9 py-3.5 sm:py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-white/20 transition-colors flex items-center justify-center gap-2.5 cursor-pointer"
             >
-              <Mail className="w-4 h-4 transition-transform group-hover:scale-110" />
-              <span>EMAIL TECH PACKS</span>
+              <Mail className="w-4 h-4 text-warm-sand" />
+              <span>Email Tech Pack</span>
             </a>
-          </div>
-        </div>
-      </section>
 
-      {/* WHOLESALE — SECTION 7: FINAL CTA */}
-      <section className="py-20 md:py-32 bg-[#131E33] text-cream px-6 relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-warm-sand mb-2 sm:mb-3 block">
-            START YOUR PARTNERSHIP
-          </span>
-          
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-semibold uppercase text-cream tracking-tight leading-tight mb-2 sm:mb-4">
-            READY TO SCALE YOUR COLLECTION?
-          </h2>
-          
-          <p className="text-xs sm:text-base md:text-lg text-cream/80 font-light mb-8 sm:mb-12 max-w-xl mx-auto leading-relaxed">
-            Test our craftsmanship with online sample belts or submit your bulk manufacturing specifications today.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link 
               to="/sample-order" 
-              className="relative overflow-hidden group w-full sm:w-auto bg-cream text-soft-black px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:bg-warm-sand hover:shadow-2xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 shadow-xl text-center"
+              className="w-full sm:w-auto bg-terracotta text-cream px-8 sm:px-9 py-3.5 sm:py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-[#1A253D] transition-colors flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
-              <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">ORDER SAMPLES ONLINE</span>
+              <span>Order Samples</span>
+              <ArrowUpRight className="w-4 h-4" />
             </Link>
-            
-            <a 
-              href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20would%20like%20to%20request%20a%20wholesale%20quote."
-              target="_blank"
-              rel="noreferrer"
-              className="relative overflow-hidden group w-full sm:w-auto bg-transparent border border-cream/40 text-cream px-10 py-4.5 text-xs font-bold uppercase tracking-[0.2em] rounded hover:border-cream hover:text-soft-black hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 text-center"
-            >
-              <span className="absolute inset-0 bg-cream translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
-              <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em]">GET A CUSTOM QUOTE</span>
-            </a>
           </div>
         </div>
       </section>
 
-      {/* Legacy Inquiry Modal Support */}
+      {/* Inquiry Modal */}
       <InquiryModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 

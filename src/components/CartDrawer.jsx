@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ShoppingBag, Plus, Minus, Trash2, ArrowRight, ShieldCheck, Sparkles, PackageCheck } from 'lucide-react';
+import { X, ShoppingBag, Plus, Minus, Trash2, ArrowRight, ShieldCheck, PackageCheck } from 'lucide-react';
 import { useCartWishlist, calculateTierPriceBDT, calculateWomenTierPriceBDT, calculateKidsTierPriceBDT } from '../context/CartWishlistContext';
 import { useStoreConfig } from '../context/StoreConfigContext';
 import SampleOrderDrawer from './SampleOrderDrawer';
@@ -122,7 +122,7 @@ const CartDrawer = () => {
               className="relative w-[75vw] sm:w-full sm:max-w-md bg-cream h-[100dvh] shadow-2xl z-10 flex flex-col overflow-hidden overscroll-contain"
             >
               {/* Header */}
-              <div className="px-3.5 py-3 sm:px-5 sm:py-4 bg-cream border-b border-stone/15 flex items-center justify-between shadow-2xs shrink-0">
+              <div className="px-3.5 py-3 sm:px-5 sm:py-4 bg-cream flex items-center justify-between shadow-2xs shrink-0">
                 <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
                   <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 ${cart.length === 0 ? 'bg-soft-black text-cream' : isRetailCart ? 'bg-terracotta text-cream' : 'bg-soft-black text-cream'}`}>
                     <ShoppingBag className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -133,7 +133,7 @@ const CartDrawer = () => {
                         {cart.length === 0 ? 'Shopping Cart' : isRetailCart ? 'Retail Cart' : 'Sample Cart'}
                       </h2>
                       {cart.length > 0 && isRetailCart && (
-                        <span className="bg-emerald-100 text-emerald-800 text-[8.5px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider whitespace-nowrap">
+                        <span className="bg-[#FAF7F2] text-soft-black text-[8.5px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider whitespace-nowrap">
                           COD Bangladesh
                         </span>
                       )}
@@ -157,7 +157,7 @@ const CartDrawer = () => {
               <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-5 flex flex-col overscroll-contain">
                 {cart.length === 0 ? (
                   <div className="h-full my-auto flex flex-col items-center justify-center text-center px-4 py-12">
-                    <div className="w-14 h-14 rounded-full bg-white border border-stone/15 flex items-center justify-center text-dark-charcoal/40 mb-3 shadow-xs">
+                    <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-dark-charcoal/40 mb-3 shadow-xs">
                       <ShoppingBag className="w-6 h-6 stroke-[1.5]" />
                     </div>
                     <h3 className="font-serif text-base sm:text-lg font-bold text-soft-black mb-1">Your Cart is Empty</h3>
@@ -235,9 +235,9 @@ const CartDrawer = () => {
                           initial={{ opacity: 0, y: 15 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, scale: 0.95 }}
-                          className="bg-white border border-stone/15 rounded-2xl p-2.5 sm:p-3.5 shadow-2xs flex items-start gap-2.5 sm:gap-3.5 group"
+                          className="bg-white rounded-2xl p-2.5 sm:p-3.5 shadow-2xs flex items-start gap-2.5 sm:gap-3.5 group"
                         >
-                          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-stone/5 border border-stone/10 shrink-0 mt-0.5">
+                          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-stone/5 shrink-0 mt-0.5">
                             <img
                               src={item.image}
                               alt={item.color}
@@ -262,7 +262,7 @@ const CartDrawer = () => {
 
                             {/* Detail Specifications */}
                             {isCombo ? (
-                              <div className="text-[11px] text-dark-charcoal/75 my-1 space-y-0.5 bg-stone-50 p-1.5 rounded-lg border border-stone/10">
+                              <div className="text-[11px] text-dark-charcoal/75 my-1 space-y-0.5 bg-stone-50 p-1.5 rounded-lg">
                                 <div>1st: <strong className="text-soft-black">{item.comboColor1} ({item.comboSize1})</strong></div>
                                 <div>2nd: <strong className="text-soft-black">{item.comboColor2} ({item.comboSize2})</strong></div>
                               </div>
@@ -310,8 +310,8 @@ const CartDrawer = () => {
                             </div>
 
                             {/* Stepper */}
-                            <div className="flex items-center justify-between mt-2 pt-1 border-t border-stone/10">
-                              <div className="flex items-center bg-stone/10 border border-stone/20 rounded p-0.5">
+                            <div className="flex items-center justify-between mt-2 pt-1">
+                              <div className="flex items-center bg-stone/10 rounded p-0.5">
                                 <button
                                   type="button"
                                   onClick={() => updateCartQuantity(item.id, item.quantity - 1)}
@@ -347,7 +347,7 @@ const CartDrawer = () => {
 
               {/* Order Summary Footer */}
               {cart.length > 0 && (
-                <div className="p-3 sm:p-3.5 bg-white border-t border-stone/15 space-y-2 shadow-lg shrink-0">
+                <div className="p-3 sm:p-3.5 bg-white space-y-2 shadow-lg shrink-0">
                   
                   {/* Minimal Compressed Motivational Bar */}
                   {isRetailCart ? (
@@ -377,18 +377,13 @@ const CartDrawer = () => {
                       if (!msg) return null;
 
                       return (
-                        <div className={`py-1.5 px-2.5 rounded-lg border text-[11px] leading-tight ${
-                          isMax 
-                            ? 'bg-emerald-50/80 border-emerald-200/80 text-emerald-950 font-medium' 
-                            : 'bg-amber-50/80 border-amber-200/80 text-amber-950 font-medium'
-                        }`}>
-                          <div className="flex items-center gap-1.5 mb-1 truncate">
-                            <Sparkles className={`w-3 h-3 shrink-0 ${isMax ? 'text-emerald-600' : 'text-amber-600'}`} />
+                        <div className="py-2 px-3 rounded-xl bg-[#FAF7F2] text-soft-black text-[11px] leading-tight">
+                          <div className="flex items-center justify-between mb-1.5 font-medium">
                             <span className="truncate">{msg}</span>
                           </div>
-                          <div className="w-full bg-black/10 rounded-full h-1 overflow-hidden">
+                          <div className="w-full bg-[#EAE5DA] rounded-full h-1 overflow-hidden">
                             <div 
-                              className={`h-full rounded-full transition-all duration-500 ${isMax ? 'bg-emerald-600' : 'bg-terracotta'}`}
+                              className="h-full rounded-full transition-all duration-500 bg-[#1C2841]"
                               style={{ width: `${percent}%` }}
                             />
                           </div>
@@ -420,18 +415,13 @@ const CartDrawer = () => {
                       }
 
                       return (
-                        <div className={`py-1.5 px-2.5 rounded-lg border text-[11px] leading-tight ${
-                          isMax 
-                            ? 'bg-emerald-50/80 border-emerald-200/80 text-emerald-950 font-medium' 
-                            : 'bg-amber-50/80 border-amber-200/80 text-amber-950 font-medium'
-                        }`}>
-                          <div className="flex items-center gap-1.5 mb-1 truncate">
-                            <Sparkles className={`w-3 h-3 shrink-0 ${isMax ? 'text-emerald-600' : 'text-amber-600'}`} />
+                        <div className="py-2 px-3 rounded-xl bg-[#FAF7F2] text-soft-black text-[11px] leading-tight">
+                          <div className="flex items-center justify-between mb-1.5 font-medium">
                             <span className="truncate">{msg}</span>
                           </div>
-                          <div className="w-full bg-black/10 rounded-full h-1 overflow-hidden">
+                          <div className="w-full bg-[#EAE5DA] rounded-full h-1 overflow-hidden">
                             <div 
-                              className={`h-full rounded-full transition-all duration-500 ${isMax ? 'bg-emerald-600' : 'bg-terracotta'}`}
+                              className="h-full rounded-full transition-all duration-500 bg-[#1C2841]"
                               style={{ width: `${percent}%` }}
                             />
                           </div>
@@ -462,7 +452,7 @@ const CartDrawer = () => {
                         </span>
                       </div>
 
-                      <div className="flex justify-between text-sm sm:text-base font-bold text-soft-black pt-1.5 border-t border-stone/10">
+                      <div className="flex justify-between text-sm sm:text-base font-bold text-soft-black pt-1.5">
                         <span>Total (Pay on Delivery):</span>
                         <span className="text-terracotta">
                           ৳{(retailSellingTotalBDT + deliveryCharge).toLocaleString()}
@@ -492,7 +482,7 @@ const CartDrawer = () => {
                         </span>
                       </div>
 
-                      <div className="flex justify-between text-sm sm:text-base font-bold text-soft-black pt-1.5 border-t border-stone/10">
+                      <div className="flex justify-between text-sm sm:text-base font-bold text-soft-black pt-1.5">
                         <span>Total:</span>
                         <span className="text-terracotta">
                           {currencySymbol}{Math.round(totalPriceLocal + shippingCostLocal).toLocaleString()}
@@ -525,15 +515,15 @@ const CartDrawer = () => {
                     </button>
                   )}
 
-                  {/* Minimal 1-line Trust Badge */}
+                  {/* Minimal 1-line Trust Badge - Warm Brand Harmony */}
                   {isRetailCart ? (
-                    <div className="flex items-center justify-center gap-1.5 text-[10px] text-emerald-800 bg-emerald-50/60 border border-emerald-200/40 py-1 px-2 rounded-lg text-center">
-                      <ShieldCheck className="w-3 h-3 text-emerald-600 shrink-0" />
-                      <span>100% Cash on Delivery • Open-Box Inspection</span>
+                    <div className="flex items-center justify-center gap-1.5 text-[10.5px] text-dark-charcoal/80 bg-[#FAF7F2] py-2 px-3 rounded-xl text-center">
+                      <ShieldCheck className="w-3.5 h-3.5 text-terracotta shrink-0" />
+                      <span>100% Cash on Delivery — Open-Box Inspection</span>
                     </div>
                   ) : (
-                    <div className="flex items-center justify-center gap-1.5 text-[10px] text-emerald-800 bg-emerald-50/60 border border-emerald-200/40 py-1 px-2 rounded-lg text-center">
-                      <ShieldCheck className="w-3 h-3 text-emerald-600 shrink-0" />
+                    <div className="flex items-center justify-center gap-1.5 text-[10.5px] text-dark-charcoal/80 bg-[#FAF7F2] py-2 px-3 rounded-xl text-center">
+                      <ShieldCheck className="w-3.5 h-3.5 text-terracotta shrink-0" />
                       <span>100% Sample Rebate on Wholesale Orders</span>
                     </div>
                   )}
