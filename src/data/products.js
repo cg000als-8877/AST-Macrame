@@ -237,9 +237,9 @@ export const PRODUCTS = {
     comboPriceBDT: 1080,
     comboRegularPriceBDT: 1500,
     calculateTierPrice: calculateWomenTierPriceBDT,
-    sizes: ['31"', '36"'],
-    defaultSize: '31"',
-    dimensionsText: '2" Width • 31" / 36" Length',
+    sizes: ['M', 'L'],
+    defaultSize: 'M',
+    dimensionsText: '2" Width • M (31") / L (36") Length',
     colors: [
       {
         id: 'women-pink',
@@ -266,10 +266,10 @@ export const PRODUCTS = {
     ],
     sizeGuide: {
       title: 'Women’s Waist Belt Sizing Guide',
-      columns: ['Size', 'Total Length', 'Width', 'Fit'],
+      columns: ['Size', 'Waist Fit', 'Total Length', 'Fit'],
       rows: [
-        { size: '31"', length: '31 inches', waist: '24–30"', width: '2 inches', fit: 'Adjustable Tie' },
-        { size: '36"', length: '36 inches', waist: '30–38"', width: '2 inches', fit: 'Adjustable Tie' }
+        { size: 'M', waist: '24–30"', length: '31 inches', width: '2 inches', fit: 'Adjustable Tie' },
+        { size: 'L', waist: '30–38"', length: '36 inches', width: '2 inches', fit: 'Adjustable Tie' }
       ],
       width: '2"',
       note: '* Tie-Style Adjustability: Designed with generous woven end ties, allowing you to knot or bow at your preferred waist position for a tailored silhouette over any outfit.'

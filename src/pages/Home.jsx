@@ -999,9 +999,8 @@ const Home = () => {
             
             <a 
               href="mailto:astmacrame@gmail.com?subject=Custom%20Macrame%20Design%20/%20Reference%20Inquiry"
-              className="relative overflow-hidden group w-full sm:w-auto bg-white text-soft-black hover:text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 inline-flex items-center justify-center gap-2.5 cursor-pointer"
+              className="relative overflow-hidden group w-full sm:w-auto bg-white hover:bg-soft-black text-soft-black hover:text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 inline-flex items-center justify-center gap-2.5 cursor-pointer"
             >
-              <span className="absolute inset-0 bg-soft-black translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
               <Mail className="w-4 h-4 transition-all duration-300 group-hover:scale-110 group-hover:text-cream relative z-10" />
               <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.24em] group-hover:text-cream">SEND VIA EMAIL</span>
             </a>
@@ -1108,9 +1107,8 @@ const Home = () => {
             
             <Link 
               to="/sample-wholesale" 
-              className="relative overflow-hidden group w-full sm:w-auto bg-white/10 text-cream px-6 sm:px-10 py-3.5 sm:py-4.5 text-xs font-bold uppercase tracking-[0.16em] sm:tracking-[0.2em] rounded-xl hover:bg-white hover:text-soft-black hover:shadow-xl active:scale-[0.99] transition-all duration-300 text-center whitespace-nowrap"
+              className="relative overflow-hidden group w-full sm:w-auto bg-white/10 text-cream px-6 sm:px-10 py-3.5 sm:py-4.5 text-xs font-bold uppercase tracking-[0.16em] sm:tracking-[0.2em] rounded-xl hover:bg-cream hover:text-soft-black hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 text-center whitespace-nowrap"
             >
-              <span className="absolute inset-0 bg-cream translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none" />
               <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.22em]">WHOLESALE QUOTE</span>
             </Link>
           </div>

@@ -199,7 +199,7 @@ const ProductGallery = () => {
                         {/* Left: Color Swatch + Label */}
                         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                           <div 
-                            className="w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full shadow-2xs shrink-0" 
+                            className="w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full shrink-0" 
                             style={{ backgroundColor: item.hex }} 
                           />
                           <span className="text-[10px] sm:text-sm lg:text-xs xl:text-sm font-normal sm:font-bold text-soft-black uppercase tracking-wider">
@@ -213,7 +213,7 @@ const ProductGallery = () => {
                           {item.sizes.map((sz) => (
                             <span
                               key={sz}
-                              className="px-1.5 h-5 sm:h-7 rounded-md bg-[#FAF8F5] text-dark-charcoal/90 text-[9.5px] sm:text-xs font-normal sm:font-bold flex items-center justify-center select-none shadow-2xs"
+                              className="px-1.5 h-5 sm:h-7 rounded-md bg-[#FAF8F5] text-dark-charcoal/90 text-[9.5px] sm:text-xs font-normal sm:font-bold flex items-center justify-center select-none"
                               title={`Size ${sz} Available`}
                             >
                               {sz}
@@ -414,12 +414,12 @@ const ProductGallery = () => {
                       <span>Total Length</span>
                     </div>
                     <div className="grid grid-cols-3 py-3">
-                      <span className="font-bold text-soft-black">31"</span>
+                      <span className="font-bold text-soft-black">M</span>
                       <span className="text-soft-black/80">24–30 in</span>
                       <span className="text-soft-black/80">31 in</span>
                     </div>
                     <div className="grid grid-cols-3 py-3">
-                      <span className="font-bold text-soft-black">36"</span>
+                      <span className="font-bold text-soft-black">L</span>
                       <span className="text-soft-black/80">30–38 in</span>
                       <span className="text-soft-black/80">36 in</span>
                     </div>

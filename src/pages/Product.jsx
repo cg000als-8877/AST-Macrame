@@ -475,16 +475,16 @@ const Product = () => {
                     <button
                       key={color.name}
                       onClick={() => handleColorChange(color.name)}
-                      className={`group relative p-0.5 rounded-full transition-all duration-200 cursor-pointer ${
+                      className={`group relative p-[2px] rounded-full transition-all duration-200 cursor-pointer ${
                         isSelected
-                          ? 'ring-2 ring-soft-black ring-offset-2 scale-105'
-                          : 'ring-1 ring-black/10 hover:ring-black/30 hover:scale-105'
+                          ? 'border-[1.5px] border-soft-black scale-105'
+                          : 'border-[1.5px] border-transparent opacity-65 hover:opacity-100 hover:scale-105'
                       }`}
                       title={color.name}
                       aria-label={`Select color ${color.name}`}
                     >
                       <span
-                        className="block w-7 h-7 sm:w-8 sm:h-8 rounded-full shadow-inner"
+                        className="block w-7 h-7 sm:w-8 sm:h-8 rounded-full"
                         style={{ backgroundColor: color.hex }}
                       />
                     </button>

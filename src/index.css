@@ -261,6 +261,19 @@ textarea:not(.rounded-full) {
   border-radius: 10px;
 }
 
+/* Cross-browser native select arrow suppression for custom select elements */
+select.appearance-none,
+.appearance-none {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background-image: none !important;
+}
+
+select::-ms-expand {
+  display: none !important;
+}
+
 /* Buttons & Interactive Controls (10px - Tactile Luxury), preserving circular swatches & icon circles */
 button:not(.rounded-full):not([data-swatch]):not([style*="backgroundColor"]):not([style*="background-color"]):not([class*="rounded-none"]):not([class*="rounded-md"]):not([class*="rounded-sm"]),
 .btn:not(.rounded-full):not([class*="rounded-none"]):not([class*="rounded-md"]):not([class*="rounded-sm"]) {

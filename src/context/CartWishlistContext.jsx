@@ -291,7 +291,7 @@ export const CartWishlistProvider = ({ children }) => {
     const defaultTitle = isKids ? 'AST Handmade Macramé Kids Belt' : isWomen ? 'AST Women’s Handmade Macramé Waist Belt' : 'AST Handmade Macramé Belt';
     const defaultBasePrice = isKids ? 600 : isWomen ? 590 : 850;
     const defaultRegularPrice = isKids ? 850 : isWomen ? 750 : 1050;
-    const id = item.id || `${resolvedProductId !== 'adult' ? resolvedProductId + '-' : ''}${item.color || (isKids ? 'Neon Green' : isWomen ? 'Pink' : 'Black')}-${item.size || (isKids ? 'One' : isWomen ? '31"' : 'M')}`;
+    const id = item.id || `${resolvedProductId !== 'adult' ? resolvedProductId + '-' : ''}${item.color || (isKids ? 'Neon Green' : isWomen ? 'Pink' : 'Black')}-${item.size || (isKids ? 'One' : 'M')}`;
     const exists = wishlist.some(w => w.id === id);
     if (!exists) {
       const newItem = {
@@ -299,7 +299,7 @@ export const CartWishlistProvider = ({ children }) => {
         productId: resolvedProductId,
         title: item.title || defaultTitle,
         color: item.color || (isKids ? 'Neon Green' : isWomen ? 'Pink' : 'Black'),
-        size: item.size || (isKids ? 'One' : isWomen ? '31"' : 'M'),
+        size: item.size || (isKids ? 'One' : 'M'),
         priceBDT: item.priceBDT || defaultBasePrice,
         regularPriceBDT: item.regularPriceBDT || defaultRegularPrice,
         image: item.image || colorImageMap[item.color] || (isWomen ? wp1 : isKids ? '/AST Macrame Kids/Neon Green/1.webp' : b1),
@@ -325,7 +325,7 @@ export const CartWishlistProvider = ({ children }) => {
     const isKids = item.productId === 'kids' || (item.title && item.title.toLowerCase().includes('kids'));
     const isWomen = item.productId === 'women' || (item.title && (item.title.toLowerCase().includes('women') || item.title.toLowerCase().includes('waist')));
     const resolvedProductId = isKids ? 'kids' : isWomen ? 'women' : 'adult';
-    const id = item.id || `${resolvedProductId !== 'adult' ? resolvedProductId + '-' : ''}${item.color || (isKids ? 'Neon Green' : isWomen ? 'Pink' : 'Black')}-${item.size || (isKids ? 'One' : isWomen ? '31"' : 'M')}`;
+    const id = item.id || `${resolvedProductId !== 'adult' ? resolvedProductId + '-' : ''}${item.color || (isKids ? 'Neon Green' : isWomen ? 'Pink' : 'Black')}-${item.size || (isKids ? 'One' : 'M')}`;
     if (wishlist.some(w => w.id === id)) {
       removeFromWishlist(id);
       return false;
@@ -343,7 +343,7 @@ export const CartWishlistProvider = ({ children }) => {
     const defaultTitle = isKids ? 'AST Handmade Macramé Kids Belt' : isWomen ? 'AST Women’s Handmade Macramé Waist Belt' : 'AST Handmade Macramé Belt';
     const defaultBasePrice = isKids ? 600 : isWomen ? 590 : 850;
     const defaultRegularPrice = isKids ? 850 : isWomen ? 750 : 1050;
-    const id = item.id || `${resolvedProductId !== 'adult' ? resolvedProductId + '-' : ''}${item.color || (isKids ? 'Neon Green' : isWomen ? 'Pink' : 'Black')}-${item.size || (isKids ? 'One' : isWomen ? '31"' : 'M')}`;
+    const id = item.id || `${resolvedProductId !== 'adult' ? resolvedProductId + '-' : ''}${item.color || (isKids ? 'Neon Green' : isWomen ? 'Pink' : 'Black')}-${item.size || (isKids ? 'One' : 'M')}`;
 
     setCart(prev => {
       const existingIndex = prev.findIndex(c => c.id === id);
@@ -360,7 +360,7 @@ export const CartWishlistProvider = ({ children }) => {
           productId: resolvedProductId,
           title: item.title || defaultTitle,
           color: item.color || (isKids ? 'Neon Green' : isWomen ? 'Pink' : 'Black'),
-          size: item.size || (isKids ? 'One' : isWomen ? '31"' : 'M'),
+          size: item.size || (isKids ? 'One' : 'M'),
           quantity: qty,
           basePriceBDT: item.basePriceBDT || item.priceBDT || defaultBasePrice,
           regularPriceBDT: item.regularPriceBDT || defaultRegularPrice,

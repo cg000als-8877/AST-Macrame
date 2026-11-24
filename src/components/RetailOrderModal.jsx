@@ -770,7 +770,7 @@ const RetailOrderModal = ({
                     <input 
                       type="text" 
                       name="name" 
-                      className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus: focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]" 
+                      className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] min-h-[42px] md:min-h-[46px]" 
                       placeholder="Your Full Name" 
                       required 
                     />
@@ -779,7 +779,7 @@ const RetailOrderModal = ({
                     <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-1">
                       Phone / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px]">মোবাইল নম্বর</span> {!phoneFilled && <span className="text-red-500 font-normal italic normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
                     </label>
-                    <div className="relative flex items-center w-full bg-white rounded-xl overflow-hidden focus-within: focus-within:ring-1 focus-within:ring-soft-black/10 transition-all min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                    <div className="relative flex items-center w-full bg-white rounded-xl overflow-hidden focus-within:ring-1 focus-within:ring-soft-black/10 transition-all min-h-[42px] md:min-h-[46px]">
                       <span className="pl-3.5 text-[13px] md:text-[15px] text-dark-charcoal/70 font-medium">+88</span>
                       <input 
                         type="tel" 
@@ -797,7 +797,8 @@ const RetailOrderModal = ({
                     <div className="relative">
                       <select 
                         name="district" 
-                        className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus: focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] appearance-none pr-8 font-bengali min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)] cursor-pointer" 
+                        className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] appearance-none pr-10 font-bengali min-h-[42px] md:min-h-[46px] cursor-pointer" 
+                        style={{ WebkitAppearance: 'none', MozAppearance: 'none', appearance: 'none' }}
                         required
                         value={selectedDistrictId}
                         onChange={(e) => setSelectedDistrictId(e.target.value)}
@@ -819,7 +820,8 @@ const RetailOrderModal = ({
                     <div className="relative">
                       <select 
                         name="thana" 
-                        className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus: focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] appearance-none pr-8 font-bengali min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)] cursor-pointer" 
+                        className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] appearance-none pr-10 font-bengali min-h-[42px] md:min-h-[46px] cursor-pointer" 
+                        style={{ WebkitAppearance: 'none', MozAppearance: 'none', appearance: 'none' }}
                         value={selectedUpazilaName}
                         onChange={(e) => setSelectedUpazilaName(e.target.value)}
                         disabled={!selectedDistrictId}
@@ -846,7 +848,7 @@ const RetailOrderModal = ({
                         e.target.style.height = 'auto';
                         e.target.style.height = `${e.target.scrollHeight}px`;
                       }}
-                      className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus: focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] resize-none overflow-hidden min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]" 
+                      className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] resize-none overflow-hidden min-h-[42px] md:min-h-[46px]" 
                       placeholder="House/Flat, Road, Area/Village" 
                       required
                     ></textarea>
@@ -863,7 +865,7 @@ const RetailOrderModal = ({
                         e.target.style.height = 'auto';
                         e.target.style.height = `${e.target.scrollHeight}px`;
                       }}
-                      className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus: focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] resize-none overflow-hidden min-h-[42px] md:min-h-[46px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]" 
+                      className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] resize-none overflow-hidden min-h-[42px] md:min-h-[46px]" 
                       placeholder="Any custom instructions..."
                     ></textarea>
                   </div>

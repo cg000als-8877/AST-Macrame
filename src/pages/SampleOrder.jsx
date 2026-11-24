@@ -446,17 +446,24 @@ const SampleOrder = () => {
                   Color: <span className="font-semibold text-terracotta">{selectedColor}</span>
                 </span>
                 <div className="flex flex-nowrap gap-1.5 sm:gap-2">
-                  {colors.map((color) => (
-                    <button
-                      key={color.name}
-                      type="button"
-                      onClick={() => handleColorChange(color.name)}
-                      className={`w-9 h-9 md:w-10 md:h-10 rounded-full transition-all duration-300 shrink-0 cursor-pointer ${selectedColor === color.name ? 'ring-2 ring-soft-black ring-offset-2' : 'opacity-70 hover:opacity-100'}`}
-                      aria-label={`Select ${color.name}`}
-                    >
-                      <div className="w-full h-full rounded-full shadow-sm" style={{ backgroundColor: color.hex }} />
-                    </button>
-                  ))}
+                  {colors.map((color) => {
+                    const isSelected = selectedColor === color.name;
+                    return (
+                      <button
+                        key={color.name}
+                        type="button"
+                        onClick={() => handleColorChange(color.name)}
+                        className={`w-9 h-9 md:w-10 md:h-10 rounded-full p-[2px] transition-all duration-200 shrink-0 cursor-pointer ${
+                          isSelected 
+                            ? 'border-[1.5px] border-soft-black scale-105' 
+                            : 'border-[1.5px] border-transparent opacity-65 hover:opacity-100'
+                        }`}
+                        aria-label={`Select ${color.name}`}
+                      >
+                        <div className="w-full h-full rounded-full" style={{ backgroundColor: color.hex }} />
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 

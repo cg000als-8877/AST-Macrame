@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ShoppingBag, Plus, Minus, Trash2, ArrowRight, ShieldCheck, PackageCheck } from 'lucide-react';
+import { X, ShoppingBag, Plus, Minus, Trash2, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useCartWishlist, calculateTierPriceBDT, calculateWomenTierPriceBDT, calculateKidsTierPriceBDT } from '../context/CartWishlistContext';
 import { useStoreConfig } from '../context/StoreConfigContext';
 import SampleOrderDrawer from './SampleOrderDrawer';
@@ -499,8 +499,7 @@ const CartDrawer = () => {
                       className="relative overflow-hidden group w-full flex items-center justify-center gap-1.5 bg-terracotta hover:bg-muted-burgundy hover:-translate-y-0.5 text-cream py-3.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 active:translate-y-0 active:scale-[0.99] cursor-pointer"
                     >
                       <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
-                      <PackageCheck className="w-4 h-4 shrink-0 relative z-10" />
-                      <span className="truncate relative z-10 transition-all duration-300 group-hover:tracking-widest">CASH ON DELIVERY CHECKOUT</span>
+                      <span className="relative z-10 transition-all duration-300 group-hover:tracking-wider">COD - Checkout</span>
                       <ArrowRight className="w-3.5 h-3.5 shrink-0 relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
                     </button>
                   ) : (
