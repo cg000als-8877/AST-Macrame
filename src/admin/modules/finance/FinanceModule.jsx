@@ -232,7 +232,7 @@ export const FinanceModule = () => {
           </div>
           <div className="text-right">
             <span className="text-xs text-white/60 block">Unit Cost of Goods Sold (COGS)</span>
-            <span className="font-mono font-bold text-base text-cream">৳400 / macramé belt</span>
+            <span className="font-mono font-bold text-base text-white">৳400 / macramé belt</span>
           </div>
         </div>
 

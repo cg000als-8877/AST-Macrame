@@ -114,7 +114,7 @@ const InquiryModal = ({ isOpen, onClose, formType, orderDetails }) => {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-3xl bg-cream p-5 sm:p-8 md:px-12 md:py-8 rounded-xl md:rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto z-10"
+            className="relative w-full max-w-3xl bg-white p-5 sm:p-8 md:px-12 md:py-8 rounded-xl md:rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto z-10"
           >
             <button 
               onClick={onClose}
@@ -142,7 +142,7 @@ const InquiryModal = ({ isOpen, onClose, formType, orderDetails }) => {
                 <p className="text-sm md:text-base text-dark-charcoal/70">
                   Your {formType === 'sample' ? 'sample order' : 'wholesale quotation'} request has been successfully submitted.<br />Our Export Sales Manager will contact you within 24 hours.
                 </p>
-                <button onClick={onClose} className="mt-8 bg-terracotta text-cream px-10 py-3 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-muted-burgundy transition-colors">
+                <button onClick={onClose} className="mt-8 bg-[#131E33] text-white px-10 py-3 text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-soft-black transition-colors cursor-pointer">
                   Close Window
                 </button>
               </div>
@@ -160,23 +160,23 @@ const InquiryModal = ({ isOpen, onClose, formType, orderDetails }) => {
                   onSubmit={handleSubmit}
                 >
                   <div>
-                    <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Name</label>
-                    <input type="text" name="name" className="w-full bg-transparent py-1.5 md:py-1.5 focus:outline-none focus: transition-colors text-xs md:text-sm" placeholder="Your Full Name" required />
+                    <label className="block text-[11px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Name</label>
+                    <input type="text" name="name" className="w-full bg-transparent py-1.5 md:py-1.5 focus:outline-none transition-colors text-base md:text-sm" placeholder="Your Full Name" required />
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     <div>
-                      <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Company / Brand</label>
-                      <input type="text" name="company" className="w-full bg-transparent py-1.5 md:py-1.5 focus:outline-none focus: transition-colors text-xs md:text-sm" placeholder="Your Brand Name" required />
+                      <label className="block text-[11px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Company / Brand</label>
+                      <input type="text" name="company" className="w-full bg-transparent py-1.5 md:py-1.5 focus:outline-none transition-colors text-base md:text-sm" placeholder="Your Brand Name" required />
                     </div>
                     <div>
-                      <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Phone Number</label>
-                      <div className="flex focus-within: transition-colors">
+                      <label className="block text-[11px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Phone Number</label>
+                      <div className="flex focus-within:ring-1 focus-within:ring-soft-black/10 transition-colors">
                         <select 
                           name="countryCode" 
                           value={selectedCountryCode}
                           onChange={(e) => setSelectedCountryCode(e.target.value)}
-                          className="bg-transparent py-1.5 md:py-1.5 focus:outline-none text-xs md:text-sm text-dark-charcoal mr-2 cursor-pointer outline-none shrink-0 w-[90px]"
+                          className="bg-transparent py-1.5 md:py-1.5 focus:outline-none text-base md:text-sm text-dark-charcoal mr-2 cursor-pointer outline-none shrink-0 w-[90px]"
                         >
                           {countries.map(c => (
                             <option key={c.code + c.dialCode} value={c.dialCode}>
@@ -184,19 +184,19 @@ const InquiryModal = ({ isOpen, onClose, formType, orderDetails }) => {
                             </option>
                           ))}
                         </select>
-                        <input type="tel" name="phone" className="w-full bg-transparent py-1.5 md:py-1.5 focus:outline-none text-xs md:text-sm" placeholder="1XXX XXXXXX" required />
+                        <input type="tel" name="phone" className="w-full bg-transparent py-1.5 md:py-1.5 focus:outline-none text-base md:text-sm" placeholder="1XXX XXXXXX" required />
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Email Address</label>
-                    <input type="email" name="email" className="w-full bg-transparent py-1.5 md:py-1.5 focus:outline-none focus: transition-colors text-xs md:text-sm" placeholder="email@example.com" required />
+                    <label className="block text-[11px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Email Address</label>
+                    <input type="email" name="email" className="w-full bg-transparent py-1.5 md:py-1.5 focus:outline-none transition-colors text-base md:text-sm" placeholder="email@example.com" required />
                   </div>
 
                   <div>
-                    <label className="block text-[10px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Shipping Address</label>
-                    <input type="text" name="address" className="w-full bg-transparent py-1.5 md:py-1.5 focus:outline-none focus: transition-colors text-xs md:text-sm" placeholder="Full delivery address" required />
+                    <label className="block text-[11px] md:text-xs font-bold tracking-widest uppercase text-dark-charcoal mb-1 md:mb-1.5">Shipping Address</label>
+                    <input type="text" name="address" className="w-full bg-transparent py-1.5 md:py-1.5 focus:outline-none transition-colors text-base md:text-sm" placeholder="Full delivery address" required />
                   </div>
 
                   {orderDetails && formType === 'sample' && (
@@ -267,7 +267,7 @@ const InquiryModal = ({ isOpen, onClose, formType, orderDetails }) => {
                   </div>
                   
                   <div className="pt-2 md:pt-4 text-center">
-                    <button type="submit" disabled={isSubmitting} className="bg-terracotta text-cream px-10 md:px-12 py-3 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-muted-burgundy transition-colors disabled:opacity-70 disabled:cursor-not-allowed">
+                    <button type="submit" disabled={isSubmitting} className="bg-[#131E33] text-white px-10 md:px-12 py-3 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-soft-black transition-colors disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer">
                       {isSubmitting ? 'Sending...' : (formType === 'sample' ? 'Request a Sample' : 'Request Quote')}
                     </button>
                   </div>

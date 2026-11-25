@@ -39,12 +39,12 @@ import k6 from '../assets/products/Khaki/6.webp';
 import { useCartWishlist } from '../context/CartWishlistContext';
 
 const Accordion = ({ title, isOpen, onClick, children }) => (
-  <div className="bg-[#FAF7F2] rounded-2xl mb-2.5 overflow-hidden">
+  <div className="bg-[#F6F6F7] rounded-2xl mb-2.5 overflow-hidden">
     <button 
       onClick={onClick}
       className="w-full py-3.5 px-3.5 sm:px-0 flex justify-between items-center text-left cursor-pointer group select-none"
     >
-      <span className="font-serif text-sm sm:text-base md:text-xl text-soft-black font-medium group-hover:text-terracotta transition-colors">{title}</span>
+      <span className="font-serif text-sm sm:text-base md:text-xl text-soft-black font-medium group-hover:text-[#131E33] transition-colors">{title}</span>
       {isOpen ? <Minus className="w-4 h-4 md:w-5 md:h-5 text-soft-black/50" /> : <Plus className="w-4 h-4 md:w-5 md:h-5 text-soft-black/50" />}
     </button>
     <AnimatePresence>
@@ -310,7 +310,7 @@ const Product = () => {
   };
 
   return (
-    <div className="w-full bg-cream min-h-screen pt-[102px] sm:pt-[76px] md:pt-[96px]">
+    <div className="w-full bg-white min-h-screen pt-[102px] sm:pt-[76px] md:pt-[96px]">
       <div className="max-w-7xl mx-auto px-0 lg:px-12">
         
         {/* Product Hero & Details */}
@@ -524,14 +524,14 @@ const Product = () => {
                       key={s.label}
                       type="button"
                       onClick={() => handleSizeChange(s.label)}
-                      className={`h-[44px] sm:h-[46px] px-1 sm:px-3 rounded-xl  text-center transition-all duration-200 cursor-pointer flex flex-col items-center justify-center ${
+                      className={`h-[44px] sm:h-[46px] px-1 sm:px-3 rounded-xl text-center transition-all duration-200 cursor-pointer flex flex-col items-center justify-center ${
                         selectedSize === s.label
-                          ? 'bg-soft-black text-cream  shadow-sm font-bold'
-                          : 'bg-white text-soft-black  hover: font-medium'
+                          ? 'bg-soft-black text-white font-bold'
+                          : 'bg-[#F6F6F7] text-soft-black font-medium'
                       }`}
                     >
                       <span className="text-xs font-bold leading-none mb-0.5">{s.label}</span>
-                      <span className={`text-[9px] sm:text-[10px] leading-none whitespace-nowrap ${selectedSize === s.label ? 'text-cream/70' : 'text-dark-charcoal/50'}`}>{s.waist}</span>
+                      <span className={`text-[9px] sm:text-[10px] leading-none whitespace-nowrap ${selectedSize === s.label ? 'text-white/70' : 'text-dark-charcoal/50'}`}>{s.waist}</span>
                     </button>
                   ))}
                 </div>
@@ -591,14 +591,14 @@ const Product = () => {
                     key={tier.q}
                     type="button"
                     onClick={() => handleQuantityUpdate(tier.q)}
-                    className={`py-1.5 px-1 rounded-xl  text-center transition-all cursor-pointer ${
+                    className={`py-1.5 px-1 rounded-xl text-center transition-all cursor-pointer ${
                       quantity === tier.q
-                        ? 'bg-soft-black text-cream  shadow-xs ring-1 ring-soft-black'
-                        : 'bg-white text-soft-black  '
+                        ? 'bg-soft-black text-white'
+                        : 'bg-[#F6F6F7] text-soft-black'
                     }`}
                   >
                     <div className="text-[10px] font-bold">{tier.label}</div>
-                    <div className={`text-[9px] ${quantity === tier.q ? 'text-cream/80' : 'text-dark-charcoal/70'}`}>{tier.price}</div>
+                    <div className={`text-[9px] ${quantity === tier.q ? 'text-white/80' : 'text-dark-charcoal/70'}`}>{tier.price}</div>
                     {tier.save ? (
                       <div className={`text-[8px] font-semibold ${quantity === tier.q ? 'text-amber-300' : 'text-emerald-600'}`}>{tier.save}</div>
                     ) : (
@@ -663,10 +663,10 @@ const Product = () => {
                             key={sz}
                             type="button"
                             onClick={() => handleIndividualPieceSizeChange(idx, sz)}
-                            className={`w-6 h-6 rounded-md text-[10px] font-bold  transition-all cursor-pointer ${
+                            className={`w-6 h-6 rounded-md text-[10px] font-bold transition-all cursor-pointer ${
                               piece.size === sz
-                                ? 'bg-soft-black text-cream '
-                                : 'bg-white text-soft-black  hover:'
+                                ? 'bg-soft-black text-white'
+                                : 'bg-[#EEEEF0] text-soft-black'
                             }`}
                           >
                             {sz}
@@ -694,10 +694,10 @@ const Product = () => {
                 <button 
                   type="button"
                   onClick={() => setIsOrderFormOpen(true)}
-                  className="flex-1 flex items-center justify-center gap-2 bg-soft-black text-cream px-4 py-4 md:py-4.5 text-[11px] md:text-xs font-bold uppercase tracking-[0.16em] rounded-xl hover:bg-dark-charcoal transition-all shadow-md active:scale-[0.99] cursor-pointer"
+                  className="flex-1 flex items-center justify-center gap-2 bg-soft-black text-white px-4 py-4 md:py-4.5 text-[11px] md:text-xs font-bold uppercase tracking-[0.16em] rounded-xl hover:bg-[#131E33] transition-all active:scale-[0.99] cursor-pointer"
                 >
                   <span>Request Sample</span>
-                  <span className="text-cream/40">•</span>
+                  <span className="text-white/40">—</span>
                   <span>{currencySymbol}{Math.round(totalPriceLocal).toLocaleString()}</span>
                 </button>
 
@@ -705,7 +705,7 @@ const Product = () => {
                 <button
                   type="button"
                   onClick={handleAddToCartClick}
-                  className="px-4 py-4 md:py-4.5 bg-white text-soft-black hover: hover:bg-stone/5 text-[11px] md:text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-2xs cursor-pointer flex items-center gap-1.5"
+                  className="px-4 py-4 md:py-4.5 bg-[#F6F6F7] text-soft-black hover:bg-[#EEEEF0] text-[11px] md:text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer flex items-center gap-1.5"
                   title="Add to Cart"
                 >
                   <ShoppingBag className="w-4 h-4" />
@@ -715,7 +715,7 @@ const Product = () => {
               
               <Link 
                 to="/contact" 
-                className="w-full flex items-center justify-center bg-white text-soft-black px-8 py-3.5 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-xl shadow-2xs hover:bg-[#FAF7F2] transition-colors"
+                className="w-full flex items-center justify-center bg-[#F6F6F7] text-soft-black px-8 py-3.5 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-[#EEEEF0] transition-colors"
               >
                 Wholesale Inquiry
               </Link>

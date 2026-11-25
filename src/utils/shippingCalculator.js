@@ -24,7 +24,7 @@ export const getDHLZoneInfo = (countryCode = 'BD', continentCode = '') => {
     return {
       zone: 0,
       carrier: 'Express Courier',
-      transit: '1–3 Days',
+      transit: '1 to 3 Days',
       base05: 120,
       base10: 120,
       add05: 30
@@ -41,7 +41,7 @@ export const getDHLZoneInfo = (countryCode = 'BD', continentCode = '') => {
     return {
       zone: 1,
       carrier: 'DHL Express',
-      transit: '2–4 Days',
+      transit: '2 to 4 Days',
       base05: 1350,
       base10: 1750,
       add05: 350
@@ -52,7 +52,7 @@ export const getDHLZoneInfo = (countryCode = 'BD', continentCode = '') => {
     return {
       zone: 2,
       carrier: 'DHL Express',
-      transit: '3–5 Days',
+      transit: '3 to 5 Days',
       base05: 1650,
       base10: 2200,
       add05: 450
@@ -63,7 +63,7 @@ export const getDHLZoneInfo = (countryCode = 'BD', continentCode = '') => {
     return {
       zone: 4,
       carrier: 'DHL Express',
-      transit: '3–5 Days',
+      transit: '3 to 5 Days',
       base05: 1890,
       base10: 2550,
       add05: 600
@@ -74,7 +74,7 @@ export const getDHLZoneInfo = (countryCode = 'BD', continentCode = '') => {
     return {
       zone: 3,
       carrier: 'DHL Express',
-      transit: '3–5 Days',
+      transit: '3 to 5 Days',
       base05: 1950,
       base10: 2600,
       add05: 550
@@ -85,7 +85,7 @@ export const getDHLZoneInfo = (countryCode = 'BD', continentCode = '') => {
     return {
       zone: 5,
       carrier: 'DHL Express',
-      transit: '3–5 Days',
+      transit: '3 to 5 Days',
       base05: 2250,
       base10: 2950,
       add05: 650
@@ -96,7 +96,7 @@ export const getDHLZoneInfo = (countryCode = 'BD', continentCode = '') => {
   return {
     zone: 6,
     carrier: 'DHL Express',
-    transit: '4–7 Days',
+    transit: '4 to 7 Days',
     base05: 2600,
     base10: 3400,
     add05: 750

@@ -81,7 +81,7 @@ const Privacy = () => {
   ];
 
   return (
-    <div className="w-full bg-cream min-h-screen pt-20 sm:pt-22 md:pt-24 pb-16 md:pb-24 selection:bg-terracotta selection:text-white">
+    <div className="w-full bg-white min-h-screen pt-20 sm:pt-22 md:pt-24 pb-16 md:pb-24 selection:bg-[#131E33] selection:text-white">
       
       {/* 1. HERO SECTION */}
       <section className="relative px-4 sm:px-6 lg:px-12 pb-12 sm:pb-16">
@@ -91,7 +91,7 @@ const Privacy = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-[#131E33] block mb-2 sm:mb-3">
               DATA SECURITY &amp; TRUST
             </span>
             
@@ -111,7 +111,7 @@ const Privacy = () => {
         <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
           
           <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
-            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-1.5 sm:mb-2">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-[#131E33] block mb-1.5 sm:mb-2">
               HOW WE SAFEGUARD YOUR INFORMATION
             </span>
             <h2 className="text-xl sm:text-3xl md:text-4xl font-serif font-semibold text-soft-black tracking-tight">
@@ -128,23 +128,23 @@ const Privacy = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
-                className="bg-[#FAF7F2] rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 hover:shadow-md transition-all"
+                className="bg-[#F6F6F7] rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 transition-all"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-soft-black text-cream flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-soft-black text-white flex items-center justify-center shrink-0">
                       <Icon className="w-5 h-5" />
                     </div>
                     <h3 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold text-soft-black">
                       {section.title}
                     </h3>
                   </div>
-                  <span className="text-[10px] font-semibold uppercase tracking-widest text-terracotta bg-terracotta/10 px-2.5 py-1 rounded self-start sm:self-center">
+                  <span className="text-[10.5px] font-semibold uppercase tracking-widest text-[#131E33] bg-[#131E33]/10 px-2.5 py-1 rounded self-start sm:self-center">
                     {section.badge}
                   </span>
                 </div>
 
-                <div className="text-xs sm:text-sm md:text-base text-dark-charcoal/85 font-light leading-relaxed">
+                <div className="text-sm sm:text-base text-dark-charcoal/85 font-normal leading-relaxed">
                   {section.content}
                 </div>
               </motion.div>
@@ -155,9 +155,9 @@ const Privacy = () => {
       </section>
 
       {/* 3. PRIVACY DESK CONTACT BANNER */}
-      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-12 bg-cream">
-        <div className="max-w-4xl mx-auto bg-white rounded-2xl sm:rounded-3xl p-8 sm:p-10 md:p-12 text-center shadow-sm">
-          <div className="w-12 h-12 rounded-full bg-terracotta/10 text-terracotta flex items-center justify-center mx-auto mb-4">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-12 bg-white">
+        <div className="max-w-4xl mx-auto bg-[#F6F6F7] rounded-2xl sm:rounded-3xl p-8 sm:p-10 md:p-12 text-center">
+          <div className="w-12 h-12 rounded-full bg-[#131E33]/10 text-[#131E33] flex items-center justify-center mx-auto mb-4">
             <Lock className="w-6 h-6" />
           </div>
           
@@ -165,21 +165,21 @@ const Privacy = () => {
             Have a Privacy or Data Removal Request?
           </h2>
           
-          <p className="text-xs sm:text-base text-dark-charcoal/80 font-light mb-8 max-w-xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base text-dark-charcoal/80 font-normal mb-8 max-w-xl mx-auto leading-relaxed">
             If you wish to update your contact record or request complete deletion of past customer logs, please email our data administrator.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 justify-center items-center">
             <a
               href="mailto:astmacrame@gmail.com?subject=Privacy%20and%20Data%20Request"
-              className="w-full sm:w-auto bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-dark-charcoal transition-all inline-flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-soft-black text-white px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-[#131E33] transition-all inline-flex items-center justify-center gap-2"
             >
               <Mail className="w-4 h-4" />
               <span>Contact Data Desk</span>
             </a>
             <Link
               to="/contact"
-              className="w-full sm:w-auto bg-white text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-soft-black hover:text-cream transition-all inline-flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-white text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-stone-100 transition-all inline-flex items-center justify-center gap-2"
             >
               <span>General Inquiries</span>
               <ArrowRight className="w-3.5 h-3.5" />

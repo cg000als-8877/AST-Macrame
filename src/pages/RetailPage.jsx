@@ -449,7 +449,7 @@ const RetailPage = () => {
     <>
       {isForeignUser && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-soft-black/80 backdrop-blur-sm p-4">
-          <div className="bg-cream rounded-none p-6 md:p-8 max-w-sm md:max-w-md w-full text-center shadow-2xl">
+          <div className="bg-white rounded-none p-6 md:p-8 max-w-sm md:max-w-md w-full text-center shadow-2xl">
               <div className="w-14 h-14 md:w-16 md:h-16 bg-red-100 text-red-600 rounded-none flex items-center justify-center mx-auto mb-4 md:mb-5">
                 <svg className="w-7 h-7 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -464,7 +464,7 @@ const RetailPage = () => {
               </p>
               <Link 
                 to="/product" 
-                className="inline-block w-full bg-soft-black text-cream px-6 py-3.5 md:py-4 font-bold uppercase tracking-widest text-[10px] md:text-xs rounded-xl hover:bg-terracotta transition-all shadow-md"
+                className="inline-block w-full bg-soft-black text-white px-6 py-3.5 md:py-4 font-bold uppercase tracking-widest text-[10px] md:text-xs rounded-xl hover:bg-terracotta transition-all shadow-md"
               >
                 Return to Product Page
               </Link>
@@ -472,7 +472,7 @@ const RetailPage = () => {
         </div>
       )}
 
-      <div className="w-full bg-cream min-h-screen pt-[77px] sm:pt-24 md:pt-28 lg:pt-36">
+      <div className="w-full bg-white min-h-screen pt-[77px] sm:pt-24 md:pt-28 lg:pt-36">
       <div className="max-w-7xl mx-auto px-0 lg:px-12">
         
         {/* Product Hero & Details */}
@@ -582,7 +582,7 @@ const RetailPage = () => {
                 <span className="text-sm md:text-base text-dark-charcoal/40 line-through font-semibold whitespace-nowrap leading-none">
                   {orderType === 'single' ? `${currentSingleRegularPrice.toLocaleString()} BDT` : `${currentComboRegularPrice.toLocaleString()} BDT`}
                 </span>
-                <span className="inline-flex items-center justify-center bg-soft-black text-cream text-[10px] md:text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded shadow-xs whitespace-nowrap leading-none">
+                <span className="inline-flex items-center justify-center bg-soft-black text-white text-[10px] md:text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded whitespace-nowrap leading-none">
                   {orderType === 'single' 
                     ? `SAVE ${(currentSingleRegularPrice - currentSinglePrice).toLocaleString()} TK` 
                     : `SAVE ${(currentComboRegularPrice - currentComboPrice).toLocaleString()} TK`}
@@ -598,8 +598,8 @@ const RetailPage = () => {
                   onClick={() => setOrderType('single')}
                   className={`flex-1 py-2 md:py-2.5 px-3 text-xs font-bold uppercase tracking-wider rounded-xl transition-all duration-300 cursor-pointer ${
                     orderType === 'single'
-                      ? 'bg-soft-black text-cream'
-                      : 'bg-white text-soft-black'
+                      ? 'bg-soft-black text-white'
+                      : 'bg-[#F6F6F7] text-soft-black'
                   }`}
                 >
                   Single Product
@@ -609,8 +609,8 @@ const RetailPage = () => {
                   onClick={() => setOrderType('combo')}
                   className={`flex-1 py-2 md:py-2.5 px-3 text-xs font-bold uppercase tracking-wider rounded-xl transition-all duration-300 cursor-pointer ${
                     orderType === 'combo'
-                      ? 'bg-soft-black text-cream'
-                      : 'bg-white text-soft-black'
+                      ? 'bg-soft-black text-white'
+                      : 'bg-[#F6F6F7] text-soft-black'
                   }`}
                 >
                   Combo (2 Belts)
@@ -688,8 +688,8 @@ const RetailPage = () => {
                             onClick={() => setSelectedSize(size)}
                             className={`min-w-[36px] h-9 md:h-10 px-2.5 rounded-md text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                               isSelected
-                                ? 'bg-soft-black text-cream'
-                                : 'bg-white text-soft-black'
+                                ? 'bg-soft-black text-white'
+                                : 'bg-[#F6F6F7] text-soft-black'
                             }`}
                           >
                             {size}
@@ -772,8 +772,8 @@ const RetailPage = () => {
                               onClick={() => setComboSize1(size)}
                               className={`min-w-[32px] h-8 sm:h-9 md:h-10 px-2 rounded-md text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                                 isSelected
-                                  ? 'bg-soft-black text-cream'
-                                  : 'bg-white text-soft-black'
+                                  ? 'bg-soft-black text-white'
+                                  : 'bg-[#F6F6F7] text-soft-black'
                               }`}
                             >
                               {size}
@@ -832,8 +832,8 @@ const RetailPage = () => {
                               onClick={() => setComboSize2(size)}
                               className={`min-w-[32px] h-8 sm:h-9 md:h-10 px-2 rounded-md text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                                 isSelected
-                                  ? 'bg-soft-black text-cream'
-                                  : 'bg-white text-soft-black'
+                                  ? 'bg-soft-black text-white'
+                                  : 'bg-[#F6F6F7] text-soft-black'
                               }`}
                             >
                               {size}
@@ -860,10 +860,10 @@ const RetailPage = () => {
                     type="button"
                     onClick={() => setIsOrderFormOpen(true)}
                     disabled={!isOrderReady}
-                    className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center bg-[#1C2841] text-white px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-xl transition-all duration-300 shadow-md ${
+                    className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center bg-[#1C2841] text-white px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-xl transition-all duration-300 ${
                       !isOrderReady 
                         ? 'opacity-50 cursor-not-allowed' 
-                        : 'hover:bg-[#131E33] hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] cursor-pointer'
+                        : 'hover:bg-[#131E33] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] cursor-pointer'
                     }`}
                   >
                     {/* Shimmer Light Sweep on Hover */}
@@ -878,8 +878,8 @@ const RetailPage = () => {
                     disabled={!isOrderReady}
                     className={`relative overflow-hidden group flex-1 h-[48px] md:h-[52px] flex items-center justify-center px-4 sm:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-xl transition-all duration-300 ${
                       isCartedAnimation
-                        ? 'bg-emerald-600 text-white scale-[1.01] shadow-md'
-                        : 'bg-white text-soft-black shadow-xs hover:bg-soft-black hover:text-cream hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] cursor-pointer'
+                        ? 'bg-emerald-600 text-white scale-[1.01]'
+                        : 'bg-[#F6F6F7] text-soft-black hover:bg-[#131E33] hover:text-white hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] cursor-pointer'
                     } ${!isOrderReady ? 'opacity-50 cursor-not-allowed' : ''}`}
                     title="Add to Cart"
                     aria-label="Add to Cart"
@@ -1022,15 +1022,15 @@ const RetailPage = () => {
               <div className="grid grid-cols-3 gap-2 text-center">
                 <div className="px-1">
                   <span className="block text-sm sm:text-base font-bold text-soft-black leading-tight">1,400+</span>
-                  <span className="text-[9.5px] uppercase tracking-wider text-dark-charcoal/70 block mt-0.5 font-medium">Hand Knots</span>
+                  <span className="text-[11px] uppercase tracking-wider text-dark-charcoal/70 block mt-0.5 font-semibold">Hand Knots</span>
                 </div>
                 <div className="px-1">
                   <span className="block text-sm sm:text-base font-bold text-soft-black leading-tight">100%</span>
-                  <span className="text-[9.5px] uppercase tracking-wider text-dark-charcoal/70 block mt-0.5 font-medium">Pure Cotton</span>
+                  <span className="text-[11px] uppercase tracking-wider text-dark-charcoal/70 block mt-0.5 font-semibold">Pure Cotton</span>
                 </div>
                 <div className="px-1">
                   <span className="block text-sm sm:text-base font-bold text-soft-black leading-tight">50 KG+</span>
-                  <span className="text-[9.5px] uppercase tracking-wider text-dark-charcoal/70 block mt-0.5 font-medium">Tested Load</span>
+                  <span className="text-[11px] uppercase tracking-wider text-dark-charcoal/70 block mt-0.5 font-semibold">Tested Load</span>
                 </div>
               </div>
             </div>
@@ -1048,7 +1048,7 @@ const RetailPage = () => {
             
             {/* Section Header */}
             <div className="mb-6 md:mb-10 text-center md:text-left pb-4">
-              <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-terracotta block mb-1">
+              <span className="text-[11px] md:text-xs font-semibold uppercase tracking-widest text-terracotta block mb-1">
                 Engineered For Comfort & Durability
               </span>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-soft-black tracking-tight">
@@ -1068,10 +1068,10 @@ const RetailPage = () => {
                     loading="lazy"
                     decoding="async"
                   />
-                  <div className="absolute top-2.5 left-2.5 bg-[#1A1A1A]/85 backdrop-blur-md text-stone-300 text-[8px] sm:text-[8.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md select-none">
+                  <div className="absolute top-2.5 left-2.5 bg-[#1A1A1A]/85 backdrop-blur-md text-stone-300 text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md select-none">
                     Traditional Belt
                   </div>
-                  <div className="absolute top-2.5 right-2.5 bg-[#1C2841]/95 backdrop-blur-md text-white text-[8px] sm:text-[8.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md select-none">
+                  <div className="absolute top-2.5 right-2.5 bg-[#1C2841]/95 backdrop-blur-md text-white text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md select-none">
                     AST Macramé
                   </div>
                 </div>
@@ -1087,7 +1087,7 @@ const RetailPage = () => {
                     <button
                       type="button"
                       onClick={() => setComparisonTab(0)}
-                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded-xl text-center cursor-pointer ${
+                      className={`py-2 px-1 text-[11px] font-bold uppercase tracking-wider transition-all rounded-xl text-center cursor-pointer ${
                         comparisonTab === 0
                           ? 'bg-soft-black text-white shadow-none'
                           : 'bg-transparent text-dark-charcoal hover:bg-white/40'
@@ -1099,7 +1099,7 @@ const RetailPage = () => {
                     <button
                       type="button"
                       onClick={() => setComparisonTab(1)}
-                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded-xl text-center cursor-pointer ${
+                      className={`py-2 px-1 text-[11px] font-bold uppercase tracking-wider transition-all rounded-xl text-center cursor-pointer ${
                         comparisonTab === 1
                           ? 'bg-soft-black text-white shadow-none'
                           : 'bg-transparent text-dark-charcoal hover:bg-white/40'
@@ -1111,7 +1111,7 @@ const RetailPage = () => {
                     <button
                       type="button"
                       onClick={() => setComparisonTab(2)}
-                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider transition-all rounded-xl text-center cursor-pointer ${
+                      className={`py-2 px-1 text-[11px] font-bold uppercase tracking-wider transition-all rounded-xl text-center cursor-pointer ${
                         comparisonTab === 2
                           ? 'bg-soft-black text-white shadow-none'
                           : 'bg-transparent text-dark-charcoal hover:bg-white/40'
@@ -1136,18 +1136,18 @@ const RetailPage = () => {
                           Dynamic Waist Comfort vs Rigid Pinching
                         </h3>
                         <div className="space-y-2 text-[11px]">
-                          <div className="p-3 bg-[#F5F2EB] rounded-xl">
-                            <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[9.5px] tracking-wider">
-                              <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[8.5px] font-bold shrink-0">✕</span>
+                          <div className="p-3 bg-[#EEEEF0] rounded-xl">
+                            <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[10.5px] tracking-wider">
+                              <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[9.5px] font-bold shrink-0">✕</span>
                               <span>Traditional Leather / Faux</span>
                             </div>
                             <p className="text-dark-charcoal/75 leading-relaxed">
                               Stiff & unyielding structure pinches your abdomen when sitting or after heavy meals.
                             </p>
                           </div>
-                          <div className="p-3 bg-[#FAF7F2] rounded-xl">
-                            <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[9.5px] tracking-wider">
-                              <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[8.5px] font-bold shrink-0">✓</span>
+                          <div className="p-3 bg-[#F6F6F7] rounded-xl">
+                            <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[10.5px] tracking-wider">
+                              <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[9.5px] font-bold shrink-0">✓</span>
                               <span>AST Hand-Knotted Macramé</span>
                             </div>
                             <p className="text-soft-black leading-relaxed font-normal">
@@ -1171,18 +1171,18 @@ const RetailPage = () => {
                           Millimeter Precision vs 5 Fixed Holes
                         </h3>
                         <div className="space-y-2 text-[11px]">
-                          <div className="p-3 bg-[#F5F2EB] rounded-xl">
-                            <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[9.5px] tracking-wider">
-                              <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[8.5px] font-bold shrink-0">✕</span>
+                          <div className="p-3 bg-[#EEEEF0] rounded-xl">
+                            <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[10.5px] tracking-wider">
+                              <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[9.5px] font-bold shrink-0">✕</span>
                               <span>Traditional Punch Holes</span>
                             </div>
                             <p className="text-dark-charcoal/75 leading-relaxed">
                               Only 5 fixed holes spaced 1 inch apart — always either 1 inch too tight or 1 inch too loose.
                             </p>
                           </div>
-                          <div className="p-3 bg-[#FAF7F2] rounded-xl">
-                            <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[9.5px] tracking-wider">
-                              <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[8.5px] font-bold shrink-0">✓</span>
+                          <div className="p-3 bg-[#F6F6F7] rounded-xl">
+                            <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[10.5px] tracking-wider">
+                              <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[9.5px] font-bold shrink-0">✓</span>
                               <span>AST Infinite Adjustment</span>
                             </div>
                             <p className="text-soft-black leading-relaxed font-normal">
@@ -1206,18 +1206,18 @@ const RetailPage = () => {
                           Bangladesh Monsoon & Climate Durability
                         </h3>
                         <div className="space-y-2 text-[11px]">
-                          <div className="p-3 bg-[#F5F2EB] rounded-xl">
-                            <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[9.5px] tracking-wider">
-                              <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[8.5px] font-bold shrink-0">✕</span>
+                          <div className="p-3 bg-[#EEEEF0] rounded-xl">
+                            <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[10.5px] tracking-wider">
+                              <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[9.5px] font-bold shrink-0">✕</span>
                               <span>Faux Leather Peeling</span>
                             </div>
                             <p className="text-dark-charcoal/75 leading-relaxed">
                               Traps body sweat & heat, cracking and peeling into messy flakes in BD monsoon humidity.
                             </p>
                           </div>
-                          <div className="p-3 bg-[#FAF7F2] rounded-xl">
-                            <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[9.5px] tracking-wider">
-                              <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[8.5px] font-bold shrink-0">✓</span>
+                          <div className="p-3 bg-[#F6F6F7] rounded-xl">
+                            <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[10.5px] tracking-wider">
+                              <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[9.5px] font-bold shrink-0">✓</span>
                               <span>100% Combed Cotton</span>
                             </div>
                             <p className="text-soft-black leading-relaxed font-normal">
@@ -1233,28 +1233,27 @@ const RetailPage = () => {
                 {/* DESKTOP VIEW: All 3 Comparison Cards */}
                 <div className="hidden lg:block space-y-3.5">
                   <div className="bg-white p-5 rounded-2xl shadow-none">
-                    <div className="flex items-center gap-2.5 mb-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#1C2841] shrink-0" />
+                    <div className="flex items-center gap-2 mb-2">
                       <h3 className="text-sm font-bold uppercase tracking-wider text-soft-black">
                         Dynamic Waist Comfort vs Rigid Pinching
                       </h3>
                     </div>
                     <div className="grid grid-cols-2 gap-3 text-xs mt-2.5">
-                      <div className="p-3.5 bg-[#F5F2EB] rounded-xl">
-                        <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[10px] tracking-wider">
-                          <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[8.5px] font-bold shrink-0">✕</span>
+                      <div className="p-3.5 bg-[#EEEEF0] rounded-xl">
+                        <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[11px] tracking-wider">
+                          <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[9.5px] font-bold shrink-0">✕</span>
                           <span>Traditional Leather</span>
                         </div>
-                        <p className="text-dark-charcoal/75 leading-relaxed text-[11.5px]">
+                        <p className="text-dark-charcoal/75 leading-relaxed text-xs">
                           Stiff structure pinches your waist and abdomen when sitting or after meals.
                         </p>
                       </div>
-                      <div className="p-3.5 bg-[#FAF7F2] rounded-xl">
-                        <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[10px] tracking-wider">
-                          <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[8.5px] font-bold shrink-0">✓</span>
+                      <div className="p-3.5 bg-[#F6F6F7] rounded-xl">
+                        <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[11px] tracking-wider">
+                          <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[9.5px] font-bold shrink-0">✓</span>
                           <span>AST Hand-Knotted</span>
                         </div>
-                        <p className="text-soft-black leading-relaxed font-normal text-[11.5px]">
+                        <p className="text-soft-black leading-relaxed font-normal text-xs">
                           Natural interlocking knot matrix breathes and flexes dynamically with your waist.
                         </p>
                       </div>
@@ -1262,28 +1261,27 @@ const RetailPage = () => {
                   </div>
 
                   <div className="bg-white p-5 rounded-2xl shadow-none">
-                    <div className="flex items-center gap-2.5 mb-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#1C2841] shrink-0" />
+                    <div className="flex items-center gap-2 mb-2">
                       <h3 className="text-sm font-bold uppercase tracking-wider text-soft-black">
                         Millimeter Fit Precision (No Hole Constraints)
                       </h3>
                     </div>
                     <div className="grid grid-cols-2 gap-3 text-xs mt-2.5">
-                      <div className="p-3.5 bg-[#F5F2EB] rounded-xl">
-                        <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[10px] tracking-wider">
-                          <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[8.5px] font-bold shrink-0">✕</span>
+                      <div className="p-3.5 bg-[#EEEEF0] rounded-xl">
+                        <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[11px] tracking-wider">
+                          <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[9.5px] font-bold shrink-0">✕</span>
                           <span>Traditional Holes</span>
                         </div>
-                        <p className="text-dark-charcoal/75 leading-relaxed text-[11.5px]">
+                        <p className="text-dark-charcoal/75 leading-relaxed text-xs">
                           Limited to 5 fixed punch holes spaced 1 inch apart — always either too tight or too loose.
                         </p>
                       </div>
-                      <div className="p-3.5 bg-[#FAF7F2] rounded-xl">
-                        <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[10px] tracking-wider">
-                          <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[8.5px] font-bold shrink-0">✓</span>
+                      <div className="p-3.5 bg-[#F6F6F7] rounded-xl">
+                        <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[11px] tracking-wider">
+                          <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[9.5px] font-bold shrink-0">✓</span>
                           <span>Infinite Adjustment</span>
                         </div>
-                        <p className="text-soft-black leading-relaxed font-normal text-[11.5px]">
+                        <p className="text-soft-black leading-relaxed font-normal text-xs">
                           Insert the buckle prong through any knot anywhere along the belt for millimeter-precise fit.
                         </p>
                       </div>
@@ -1291,28 +1289,27 @@ const RetailPage = () => {
                   </div>
 
                   <div className="bg-white p-5 rounded-2xl shadow-none">
-                    <div className="flex items-center gap-2.5 mb-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#1C2841] shrink-0" />
+                    <div className="flex items-center gap-2 mb-2">
                       <h3 className="text-sm font-bold uppercase tracking-wider text-soft-black">
                         Built for Bangladesh Humidity & Monsoon
                       </h3>
                     </div>
                     <div className="grid grid-cols-2 gap-3 text-xs mt-2.5">
-                      <div className="p-3.5 bg-[#F5F2EB] rounded-xl">
-                        <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[10px] tracking-wider">
-                          <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[8.5px] font-bold shrink-0">✕</span>
+                      <div className="p-3.5 bg-[#EEEEF0] rounded-xl">
+                        <div className="flex items-center gap-1.5 mb-1 font-bold text-stone-600 uppercase text-[11px] tracking-wider">
+                          <span className="w-3.5 h-3.5 rounded-full bg-stone-300/80 text-stone-600 flex items-center justify-center text-[9.5px] font-bold shrink-0">✕</span>
                           <span>Faux Leather Cracking</span>
                         </div>
-                        <p className="text-dark-charcoal/75 leading-relaxed text-[11.5px]">
+                        <p className="text-dark-charcoal/75 leading-relaxed text-xs">
                           Traps sweat and heat, peeling apart into messy flakes within months in tropical humidity.
                         </p>
                       </div>
-                      <div className="p-3.5 bg-[#FAF7F2] rounded-xl">
-                        <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[10px] tracking-wider">
-                          <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[8.5px] font-bold shrink-0">✓</span>
+                      <div className="p-3.5 bg-[#F6F6F7] rounded-xl">
+                        <div className="flex items-center gap-1.5 mb-1 font-bold text-[#1C2841] uppercase text-[11px] tracking-wider">
+                          <span className="w-3.5 h-3.5 rounded-full bg-[#1C2841]/10 text-[#1C2841] flex items-center justify-center text-[9.5px] font-bold shrink-0">✓</span>
                           <span>100% Combed Cotton</span>
                         </div>
-                        <p className="text-soft-black leading-relaxed font-normal text-[11.5px]">
+                        <p className="text-soft-black leading-relaxed font-normal text-xs">
                           Naturally breathable organic cotton cord and rust-proof zinc alloy hardware that lasts for years.
                         </p>
                       </div>
@@ -1331,12 +1328,12 @@ const RetailPage = () => {
       {/* ========================================================================= */}
       {/* 2. GUARANTEE SECTION (BELOW) - Shown for BOTH Adult & Kids */}
       {/* ========================================================================= */}
-      <section className="w-full bg-[#FAF8F5] py-10 md:py-16 font-sans">
+      <section className="w-full bg-[#F6F6F7] py-10 md:py-16 font-sans">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           
           {/* Section Header */}
           <div className="mb-6 md:mb-10 text-center md:text-left pb-4">
-            <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-terracotta block mb-1">
+            <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-[#131E33] block mb-1">
               Zero Risk Cash On Delivery
             </span>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-soft-black tracking-tight">
@@ -1356,7 +1353,7 @@ const RetailPage = () => {
                   loading="lazy"
                   decoding="async"
                 />
-                <div className="absolute bottom-3 left-3 bg-[#1C2841] text-white text-[9.5px] sm:text-[10px] font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-xl shadow-md">
+                <div className="absolute bottom-3 left-3 bg-[#1C2841] text-white text-[9.5px] sm:text-[10px] font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-xl">
                   100% Risk-Free Delivery
                 </div>
               </div>
@@ -1365,7 +1362,7 @@ const RetailPage = () => {
             {/* Right: 2 Big Trust Guarantee Pillars */}
             <div className="lg:col-span-7 space-y-4">
               <div className="bg-white p-5 sm:p-6 rounded-2xl shadow-none">
-                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-terracotta block mb-1.5">
+                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#131E33] block mb-1.5">
                   Doorstep Verification
                 </span>
                 <h3 className="text-sm sm:text-base font-bold text-soft-black uppercase tracking-wider mb-2">
@@ -1377,7 +1374,7 @@ const RetailPage = () => {
               </div>
 
               <div className="bg-white p-5 sm:p-6 rounded-2xl shadow-none">
-                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-terracotta block mb-1.5">
+                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#131E33] block mb-1.5">
                   Hardware Guarantee
                 </span>
                 <h3 className="text-sm sm:text-base font-bold text-soft-black uppercase tracking-wider mb-2">
@@ -1408,7 +1405,7 @@ const RetailPage = () => {
             initial={{ opacity: 0, scale: 0.96, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="bg-white w-full max-w-md p-5 sm:p-7 relative z-10 shadow-2xl rounded-3xl text-center overflow-hidden my-auto"
+            className="bg-white w-full max-w-md p-5 sm:p-7 relative z-10 rounded-3xl text-center overflow-hidden my-auto"
           >
             <button 
               type="button"
@@ -1429,8 +1426,8 @@ const RetailPage = () => {
             </p>
             
             {/* Sizing Table */}
-            <div className="w-full bg-[#FAF7F2] rounded-2xl overflow-hidden mb-3 shadow-2xs text-xs sm:text-[13px]">
-              <div className="grid grid-cols-3 bg-[#F2EDE4]/80 py-2 px-3 text-[10.5px] font-bold uppercase tracking-wider text-dark-charcoal/70">
+            <div className="w-full bg-[#F6F6F7] rounded-2xl overflow-hidden mb-3 text-xs sm:text-[13px]">
+              <div className="grid grid-cols-3 bg-[#EEEEF0] py-2 px-3 text-[10.5px] font-bold uppercase tracking-wider text-dark-charcoal/70">
                 <span>Size</span>
                 <span>Waist Fit</span>
                 <span>Length</span>
@@ -1449,7 +1446,7 @@ const RetailPage = () => {
 
             {/* Stacked Dimensions - One Under Another */}
             <div className="flex flex-col gap-2 mb-3 text-left">
-              <div className="bg-[#FAF7F2] rounded-2xl p-3 shadow-2xs">
+              <div className="bg-[#F6F6F7] rounded-2xl p-3">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-dark-charcoal/60 block mb-0.5">
                   Belt Width
                 </span>
@@ -1461,7 +1458,7 @@ const RetailPage = () => {
                 </p>
               </div>
 
-              <div className="bg-[#FAF7F2] rounded-2xl p-3 shadow-2xs">
+              <div className="bg-[#F6F6F7] rounded-2xl p-3">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-dark-charcoal/60 block mb-0.5">
                   Adjustability
                 </span>
@@ -1475,7 +1472,7 @@ const RetailPage = () => {
             </div>
             
             {/* Sizing Tip - Neutral Tone, Zero AI Icons, Zero Green */}
-            <div className="bg-[#FAF7F2] rounded-2xl p-3 text-left text-[11px] leading-relaxed text-dark-charcoal/75 shadow-2xs">
+            <div className="bg-[#F6F6F7] rounded-2xl p-3 text-left text-[11px] leading-relaxed text-dark-charcoal/75">
               <strong className="font-bold text-soft-black block mb-0.5">Fit Tip:</strong>
               Choose your usual trouser waist size. Without fixed punch holes, the buckle prong inserts smoothly through any point in the macramé cord for a precise, comfortable fit.
             </div>
@@ -1497,7 +1494,7 @@ const RetailPage = () => {
             initial={{ opacity: 0, scale: 0.96, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="bg-white w-full max-w-md p-5 sm:p-7 relative z-10 shadow-2xl rounded-3xl text-center max-h-[90vh] overflow-y-auto my-auto"
+            className="bg-white w-full max-w-md p-5 sm:p-7 relative z-10 rounded-3xl text-center max-h-[90vh] overflow-y-auto my-auto"
           >
             <button 
               type="button"
@@ -1511,14 +1508,14 @@ const RetailPage = () => {
             <img src="/logo_black.png" alt="AST Logo" className="h-5 w-auto mx-auto mb-2.5 object-contain opacity-80 select-none" />
             
             <h2 className="text-xl sm:text-2xl font-serif text-soft-black mb-1 font-semibold">{activeProduct.careGuide?.title || 'Care Guide'}</h2>
-            <p className="text-[10.5px] font-medium text-terracotta uppercase tracking-[0.15em] mb-4">Keep it clean. Keep it natural.</p>
+            <p className="text-[10.5px] font-medium text-[#131E33] uppercase tracking-[0.15em] mb-4">Keep it clean. Keep it natural.</p>
             
-            <div className="w-full bg-[#FAF7F2] rounded-2xl p-4 sm:p-5 mb-4 text-left text-xs leading-relaxed text-soft-black/85 shadow-2xs">
+            <div className="w-full bg-[#F6F6F7] rounded-2xl p-4 sm:p-5 mb-4 text-left text-xs leading-relaxed text-soft-black/85">
               {activeProduct.careGuide?.points ? (
                 <ul className="space-y-2.5">
                   {activeProduct.careGuide.points.map((point, idx) => (
                     <li key={idx} className="flex items-start gap-2.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-terracotta mt-1.5 shrink-0" />
+                      <span className="text-[#131E33] font-bold select-none">—</span>
                       <span className="leading-relaxed">{point}</span>
                     </li>
                   ))}
@@ -1717,7 +1714,7 @@ const RetailPage = () => {
                   className={`w-7.5 h-7.5 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center rounded-xl transition-all duration-200 cursor-pointer ${
                     isCartedAnimation
                       ? 'text-white bg-emerald-600 scale-105'
-                      : 'bg-white text-soft-black hover:bg-soft-black hover:text-cream active:scale-95'
+                      : 'bg-white text-soft-black hover:bg-[#131E33] hover:text-white active:scale-95'
                   }`}
                   title="Add to Cart"
                   aria-label="Add to Cart"

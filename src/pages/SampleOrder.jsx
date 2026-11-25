@@ -8,12 +8,12 @@ import { useCartWishlist, calculateTierPriceBDT } from '../context/CartWishlistC
 import { PRODUCTS, calculateAdultTierPriceBDT, calculateKidsTierPriceBDT } from '../data/products';
 
 const Accordion = ({ title, isOpen, onClick, children }) => (
-  <div className="bg-[#FAF7F2] rounded-2xl mb-3 last:mb-0 overflow-hidden p-4 sm:p-5 shadow-2xs transition-all">
+  <div className="bg-[#F6F6F7] rounded-2xl mb-3 last:mb-0 overflow-hidden p-4 sm:p-5 transition-all">
     <button 
       onClick={onClick}
       className="w-full flex justify-between items-center text-left cursor-pointer group select-none"
     >
-      <span className="font-serif text-sm sm:text-base md:text-lg text-soft-black font-semibold group-hover:text-terracotta transition-colors">{title}</span>
+      <span className="font-serif text-sm sm:text-base md:text-lg text-soft-black font-semibold group-hover:text-[#131E33] transition-colors">{title}</span>
       {isOpen ? <Minus className="w-4 h-4 md:w-5 md:h-5 text-soft-black/50" /> : <Plus className="w-4 h-4 md:w-5 md:h-5 text-soft-black/50" />}
     </button>
     <AnimatePresence>
@@ -291,7 +291,7 @@ const SampleOrder = () => {
   };
 
   return (
-    <div className="w-full bg-cream min-h-screen pt-[50px] sm:pt-[76px] md:pt-[96px]">
+    <div className="w-full bg-white min-h-screen pt-[50px] sm:pt-[76px] md:pt-[96px]">
       <div className="max-w-7xl mx-auto px-0 lg:px-12">
         
         {/* Product Hero & Details */}
@@ -494,10 +494,10 @@ const SampleOrder = () => {
                         key={s}
                         type="button"
                         onClick={() => handleSizeChange(s)}
-                        className={`w-9 h-9 md:w-10 md:h-10 rounded  text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center ${
+                        className={`w-9 h-9 md:w-10 md:h-10 rounded text-center font-bold text-xs md:text-sm transition-all cursor-pointer flex items-center justify-center ${
                           isSelected
-                            ? 'bg-soft-black text-cream  shadow-xs'
-                            : 'bg-white text-soft-black  '
+                            ? 'bg-soft-black text-white'
+                            : 'bg-[#F6F6F7] text-soft-black'
                         }`}
                       >
                         {s}
@@ -517,7 +517,7 @@ const SampleOrder = () => {
                   type="button"
                   onClick={() => handleQuantityUpdate(quantity - 1)}
                   disabled={quantity <= 1}
-                  className="w-8 md:w-9 h-full text-soft-black hover:text-terracotta active:scale-90 font-bold flex items-center justify-center transition-all disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer shrink-0"
+                  className="w-8 md:w-9 h-full text-soft-black hover:text-[#131E33] active:scale-90 font-bold flex items-center justify-center transition-all disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer shrink-0"
                   aria-label="Decrease quantity"
                 >
                   <Minus className="w-3.5 h-3.5 stroke-[2.2]" />
@@ -529,7 +529,7 @@ const SampleOrder = () => {
                   type="button"
                   onClick={() => handleQuantityUpdate(quantity + 1)}
                   disabled={quantity >= 20}
-                  className="w-8 md:w-9 h-full text-soft-black hover:text-terracotta active:scale-90 font-bold flex items-center justify-center transition-all disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer shrink-0"
+                  className="w-8 md:w-9 h-full text-soft-black hover:text-[#131E33] active:scale-90 font-bold flex items-center justify-center transition-all disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer shrink-0"
                   aria-label="Increase quantity"
                 >
                   <Plus className="w-3.5 h-3.5 stroke-[2.2]" />
@@ -540,11 +540,11 @@ const SampleOrder = () => {
               <button 
                 type="button"
                 onClick={handleAddToCart}
-                className="relative overflow-hidden group flex-1 h-12 md:h-[52px] flex items-center justify-center gap-2 md:gap-2.5 bg-soft-black text-cream px-4 md:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-dark-charcoal hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
+                className="relative overflow-hidden group flex-1 h-12 md:h-[52px] flex items-center justify-center gap-2 md:gap-2.5 bg-soft-black text-white px-4 md:px-6 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-[#131E33] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 cursor-pointer"
               >
                 {/* Shimmer Light Sweep on Hover */}
                 <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
-                <ShoppingBag className="w-4 h-4 text-cream transition-transform duration-300 group-hover:scale-110 shrink-0 relative z-10" />
+                <ShoppingBag className="w-4 h-4 text-white transition-transform duration-300 group-hover:scale-110 shrink-0 relative z-10" />
                 <span className="relative z-10 whitespace-nowrap transition-all duration-300 group-hover:tracking-[0.22em]">ADD TO CART</span>
               </button>
             </div>

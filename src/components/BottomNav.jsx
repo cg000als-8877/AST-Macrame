@@ -73,11 +73,11 @@ const BottomNav = () => {
 
   // Dynamic colors based on footer visibility
   const navBgFill = isOverFooter ? '#FFFFFF' : '#131E33';
-  const navStroke = isOverFooter ? 'rgba(19, 30, 51, 0.22)' : 'transparent';
-  const iconInactiveClass = isOverFooter ? 'text-[#131E33]/70 group-hover:text-[#131E33]' : 'text-white/80 group-hover:text-white';
-  const iconActiveClass = isOverFooter ? 'text-[#131E33] font-black scale-105' : 'text-[#c3b091] font-black scale-105';
-  const textInactiveClass = isOverFooter ? 'text-[#131E33]/70 group-hover:text-[#131E33]' : 'text-white/80 group-hover:text-white';
-  const textActiveClass = isOverFooter ? 'text-[#131E33] font-extrabold' : 'text-[#c3b091] font-extrabold';
+  const navStroke = 'transparent';
+  const iconInactiveClass = isOverFooter ? 'text-[#131E33]/60 group-hover:text-[#131E33]' : 'text-white/60 group-hover:text-white';
+  const iconActiveClass = isOverFooter ? 'text-[#131E33] font-black scale-105' : 'text-white font-black scale-105';
+  const textInactiveClass = isOverFooter ? 'text-[#131E33]/60 group-hover:text-[#131E33]' : 'text-white/60 group-hover:text-white';
+  const textActiveClass = isOverFooter ? 'text-[#131E33] font-extrabold' : 'text-white font-extrabold';
   const cartLabelClass = isOverFooter ? 'text-[#131E33]' : 'text-white';
 
   return (
@@ -117,17 +117,17 @@ const BottomNav = () => {
               onClick={() => setIsCartOpen(true)}
               className={`relative w-9 h-9 rounded-full transition-all duration-300 flex items-center justify-center cursor-pointer group active:scale-95 ${
                 isOverFooter 
-                  ? 'bg-[#131E33] text-white border border-white/80 hover:bg-[#1a2845]' 
-                  : 'bg-[#c3b091] text-[#131E33] border-0 hover:bg-[#b59e7a]'
+                  ? 'bg-[#131E33] text-white hover:bg-[#1a2845]' 
+                  : 'bg-white text-[#131E33] hover:bg-stone-100'
               }`}
               aria-label="Open Cart"
             >
               <ShoppingCart className={`w-3.5 h-3.5 stroke-[2.3] group-hover:scale-105 transition-transform ${isOverFooter ? 'text-white' : 'text-[#131E33]'}`} />
               
-              {/* Dynamic Cart Badge (thin stroke only when in footer menu) */}
-              <span className={`absolute -top-1 -right-1 text-[8px] font-black w-4 h-4 rounded-full flex items-center justify-center ${
+              {/* Dynamic Cart Badge */}
+              <span className={`absolute -top-1 -right-1 text-[9.5px] font-bold w-4 h-4 rounded-full flex items-center justify-center ${
                 isOverFooter 
-                  ? 'bg-white text-[#131E33] border border-[#131E33]' 
+                  ? 'bg-white text-[#131E33]' 
                   : 'bg-[#131E33] text-white'
               }`}>
                 {totalCartQuantity || 0}
@@ -144,7 +144,7 @@ const BottomNav = () => {
               className="flex flex-col items-center justify-center h-full group active:scale-95 transition-transform"
             >
               <Home className={`w-3.5 h-3.5 mb-0.5 stroke-[2] transition-all duration-300 ${isHomeActive ? iconActiveClass : iconInactiveClass}`} />
-              <span className={`text-[7.5px] uppercase tracking-wider leading-none transition-all duration-300 ${isHomeActive ? textActiveClass : textInactiveClass}`}>
+              <span className={`text-[9.5px] uppercase font-semibold tracking-wider leading-none transition-all duration-300 ${isHomeActive ? textActiveClass : textInactiveClass}`}>
                 HOME
               </span>
             </Link>
@@ -155,7 +155,7 @@ const BottomNav = () => {
               className="flex flex-col items-center justify-center h-full group active:scale-95 transition-transform"
             >
               <BeltIcon className={`w-3.5 h-3.5 mb-0.5 transition-all duration-300 ${isProductsActive ? iconActiveClass : iconInactiveClass}`} />
-              <span className={`text-[7.5px] uppercase tracking-wider leading-none transition-all duration-300 ${isProductsActive ? textActiveClass : textInactiveClass}`}>
+              <span className={`text-[9.5px] uppercase font-semibold tracking-wider leading-none transition-all duration-300 ${isProductsActive ? textActiveClass : textInactiveClass}`}>
                 PRODUCTS
               </span>
             </Link>
@@ -166,7 +166,7 @@ const BottomNav = () => {
               onClick={() => setIsCartOpen(true)}
               className="flex flex-col items-center justify-end h-full pb-1 group active:scale-95 transition-transform cursor-pointer"
             >
-              <span className={`text-[7.5px] uppercase font-bold tracking-wider leading-none transition-colors duration-300 ${cartLabelClass}`}>
+              <span className={`text-[9.5px] uppercase font-bold tracking-wider leading-none transition-colors duration-300 ${cartLabelClass}`}>
                 CART
               </span>
             </button>
@@ -177,7 +177,7 @@ const BottomNav = () => {
               className="flex flex-col items-center justify-center h-full group active:scale-95 transition-transform"
             >
               <Building2 className={`w-3.5 h-3.5 stroke-[2] transition-all duration-300 ${isWholesaleActive ? iconActiveClass : iconInactiveClass}`} />
-              <span className={`text-[7.5px] uppercase tracking-wider leading-none transition-all duration-300 ${isWholesaleActive ? textActiveClass : textInactiveClass}`}>
+              <span className={`text-[9.5px] uppercase font-semibold tracking-wider leading-none transition-all duration-300 ${isWholesaleActive ? textActiveClass : textInactiveClass}`}>
                 WHOLESALE
               </span>
             </Link>
@@ -188,7 +188,7 @@ const BottomNav = () => {
               className="flex flex-col items-center justify-center h-full group active:scale-95 transition-transform"
             >
               <Phone className={`w-3.5 h-3.5 stroke-[2] transition-all duration-300 ${isContactActive ? iconActiveClass : iconInactiveClass}`} />
-              <span className={`text-[7.5px] uppercase tracking-wider leading-none transition-all duration-300 ${isContactActive ? textActiveClass : textInactiveClass}`}>
+              <span className={`text-[9.5px] uppercase font-semibold tracking-wider leading-none transition-all duration-300 ${isContactActive ? textActiveClass : textInactiveClass}`}>
                 CONTACT
               </span>
             </Link>

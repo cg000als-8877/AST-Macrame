@@ -1,51 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  /* Default/Original Theme - Warm Linen Canvas for Day-Mode Card Contrast */
-  --tw-color-cream: #F4EFEA;
+  /* Default/Original Theme - Pure White Studio Canvas & Architectural Monochrome */
+  --tw-color-cream: #FFFFFF;
   --tw-color-cotton-white: #FFFFFF;
-  --tw-color-warm-sand: #E6D5C3;
+  --tw-color-warm-sand: #EAEAEA;
   --tw-color-stone: #B8B0A5;
-  --tw-color-clay: #A38771;
-  --tw-color-terracotta: #1C2841;
+  --tw-color-clay: #888888;
+  --tw-color-terracotta: #131E33;
   --tw-color-dark-charcoal: #2D2D2D;
-  --tw-color-soft-black: #1A1A1A;
-  --tw-color-deep-navy: #1C2841;
+  --tw-color-soft-black: #111111;
+  --tw-color-deep-navy: #131E33;
   --tw-color-muted-burgundy: #131E33;
-  --tw-color-natural-linen: #DED3C4;
+  --tw-color-natural-linen: #F6F6F7;
 }
 
-[data-theme="sage"] {
-  --tw-color-cream: #EBF0EC;
-  --tw-color-cotton-white: #F8FAF9;
-  --tw-color-warm-sand: #C9D9C3;
-  --tw-color-stone: #A3B5A5;
-  --tw-color-clay: #7A9684;
-  --tw-color-terracotta: #5E7A68;
-  --tw-color-dark-charcoal: #344238;
-  --tw-color-soft-black: #242E27;
-}
-
-[data-theme="rose"] {
-  --tw-color-cream: #F7EDE8;
-  --tw-color-cotton-white: #FEFCFB;
-  --tw-color-warm-sand: #E2C2B3;
-  --tw-color-stone: #C4A198;
-  --tw-color-clay: #B07C6F;
-  --tw-color-terracotta: #A85A4C;
-  --tw-color-dark-charcoal: #4A322C;
-  --tw-color-soft-black: #38241F;
-}
-
-[data-theme="slate"] {
-  --tw-color-cream: #E8ECEF;
-  --tw-color-cotton-white: #F8F9FA;
-  --tw-color-warm-sand: #B9C6D1;
-  --tw-color-stone: #94A6B5;
-  --tw-color-clay: #667F91;
-  --tw-color-terracotta: #4A6375;
-  --tw-color-dark-charcoal: #273642;
-  --tw-color-soft-black: #1B262E;
+[data-theme] {
+  --tw-color-cream: #FFFFFF;
+  --tw-color-cotton-white: #FFFFFF;
+  --tw-color-warm-sand: #EAEAEA;
+  --tw-color-terracotta: #131E33;
+  --tw-color-deep-navy: #131E33;
 }
 
 @theme {
@@ -81,7 +56,7 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--color-cream);
+  background-color: #FFFFFF !important;
   color: var(--color-soft-black);
 }
 
@@ -98,7 +73,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .glass {
-  background: rgba(244, 239, 234, 0.85);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
 }
 

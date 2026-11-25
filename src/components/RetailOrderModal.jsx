@@ -532,7 +532,7 @@ const RetailOrderModal = ({
             exit={{ opacity: 0, y: 16 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
             className={`w-full h-[100dvh] md:h-auto md:max-h-[96vh] max-w-6xl px-2.5 py-4 sm:px-5 sm:py-6 md:px-8 lg:px-12 md:py-8 rounded-none md:rounded-3xl overflow-y-auto overscroll-contain relative flex flex-col ${
-              isSuccess ? 'bg-transparent shadow-none items-center justify-start md:justify-center' : 'bg-[#FAF8F5] shadow-2xl md:block  '
+              isSuccess ? 'bg-transparent shadow-none items-center justify-start md:justify-center' : 'bg-white shadow-2xl md:block  '
             }`}
           >
             {!isSubmitting && !isSuccess && (
@@ -605,7 +605,7 @@ const RetailOrderModal = ({
                       </p>
                     </div>
                     <div className="text-right">
-                      <span className="inline-block bg-[#FAF8F5] text-soft-black text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-1">
+                      <span className="inline-block bg-[#F6F6F7] text-soft-black text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-1">
                         CASH ON DELIVERY
                       </span>
                       <div className="text-[11.5px] font-mono font-bold text-soft-black leading-tight">{orderReceipt.orderId}</div>
@@ -614,7 +614,7 @@ const RetailOrderModal = ({
                   </div>
 
                   {/* Customer Delivery Details Box */}
-                  <div className="bg-[#FAF8F5] p-3 rounded-xl sm:rounded-none text-xs">
+                  <div className="bg-[#F6F6F7] p-3 rounded-xl sm:rounded-none text-xs">
                     <div className="text-[9px] font-bold uppercase tracking-widest text-terracotta mb-1 flex items-center gap-1">
                       <MapPin className="w-3 h-3 text-terracotta shrink-0" />
                       <span>Delivery Information</span>
@@ -686,7 +686,7 @@ const RetailOrderModal = ({
                       <span>Delivery Fee (All over Bangladesh):</span>
                       <span className="font-semibold text-soft-black">৳ {orderReceipt.deliveryCost.toLocaleString()}</span>
                     </div>
-                    <div className="flex justify-between items-center pt-2 mt-1 bg-[#FAF8F5] p-2.5 sm:p-3 rounded-xl sm:rounded-none">
+                    <div className="flex justify-between items-center pt-2 mt-1 bg-[#F6F6F7] p-2.5 sm:p-3 rounded-xl sm:rounded-none">
                       <div>
                         <span className="block text-[9.5px] font-bold uppercase tracking-wider text-dark-charcoal/70">
                           Total Payable Amount (COD)
@@ -702,7 +702,7 @@ const RetailOrderModal = ({
                   </div>
 
                   {/* Order Processing & Delivery Notice */}
-                  <div className="bg-[#FAF8F5] rounded-lg sm:rounded-none p-2.5 text-[10.5px] text-dark-charcoal/85 leading-relaxed text-center">
+                  <div className="bg-[#F6F6F7] rounded-lg sm:rounded-none p-2.5 text-[10.5px] text-dark-charcoal/85 leading-relaxed text-center">
                     📦 Your order is now being processed and will soon be handed over to the courier. The rider will call you before attempting delivery.
                   </div>
 
@@ -764,40 +764,40 @@ const RetailOrderModal = ({
                   />
                   <div className="order-2 md:order-1 space-y-3 md:space-y-4">
                   <div>
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-1">
-                      Name / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px]">নাম</span> {!nameFilled && <span className="text-red-500 font-normal italic normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
+                    <label className="block text-[11px] md:text-xs font-bold tracking-normal uppercase text-dark-charcoal mb-1">
+                      Name / <span className="font-bengali tracking-normal font-medium text-[13.5px] md:text-[14.5px]">নাম</span> {!nameFilled && <span className="text-red-500 font-normal italic normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
                     </label>
                     <input 
                       type="text" 
                       name="name" 
-                      className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] min-h-[42px] md:min-h-[46px]" 
+                      className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:ring-1 focus:ring-soft-black/10 transition-all text-base md:text-[15px] min-h-[42px] md:min-h-[46px]" 
                       placeholder="Your Full Name" 
                       required 
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-1">
-                      Phone / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px]">মোবাইল নম্বর</span> {!phoneFilled && <span className="text-red-500 font-normal italic normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
+                    <label className="block text-[11px] md:text-xs font-bold tracking-normal uppercase text-dark-charcoal mb-1">
+                      Phone / <span className="font-bengali tracking-normal font-medium text-[13.5px] md:text-[14.5px]">মোবাইল নম্বর</span> {!phoneFilled && <span className="text-red-500 font-normal italic normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
                     </label>
                     <div className="relative flex items-center w-full bg-white rounded-xl overflow-hidden focus-within:ring-1 focus-within:ring-soft-black/10 transition-all min-h-[42px] md:min-h-[46px]">
-                      <span className="pl-3.5 text-[13px] md:text-[15px] text-dark-charcoal/70 font-medium">+88</span>
+                      <span className="pl-3.5 text-base md:text-[15px] text-dark-charcoal/70 font-medium">+88</span>
                       <input 
                         type="tel" 
                         name="phone" 
-                        className="w-full bg-transparent px-2 py-2.5 md:py-3 focus:outline-none text-[13px] md:text-[15px]" 
+                        className="w-full bg-transparent px-2 py-2.5 md:py-3 focus:outline-none text-base md:text-[15px]" 
                         placeholder="01XXX XXXXXX" 
                         required 
                       />
                     </div>
                   </div>
                   <div className="relative">
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-1">
-                      District / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px]">জেলা</span> {!selectedDistrictId && <span className="text-red-500 font-normal italic normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
+                    <label className="block text-[11px] md:text-xs font-bold tracking-normal uppercase text-dark-charcoal mb-1">
+                      District / <span className="font-bengali tracking-normal font-medium text-[13.5px] md:text-[14.5px]">জেলা</span> {!selectedDistrictId && <span className="text-red-500 font-normal italic normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
                     </label>
                     <div className="relative">
                       <select 
                         name="district" 
-                        className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] appearance-none pr-10 font-bengali min-h-[42px] md:min-h-[46px] cursor-pointer" 
+                        className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:ring-1 focus:ring-soft-black/10 transition-all text-base md:text-[15px] appearance-none pr-10 font-bengali min-h-[42px] md:min-h-[46px] cursor-pointer" 
                         style={{ WebkitAppearance: 'none', MozAppearance: 'none', appearance: 'none' }}
                         required
                         value={selectedDistrictId}
@@ -814,13 +814,13 @@ const RetailOrderModal = ({
                     </div>
                   </div>
                   <div className="relative">
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-1">
-                      Thana/Upazila / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px]">থানা / উপজেলা</span> {!selectedUpazilaName && <span className="text-red-500 font-normal italic normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
+                    <label className="block text-[11px] md:text-xs font-bold tracking-normal uppercase text-dark-charcoal mb-1">
+                      Thana/Upazila / <span className="font-bengali tracking-normal font-medium text-[13.5px] md:text-[14.5px]">থানা / উপজেলা</span> {!selectedUpazilaName && <span className="text-red-500 font-normal italic normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
                     </label>
                     <div className="relative">
                       <select 
                         name="thana" 
-                        className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] appearance-none pr-10 font-bengali min-h-[42px] md:min-h-[46px] cursor-pointer" 
+                        className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:ring-1 focus:ring-soft-black/10 transition-all text-base md:text-[15px] appearance-none pr-10 font-bengali min-h-[42px] md:min-h-[46px] cursor-pointer" 
                         style={{ WebkitAppearance: 'none', MozAppearance: 'none', appearance: 'none' }}
                         value={selectedUpazilaName}
                         onChange={(e) => setSelectedUpazilaName(e.target.value)}
@@ -838,8 +838,8 @@ const RetailOrderModal = ({
                     </div>
                   </div>
                   <div>
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-1">
-                      Full Address / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px]">সম্পূর্ণ ঠিকানা</span> {!deliveryPointFilled && <span className="text-red-500 font-normal italic normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
+                    <label className="block text-[11px] md:text-xs font-bold tracking-normal uppercase text-dark-charcoal mb-1">
+                      Full Address / <span className="font-bengali tracking-normal font-medium text-[13.5px] md:text-[14.5px]">সম্পূর্ণ ঠিকানা</span> {!deliveryPointFilled && <span className="text-red-500 font-normal italic normal-case tracking-normal ml-1 text-[10px] md:text-[11px]">(Required)</span>}
                     </label>
                     <textarea 
                       name="delivery_point"
@@ -848,15 +848,15 @@ const RetailOrderModal = ({
                         e.target.style.height = 'auto';
                         e.target.style.height = `${e.target.scrollHeight}px`;
                       }}
-                      className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] resize-none overflow-hidden min-h-[42px] md:min-h-[46px]" 
+                      className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:ring-1 focus:ring-soft-black/10 transition-all text-base md:text-[15px] resize-none overflow-hidden min-h-[42px] md:min-h-[46px]" 
                       placeholder="House/Flat, Road, Area/Village" 
                       required
                     ></textarea>
                   </div>
 
                   <div>
-                    <label className="block text-[11px] md:text-[12px] font-bold tracking-normal uppercase text-dark-charcoal mb-1">
-                      Note / <span className="font-bengali tracking-normal font-medium text-[12px] md:text-[13px]">নোট</span> <span className="text-dark-charcoal/50 font-normal normal-case tracking-normal">(Optional)</span>
+                    <label className="block text-[11px] md:text-xs font-bold tracking-normal uppercase text-dark-charcoal mb-1">
+                      Note / <span className="font-bengali tracking-normal font-medium text-[13.5px] md:text-[14.5px]">নোট</span> <span className="text-dark-charcoal/50 font-normal normal-case tracking-normal">(Optional)</span>
                     </label>
                     <textarea 
                       name="note"
@@ -865,7 +865,7 @@ const RetailOrderModal = ({
                         e.target.style.height = 'auto';
                         e.target.style.height = `${e.target.scrollHeight}px`;
                       }}
-                      className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:ring-1 focus:ring-soft-black/10 transition-all text-[13px] md:text-[15px] resize-none overflow-hidden min-h-[42px] md:min-h-[46px]" 
+                      className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 focus:outline-none focus:ring-1 focus:ring-soft-black/10 transition-all text-base md:text-[15px] resize-none overflow-hidden min-h-[42px] md:min-h-[46px]" 
                       placeholder="Any custom instructions..."
                     ></textarea>
                   </div>
@@ -887,7 +887,7 @@ const RetailOrderModal = ({
                     <button 
                       type="submit" 
                       disabled={isSubmitting} 
-                      className="w-full bg-black text-white px-2 sm:px-4 py-3.5 text-[10.5px] min-[360px]:text-[11.5px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider rounded-xl hover:bg-neutral-800 transition-colors active:scale-[0.99] disabled:opacity-75 disabled:cursor-wait whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 cursor-pointer"
+                      className="w-full bg-black text-white px-2 sm:px-4 py-3.5 text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-neutral-800 transition-colors active:scale-[0.99] disabled:opacity-75 disabled:cursor-wait whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 cursor-pointer"
                     >
                       {isSubmitting ? (
                         'Processing...'
@@ -941,7 +941,7 @@ const RetailOrderModal = ({
                           )}
                         </div>
                         {cartItems.map((item, idx) => (
-                          <div key={idx} className="flex items-center gap-2.5 p-2 rounded-xl bg-[#FAF8F5]">
+                          <div key={idx} className="flex items-center gap-2.5 p-2 rounded-xl bg-[#F6F6F7]">
                             <div className="w-10 h-10 shrink-0 bg-stone/10 rounded-lg overflow-hidden">
                               <img 
                                 src={item.image || colorImages[item.color] || colorImages[item.comboColor1] || '/logo_black.png'} 
@@ -956,7 +956,7 @@ const RetailOrderModal = ({
                               <div className="text-[10px] text-dark-charcoal/70 truncate">
                                 {item.orderType === 'combo' 
                                   ? `${item.comboColor1}(${item.comboSize1}) + ${item.comboColor2}(${item.comboSize2})`
-                                  : `Color: ${item.color} • Size: ${item.size}`
+                                  : `Color: ${item.color} — Size: ${item.size}`
                                 }
                               </div>
                             </div>
@@ -973,19 +973,19 @@ const RetailOrderModal = ({
                         </div>
                         <div className="flex flex-col">
                           <span className="text-[11px] md:text-sm font-bold text-soft-black">Single Product</span>
-                          <span className="text-[10px] md:text-xs text-dark-charcoal/70 mt-0.5 md:mt-1">Color: {selectedColor} &bull; Size: {selectedSize}</span>
+                          <span className="text-[10px] md:text-xs text-dark-charcoal/70 mt-0.5 md:mt-1">Color: {selectedColor} | Size: {selectedSize}</span>
                         </div>
                       </div>
                     ) : (
                       <div className="flex flex-col gap-2 md:gap-3 mb-3 md:mb-4">
                         <span className="text-[11px] md:text-sm font-bold text-soft-black">Combo Pack (2 Belts)</span>
-                        <div className="flex items-center gap-3 md:gap-4 p-2 rounded-xl bg-[#FAF8F5]">
+                        <div className="flex items-center gap-3 md:gap-4 p-2 rounded-xl bg-[#F6F6F7]">
                           <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 bg-stone/10 rounded-lg overflow-hidden">
                             <img src={colorImages[comboColor1]} alt={comboColor1} className="w-full h-full object-cover mix-blend-multiply" />
                           </div>
                           <span className="text-[10px] md:text-xs text-dark-charcoal/80 tracking-normal">Belt 1: {comboColor1} ({comboSize1})</span>
                         </div>
-                        <div className="flex items-center gap-3 md:gap-4 p-2 rounded-xl bg-[#FAF8F5]">
+                        <div className="flex items-center gap-3 md:gap-4 p-2 rounded-xl bg-[#F6F6F7]">
                           <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 bg-stone/10 rounded-lg overflow-hidden">
                             <img src={colorImages[comboColor2]} alt={comboColor2} className="w-full h-full object-cover mix-blend-multiply" />
                           </div>

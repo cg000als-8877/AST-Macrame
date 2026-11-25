@@ -8,8 +8,7 @@ import {
   Search, 
   ChevronRight, 
   Phone, 
-  ArrowLeft, 
-  MessageCircle
+  ArrowLeft
 } from 'lucide-react';
 import { useCartWishlist } from '../context/CartWishlistContext';
 
@@ -118,8 +117,8 @@ const Navbar = () => {
         
         {/* Retail Announcement Bar (Top on Retail page only, #131E33 Footer Blue background) */}
         {isRetailPage && (
-          <div className="w-full bg-[#131E33] text-white text-[9.5px] sm:text-[10.5px] font-medium flex items-center justify-center gap-1.5 py-1 px-3 z-50 tracking-wider uppercase sm:rounded-t-[4px]">
-            <svg className="w-3 h-3 text-[#C3B091] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="w-full bg-[#131E33] text-white text-[10.5px] sm:text-xs font-medium flex items-center justify-center gap-1.5 py-1 px-3 z-50 tracking-wider uppercase sm:rounded-t-[4px]">
+            <svg className="w-3 h-3 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1" />
             </svg>
@@ -180,7 +179,7 @@ const Navbar = () => {
               >
                 <ShoppingCart className="w-5 h-5 stroke-[2]" />
                 {totalCartQuantity > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 bg-terracotta text-white text-[8.5px] font-black w-4 h-4 rounded-full flex items-center justify-center leading-none">
+                  <span className="absolute -top-0.5 -right-0.5 bg-terracotta text-white text-[9.5px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none">
                     {totalCartQuantity}
                   </span>
                 )}
@@ -197,7 +196,7 @@ const Navbar = () => {
                 : 'opacity-0 -translate-y-full pointer-events-none'
             }`}
           >
-            <div className="relative flex-1 flex items-center bg-[#FAF7F2] focus-within:bg-[#F2EDE4] rounded-xl px-3 py-1.5 text-xs transition-colors">
+            <div className="relative flex-1 flex items-center bg-[#F6F6F7] focus-within:bg-[#EAEAEA] rounded-xl px-3 py-1.5 text-xs transition-colors">
               <Search className="w-4 h-4 text-terracotta stroke-[2] shrink-0 mr-2" />
               <input
                 ref={searchInputRef}
@@ -250,7 +249,7 @@ const Navbar = () => {
                       to={link.path}
                       className={`relative px-2.5 py-1.5 md:px-3 text-xs md:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded-xl transition-all duration-200 ${
                         isActive 
-                          ? 'text-soft-black bg-[#FAF7F2] scale-[1.02]' 
+                          ? 'text-soft-black bg-[#F6F6F7] scale-[1.02]' 
                           : ' text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
                       }`}
                     >
@@ -290,7 +289,7 @@ const Navbar = () => {
                       to={link.path}
                       className={`relative px-2.5 py-1.5 md:px-3 text-xs md:text-[12.5px] font-bold tracking-wider uppercase whitespace-nowrap rounded-xl transition-all duration-200 ${
                         isActive 
-                          ? 'text-soft-black bg-[#FAF7F2] scale-[1.02]' 
+                          ? 'text-soft-black bg-[#F6F6F7] scale-[1.02]' 
                           : ' text-soft-black/80 hover:text-soft-black hover:bg-black/[0.04] active:scale-95'
                       }`}
                     >
@@ -317,7 +316,7 @@ const Navbar = () => {
             >
               <ShoppingCart className="w-5 h-5 stroke-[1.8] transition-transform group-hover:scale-105" />
               {totalCartQuantity > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 bg-terracotta text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-xs">
+                <span className="absolute -top-0.5 -right-0.5 bg-terracotta text-white text-[9.5px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none">
                   {totalCartQuantity}
                 </span>
               )}
@@ -352,10 +351,10 @@ const Navbar = () => {
                 duration: 0.6, 
                 ease: [0.16, 1, 0.3, 1] 
               }}
-              className="relative w-[85%] max-w-[340px] bg-cream h-full z-10 flex flex-col justify-between overflow-hidden"
+              className="relative w-[85%] max-w-[340px] bg-white h-full z-10 flex flex-col justify-between overflow-hidden"
             >
               {/* Drawer Top Branding Header */}
-              <div className="px-4 py-3.5 flex items-center justify-between bg-cream shrink-0">
+              <div className="px-4 py-3.5 flex items-center justify-between bg-white shrink-0">
                 <Link 
                   to="/"
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -422,7 +421,7 @@ const Navbar = () => {
                                 {link.name}
                               </span>
                               {link.badge && (
-                                <span className="text-[8.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#1C2841] text-white leading-none">
+                                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#1C2841] text-white leading-none">
                                   {link.badge}
                                 </span>
                               )}
@@ -477,12 +476,12 @@ const Navbar = () => {
               </div>
 
               {/* Drawer Footer with Direct WhatsApp & Compact Policies */}
-              <div className="p-4 bg-cream shrink-0 space-y-3">
+              <div className="p-4 bg-white shrink-0 space-y-3">
                 <a
                   href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20have%20an%20inquiry."
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full flex items-center justify-center gap-2.5 bg-soft-black hover:bg-stone-800 text-cream py-3 px-4 rounded-xl text-xs font-bold uppercase tracking-[0.14em] transition-all group"
+                  className="w-full flex items-center justify-center gap-2.5 bg-soft-black hover:bg-stone-800 text-white py-3 px-4 rounded-xl text-xs font-bold uppercase tracking-[0.14em] transition-all group"
                 >
                   <span className="w-5 h-5 rounded-full bg-[#25D366] text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                     <svg viewBox="0 0 24 24" className="w-3 h-3 fill-current">

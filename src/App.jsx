@@ -44,9 +44,8 @@ const GlobalToast = () => {
           initial={{ opacity: 0, y: 20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 15, scale: 0.95 }}
-          className="fixed bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 z-[250] bg-soft-black/92 text-cream px-3.5 py-2 rounded-full shadow-xl flex items-center gap-2 text-xs font-medium  backdrop-blur-md max-w-[90vw]"
+          className="fixed bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 z-[250] bg-soft-black text-white px-4 py-2.5 rounded-full flex items-center gap-2 text-xs font-medium backdrop-blur-md max-w-[90vw]"
         >
-          <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
           <span className="truncate">{toastMessage}</span>
         </motion.div>
       )}
@@ -109,7 +108,7 @@ const AppLayout = () => {
   const isAdmin = location.pathname.startsWith('/admin');
 
   return (
-    <div className="flex flex-col bg-cream text-soft-black font-sans selection:bg-terracotta selection:text-cream min-h-screen">
+    <div className="flex flex-col bg-white text-soft-black font-sans selection:bg-[#131E33] selection:text-white min-h-screen">
       {!isAdmin && <Navbar />}
       <main className="flex-1">
         <Suspense fallback={

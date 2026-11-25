@@ -50,7 +50,7 @@ const ProductGallery = () => {
   const [activeGuideTab, setActiveGuideTab] = useState('adult'); // 'adult' | 'women' | 'kids'
 
   return (
-    <div className="min-h-screen bg-cream text-soft-black pt-16 sm:pt-20 md:pt-24 pb-24 sm:pb-32 selection:bg-terracotta selection:text-cream">
+    <div className="min-h-screen bg-white text-soft-black pt-16 sm:pt-20 md:pt-24 pb-24 sm:pb-32 selection:bg-[#131E33] selection:text-white">
       
       {/* Header Section */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 sm:mb-10 text-center">
@@ -67,10 +67,10 @@ const ProductGallery = () => {
           <button
             type="button"
             onClick={() => setSelectedCategory('all')}
-            className={`px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[9.5px] sm:text-xs font-semibold uppercase tracking-wide sm:tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+            className={`px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[10.5px] sm:text-xs font-semibold uppercase tracking-wide sm:tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 ${
               selectedCategory === 'all'
-                ? 'bg-soft-black text-white shadow-xs'
-                : 'bg-white text-soft-black/80 hover:bg-[#FAF7F2] hover:text-soft-black shadow-2xs'
+                ? 'bg-[#111111] text-white'
+                : 'bg-[#F4F4F6] text-soft-black/80 hover:bg-[#EAEAEA] hover:text-soft-black'
             }`}
           >
             <span className="sm:hidden">All ({ALL_GALLERY_ITEMS.length})</span>
@@ -79,10 +79,10 @@ const ProductGallery = () => {
           <button
             type="button"
             onClick={() => setSelectedCategory('adult')}
-            className={`px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[9.5px] sm:text-xs font-semibold uppercase tracking-wide sm:tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+            className={`px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[10.5px] sm:text-xs font-semibold uppercase tracking-wide sm:tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 ${
               selectedCategory === 'adult'
-                ? 'bg-soft-black text-white shadow-xs'
-                : 'bg-white text-soft-black/80 hover:bg-[#FAF7F2] hover:text-soft-black shadow-2xs'
+                ? 'bg-[#111111] text-white'
+                : 'bg-[#F4F4F6] text-soft-black/80 hover:bg-[#EAEAEA] hover:text-soft-black'
             }`}
           >
             <span className="sm:hidden">Adult ({PRODUCTS.adult.colors.length})</span>
@@ -91,10 +91,10 @@ const ProductGallery = () => {
           <button
             type="button"
             onClick={() => setSelectedCategory('women')}
-            className={`px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[9.5px] sm:text-xs font-semibold uppercase tracking-wide sm:tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+            className={`px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[10.5px] sm:text-xs font-semibold uppercase tracking-wide sm:tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 ${
               selectedCategory === 'women'
-                ? 'bg-soft-black text-white shadow-xs'
-                : 'bg-white text-soft-black/80 hover:bg-[#FAF7F2] hover:text-soft-black shadow-2xs'
+                ? 'bg-[#111111] text-white'
+                : 'bg-[#F4F4F6] text-soft-black/80 hover:bg-[#EAEAEA] hover:text-soft-black'
             }`}
           >
             <span className="sm:hidden">Women ({PRODUCTS.women.colors.length})</span>
@@ -103,10 +103,10 @@ const ProductGallery = () => {
           <button
             type="button"
             onClick={() => setSelectedCategory('kids')}
-            className={`px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[9.5px] sm:text-xs font-semibold uppercase tracking-wide sm:tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+            className={`px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[10.5px] sm:text-xs font-semibold uppercase tracking-wide sm:tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 ${
               selectedCategory === 'kids'
-                ? 'bg-soft-black text-white shadow-xs'
-                : 'bg-white text-soft-black/80 hover:bg-[#FAF7F2] hover:text-soft-black shadow-2xs'
+                ? 'bg-[#111111] text-white'
+                : 'bg-[#F4F4F6] text-soft-black/80 hover:bg-[#EAEAEA] hover:text-soft-black'
             }`}
           >
             <span className="sm:hidden">Kids ({PRODUCTS.kids.colors.length})</span>
@@ -155,10 +155,10 @@ const ProductGallery = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.35, delay: idx * 0.04 }}
-                  className="bg-white rounded-2xl transition-all flex flex-col justify-between group overflow-hidden"
+                  className="bg-[#F6F6F7] rounded-2xl transition-all flex flex-col justify-between group overflow-hidden"
                 >
-                  {/* 1. Flush Edge-to-Edge Image Container with Premium #F5F5F5 background & natural shadow */}
-                  <div className="relative w-full aspect-square bg-[#F5F5F5] overflow-hidden select-none flex items-center justify-center">
+                  {/* 1. Flush Edge-to-Edge Image Container with Studio Grey background */}
+                  <div className="relative w-full aspect-square bg-[#EEEEF0] overflow-hidden select-none flex items-center justify-center">
                     <img
                       src={item.displayImage || item.images[0]}
                       alt={item.productTitle}
@@ -172,22 +172,22 @@ const ProductGallery = () => {
                   <div className="p-2.5 sm:p-3.5 lg:p-3 xl:p-4 flex flex-col flex-1 justify-between">
                     <div>
                       {/* 2. Product Title (without color name) */}
-                      <h2 className="font-serif text-[11px] sm:text-base lg:text-[14.5px] xl:text-[15.5px] font-normal sm:font-bold text-soft-black leading-snug line-clamp-2 mb-1 group-hover:text-terracotta transition-colors">
+                      <h2 className="font-serif text-xs sm:text-base lg:text-[15px] xl:text-base font-semibold sm:font-bold text-soft-black leading-snug line-clamp-2 mb-1 group-hover:text-[#131E33] transition-colors">
                         {item.productTitle}
                       </h2>
 
                       {/* Tagline */}
-                      <p className="text-[9.5px] sm:text-xs text-dark-charcoal/60 font-normal italic mb-1.5 sm:mb-2 line-clamp-1">
+                      <p className="text-[10px] sm:text-xs text-dark-charcoal/60 font-normal italic mb-1.5 sm:mb-2 line-clamp-1">
                         {item.tagline}
                       </p>
 
                       {/* Price Banner */}
                       <div className="flex items-center justify-between gap-1 mb-2 sm:mb-3.5">
                         <div className="flex items-baseline gap-1 sm:gap-2">
-                          <span className="text-xs sm:text-base lg:text-base xl:text-lg font-normal sm:font-bold text-terracotta">
+                          <span className="text-xs sm:text-base lg:text-base xl:text-lg font-normal sm:font-bold text-[#111111]">
                             {currencySymbol}{Math.round(singlePrice * (exchangeRate || 1)).toLocaleString()}
                           </span>
-                          <span className="text-[10px] sm:text-sm text-dark-charcoal/50 line-through">
+                          <span className="text-[10.5px] sm:text-sm text-dark-charcoal/50 line-through">
                             {currencySymbol}{Math.round(regularPrice * (exchangeRate || 1)).toLocaleString()}
                           </span>
                         </div>
@@ -202,18 +202,18 @@ const ProductGallery = () => {
                             className="w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full shrink-0" 
                             style={{ backgroundColor: item.hex }} 
                           />
-                          <span className="text-[10px] sm:text-sm lg:text-xs xl:text-sm font-normal sm:font-bold text-soft-black uppercase tracking-wider">
+                          <span className="text-xs sm:text-sm font-semibold sm:font-bold text-soft-black uppercase tracking-wider">
                             {item.colorName}
                           </span>
                         </div>
 
                         {/* Right: Available Sizes */}
                         <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
-                          <span className="text-[9px] sm:text-xs text-dark-charcoal/60 font-normal sm:font-medium mr-0.5">Size:</span>
+                          <span className="text-[10px] sm:text-xs text-dark-charcoal/60 font-normal sm:font-medium mr-0.5">Size:</span>
                           {item.sizes.map((sz) => (
                             <span
                               key={sz}
-                              className="px-1.5 h-5 sm:h-7 rounded-md bg-[#FAF8F5] text-dark-charcoal/90 text-[9.5px] sm:text-xs font-normal sm:font-bold flex items-center justify-center select-none"
+                              className="px-1.5 h-5 sm:h-7 rounded-md bg-white text-dark-charcoal/90 text-[10.5px] sm:text-xs font-normal sm:font-bold flex items-center justify-center select-none"
                               title={`Size ${sz} Available`}
                             >
                               {sz}
@@ -229,7 +229,7 @@ const ProductGallery = () => {
                       {/* ORDER SAMPLE CTA -> Deep link to /sample-order */}
                       <Link
                         to={`/sample-order?product=${item.productId}&color=${encodeURIComponent(item.colorName.toLowerCase())}`}
-                        className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded-xl bg-[#EAE4DC] text-soft-black hover:bg-soft-black hover:text-cream hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-semibold sm:font-bold uppercase tracking-wide sm:tracking-wider transition-all duration-300 flex items-center justify-center cursor-pointer"
+                        className="w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded-xl bg-[#E8E8EA] text-[#111111] hover:bg-[#111111] hover:text-white hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-semibold sm:font-bold uppercase tracking-wide sm:tracking-wider transition-all duration-300 flex items-center justify-center cursor-pointer"
                         title="Order sample on the Sample Order page"
                       >
                         <span className="transition-all duration-300">Order Sample</span>
@@ -239,7 +239,7 @@ const ProductGallery = () => {
                       <div>
                         <Link
                           to={`/retail?product=${item.productId}&color=${encodeURIComponent(item.colorName.toLowerCase())}`}
-                          className="relative overflow-hidden group w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded-xl bg-terracotta hover:bg-[#131E33] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-cream text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-medium sm:font-bold uppercase tracking-wide sm:tracking-wider transition-all duration-300 flex items-center justify-center cursor-pointer"
+                          className="relative overflow-hidden group w-full h-9 sm:h-10 lg:h-10 xl:h-10.5 px-3 rounded-xl bg-[#131E33] hover:bg-[#1C2841] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-white text-xs sm:text-xs lg:text-[12px] xl:text-[12.5px] font-medium sm:font-bold uppercase tracking-wide sm:tracking-wider transition-all duration-300 flex items-center justify-center cursor-pointer"
                           title="Order on the Retail page"
                         >
                           <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
@@ -261,11 +261,11 @@ const ProductGallery = () => {
 
       {/* Value Proposition & Wholesale Teaser */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-12 mt-12 sm:mt-16 text-center">
-        <div className="bg-white rounded-2xl p-6 sm:p-10">
+        <div className="bg-[#F6F6F7] rounded-2xl p-6 sm:p-10">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8 text-left">
             
-            <div className="flex items-start gap-3 p-3 rounded-xl bg-[#FAF8F5]">
-              <ShieldCheck className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white">
+              <ShieldCheck className="w-5 h-5 text-[#131E33] shrink-0 mt-0.5" />
               <div>
                 <h4 className="text-xs sm:text-sm font-bold text-soft-black">Open-Box Inspection</h4>
                 <p className="text-[11px] text-dark-charcoal/75 leading-relaxed mt-0.5">
@@ -274,8 +274,8 @@ const ProductGallery = () => {
               </div>
             </div>
 
-            <div className="flex items-start gap-3 p-3 rounded-xl bg-[#FAF8F5]">
-              <PackageCheck className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white">
+              <PackageCheck className="w-5 h-5 text-[#131E33] shrink-0 mt-0.5" />
               <div>
                 <h4 className="text-xs sm:text-sm font-bold text-soft-black">Multi-Belt Discounts</h4>
                 <p className="text-[11px] text-dark-charcoal/75 leading-relaxed mt-0.5">
@@ -284,8 +284,8 @@ const ProductGallery = () => {
               </div>
             </div>
 
-            <div className="flex items-start gap-3 p-3 rounded-xl bg-[#FAF8F5]">
-              <Truck className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white">
+              <Truck className="w-5 h-5 text-[#131E33] shrink-0 mt-0.5" />
               <div>
                 <h4 className="text-xs sm:text-sm font-bold text-soft-black">Express Courier</h4>
                 <p className="text-[11px] text-dark-charcoal/75 leading-relaxed mt-0.5">
@@ -299,7 +299,7 @@ const ProductGallery = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               to="/retail"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-terracotta hover:bg-muted-burgundy text-white px-7 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#131E33] hover:bg-[#1C2841] text-white px-7 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95"
             >
               <span>Explore Retail Multi-Buy Combos</span>
               <ArrowRight className="w-4 h-4" />
@@ -307,7 +307,7 @@ const ProductGallery = () => {
 
             <Link
               to="/sample-wholesale"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-soft-black hover:bg-dark-charcoal text-white px-7 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#111111] hover:bg-dark-charcoal text-white px-7 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95"
             >
               <span>Wholesale & OEM Specifications</span>
               <ArrowRight className="w-4 h-4" />
@@ -380,7 +380,7 @@ const ProductGallery = () => {
 
               {activeGuideTab === 'adult' && (
                 <>
-                  <div className="w-full bg-[#FAF8F5] rounded-xl overflow-hidden mb-4 text-xs">
+                  <div className="w-full bg-[#F6F6F7] rounded-xl overflow-hidden mb-4 text-xs">
                     <div className="grid grid-cols-3 bg-stone/10 py-2.5 font-bold uppercase tracking-wider text-dark-charcoal">
                       <span>Size</span>
                       <span>Waist Fit</span>
@@ -398,7 +398,7 @@ const ProductGallery = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center px-4 py-2.5 bg-[#FAF8F5] rounded-xl mb-4 text-xs">
+                  <div className="flex justify-between items-center px-4 py-2.5 bg-[#F6F6F7] rounded-xl mb-4 text-xs">
                     <span className="font-bold uppercase tracking-wider text-dark-charcoal">Width</span>
                     <span className="font-bold text-soft-black">1.5"</span>
                   </div>
@@ -407,7 +407,7 @@ const ProductGallery = () => {
 
               {activeGuideTab === 'women' && (
                 <>
-                  <div className="w-full bg-[#FAF8F5] rounded-xl overflow-hidden mb-4 text-xs">
+                  <div className="w-full bg-[#F6F6F7] rounded-xl overflow-hidden mb-4 text-xs">
                     <div className="grid grid-cols-3 bg-stone/10 py-2.5 font-bold uppercase tracking-wider text-dark-charcoal">
                       <span>Size</span>
                       <span>Waist Fit</span>
@@ -425,16 +425,16 @@ const ProductGallery = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center px-4 py-2.5 bg-[#FAF8F5] rounded-xl mb-4 text-xs">
+                  <div className="flex justify-between items-center px-4 py-2.5 bg-[#F6F6F7] rounded-xl mb-4 text-xs">
                     <span className="font-bold uppercase tracking-wider text-dark-charcoal">Width &amp; Closure</span>
-                    <span className="font-bold text-soft-black">2" • Adjustable Tie</span>
+                    <span className="font-bold text-soft-black">2" — Adjustable Tie</span>
                   </div>
                 </>
               )}
 
               {activeGuideTab === 'kids' && (
                 <>
-                  <div className="w-full bg-[#FAF8F5] rounded-xl overflow-hidden mb-4 text-xs">
+                  <div className="w-full bg-[#F6F6F7] rounded-xl overflow-hidden mb-4 text-xs">
                     <div className="grid grid-cols-3 bg-stone/10 py-2.5 font-bold uppercase tracking-wider text-dark-charcoal">
                       <span>Size</span>
                       <span>Waist Fit</span>
@@ -447,7 +447,7 @@ const ProductGallery = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center px-4 py-2.5 bg-[#FAF8F5] rounded-xl mb-4 text-xs">
+                  <div className="flex justify-between items-center px-4 py-2.5 bg-[#F6F6F7] rounded-xl mb-4 text-xs">
                     <span className="font-bold uppercase tracking-wider text-dark-charcoal">Width</span>
                     <span className="font-bold text-soft-black">1 1/4"</span>
                   </div>

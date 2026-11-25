@@ -47,10 +47,10 @@ const WishlistDrawer = () => {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-            className="relative w-[75vw] sm:w-full sm:max-w-md bg-cream h-[100dvh] shadow-2xl z-10 flex flex-col overflow-hidden overscroll-contain"
+            className="relative w-[75vw] sm:w-full sm:max-w-md bg-white h-[100dvh] z-10 flex flex-col overflow-hidden overscroll-contain"
           >
             {/* Header */}
-            <div className="px-5 py-4 bg-cream  flex items-center justify-between shadow-2xs">
+            <div className="px-5 py-4 bg-white flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full bg-rose-50  flex items-center justify-center text-rose-500">
                   <Heart className="w-4 h-4 fill-rose-500" />
@@ -76,7 +76,7 @@ const WishlistDrawer = () => {
             <div className="flex-1 overflow-y-auto p-4 md:p-5 space-y-3">
               {wishlist.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-center px-4 py-12">
-                  <div className="w-16 h-16 rounded-full bg-white  flex items-center justify-center text-dark-charcoal/40 mb-4 shadow-xs">
+                  <div className="w-16 h-16 rounded-full bg-[#F6F6F7] flex items-center justify-center text-dark-charcoal/40 mb-4">
                     <Heart className="w-7 h-7 stroke-[1.5]" />
                   </div>
                   <h3 className="font-serif text-lg font-bold text-soft-black mb-1">Your Wishlist is Empty</h3>
@@ -86,7 +86,7 @@ const WishlistDrawer = () => {
                   <Link
                     to="/product"
                     onClick={() => setIsWishlistOpen(false)}
-                    className="inline-flex items-center gap-2 bg-soft-black text-cream px-6 py-3 rounded text-xs font-bold uppercase tracking-widest hover:bg-dark-charcoal transition-colors shadow-sm"
+                    className="inline-flex items-center gap-2 bg-soft-black text-white px-6 py-3 rounded text-xs font-bold uppercase tracking-widest hover:bg-[#131E33] transition-colors"
                   >
                     <span>Browse Belts</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -102,9 +102,9 @@ const WishlistDrawer = () => {
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95 }}
-                      className="bg-white  rounded-2xl p-3.5 shadow-2xs flex items-center gap-3.5 group  transition-all"
+                      className="bg-[#F6F6F7] rounded-2xl p-3.5 flex items-center gap-3.5 group transition-all"
                     >
-                      <div className="w-16 h-16 rounded-xl overflow-hidden bg-stone/5  shrink-0">
+                      <div className="w-16 h-16 rounded-xl overflow-hidden bg-white shrink-0">
                         <img
                           src={item.image}
                           alt={item.color}
@@ -118,7 +118,7 @@ const WishlistDrawer = () => {
                         </h4>
                         <div className="flex items-center gap-2 text-[11px] text-dark-charcoal/70 my-0.5">
                           <span>Color: <strong className="text-soft-black">{item.color}</strong></span>
-                          <span>•</span>
+                          <span>—</span>
                           <span>Size: <strong className="text-soft-black">{item.size}</strong></span>
                         </div>
                         <div className="text-xs font-bold text-soft-black">
@@ -130,7 +130,7 @@ const WishlistDrawer = () => {
                         <button
                           type="button"
                           onClick={() => moveToCartFromWishlist(item)}
-                          className="flex items-center gap-1 bg-soft-black hover:bg-terracotta text-cream px-3 py-1.5 rounded text-[10px] font-bold uppercase tracking-wider transition-colors shadow-2xs cursor-pointer"
+                          className="flex items-center gap-1 bg-soft-black hover:bg-[#131E33] text-white px-3 py-1.5 rounded text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
                           title="Move to Cart"
                         >
                           <ShoppingBag className="w-3 h-3" />
@@ -154,11 +154,11 @@ const WishlistDrawer = () => {
 
             {/* Footer */}
             {wishlist.length > 0 && (
-              <div className="p-4 bg-white  flex items-center justify-between gap-3">
+              <div className="p-4 bg-white flex items-center justify-between gap-3">
                 <Link
                   to="/product"
                   onClick={() => setIsWishlistOpen(false)}
-                  className="flex-1 text-center py-3 px-4 bg-soft-black text-cream rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-dark-charcoal transition-colors shadow-sm"
+                  className="flex-1 text-center py-3 px-4 bg-soft-black text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#131E33] transition-colors"
                 >
                   View Product Details
                 </Link>

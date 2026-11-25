@@ -4,19 +4,20 @@ import { Link } from 'react-router-dom';
 import { 
   Mail, 
   Phone, 
-  MapPin, 
-  Clock, 
-  Users, 
-  MessageCircle, 
-  ArrowRight, 
-  HelpCircle,
-  Sparkles,
-  ExternalLink,
-  ShoppingBag,
-  Package,
-  Factory,
-  ChevronRight
+  ArrowRight
 } from 'lucide-react';
+
+const WhatsAppIcon = ({ className = "w-5 h-5" }) => (
+  <svg 
+    className={className} 
+    fill="currentColor" 
+    viewBox="0 0 24 24" 
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+);
 
 const Contact = () => {
   useEffect(() => {
@@ -25,49 +26,45 @@ const Contact = () => {
 
   const contactChannels = [
     {
-      icon: MessageCircle,
       badge: "Fastest Response",
       title: "WhatsApp Direct",
       desc: "Instant customer support, sizing consultation, custom order questions, and retail order tracking.",
       actionText: "Chat on WhatsApp",
       actionHref: "https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20have%20an%20inquiry.",
-      isExternal: true,
+      isWhatsApp: true,
       highlight: true
     },
     {
-      icon: Mail,
       badge: "Official & OEM",
       title: "Email Inquiries",
       desc: "Send tech packs, spec sheets, wholesale RFQs, and formal corporate business proposals.",
       actionText: "astmacrame@gmail.com",
       actionHref: "mailto:astmacrame@gmail.com",
-      isExternal: false,
+      isEmail: true,
       highlight: false
     },
     {
-      icon: MapPin,
       badge: "Artisan Hub",
-      title: "Workshop Location",
+      title: "Workshop Facility",
       desc: "Our primary knotting workshop and production facility is located in Chattogram, Bangladesh.",
       actionText: "Chattogram, Bangladesh",
       actionHref: "#",
-      isExternal: false,
+      isInfo: true,
       highlight: false
     },
     {
-      icon: Clock,
       badge: "Bangladesh Time (GMT+6)",
       title: "Operating Hours",
       desc: "Sunday – Thursday: 9:00 AM – 6:00 PM. Weekend & holiday inquiries answered via WhatsApp standby.",
-      actionText: "Sunday – Thursday: 9am - 6pm",
+      actionText: "Sun – Thu: 9:00 AM – 6:00 PM",
       actionHref: "#",
-      isExternal: false,
+      isInfo: true,
       highlight: false
     }
   ];
 
   return (
-    <div className="w-full bg-cream min-h-screen pt-16 sm:pt-22 md:pt-24 pb-16 md:pb-24 selection:bg-terracotta selection:text-white">
+    <div className="w-full bg-white min-h-screen pt-16 sm:pt-22 md:pt-24 pb-16 md:pb-24 selection:bg-[#131E33] selection:text-white">
       
       {/* ========================================================
           MOBILE VIEW (Dedicated High-Conversion Contact Hub)
@@ -76,6 +73,9 @@ const Contact = () => {
         
         {/* Mobile Hero Header */}
         <div className="text-center pt-1 pb-1">
+          <span className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-[#131E33] block mb-2">
+            Direct Workshop Communication
+          </span>
           <h1 className="text-2xl font-serif font-semibold text-soft-black tracking-tight leading-tight mb-2">
             Connect with Our Studio
           </h1>
@@ -84,17 +84,13 @@ const Contact = () => {
             Direct communication with our master knotting workshop in Chattogram. Real people, zero automated bot loops.
           </p>
 
-          {/* Quick Trust Highlights */}
-          <div className="flex items-center justify-center gap-1.5 mt-3 text-[10px] font-semibold text-dark-charcoal/75 flex-wrap">
-            <span className="flex items-center gap-1 bg-white/90 px-2.5 py-1 rounded-full shadow-2xs">
-              ⚡ Replies in ~15 mins
-            </span>
-            <span className="flex items-center gap-1 bg-white/90 px-2.5 py-1 rounded-full shadow-2xs">
-              ✓ Direct Factory Pricing
-            </span>
-            <span className="flex items-center gap-1 bg-white/90 px-2.5 py-1 rounded-full shadow-2xs">
-              📦 Fast Sample Dispatch
-            </span>
+          {/* Quick Trust Highlights (Clean typography, zero emojis) */}
+          <div className="flex items-center justify-center gap-2 mt-3 text-[10px] font-medium tracking-wider text-dark-charcoal/65 uppercase">
+            <span>Replies within 15m</span>
+            <span className="text-stone-300">|</span>
+            <span>Direct Workshop</span>
+            <span className="text-stone-300">|</span>
+            <span>Express Dispatch</span>
           </div>
         </div>
 
@@ -105,41 +101,41 @@ const Contact = () => {
             href="https://wa.me/8801940689061?text=Hello%20AST%20Macrame,%20I%20have%20an%20inquiry."
             target="_blank"
             rel="noreferrer"
-            className="w-full relative overflow-hidden flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-soft-black to-[#252525] text-cream shadow-md active:scale-[0.99] transition-transform group"
+            className="w-full relative overflow-hidden flex items-center justify-between p-3.5 rounded-2xl bg-[#111111] text-white active:scale-[0.99] transition-transform group cursor-pointer"
           >
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 rounded-xl bg-[#25D366] text-white flex items-center justify-center shrink-0 shadow-sm">
-                <MessageCircle className="w-5 h-5 fill-white" />
+              <div className="w-10 h-10 rounded-xl bg-[#25D366] text-white flex items-center justify-center shrink-0">
+                <WhatsAppIcon className="w-5 h-5 text-white" />
               </div>
               <div className="flex flex-col text-left min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-cream">
+                  <span className="text-xs font-bold uppercase tracking-wider text-white">
                     Chat on WhatsApp
                   </span>
-                  <span className="bg-[#25D366]/20 text-[#25D366] text-[8.5px] font-bold px-1.5 py-0.2 rounded uppercase tracking-wider">
+                  <span className="bg-[#25D366]/20 text-[#25D366] text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">
                     Fastest
                   </span>
                 </div>
-                <p className="text-[10.5px] text-cream/70 font-light mt-0.5 truncate">
+                <p className="text-[10.5px] text-white/70 font-light mt-0.5 truncate">
                   Instant sizing advice, order tracking &amp; wholesale quotes
                 </p>
               </div>
             </div>
-            <ArrowRight className="w-4 h-4 text-cream/70 shrink-0 group-hover:translate-x-1 transition-transform ml-2" />
+            <ArrowRight className="w-4 h-4 text-white/70 shrink-0 group-hover:translate-x-1 transition-transform ml-2" />
           </a>
 
           {/* 2. Direct Call & Email Side by Side */}
           <div className="grid grid-cols-2 gap-2">
             <a
               href="tel:+8801940689061"
-              className="flex items-center gap-2 p-2.5 rounded-xl bg-white shadow-2xs active:bg-cream transition-colors text-left"
+              className="flex items-center gap-2.5 p-3 rounded-xl bg-[#F6F6F7] active:bg-[#EEEEF0] transition-colors text-left"
             >
-              <Phone className="w-4 h-4 text-terracotta shrink-0 ml-0.5" />
+              <Phone className="w-4 h-4 text-[#131E33] shrink-0" />
               <div className="min-w-0">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-soft-black block leading-none">
-                  Call
+                <span className="text-[9.5px] font-mono font-bold uppercase tracking-widest text-[#131E33] block leading-none">
+                  Call Direct
                 </span>
-                <span className="text-[9.5px] font-medium text-dark-charcoal/75 block mt-1 tracking-tight whitespace-nowrap">
+                <span className="text-xs font-semibold text-soft-black block mt-1 tracking-tight whitespace-nowrap">
                   01940-689061
                 </span>
               </div>
@@ -147,14 +143,14 @@ const Contact = () => {
 
             <a
               href="mailto:astmacrame@gmail.com?subject=Inquiry%20from%20Website"
-              className="flex items-center gap-2 p-2.5 rounded-xl bg-white shadow-2xs active:bg-cream transition-colors text-left"
+              className="flex items-center gap-2.5 p-3 rounded-xl bg-[#F6F6F7] active:bg-[#EEEEF0] transition-colors text-left"
             >
-              <Mail className="w-4 h-4 text-terracotta shrink-0 ml-0.5" />
+              <Mail className="w-4 h-4 text-[#131E33] shrink-0" />
               <div className="min-w-0 flex-1">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-soft-black block leading-none">
-                  Email
+                <span className="text-[9.5px] font-mono font-bold uppercase tracking-widest text-[#131E33] block leading-none">
+                  Studio Email
                 </span>
-                <span className="text-[9px] font-medium text-dark-charcoal/75 block mt-1 tracking-tight whitespace-nowrap">
+                <span className="text-xs font-semibold text-soft-black block mt-1 tracking-tight truncate">
                   astmacrame@gmail.com
                 </span>
               </div>
@@ -163,12 +159,12 @@ const Contact = () => {
         </div>
 
         {/* QUICK ROUTE SELECTION (How Can We Help?) */}
-        <div className="bg-white rounded-2xl p-4 shadow-sm">
+        <div className="bg-[#F6F6F7] rounded-2xl p-4">
           <div className="flex items-center justify-between mb-3 pb-1">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-terracotta">
+            <span className="text-[10.5px] font-mono font-bold uppercase tracking-[0.2em] text-[#131E33]">
               Select Your Inquiry Type
             </span>
-            <span className="text-[9px] font-semibold text-dark-charcoal/50 uppercase">
+            <span className="text-[10px] font-semibold text-dark-charcoal/50 uppercase">
               1-Tap Route
             </span>
           </div>
@@ -179,7 +175,7 @@ const Contact = () => {
               href="https://wa.me/8801940689061?text=Hi%20AST%20Macrame,%20I%20have%20a%20question%20about%20a%20retail%20order."
               target="_blank"
               rel="noreferrer"
-              className="flex items-center justify-between p-3 rounded-xl bg-cream/50 hover:bg-cream transition-all text-left group"
+              className="flex items-center justify-between p-3 rounded-xl bg-white hover:bg-[#EEEEF0] transition-all text-left group"
             >
               <div className="min-w-0 pr-2">
                 <span className="text-xs font-semibold text-soft-black tracking-normal block truncate">
@@ -189,13 +185,13 @@ const Contact = () => {
                   Order tracking, sizing advice &amp; doorstep delivery
                 </span>
               </div>
-              <ChevronRight className="w-4 h-4 text-stone-400 group-hover:text-soft-black group-hover:translate-x-0.5 transition-all shrink-0" />
+              <ArrowRight className="w-3.5 h-3.5 text-stone-400 group-hover:text-soft-black group-hover:translate-x-0.5 transition-all shrink-0" />
             </a>
 
             {/* Option 2: Sample Order */}
             <Link
               to="/sample-order"
-              className="flex items-center justify-between p-3 rounded-xl bg-cream/50 hover:bg-cream transition-all text-left group"
+              className="flex items-center justify-between p-3 rounded-xl bg-white hover:bg-[#EEEEF0] transition-all text-left group"
             >
               <div className="min-w-0 pr-2">
                 <span className="text-xs font-semibold text-soft-black tracking-normal block truncate">
@@ -205,7 +201,7 @@ const Contact = () => {
                   Test knot density &amp; finish before bulk run
                 </span>
               </div>
-              <ChevronRight className="w-4 h-4 text-stone-400 group-hover:text-soft-black group-hover:translate-x-0.5 transition-all shrink-0" />
+              <ArrowRight className="w-3.5 h-3.5 text-stone-400 group-hover:text-soft-black group-hover:translate-x-0.5 transition-all shrink-0" />
             </Link>
 
             {/* Option 3: Wholesale & OEM */}
@@ -213,7 +209,7 @@ const Contact = () => {
               href="https://wa.me/8801940689061?text=Hi%20AST%20Macrame,%20I%20would%20like%20to%20request%20a%20wholesale%20manufacturing%20quote."
               target="_blank"
               rel="noreferrer"
-              className="flex items-center justify-between p-3 rounded-xl bg-cream/50 hover:bg-cream transition-all text-left group"
+              className="flex items-center justify-between p-3 rounded-xl bg-white hover:bg-[#EEEEF0] transition-all text-left group"
             >
               <div className="min-w-0 pr-2">
                 <span className="text-xs font-semibold text-soft-black tracking-normal block truncate">
@@ -223,7 +219,7 @@ const Contact = () => {
                   100 pcs base MOQ, private labelling &amp; packaging
                 </span>
               </div>
-              <ChevronRight className="w-4 h-4 text-stone-400 group-hover:text-soft-black group-hover:translate-x-0.5 transition-all shrink-0" />
+              <ArrowRight className="w-3.5 h-3.5 text-stone-400 group-hover:text-soft-black group-hover:translate-x-0.5 transition-all shrink-0" />
             </a>
 
             {/* Option 4: Custom Design / Reference Photo */}
@@ -231,7 +227,7 @@ const Contact = () => {
               href="https://wa.me/8801940689061?text=Hi%20AST%20Macrame,%20I%20have%20a%20reference%20photo%20/%20custom%20design%20to%20share."
               target="_blank"
               rel="noreferrer"
-              className="flex items-center justify-between p-3 rounded-xl bg-cream/50 hover:bg-cream transition-all text-left group"
+              className="flex items-center justify-between p-3 rounded-xl bg-white hover:bg-[#EEEEF0] transition-all text-left group"
             >
               <div className="min-w-0 pr-2">
                 <span className="text-xs font-semibold text-soft-black tracking-normal block truncate">
@@ -241,94 +237,96 @@ const Contact = () => {
                   Send photo/link, we outline feasibility &amp; cost
                 </span>
               </div>
-              <ChevronRight className="w-4 h-4 text-stone-400 group-hover:text-soft-black group-hover:translate-x-0.5 transition-all shrink-0" />
+              <ArrowRight className="w-3.5 h-3.5 text-stone-400 group-hover:text-soft-black group-hover:translate-x-0.5 transition-all shrink-0" />
             </a>
           </div>
         </div>
 
         {/* DIRECT WORKSHOP LEADERSHIP (Compact 1-Tap Desks) */}
-        <div className="bg-white rounded-2xl p-4 shadow-sm space-y-3">
+        <div className="bg-[#F6F6F7] rounded-2xl p-4 space-y-3">
           <div className="flex items-center justify-between pb-1">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-terracotta">
+            <span className="text-[10.5px] font-mono font-bold uppercase tracking-[0.2em] text-[#131E33]">
               Direct Workshop Desks
             </span>
-            <span className="text-[9px] font-semibold text-dark-charcoal/50 uppercase">
+            <span className="text-[10px] font-semibold text-dark-charcoal/50 uppercase">
               Leadership
             </span>
           </div>
 
           {/* Saifuddin Sony */}
-          <div className="flex items-center justify-between p-2.5 rounded-xl bg-cream/50">
+          <div className="flex items-center justify-between p-3 rounded-xl bg-white">
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-9 h-9 rounded-full bg-soft-black text-cream flex items-center justify-center font-serif text-xs font-bold shrink-0">
+              <div className="w-9 h-9 rounded-full bg-soft-black text-white flex items-center justify-center font-serif text-xs font-bold shrink-0">
                 SS
               </div>
               <div className="min-w-0">
                 <span className="text-xs font-bold text-soft-black block truncate">Saifuddin Sony</span>
-                <span className="text-[9.5px] font-semibold text-terracotta uppercase tracking-wider block">Founder &amp; Workshop Head</span>
+                <span className="text-[10px] font-mono font-semibold text-[#131E33] uppercase tracking-wider block">Founder &amp; Workshop Head</span>
               </div>
             </div>
             <a
               href="mailto:astmacrame@gmail.com?subject=Direct%20Inquiry%20for%20Saifuddin%20Sony"
-              className="px-2.5 py-1.5 rounded-xl bg-white text-soft-black text-[10px] font-bold uppercase tracking-wider shrink-0 flex items-center gap-1 hover:bg-cream"
+              className="px-3 py-1.5 rounded-lg bg-[#F6F6F7] text-soft-black text-[10px] font-bold uppercase tracking-wider shrink-0 flex items-center gap-1.5 hover:bg-[#EEEEF0] transition-colors"
             >
-              <Mail className="w-3 h-3 text-terracotta" />
+              <Mail className="w-3 h-3 text-[#131E33]" />
               <span>Email</span>
             </a>
           </div>
 
           {/* Arfat Risve */}
-          <div className="flex items-center justify-between p-2.5 rounded-xl bg-cream/50">
+          <div className="flex items-center justify-between p-3 rounded-xl bg-white">
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-9 h-9 rounded-full bg-terracotta text-cream flex items-center justify-center font-serif text-xs font-bold shrink-0">
+              <div className="w-9 h-9 rounded-full bg-[#131E33] text-white flex items-center justify-center font-serif text-xs font-bold shrink-0">
                 AR
               </div>
               <div className="min-w-0">
                 <span className="text-xs font-bold text-soft-black block truncate">Arfat Risve</span>
-                <span className="text-[9.5px] font-semibold text-terracotta uppercase tracking-wider block">Export Sales Manager</span>
+                <span className="text-[10px] font-mono font-semibold text-[#131E33] uppercase tracking-wider block">Export Sales Manager</span>
               </div>
             </div>
             <a
               href="https://wa.me/8801940689061?text=Hello%20Arfat,%20I%20have%20an%20export/wholesale%20inquiry."
               target="_blank"
               rel="noreferrer"
-              className="px-2.5 py-1.5 rounded-xl bg-[#25D366] text-white text-[10px] font-bold uppercase tracking-wider shrink-0 flex items-center gap-1"
+              className="px-3 py-1.5 rounded-lg bg-[#25D366] text-white text-[10px] font-bold uppercase tracking-wider shrink-0 flex items-center gap-1.5 hover:bg-[#1ebd5a] transition-colors"
             >
-              <MessageCircle className="w-3 h-3 fill-white" />
+              <WhatsAppIcon className="w-3.5 h-3.5 text-white" />
               <span>WhatsApp</span>
             </a>
           </div>
         </div>
 
-        {/* WORKSHOP LOCATION & HOURS (Compact Card) */}
-        <div className="bg-white rounded-2xl p-4 shadow-sm text-left">
+        {/* WORKSHOP LOCATION & HOURS (Clean Architectural Metadata Card) */}
+        <div className="bg-[#F6F6F7] rounded-2xl p-4 text-left">
           <div className="grid grid-cols-2 gap-3 text-[11px]">
-            <div className="flex items-start gap-2">
-              <MapPin className="w-4 h-4 text-terracotta shrink-0 mt-0.5" />
-              <div>
-                <span className="font-bold text-soft-black uppercase text-[10px] block">Workshop Hub</span>
-                <span className="text-dark-charcoal/75 leading-tight block mt-0.5">Chattogram, Bangladesh</span>
-              </div>
+            <div>
+              <span className="font-mono text-[9.5px] font-bold text-[#131E33] uppercase tracking-widest block">
+                Workshop Hub
+              </span>
+              <span className="text-soft-black font-medium leading-tight block mt-1">
+                Chattogram, Bangladesh
+              </span>
             </div>
 
-            <div className="flex items-start gap-2">
-              <Clock className="w-4 h-4 text-terracotta shrink-0 mt-0.5" />
-              <div>
-                <span className="font-bold text-soft-black uppercase text-[10px] block">Hours (GMT+6)</span>
-                <span className="text-dark-charcoal/75 leading-tight block mt-0.5">Sun–Thu: 9am – 6pm</span>
-              </div>
+            <div>
+              <span className="font-mono text-[9.5px] font-bold text-[#131E33] uppercase tracking-widest block">
+                Operating Hours
+              </span>
+              <span className="text-soft-black font-medium leading-tight block mt-1">
+                Sun–Thu: 9am – 6pm
+              </span>
             </div>
           </div>
         </div>
 
         {/* FAQ QUICK JUMP */}
-        <div className="p-4 rounded-2xl bg-white text-center shadow-2xs">
-          <p className="text-xs text-dark-charcoal/80 mb-2">
-            Looking for quick answers regarding delivery fees, COD, or sizing?
+        <div className="p-4 rounded-2xl bg-[#F6F6F7] text-center">
+          <p className="text-xs text-dark-charcoal/80 mb-2 font-light">
+            Questions regarding delivery fees, Cash on Delivery, or sizing?
           </p>
           <Link
             to="/faq"
-            className="inline-flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider text-terracotta hover:text-soft-black"
+            className="inline-flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#131E33] hover:text-soft-black transition-colors"
           >
             <span>Read Frequently Asked Questions</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -349,7 +347,7 @@ const Contact = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-2 sm:mb-3">
+            <span className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-[0.25em] text-[#131E33] block mb-2 sm:mb-3">
               GET IN TOUCH WITH OUR WORKSHOP
             </span>
             
@@ -369,7 +367,7 @@ const Contact = () => {
         <div className="max-w-6xl mx-auto">
           
           <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-1.5 sm:mb-2">
+            <span className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-[0.25em] text-[#131E33] block mb-1.5 sm:mb-2">
               COMMUNICATION CHANNELS
             </span>
             <h2 className="text-xl sm:text-3xl md:text-4xl font-serif font-semibold text-soft-black tracking-tight">
@@ -378,81 +376,69 @@ const Contact = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 lg:gap-8">
-            {contactChannels.map((channel, idx) => {
-              const Icon = channel.icon;
-              return (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className={`rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-2xs transition-all duration-300 ${
-                    channel.highlight 
-                      ? 'bg-[#FAF2EE] hover:shadow-md' 
-                      : 'bg-[#FAF7F2] hover:bg-white hover:shadow-md'
-                  }`}
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${
-                        channel.highlight ? 'bg-terracotta text-cream' : 'bg-soft-black text-cream'
-                      }`}>
-                        <Icon className="w-5 h-5" />
-                      </div>
-                      <span className={`text-[9.5px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded ${
-                        channel.highlight 
-                          ? 'bg-terracotta/15 text-terracotta font-bold' 
-                          : 'bg-stone/10 text-dark-charcoal/80'
-                      }`}>
-                        {channel.badge}
-                      </span>
-                    </div>
-
-                    <h3 className="text-lg sm:text-xl font-serif font-semibold text-soft-black mb-2">
-                      {channel.title}
-                    </h3>
-                    
-                    <p className="text-xs sm:text-sm text-dark-charcoal/80 font-light leading-relaxed mb-6">
-                      {channel.desc}
-                    </p>
+            {contactChannels.map((channel, idx) => (
+              <div
+                key={idx}
+                className="bg-[#F6F6F7] rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all duration-300"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className={`text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full ${
+                      channel.highlight 
+                        ? 'bg-[#131E33] text-white' 
+                        : 'bg-white text-soft-black'
+                    }`}>
+                      {channel.badge}
+                    </span>
                   </div>
 
-                  <div className="pt-4">
-                    {channel.actionHref.startsWith('http') || channel.actionHref.startsWith('mailto') ? (
-                      <a
-                        href={channel.actionHref}
-                        target={channel.isExternal ? "_blank" : undefined}
-                        rel={channel.isExternal ? "noreferrer" : undefined}
-                        className={`inline-flex items-center gap-2 text-xs font-medium tracking-normal transition-colors ${
-                          channel.highlight 
-                            ? 'text-terracotta hover:text-soft-black' 
-                            : 'text-soft-black hover:text-terracotta'
-                        }`}
-                      >
-                        <span>{channel.actionText}</span>
-                        {channel.isExternal ? <ExternalLink className="w-3.5 h-3.5" /> : <ArrowRight className="w-3.5 h-3.5" />}
-                      </a>
-                    ) : (
-                      <span className="text-xs font-semibold text-soft-black/80">
-                        {channel.actionText}
-                      </span>
-                    )}
-                  </div>
-                </motion.div>
-              );
-            })}
+                  <h3 className="text-lg sm:text-xl font-serif font-bold text-soft-black mb-2">
+                    {channel.title}
+                  </h3>
+                  
+                  <p className="text-xs sm:text-sm text-dark-charcoal/80 font-normal leading-relaxed mb-6">
+                    {channel.desc}
+                  </p>
+                </div>
+
+                <div className="pt-2">
+                  {channel.isWhatsApp ? (
+                    <a
+                      href={channel.actionHref}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 bg-[#25D366] text-white px-6 py-3.5 rounded-xl text-xs font-bold uppercase tracking-[0.18em] hover:bg-[#1ebd5a] transition-all cursor-pointer"
+                    >
+                      <WhatsAppIcon className="w-4 h-4 text-white" />
+                      <span>Chat on WhatsApp</span>
+                    </a>
+                  ) : channel.isEmail ? (
+                    <a
+                      href={channel.actionHref}
+                      className="inline-flex items-center gap-2 bg-soft-black text-white px-6 py-3.5 rounded-xl text-xs font-bold uppercase tracking-[0.18em] hover:bg-[#131E33] transition-all cursor-pointer"
+                    >
+                      <Mail className="w-4 h-4 text-white" />
+                      <span>astmacrame@gmail.com</span>
+                    </a>
+                  ) : (
+                    <span className="font-mono text-xs font-bold uppercase tracking-wider text-soft-black">
+                      {channel.actionText}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
 
         </div>
       </section>
 
       {/* 3. DIRECT LEADERSHIP CONTACTS */}
-      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-12 bg-cream">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-12 bg-white">
         <div className="max-w-5xl mx-auto">
           
           <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-terracotta block mb-1.5 sm:mb-2">
+            <span className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-[0.25em] text-[#131E33] block mb-1.5 sm:mb-2">
               DIRECT DESKS
             </span>
             <h2 className="text-xl sm:text-3xl md:text-4xl font-serif font-semibold text-soft-black tracking-tight">
@@ -463,15 +449,15 @@ const Contact = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             
             {/* Founder Card */}
-            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-2xs flex flex-col justify-between hover:shadow-md transition-all">
+            <div className="bg-[#F6F6F7] rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all">
               <div>
                 <div className="flex items-center gap-3.5 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-soft-black text-cream flex items-center justify-center font-serif text-lg font-semibold shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-soft-black text-white flex items-center justify-center font-serif text-lg font-semibold shrink-0">
                     SS
                   </div>
                   <div>
                     <h3 className="text-lg font-serif font-semibold text-soft-black">Saifuddin Sony</h3>
-                    <span className="text-xs font-semibold uppercase tracking-widest text-terracotta block mt-0.5">Founder &amp; Production Lead</span>
+                    <span className="text-xs font-mono font-semibold uppercase tracking-widest text-[#131E33] block mt-0.5">Founder &amp; Production Lead</span>
                   </div>
                 </div>
                 <p className="text-xs sm:text-sm font-light text-dark-charcoal/80 leading-relaxed">
@@ -483,8 +469,9 @@ const Contact = () => {
                 <span className="text-dark-charcoal/60 font-light">Chattogram Workshop</span>
                 <a 
                   href="mailto:astmacrame@gmail.com?subject=Direct%20Inquiry%20for%20Saifuddin%20Sony"
-                  className="text-terracotta hover:text-soft-black font-semibold uppercase tracking-wider transition-colors inline-flex items-center gap-1"
+                  className="text-[#131E33] hover:text-soft-black font-semibold uppercase tracking-wider transition-colors inline-flex items-center gap-1.5"
                 >
+                  <Mail className="w-3.5 h-3.5 text-[#131E33]" />
                   <span>Email Founder</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </a>
@@ -492,15 +479,15 @@ const Contact = () => {
             </div>
 
             {/* Export Manager Card */}
-            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-2xs flex flex-col justify-between hover:shadow-md transition-all">
+            <div className="bg-[#F6F6F7] rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all">
               <div>
                 <div className="flex items-center gap-3.5 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-terracotta text-cream flex items-center justify-center font-serif text-lg font-semibold shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-[#131E33] text-white flex items-center justify-center font-serif text-lg font-semibold shrink-0">
                     AR
                   </div>
                   <div>
                     <h3 className="text-lg font-serif font-semibold text-soft-black">Arfat Risve</h3>
-                    <span className="text-xs font-semibold uppercase tracking-widest text-terracotta block mt-0.5">Export Sales Manager</span>
+                    <span className="text-xs font-mono font-semibold uppercase tracking-widest text-[#131E33] block mt-0.5">Export Sales Manager</span>
                   </div>
                 </div>
                 <p className="text-xs sm:text-sm font-light text-dark-charcoal/80 leading-relaxed">
@@ -514,8 +501,9 @@ const Contact = () => {
                   href="https://wa.me/8801940689061?text=Hello%20Arfat,%20I%20have%20an%20export/wholesale%20inquiry."
                   target="_blank"
                   rel="noreferrer"
-                  className="text-terracotta hover:text-soft-black font-semibold uppercase tracking-wider transition-colors inline-flex items-center gap-1"
+                  className="text-[#131E33] hover:text-[#25D366] font-semibold uppercase tracking-wider transition-colors inline-flex items-center gap-1.5"
                 >
+                  <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366]" />
                   <span>Message on WhatsApp</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </a>
@@ -529,11 +517,10 @@ const Contact = () => {
 
       {/* 4. FAQ & SAMPLE BANNER */}
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-12 bg-white">
-        <div className="max-w-4xl mx-auto bg-[#FAF7F2] rounded-2xl sm:rounded-3xl p-8 sm:p-10 md:p-12 text-center shadow-xs">
-          <div className="w-12 h-12 rounded-full bg-terracotta/10 text-terracotta flex items-center justify-center mx-auto mb-4">
-            <HelpCircle className="w-6 h-6" />
-          </div>
-          
+        <div className="max-w-4xl mx-auto bg-[#F6F6F7] rounded-2xl sm:rounded-3xl p-8 sm:p-10 md:p-12 text-center">
+          <span className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-[0.25em] text-[#131E33] block mb-2 sm:mb-3">
+            ASSISTANCE &amp; KNOWLEDGE BASE
+          </span>
           <h2 className="text-xl sm:text-3xl font-serif font-semibold text-soft-black mb-3">
             Have Questions About Sizing, Dispatch, or MOQs?
           </h2>
@@ -545,14 +532,14 @@ const Contact = () => {
           <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 justify-center items-center">
             <Link
               to="/faq"
-              className="w-full sm:w-auto bg-soft-black text-cream px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-dark-charcoal transition-all inline-flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-soft-black text-white px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-[#131E33] transition-all inline-flex items-center justify-center gap-2"
             >
               <span>Visit FAQ Page</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
             <Link
               to="/sample-order"
-              className="w-full sm:w-auto bg-[#EAE4DC] text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-[#E0D8CD] transition-all shadow-2xs"
+              className="w-full sm:w-auto bg-white text-soft-black px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] rounded-xl hover:bg-stone-100 transition-all"
             >
               Order Sample Belts
             </Link>

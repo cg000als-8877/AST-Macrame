@@ -206,10 +206,10 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 16 }}
         transition={{ duration: 0.2, ease: "easeOut" }}
-        className="relative bg-[#FAF8F5] shadow-2xl overflow-y-auto overscroll-contain z-10 flex flex-col w-full h-[100dvh] md:h-auto md:max-h-[92vh] md:max-w-xl md:rounded-3xl"
+        className="relative bg-white overflow-y-auto overscroll-contain z-10 flex flex-col w-full h-[100dvh] md:h-auto md:max-h-[92vh] md:max-w-xl md:rounded-3xl"
       >
             {/* Sticky Header */}
-            <div className="sticky top-0 bg-[#FAF8F5]/95 backdrop-blur-md z-20 px-4 sm:px-6 py-3.5 flex items-center justify-between shadow-2xs shrink-0">
+            <div className="sticky top-0 bg-white/95 backdrop-blur-md z-20 px-4 sm:px-6 py-3.5 flex items-center justify-between shrink-0">
               <div>
                 <h2 className="text-base sm:text-lg font-serif font-semibold text-soft-black">
                   {isSuccess ? 'Order Confirmation' : 'Sample Order Form'}
@@ -235,8 +235,8 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
             <div className="p-3.5 sm:p-5 md:p-6 flex-1 flex flex-col space-y-3.5">
               {isSuccess && submittedData ? (
                 <div className="flex-1 flex flex-col items-center justify-center text-center py-6 sm:py-8">
-                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-emerald-50 flex items-center justify-center mb-4 md:mb-5 shadow-xs">
-                    <Check className="w-7 h-7 text-emerald-600 stroke-[2.5]" />
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-stone-100 flex items-center justify-center mb-4 md:mb-5">
+                    <Check className="w-7 h-7 text-soft-black stroke-[2.5]" />
                   </div>
                   <h2 className="text-xl md:text-2xl font-serif text-soft-black mb-1.5 font-semibold">
                     Thank You, {submittedData.name?.split(' ')[0] || 'Valued Partner'}!
@@ -245,13 +245,13 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                     Your sample evaluation order has been successfully placed. Our dispatch team will contact you shortly with tracking details.
                   </p>
                   
-                  <div className="w-full max-w-sm bg-white rounded-2xl p-4 md:p-5 shadow-2xs mb-6 text-left space-y-2.5">
+                  <div className="w-full max-w-sm bg-[#F6F6F7] rounded-2xl p-4 md:p-5 mb-6 text-left space-y-2.5">
                     <h4 className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-dark-charcoal/70 pb-1">
                       Evaluation Order Summary
                     </h4>
                     <div className="flex justify-between text-xs md:text-sm">
                       <span className="text-dark-charcoal/70">Sample Specification:</span>
-                      <span className="font-medium text-soft-black">{activeColor} • Size {activeSize}</span>
+                      <span className="font-medium text-soft-black">{activeColor} — Size {activeSize}</span>
                     </div>
                     <div className="flex justify-between text-xs md:text-sm">
                       <span className="text-dark-charcoal/70">Quantity:</span>
@@ -263,14 +263,14 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                     </div>
                     <div className="flex justify-between pt-2 text-xs md:text-sm">
                       <span className="font-bold text-soft-black">Total Paid:</span>
-                      <span className="font-bold text-terracotta">{currency}{grandTotal.toLocaleString()}</span>
+                      <span className="font-bold text-[#131E33]">{currency}{grandTotal.toLocaleString()}</span>
                     </div>
                   </div>
 
                   <button 
                     type="button"
                     onClick={onClose} 
-                    className="w-full max-w-[200px] bg-soft-black text-cream px-6 py-3.5 text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-terracotta transition-colors mx-auto cursor-pointer"
+                    className="w-full max-w-[200px] bg-soft-black text-white px-6 py-3.5 text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-[#131E33] transition-colors mx-auto cursor-pointer"
                   >
                     Close
                   </button>
@@ -278,9 +278,9 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
               ) : (
                 <>
                   {/* Card 1: Order Summary Preview Card */}
-                  <div className="bg-white rounded-2xl p-3.5 sm:p-4 shadow-2xs">
+                  <div className="bg-white rounded-2xl p-3.5 sm:p-4">
                     <div className="flex items-center gap-3.5">
-                      <div className="w-16 h-16 rounded-xl bg-stone/10 overflow-hidden shrink-0 flex items-center justify-center shadow-2xs">
+                      <div className="w-16 h-16 rounded-xl bg-stone/10 overflow-hidden shrink-0 flex items-center justify-center">
                         <img 
                           src={colorImages[activeColor] || b1} 
                           alt="Sample Belt" 
@@ -315,15 +315,15 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                       </div>
                     </div>
 
-                    {/* 100% Sample Rebate Banner - Brand Linen Tone */}
-                    <div className="mt-2.5 pt-2 flex items-center justify-between text-[10px] sm:text-[10.5px] bg-[#FAF7F2] text-soft-black px-2.5 py-1.5 rounded-lg">
+                    {/* 100% Sample Rebate Banner */}
+                    <div className="mt-2.5 pt-2 flex items-center justify-between text-[10px] sm:text-[10.5px] bg-[#F6F6F7] text-soft-black px-2.5 py-1.5 rounded-lg">
                       <span className="font-semibold">100% Sample Rebate</span>
                       <span className="text-dark-charcoal/70">Credited back on bulk order PO</span>
                     </div>
                   </div>
 
                   {/* Card 2: Form Container Card */}
-                  <div className="bg-white rounded-2xl p-4 sm:p-5 shadow-2xs">
+                  <div className="bg-[#F6F6F7] rounded-2xl p-4 sm:p-5 shadow-none">
                     <h3 className="text-xs sm:text-sm font-serif font-bold text-soft-black mb-3">
                       Shipping & Contact Details
                     </h3>
@@ -336,7 +336,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                         <input 
                           type="text" 
                           name="name" 
-                          className="w-full bg-[#FAF7F2] rounded-xl px-3.5 py-2.5 md:py-3 text-sm font-medium focus:outline-none focus:bg-[#F2EDE4] transition-all placeholder:text-dark-charcoal/40 text-soft-black" 
+                          className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 text-base md:text-sm font-medium focus:outline-none focus:bg-[#EEEEF0] transition-all placeholder:text-dark-charcoal/40 text-soft-black" 
                           placeholder="Your Name" 
                           required 
                         />
@@ -350,7 +350,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                           <select
                             value={selectedCountryCode}
                             onChange={(e) => setSelectedCountryCode(e.target.value)}
-                            className="w-[110px] sm:w-[125px] bg-[#FAF7F2] rounded-xl px-2.5 py-2.5 md:py-3 text-sm font-medium text-soft-black shrink-0 focus:outline-none focus:bg-[#F2EDE4] transition-all cursor-pointer"
+                            className="w-[110px] sm:w-[125px] bg-white rounded-xl px-2.5 py-2.5 md:py-3 text-base md:text-sm font-medium text-soft-black shrink-0 focus:outline-none focus:bg-[#EEEEF0] transition-all cursor-pointer"
                           >
                             {Object.entries(popularCountries).map(([code, c]) => (
                               <option key={code} value={code}>{getFlagEmoji(code)} {c.dialCode}</option>
@@ -359,7 +359,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                           <input 
                             type="tel" 
                             name="phone" 
-                            className="flex-1 min-w-0 bg-[#FAF7F2] rounded-xl px-3.5 py-2.5 md:py-3 text-sm font-medium focus:outline-none focus:bg-[#F2EDE4] transition-all placeholder:text-dark-charcoal/40 text-soft-black" 
+                            className="flex-1 min-w-0 bg-white rounded-xl px-3.5 py-2.5 md:py-3 text-base md:text-sm font-medium focus:outline-none focus:bg-[#EEEEF0] transition-all placeholder:text-dark-charcoal/40 text-soft-black" 
                             placeholder="Phone Number" 
                             required 
                           />
@@ -374,7 +374,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                           <input 
                             type="email" 
                             name="email" 
-                            className="w-full bg-[#FAF7F2] rounded-xl px-3.5 py-2.5 md:py-3 text-sm font-medium focus:outline-none focus:bg-[#F2EDE4] transition-all placeholder:text-dark-charcoal/40 text-soft-black" 
+                            className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 text-base md:text-sm font-medium focus:outline-none focus:bg-[#EEEEF0] transition-all placeholder:text-dark-charcoal/40 text-soft-black" 
                             placeholder="brand@example.com" 
                             required
                           />
@@ -387,7 +387,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                           <input 
                             type="text" 
                             name="company" 
-                            className="w-full bg-[#FAF7F2] rounded-xl px-3.5 py-2.5 md:py-3 text-sm font-medium focus:outline-none focus:bg-[#F2EDE4] transition-all placeholder:text-dark-charcoal/40 text-soft-black" 
+                            className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 text-base md:text-sm font-medium focus:outline-none focus:bg-[#EEEEF0] transition-all placeholder:text-dark-charcoal/40 text-soft-black" 
                             placeholder="Brand or Studio Name" 
                             required
                           />
@@ -406,7 +406,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                               setSelectedCountryCode(e.target.value);
                               setSelectedCity('');
                             }}
-                            className="w-1/2 bg-[#FAF7F2] rounded-xl px-3 py-2.5 md:py-3 text-sm font-medium focus:outline-none focus:bg-[#F2EDE4] transition-all text-soft-black cursor-pointer truncate" 
+                            className="w-1/2 bg-white rounded-xl px-3 py-2.5 md:py-3 text-base md:text-sm font-medium focus:outline-none focus:bg-[#EEEEF0] transition-all text-soft-black cursor-pointer truncate" 
                             required 
                           >
                             {Object.entries(popularCountries).map(([code, c]) => (
@@ -418,7 +418,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                             name="city" 
                             value={selectedCity}
                             onChange={(e) => setSelectedCity(e.target.value)}
-                            className="w-1/2 bg-[#FAF7F2] rounded-xl px-3 py-2.5 md:py-3 text-sm font-medium focus:outline-none focus:bg-[#F2EDE4] transition-all text-soft-black cursor-pointer truncate" 
+                            className="w-1/2 bg-white rounded-xl px-3 py-2.5 md:py-3 text-base md:text-sm font-medium focus:outline-none focus:bg-[#EEEEF0] transition-all text-soft-black cursor-pointer truncate" 
                             required
                           >
                             <option value="" disabled>Select City</option>
@@ -430,7 +430,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                       </div>
 
                       {selectedCountryCode === 'OTHER' || selectedCity === 'Other' ? (
-                        <p className="text-[10px] md:text-xs text-terracotta italic font-medium -mt-1 pl-1">
+                        <p className="text-[10px] md:text-xs text-[#131E33] italic font-medium -mt-1 pl-1">
                           * Please specify your full city and country in the address field below.
                         </p>
                       ) : null}
@@ -442,7 +442,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                         <input 
                           type="text" 
                           name="address" 
-                          className="w-full bg-[#FAF7F2] rounded-xl px-3.5 py-2.5 md:py-3 text-sm font-medium focus:outline-none focus:bg-[#F2EDE4] transition-all placeholder:text-dark-charcoal/40 text-soft-black" 
+                          className="w-full bg-white rounded-xl px-3.5 py-2.5 md:py-3 text-base md:text-sm font-medium focus:outline-none focus:bg-[#EEEEF0] transition-all placeholder:text-dark-charcoal/40 text-soft-black" 
                           placeholder="House/Building, Street, Postal Code" 
                           required 
                         />
@@ -455,12 +455,12 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                         <textarea 
                           name="message"
                           rows="2" 
-                          className="w-full bg-[#FAF7F2] rounded-xl px-3.5 py-2 md:py-2.5 text-sm font-medium focus:outline-none focus:bg-[#F2EDE4] transition-all placeholder:text-dark-charcoal/40 text-soft-black resize-none" 
+                          className="w-full bg-white rounded-xl px-3.5 py-2 md:py-2.5 text-base md:text-sm font-medium focus:outline-none focus:bg-[#EEEEF0] transition-all placeholder:text-dark-charcoal/40 text-soft-black resize-none" 
                           placeholder="Custom dimensions, Pantone color matching, or specific packaging requests..."
                         ></textarea>
                       </div>
 
-                      <p className="text-[9.5px] md:text-[10.5px] text-dark-charcoal/65 font-medium italic leading-relaxed pt-1">
+                      <p className="text-[10.5px] md:text-xs text-dark-charcoal/65 font-medium italic leading-relaxed pt-1">
                         * Standard shipping charge {currency}{shippingCost.toLocaleString(undefined, {maximumFractionDigits: 2})} via {carrierName} for {orderDetails?.userCountry || 'your delivery location'}.
                       </p>
                       
@@ -468,7 +468,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                       <div className="pt-3">
                         <div className="flex justify-between items-center mb-3.5">
                           <span className="text-sm md:text-base font-bold text-soft-black">Total to pay:</span>
-                          <span className="text-lg md:text-xl font-bold text-terracotta">
+                          <span className="text-lg md:text-xl font-bold text-[#131E33]">
                             {currency}{grandTotal.toLocaleString()}
                           </span>
                         </div>
@@ -476,7 +476,7 @@ const SampleOrderDrawer = ({ isOpen, onClose, orderDetails }) => {
                         <button 
                           type="submit" 
                           disabled={isSubmitting} 
-                          className="relative overflow-hidden group w-full bg-soft-black text-cream px-4 py-3.5 text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-terracotta hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                          className="relative overflow-hidden group w-full bg-[#131E33] hover:bg-[#1C2841] text-white px-4 py-3.5 text-xs font-bold uppercase tracking-wider rounded-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                         >
                           <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
                           <span className="relative z-10 transition-all duration-300 group-hover:tracking-[0.18em]">

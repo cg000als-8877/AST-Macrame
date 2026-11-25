@@ -95,7 +95,7 @@ const AdminLogin = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@astmacrame.com"
-                className="w-full bg-[#FAF8F5] rounded-xl px-3.5 py-3 pl-10 text-sm focus:outline-none focus:bg-white focus:ring-1 focus:ring-soft-black/10 transition-all text-soft-black"
+                className="w-full bg-[#F6F6F7] rounded-xl px-3.5 py-3 pl-10 text-sm focus:outline-none focus:bg-white focus:ring-1 focus:ring-soft-black/10 transition-all text-soft-black"
               />
               <Mail className="w-4 h-4 text-dark-charcoal/40 absolute left-3.5 top-3.5" />
             </div>
@@ -109,7 +109,7 @@ const AdminLogin = () => {
               <button
                 type="button"
                 onClick={handleResetPassword}
-                className="text-[11px] text-terracotta hover:underline font-semibold cursor-pointer"
+                className="text-[11px] text-[#131E33] hover:underline font-semibold cursor-pointer"
               >
                 Forgot?
               </button>
@@ -121,7 +121,7 @@ const AdminLogin = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full bg-[#FAF8F5] rounded-xl px-3.5 py-3 pl-10 pr-10 text-sm focus:outline-none focus:bg-white focus:ring-1 focus:ring-soft-black/10 transition-all text-soft-black"
+                className="w-full bg-[#F6F6F7] rounded-xl px-3.5 py-3 pl-10 pr-10 text-sm focus:outline-none focus:bg-white focus:ring-1 focus:ring-soft-black/10 transition-all text-soft-black"
               />
               <Lock className="w-4 h-4 text-dark-charcoal/40 absolute left-3.5 top-3.5" />
               <button
