@@ -336,19 +336,19 @@ const Navbar = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => setIsMobileMenuOpen(false)}
               className="fixed inset-0 bg-soft-black/60 backdrop-blur-xs"
             />
 
-            {/* Slide-out Menu Panel (Ultra-smooth, buttery slow-motion glide) */}
+            {/* Slide-out Menu Panel (Ultra-smooth, slow-motion glide) */}
             <motion.div 
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ 
                 type: 'tween',
-                duration: 0.6, 
+                duration: 1.2, 
                 ease: [0.16, 1, 0.3, 1] 
               }}
               className="relative w-[85%] max-w-[340px] bg-white h-full z-10 flex flex-col justify-between overflow-hidden"
