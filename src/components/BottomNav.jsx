@@ -117,8 +117,8 @@ const BottomNav = () => {
               onClick={() => setIsCartOpen(true)}
               className={`relative w-9 h-9 rounded-full transition-all duration-300 flex items-center justify-center cursor-pointer group active:scale-95 ${
                 isOverFooter 
-                  ? 'bg-[#131E33] text-white hover:bg-[#1a2845]' 
-                  : 'bg-white text-[#131E33] hover:bg-stone-100'
+                  ? 'bg-[#223354] text-white hover:bg-[#2c4068]' 
+                  : 'bg-[#F2EDE4] text-[#131E33] hover:bg-[#eae4d8]'
               }`}
               aria-label="Open Cart"
             >
